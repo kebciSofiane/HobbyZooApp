@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "403970242296",
+    "project_id": "hobbyzoo-de1e5",
+    "storage_bucket": "hobbyzoo-de1e5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:403970242296:android:4a90e7aad9d481f9326d0d",
+        "android_client_info": {
+          "package_name": "com.example.hobbyzooapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "403970242296-r15pkcasu6crgnktqj5csfoh62f3rg43.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBAZAmV7gwU9F6sG9RKp1SFE71QM9xCC7U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "403970242296-r15pkcasu6crgnktqj5csfoh62f3rg43.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

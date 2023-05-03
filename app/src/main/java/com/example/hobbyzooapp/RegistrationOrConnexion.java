@@ -15,7 +15,7 @@ public class RegistrationOrConnexion extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.connexion);
+        setContentView(R.layout.activity_registrationorconnexion);
 
 
         registerBtn = findViewById(R.id.register_btn);

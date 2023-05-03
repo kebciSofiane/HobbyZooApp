@@ -84,7 +84,7 @@ public class RegisterActivity extends AppCompatActivity {
                             // Sign in success, dismiss dialog and start register activity
                             FirebaseUser user = auth.getCurrentUser();
                             progressDialog.dismiss();
-                            Toast.makeText(RegisterActivity.this, "Registred...\n" + user.getEmail(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegisterActivity.this, "Registered...\n" + user.getEmail(), Toast.LENGTH_SHORT).show();
                             startActivity(new Intent(RegisterActivity.this,ProfileActivity.class ));
                             finish();
                         } else {
@@ -97,7 +97,7 @@ public class RegisterActivity extends AppCompatActivity {
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();;
+                        progressDialog.dismiss();
                         Toast.makeText(RegisterActivity.this,""+e.getMessage(),Toast.LENGTH_SHORT).show();
                     }
                 });

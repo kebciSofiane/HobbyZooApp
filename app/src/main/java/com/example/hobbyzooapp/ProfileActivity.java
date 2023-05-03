@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -46,6 +47,7 @@ public class ProfileActivity extends AppCompatActivity {
         super.onStart();
     }
 
-
-
+//
+//    @Override
+//    public boolean onCreateOptionMenu(Menu menu)
 }

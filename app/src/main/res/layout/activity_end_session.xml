@@ -13,13 +13,16 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_marginTop="30sp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="1h/2h"
             android:textColor="@color/white"
             android:textSize="20sp"
-            android:id="@+id/sessionCount">
+            android:layout_marginRight="10sp"
+            android:layout_marginTop="10sp"
+            android:id="@+id/sessionCount"
+            android:gravity="end"
+            >
 
         </TextView>
         <ImageView
@@ -28,7 +31,8 @@
             android:id="@+id/petPicture"
             android:layout_marginTop="20sp"
             android:layout_below="@id/sessionCount"
-            android:layout_centerHorizontal="true">
+            android:layout_centerHorizontal="true"
+            android:visibility="visible">
         </ImageView>
 
         <Button
@@ -37,9 +41,23 @@
             android:layout_below="@id/petPicture"
             android:layout_centerHorizontal="true"
             android:background="@drawable/takepic"
-            android:id="@+id/takeAPic">
+            android:id="@+id/takeAPic"
+            android:visibility="visible">
 
         </Button>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/takenImage"
+            android:paddingLeft="20sp"
+            android:paddingRight="20sp"
+            android:layout_marginTop="0dp"
+            android:layout_centerHorizontal="true"
+            android:visibility="gone"
+            android:layout_below="@id/petPicture"
+            >
+        </ImageView>
 
 
         <LinearLayout

@@ -2,8 +2,11 @@ package com.example.hobbyzooapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.Locale;
@@ -13,24 +16,73 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private static final long COUNTDOWN_TIME = 3000000;
-    private long timeLeftInMillis = COUNTDOWN_TIME;
+    private static final long countDownTime = 300000;
+    private long timeLeftInMillis = countDownTime;
     TextView countdownTextView;
+    CountDownTimer countDownTimer;
+    Button stopButton;
+    Button pauseButton;
+    Button resumeButton;
 
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        countdownTextView = findViewById(R.id.countdownTextView);
 
-        new CountDownTimer(COUNTDOWN_TIME, 1000) {
+        countdownTextView = findViewById(R.id.countdownTextView);
+        pauseButton = findViewById(R.id.pauseButton);
+        stopButton = findViewById(R.id.StopButton);
+        resumeButton=findViewById(R.id.resumeButton);
+
+        startCountdown(countDownTime);
+
+        pauseButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pauseCountDown();
+            }
+        });
+        resumeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                resumeCOuntDown();
+            }
+        });
+
+
+
+
+
+        stopButton.setOnClickListener(new  View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+            }
+        });
+    }
+
+
+
+    private void pauseCountDown(){
+        countDownTimer.cancel();
+        resumeButton.setVisibility(View.VISIBLE);
+        pauseButton.setVisibility(View.GONE);
+    }
+    private void  resumeCOuntDown(){
+        startCountdown(timeLeftInMillis);
+        countDownTimer.start();
+        pauseButton.setVisibility(View.VISIBLE);
+        resumeButton.setVisibility(View.GONE);
+    }
+
+    private void startCountdown(long time){
+        countDownTimer=new CountDownTimer(time, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 timeLeftInMillis = millisUntilFinished;
                 updateCountdownText();
             }
-
             @Override
             public void onFinish() {
                 // Le compte à rebours est terminé
@@ -42,7 +94,6 @@ public class MainActivity extends AppCompatActivity {
         long hours = TimeUnit.MILLISECONDS.toHours(timeLeftInMillis);
         long minutes = TimeUnit.MILLISECONDS.toMinutes(timeLeftInMillis - TimeUnit.HOURS.toMillis(hours));
         long seconds = TimeUnit.MILLISECONDS.toSeconds(timeLeftInMillis - TimeUnit.HOURS.toMillis(hours) - TimeUnit.MINUTES.toMillis(minutes));
-
         String timeRemainingFormatted = String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds);
         countdownTextView.setText("Temps restant : " + timeRemainingFormatted);
     }

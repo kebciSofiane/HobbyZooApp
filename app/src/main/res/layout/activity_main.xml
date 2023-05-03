@@ -6,49 +6,65 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <TextView
-        android:id="@+id/countdownTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20sp"
-        android:text="Temps restant : "
-        android:textColor="@android:color/white"
-        android:textSize="20sp" />
-
-
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="40sp"
-        android:gravity="center">
+        android:layout_height="match_parent">
 
-        <Button
-            android:id="@+id/button"
+        <TextView
+            android:id="@+id/countdownTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20sp"
-            android:text="Stop"
-            />
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20sp"
+            android:text="Temps restant : "
+            android:textColor="@android:color/white"
+            android:textSize="20sp" />
 
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="wrap_content"
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20sp"
-            android:text="Pause" />
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="40sp"
+            android:gravity="center">
 
-    </LinearLayout>
+            <Button
+                android:id="@+id/StopButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20sp"
+                android:text="Stop"
+                />
+
+            <Button
+                android:id="@+id/resumeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20sp"
+                android:text="Resume"
+                android:visibility="gone"
+                />
+
+            <Button
+                android:id="@+id/pauseButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20sp"
+                android:text="Pause"
+
+                />
 
 
-</RelativeLayout>
+
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
 
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

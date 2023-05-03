@@ -3,10 +3,12 @@ package com.example.hobbyzooapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.Locale;
@@ -24,6 +26,8 @@ public class MainActivity extends AppCompatActivity {
     Button pauseButton;
     Button resumeButton;
 
+    ImageView petPicture;
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -35,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
         pauseButton = findViewById(R.id.pauseButton);
         stopButton = findViewById(R.id.StopButton);
         resumeButton=findViewById(R.id.resumeButton);
+        petPicture = findViewById(R.id.petPicture);
+        petPicture.setImageResource(R.drawable.renard);
+
+
 
         startCountdown(countDownTime);
 
@@ -52,18 +60,14 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
-
-
         stopButton.setOnClickListener(new  View.OnClickListener(){
             @Override
             public void onClick(View view) {
+                endSession();
+
             }
         });
     }
-
-
-
     private void pauseCountDown(){
         countDownTimer.cancel();
         resumeButton.setVisibility(View.VISIBLE);
@@ -75,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
         pauseButton.setVisibility(View.VISIBLE);
         resumeButton.setVisibility(View.GONE);
     }
-
     private void startCountdown(long time){
         countDownTimer=new CountDownTimer(time, 1000) {
             @Override
@@ -85,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onFinish() {
-                // Le compte à rebours est terminé
+               endSession();
             }
         }.start();
 
@@ -97,5 +100,10 @@ public class MainActivity extends AppCompatActivity {
         String timeRemainingFormatted = String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds);
         countdownTextView.setText("Temps restant : " + timeRemainingFormatted);
     }
+    private void endSession(){
+        Intent intent = new Intent(MainActivity.this, endSession.class);
+        startActivity(intent);
+    }
+
 
 }

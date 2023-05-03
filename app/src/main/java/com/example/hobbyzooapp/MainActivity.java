@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     Button stopButton;
     Button pauseButton;
     Button resumeButton;
-
     ImageView petPicture;
 
 
@@ -40,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
         stopButton = findViewById(R.id.StopButton);
         resumeButton=findViewById(R.id.resumeButton);
         petPicture = findViewById(R.id.petPicture);
-        petPicture.setImageResource(R.drawable.renard);
+        petPicture.setImageResource(R.drawable.koala);
 
 
 

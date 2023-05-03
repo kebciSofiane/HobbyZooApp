@@ -6,4 +6,84 @@
     android:layout_height="match_parent"
     tools:context=".endSession">
 
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_marginTop="30sp"
+            android:layout_height="wrap_content"
+            android:text="1h/2h"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:id="@+id/sessionCount">
+
+        </TextView>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/petPicture"
+            android:layout_marginTop="20sp"
+            android:layout_below="@id/sessionCount"
+            android:layout_centerHorizontal="true">
+        </ImageView>
+
+        <Button
+            android:layout_width="115dp"
+            android:layout_height="97dp"
+            android:layout_below="@id/petPicture"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/takepic"
+            android:id="@+id/takeAPic">
+
+        </Button>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentBottom="true">
+
+            <EditText
+                android:id="@+id/commentText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Un petit commentaire ?"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="20sp"
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ok"
+                android:layout_gravity="end"
+                android:layout_marginRight="10sp"
+                >
+
+            </Button>
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Skip"
+                android:layout_gravity="end"
+                android:layout_marginBottom="50sp"
+                android:layout_marginRight="10sp"
+                >
+
+            </Button>
+
+        </LinearLayout>
+
+
+
+
+    </RelativeLayout>
+
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

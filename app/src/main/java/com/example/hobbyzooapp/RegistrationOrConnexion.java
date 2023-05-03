@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class RegistrationOrConnexion extends AppCompatActivity {
@@ -15,6 +16,8 @@ public class RegistrationOrConnexion extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrationorconnexion);
 
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Main");
 
         registerBtn = findViewById(R.id.register_btn);
         loginBtn = findViewById(R.id.login_btn);

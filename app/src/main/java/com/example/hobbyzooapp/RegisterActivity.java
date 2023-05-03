@@ -3,6 +3,7 @@ package com.example.hobbyzooapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NavUtils;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -10,6 +11,8 @@ import android.os.Bundle;
 import android.os.PatternMatcher;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,7 +28,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthSettings;
 import com.google.firebase.auth.FirebaseUser;
 
-public class RegisterActivity extends AppCompatActivity {
+
+public class RegisterActivity extends AppCompatActivity  {
 
     EditText emailEt, passwordEt;
     Button registerBtn;
@@ -44,6 +48,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
+
 
 
         emailEt = findViewById(R.id.emailEt);
@@ -116,9 +121,12 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
-    @Override
-    public boolean onSupportNavigateUp(){
-        onBackPressed();
-        return super.onSupportNavigateUp();
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+            int id = item.getItemId();
+            if(id == android.R.id.home){
+                this.finish();
+            }
+
+        return super.onOptionsItemSelected(item);
     }
 }

@@ -13,6 +13,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,7 +29,7 @@ public class RegisterActivity extends AppCompatActivity {
 
     EditText emailEt, passwordEt;
     Button registerBtn;
-
+    TextView haveAccountTv;
 
     ProgressDialog progressDialog;
     private FirebaseAuth auth;
@@ -40,14 +41,15 @@ public class RegisterActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Create account");
+
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowCustomEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);
 
 
         emailEt = findViewById(R.id.emailEt);
         passwordEt = findViewById(R.id.passwordEt);
         registerBtn = findViewById(R.id.register_btn);
-
+        haveAccountTv = findViewById(R.id.have_accountTv);
 
         auth =FirebaseAuth.getInstance();
 
@@ -72,7 +74,16 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
+
+        haveAccountTv.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+            }
+        });
     }
+
+
 
     private void registerUser(String email, String password) {
         progressDialog.show();

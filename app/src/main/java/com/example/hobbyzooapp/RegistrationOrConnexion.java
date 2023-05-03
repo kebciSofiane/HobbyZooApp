@@ -9,8 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class RegistrationOrConnexion extends AppCompatActivity {
 
-    //todo to complete - make link between front and back + lik with the registration activity
-
     Button registerBtn,loginBtn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +23,14 @@ public class RegistrationOrConnexion extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(RegistrationOrConnexion.this,RegisterActivity.class));
+
+            }
+        });
+
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RegistrationOrConnexion.this,LoginActivity.class));
 
             }
         });

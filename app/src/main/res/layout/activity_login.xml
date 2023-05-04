@@ -65,6 +65,8 @@
         android:layout_centerHorizontal="true"
         android:text="Login" />
 
+
+
 <!--  recover password-->
     <TextView
         android:id="@+id/recoverPassTv"
@@ -75,21 +77,26 @@
         android:layout_below="@+id/login_btn"/>
 
 
+    <!--    sign in with google-->
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/googleLoginBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/recoverPassTv">
 
-
-
+    </com.google.android.gms.common.SignInButton>
 
 
     <TextView
         android:id="@+id/notHaveAccountTv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/login_btn"
-        android:layout_marginTop="30dp"
         android:text="Do not have account? Register"
         android:textAlignment="center"
-        android:textColor="@color/black"
         android:layout_alignParentBottom="true"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/black"
         android:layout_marginBottom="20dp"/>
 
 </RelativeLayout>

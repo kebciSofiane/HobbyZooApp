@@ -18,19 +18,31 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 public class LoginActivity extends AppCompatActivity {
 
 
+    private static final int RC_SIGN_IN = 100;
+    GoogleSignInClient googleSignInClient;
+
     EditText emailET, passwordEt;
     TextView notHaveAccountTv, recoverPassTv;
     Button loginBtn;
+    SignInButton googleLoginBtn;
 
     private FirebaseAuth auth;
 
@@ -51,6 +63,13 @@ public class LoginActivity extends AppCompatActivity {
         actionBar.setDisplayShowHomeEnabled(true);
 
 
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        googleSignInClient = GoogleSignIn.getClient(this, gso);
+
         auth = FirebaseAuth.getInstance();
 
         emailET = findViewById(R.id.emailEt);
@@ -58,6 +77,7 @@ public class LoginActivity extends AppCompatActivity {
         notHaveAccountTv = findViewById(R.id.notHaveAccountTv);
         recoverPassTv = findViewById(R.id.recoverPassTv);
         loginBtn = findViewById(R.id.login_btn);
+        googleLoginBtn = findViewById(R.id.googleLoginBtn);
 
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
@@ -65,12 +85,11 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String email = emailET.getText().toString();
                 String pswrd = passwordEt.getText().toString();
-                if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                     emailET.setError("Invalid email address");
                     emailET.setFocusable(true);
-                }
-                else{
-                    loginUser(email,pswrd);
+                } else {
+                    loginUser(email, pswrd);
                 }
             }
         });
@@ -78,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
         notHaveAccountTv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this,RegisterActivity.class));
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
                 finish();
             }
         });
@@ -88,6 +107,15 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showRecoverPasswordDialog();
+            }
+        });
+
+        //google login
+        googleLoginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent signInIntent = googleSignInClient.getSignInIntent();
+                startActivityForResult(signInIntent, RC_SIGN_IN);
             }
         });
 
@@ -107,9 +135,7 @@ public class LoginActivity extends AppCompatActivity {
         emailEt.setMinEms(16);
 
         linearLayout.addView(emailEt);
-        linearLayout.setPadding(10,10,10, 10);
-
-
+        linearLayout.setPadding(10, 10, 10, 10);
 
 
         builder.setView(linearLayout);
@@ -141,10 +167,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 progressDialog.dismiss();
-                if(task.isSuccessful()){
+                if (task.isSuccessful()) {
                     Toast.makeText(LoginActivity.this, "Email sent", Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else {
                     Toast.makeText(LoginActivity.this, "Failed", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -152,7 +177,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 progressDialog.dismiss();
-                Toast.makeText(LoginActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -161,7 +186,7 @@ public class LoginActivity extends AppCompatActivity {
     private void loginUser(String email, String pswrd) {
         progressDialog.setMessage("Logging In ...");
         progressDialog.show();
-        auth.signInWithEmailAndPassword(email,pswrd)
+        auth.signInWithEmailAndPassword(email, pswrd)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
@@ -180,15 +205,59 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         progressDialog.dismiss();
-                        Toast.makeText(LoginActivity.this , ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
     }
 
     @Override
-    public boolean onSupportNavigateUp(){
+    public boolean onSupportNavigateUp() {
         onBackPressed();
         return super.onSupportNavigateUp();
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == RC_SIGN_IN) {
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                firebaseAuthWithGoogle(account);
+            } catch (ApiException e) {
+                Toast.makeText(this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        auth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            FirebaseUser user = auth.getCurrentUser();
+                            Toast.makeText(LoginActivity.this, ""+user.getEmail(), Toast.LENGTH_SHORT).show();
+
+                            startActivity(new Intent(LoginActivity.this, ProfileActivity.class));
+                            finish();
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(LoginActivity.this, "Login Failed...", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(LoginActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+
     }
 }

@@ -64,6 +64,20 @@
         android:layout_centerHorizontal="true"
         android:text="Login"/>
 
+<!--  recover password-->
+    <TextView
+        android:id="@+id/no"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="Forgot password? Recover"/>
+
+
+
+
+
+
+
     <TextView
         android:id="@+id/notHaveAccountTv"
         android:layout_width="match_parent"

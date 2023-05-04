@@ -15,7 +15,6 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class ProfileActivity extends AppCompatActivity {
 
-    //todo - just started
     FirebaseAuth firebaseAuth;
 
     TextView profileTv;

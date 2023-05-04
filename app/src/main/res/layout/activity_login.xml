@@ -67,11 +67,12 @@
 
 <!--  recover password-->
     <TextView
-        android:id="@+id/no"
+        android:id="@+id/recoverPassTv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:text="Forgot password? Recover"/>
+        android:text="Forgot password? Recover"
+        android:layout_below="@+id/login_btn"/>
 
 
 
@@ -87,6 +88,8 @@
         android:layout_marginTop="30dp"
         android:text="Do not have account? Register"
         android:textAlignment="center"
-        android:textColor="@color/black" />
+        android:textColor="@color/black"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"/>
 
 </RelativeLayout>

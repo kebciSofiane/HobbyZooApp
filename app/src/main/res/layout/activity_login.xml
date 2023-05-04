@@ -62,7 +62,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/passwordTIL"
         android:layout_centerHorizontal="true"
-        android:text="Login"/>
+        android:text="Login" />
 
 <!--  recover password-->
     <TextView

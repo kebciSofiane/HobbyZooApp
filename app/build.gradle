@@ -46,7 +46,4 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
  //google sign in library
     implementation 'com.google.android.gms:play-services-auth:16.0.1'
-
-
-
 }

@@ -1,12 +1,19 @@
 package com.example.hobbyzooapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -15,10 +22,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -30,10 +39,14 @@ public class endSession extends AppCompatActivity {
     ImageView petPic;
     Button takeApic;
     ImageView takenImage;
-
+    Button skipButton;
+    TextView commentValidated;
     Button validateButton;
+    Button validateButton2;
     EditText commentField;
     private String photoPath =null;
+    private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +58,9 @@ public class endSession extends AppCompatActivity {
         takenImage =findViewById(R.id.takenImage);
         commentField =findViewById(R.id.commentText);
         validateButton = findViewById(R.id.validateButton);
+        skipButton=findViewById(R.id.skipButton);
+        commentValidated = findViewById(R.id.commentValidated);
+        validateButton2 = findViewById(R.id.validateButton2);
 
         takeApic.setOnClickListener(new View.OnClickListener() {
 
@@ -59,13 +75,17 @@ public class endSession extends AppCompatActivity {
         });
 
         validateButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 String comment = String.valueOf(commentField.getText());
-                Toast.makeText(endSession.this, comment, Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(endSession.this, endSessioPart2.class);
-                startActivity(intent);
+                validateButton.setVisibility(View.GONE);
+                skipButton.setVisibility(View.GONE);
+                commentField.setVisibility(View.GONE);
+                commentValidated.setText(comment);
+                commentValidated.setVisibility(View.VISIBLE);
+                takeApic.setVisibility(View.GONE);
+                validateButton2.setVisibility(View.VISIBLE);
+
             }
         });
 
@@ -79,10 +99,13 @@ public class endSession extends AppCompatActivity {
             File photoDir =getExternalFilesDir(Environment.DIRECTORY_PICTURES);
             File photoFile= File.createTempFile("Session of "+date,".jpg",photoDir);
             photoPath =photoFile.getAbsolutePath();
-                Uri photoUri = FileProvider.getUriForFile(endSession.this,
+            Uri photoUri = null;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
+                photoUri = FileProvider.getUriForFile(endSession.this,
                         endSession.this.getApplicationContext().getOpPackageName()+".provider",
                         photoFile);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT,photoUri);
+            }
+            intent.putExtra(MediaStore.EXTRA_OUTPUT,photoUri);
                 startActivityForResult(intent, RETOUR_PRENDRE_PHOTO);
 
         }
@@ -95,12 +118,56 @@ public class endSession extends AppCompatActivity {
         Bitmap image = BitmapFactory.decodeFile(photoPath);
         takenImage.setImageBitmap(image);
         takenImage.setVisibility(View.VISIBLE);
-        takeApic.setWidth(90);
-        takeApic.setHeight(60);
         petPic.setImageResource(R.drawable.koa);
 
 
 
 
+    }
+
+    private void savePhotoToGallery() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_WRITE_EXTERNAL_STORAGE);
+        } else {
+            if (takenImage.getDrawable() != null) {
+                Bitmap bitmap = ((BitmapDrawable) takenImage.getDrawable()).getBitmap();
+
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.Images.Media.DISPLAY_NAME, "nom_de_la_photo.jpg");
+                values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+
+                ContentResolver resolver = getContentResolver();
+                Uri uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+                try {
+                    OutputStream outputStream = resolver.openOutputStream(uri);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                    outputStream.close();
+                    Toast.makeText(this, "La photo a été enregistrée dans la galerie", Toast.LENGTH_SHORT).show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Toast.makeText(this, "Sélectionnez une photo avant de l'enregistrer", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
+
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_WRITE_EXTERNAL_STORAGE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                savePhotoToGallery();
+            } else {
+                Toast.makeText(this, "La permission d'enregistrement dans la galerie a été refusée", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

@@ -1,8 +1,10 @@
 package com.example.hobbyzooapp;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -36,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
         countdownTextView = findViewById(R.id.countdownTextView);
         pauseButton = findViewById(R.id.pauseButton);
-        stopButton = findViewById(R.id.StopButton);
+        stopButton = findViewById(R.id.stopButton);
         resumeButton=findViewById(R.id.resumeButton);
         petPicture = findViewById(R.id.petPicture);
         petPicture.setImageResource(R.drawable.koala);

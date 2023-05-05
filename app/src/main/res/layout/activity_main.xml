@@ -64,8 +64,29 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20sp"
                 android:text="Pause"
+                android:visibility="visible"
 
                 />
+
+            <Button
+                android:id="@+id/addTimeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20sp"
+                android:text="Add time"
+                android:visibility="gone"
+                />
+
+            <Button
+                android:id="@+id/validateButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20sp"
+                android:text="Next"
+                android:visibility="gone"
+                />
+
+
 
 
 

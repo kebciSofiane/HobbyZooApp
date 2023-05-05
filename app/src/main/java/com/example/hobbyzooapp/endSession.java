@@ -31,6 +31,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class endSession extends AppCompatActivity {
 
@@ -45,6 +46,7 @@ public class endSession extends AppCompatActivity {
     Button validateButton;
     Button validateButton2;
     EditText commentField;
+    TextView sessionCount;
     private String photoPath =null;
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
 
@@ -62,6 +64,8 @@ public class endSession extends AppCompatActivity {
         skipButton=findViewById(R.id.skipButton);
         commentValidated = findViewById(R.id.commentValidated);
         validateButton2 = findViewById(R.id.validateButton2);
+        sessionCount= findViewById(R.id.sessionCount);
+        updateSessionCount();
 
         InputFilter[] filters = new InputFilter[1];
         filters[0] = new InputFilter.LengthFilter(100);
@@ -163,6 +167,12 @@ public class endSession extends AppCompatActivity {
     }
 
 
+    public  void updateSessionCount(){
+        long totalSessionTime = MainActivity.totalSessionTime;
+        long hours = TimeUnit.MILLISECONDS.toHours(totalSessionTime);
+        long minutes = TimeUnit.MILLISECONDS.toMinutes(totalSessionTime - TimeUnit.HOURS.toMillis(hours));
+        sessionCount.setText(hours+"h:"+minutes+"mn/10h:30mn");
+    }
 
 
 

@@ -4,6 +4,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +13,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
+import java.util.Calendar;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
@@ -20,14 +23,17 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private static final long countDownTime = 30000;
+    private long countDownTime = 5000;
     private long timeLeftInMillis = countDownTime;
+    public static long  totalSessionTime=0;
     TextView countdownTextView;
     CountDownTimer countDownTimer;
     Button stopButton;
     Button pauseButton;
     Button resumeButton;
     ImageView petPicture;
+    Button validateButton;
+    Button addTimeButton;
 
 
     @SuppressLint("MissingInflatedId")
@@ -42,10 +48,12 @@ public class MainActivity extends AppCompatActivity {
         resumeButton=findViewById(R.id.resumeButton);
         petPicture = findViewById(R.id.petPicture);
         petPicture.setImageResource(R.drawable.koala);
+        validateButton = findViewById(R.id.validateButton);
+        addTimeButton = findViewById(R.id.addTimeButton);
 
 
 
-        startCountdown(countDownTime);
+        startCountdown();
 
         pauseButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,6 +78,7 @@ public class MainActivity extends AppCompatActivity {
                         .setNegativeButton(android.R.string.no, null)
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface arg0, int arg1) {
+                                totalSessionTime += countDownTime-timeLeftInMillis;
                                 countDownTimer.cancel();
                                 endSession();
                             }
@@ -77,7 +86,43 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+
+        validateButton.setOnClickListener(new  View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                endSession();
+            }
+        });
+
+        addTimeButton.setOnClickListener(new  View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                showDurationDialog();
+                stopButton.setVisibility(View.VISIBLE);
+                pauseButton.setVisibility(View.VISIBLE);
+                addTimeButton.setVisibility(View.GONE);
+                validateButton.setVisibility(View.GONE);
+            }
+        });
+
     }
+
+    public void showDurationDialog() {
+        Calendar calendar = Calendar.getInstance();
+        int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+        int currentMinute = calendar.get(Calendar.MINUTE);
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                long durationMillis  = (hourOfDay * 60 * 60 * 1000) + (minute * 60 * 1000);
+                countDownTime = durationMillis;
+                startCountdown();
+            }
+        }, currentHour, currentMinute, true);
+        timePickerDialog.show();
+    }
+
 
 
     private void pauseCountDown(){
@@ -86,13 +131,13 @@ public class MainActivity extends AppCompatActivity {
         pauseButton.setVisibility(View.GONE);
     }
     private void resumeCountDown(){
-        startCountdown(timeLeftInMillis);
-        countDownTimer.start();
+        countDownTime = timeLeftInMillis;
+        startCountdown();
         pauseButton.setVisibility(View.VISIBLE);
         resumeButton.setVisibility(View.GONE);
     }
-    private void startCountdown(long time){
-        countDownTimer=new CountDownTimer(time, 1000) {
+    private void startCountdown(){
+        countDownTimer=new CountDownTimer(countDownTime, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 timeLeftInMillis = millisUntilFinished;
@@ -100,7 +145,12 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onFinish() {
-                endSession();
+                totalSessionTime += countDownTime;
+                validateButton.setVisibility(View.VISIBLE);
+                resumeButton.setVisibility(View.GONE);
+                stopButton.setVisibility(View.GONE);
+                pauseButton.setVisibility(View.GONE);
+                addTimeButton.setVisibility(View.VISIBLE);
             }
         }.start();
 

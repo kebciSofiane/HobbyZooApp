@@ -80,13 +80,17 @@
                 android:layout_marginRight="20sp"
                 android:layout_marginBottom="20sp"
                 />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:minHeight="60sp"
                 android:text=""
-                android:background="@color/black"
+                android:background="@drawable/border"
                 android:layout_marginLeft="30sp"
                 android:layout_marginRight="30sp"
+                android:layout_marginBottom="20sp"
+                android:padding="10sp"
                 android:id="@+id/commentValidated"
                 android:visibility="gone">
 
@@ -126,8 +130,6 @@
             </Button>
 
         </LinearLayout>
-
-
 
 
     </RelativeLayout>

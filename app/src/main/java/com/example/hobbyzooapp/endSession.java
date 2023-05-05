@@ -18,6 +18,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.text.InputFilter;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -61,6 +62,10 @@ public class endSession extends AppCompatActivity {
         skipButton=findViewById(R.id.skipButton);
         commentValidated = findViewById(R.id.commentValidated);
         validateButton2 = findViewById(R.id.validateButton2);
+
+        InputFilter[] filters = new InputFilter[1];
+        filters[0] = new InputFilter.LengthFilter(100);
+        commentField.setFilters(filters);
 
         takeApic.setOnClickListener(new View.OnClickListener() {
 
@@ -119,11 +124,13 @@ public class endSession extends AppCompatActivity {
         takenImage.setImageBitmap(image);
         takenImage.setVisibility(View.VISIBLE);
         petPic.setImageResource(R.drawable.koa);
-
-
-
-
+        //save
     }
+
+    /*@Override
+    public void onBackPressed() {
+     }*/
+
 
     private void savePhotoToGallery() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)

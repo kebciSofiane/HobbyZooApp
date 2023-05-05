@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private static final long countDownTime = 300000;
+    private static final long countDownTime = 30000;
     private long timeLeftInMillis = countDownTime;
     TextView countdownTextView;
     CountDownTimer countDownTimer;
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         resumeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                resumeCOuntDown();
+                resumeCountDown();
             }
         });
 
@@ -64,17 +64,28 @@ public class MainActivity extends AppCompatActivity {
         stopButton.setOnClickListener(new  View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                endSession();
+                new AlertDialog.Builder(MainActivity.this)
+                        .setTitle("Vous êtes sur le point de mettre fin à votre activité !")
+                        .setMessage("Voulez-vous vraiment arrêter votre activité ?")
+                        .setNegativeButton(android.R.string.no, null)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                countDownTimer.cancel();
+                                endSession();
+                            }
+                        }).create().show();
 
             }
         });
     }
+
+
     private void pauseCountDown(){
         countDownTimer.cancel();
         resumeButton.setVisibility(View.VISIBLE);
         pauseButton.setVisibility(View.GONE);
     }
-    private void  resumeCOuntDown(){
+    private void resumeCountDown(){
         startCountdown(timeLeftInMillis);
         countDownTimer.start();
         pauseButton.setVisibility(View.VISIBLE);
@@ -89,7 +100,7 @@ public class MainActivity extends AppCompatActivity {
             }
             @Override
             public void onFinish() {
-               endSession();
+                endSession();
             }
         }.start();
 

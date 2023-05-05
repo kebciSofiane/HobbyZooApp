@@ -47,6 +47,7 @@ public class endSession extends AppCompatActivity {
     Button validateButton2;
     EditText commentField;
     TextView sessionCount;
+    Button modifyPicButton;
     private String photoPath =null;
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
 
@@ -65,6 +66,8 @@ public class endSession extends AppCompatActivity {
         commentValidated = findViewById(R.id.commentValidated);
         validateButton2 = findViewById(R.id.validateButton2);
         sessionCount= findViewById(R.id.sessionCount);
+        modifyPicButton=findViewById(R.id.ModifyPicButton);
+
         updateSessionCount();
 
         InputFilter[] filters = new InputFilter[1];
@@ -72,6 +75,18 @@ public class endSession extends AppCompatActivity {
         commentField.setFilters(filters);
 
         takeApic.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                try {
+                    takePicture();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        });
+
+        modifyPicButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -94,6 +109,8 @@ public class endSession extends AppCompatActivity {
                 commentValidated.setVisibility(View.VISIBLE);
                 takeApic.setVisibility(View.GONE);
                 validateButton2.setVisibility(View.VISIBLE);
+                modifyPicButton.setVisibility(View.VISIBLE);
+
 
             }
         });

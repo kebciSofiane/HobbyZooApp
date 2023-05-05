@@ -179,7 +179,6 @@ public class endSession extends AppCompatActivity {
         takenImage.setImageBitmap(image);
         takenImage.setVisibility(View.VISIBLE);
         petPic.setImageResource(R.drawable.koa);
-        //save
     }
 
     @Override
@@ -240,7 +239,7 @@ public class endSession extends AppCompatActivity {
     }
 
     private void endSession(){
-        Intent intent = new Intent(endSession.this, endSessioPart2.class);
+        Intent intent = new Intent(endSession.this, ActivityPage.class);
         startActivity(intent);
     }
 

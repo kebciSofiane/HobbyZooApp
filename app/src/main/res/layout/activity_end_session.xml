@@ -89,7 +89,7 @@
                 android:background="@drawable/border"
                 android:layout_marginLeft="30sp"
                 android:layout_marginRight="30sp"
-                android:layout_marginBottom="20sp"
+                android:layout_marginBottom="50sp"
                 android:padding="10sp"
                 android:id="@+id/commentValidated"
                 android:visibility="gone">

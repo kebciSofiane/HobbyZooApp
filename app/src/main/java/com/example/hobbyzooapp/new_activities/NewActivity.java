@@ -8,6 +8,8 @@ import com.example.hobbyzooapp.R;
 
 public class NewActivity extends AppCompatActivity {
 
+    String name, animalName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -8,7 +8,7 @@
     android:visibility="visible">
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/editText2"
+        android:id="@+id/activityName"
         android:layout_width="296dp"
         android:layout_height="60dp"
         android:background="@color/orange"
@@ -37,6 +37,7 @@
         tools:ignore="MissingConstraints" />
 
     <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/animalName"
         android:layout_width="296dp"
         android:layout_height="60dp"
         android:background="@color/orange"
@@ -53,7 +54,7 @@
         android:layout_marginBottom="12dp"
         android:text="Nom de l'Activité :"
         android:textSize="23sp"
-        app:layout_constraintBottom_toTopOf="@+id/editText2"
+        app:layout_constraintBottom_toTopOf="@+id/activityName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,11 +70,11 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editText2"
+        app:layout_constraintTop_toBottomOf="@+id/activityName"
         tools:ignore="MissingConstraints" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/validationButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"

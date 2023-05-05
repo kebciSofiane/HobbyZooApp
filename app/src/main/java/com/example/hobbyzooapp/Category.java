@@ -4,9 +4,9 @@ import android.graphics.Color;
 
 public class Category {
     private String name;
-    private Color color;
+    private int color;
 
-    public Category(String name, Color color) {
+    public Category(String name, int color) {
         this.name = name;
         this.color = color;
     }

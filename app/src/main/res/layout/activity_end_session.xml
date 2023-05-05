@@ -53,17 +53,16 @@
             android:layout_below="@id/petPicture">
 
             <ImageView
+                android:id="@+id/takenImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:id="@+id/takenImage"
-                android:scaleType="centerCrop"
                 android:layout_centerHorizontal="true"
-                android:visibility="gone"
                 android:layout_marginLeft="20sp"
                 android:layout_marginRight="20sp"
                 android:layout_marginBottom="50sp"
-                >
+                android:background="@color/white"
+                android:scaleType="centerCrop"
+                android:visibility="gone">
 
             </ImageView>
 
@@ -73,9 +72,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="10sp"
-                android:layout_marginEnd="20sp"
-                android:visibility="gone"
-                android:text="Retake" />
+                android:layout_marginEnd="22sp"
+                android:text="Retake"
+                android:visibility="gone" />
 
         </RelativeLayout>
 
@@ -90,29 +89,48 @@
                 android:id="@+id/commentText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Un petit commentaire ?"
                 android:layout_centerHorizontal="true"
-                android:visibility="visible"
                 android:layout_marginLeft="20sp"
                 android:layout_marginRight="20sp"
                 android:layout_marginBottom="20sp"
-                />
+                android:hint="Un petit commentaire ?"
+                android:visibility="visible" />
 
-
-            <TextView
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:minHeight="60sp"
-                android:text=""
-                android:background="@drawable/border"
-                android:layout_marginLeft="30sp"
-                android:layout_marginRight="30sp"
-                android:layout_marginBottom="50sp"
-                android:padding="10sp"
-                android:id="@+id/commentValidated"
-                android:visibility="gone">
+                android:layout_height="match_parent">
 
-            </TextView>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="60sp"
+                    android:text=""
+                    android:background="@drawable/border"
+                    android:layout_marginLeft="30sp"
+                    android:layout_marginRight="30sp"
+                    android:layout_marginBottom="50sp"
+                    android:paddingLeft="10sp"
+                    android:paddingTop="10sp"
+                    android:paddingBottom="10sp"
+                    android:paddingRight="100sp"
+                    android:id="@+id/commentValidated"
+                    android:visibility="gone">
+                </TextView>
+
+                <Button
+                    android:id="@+id/ModifyCommentButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginTop="10sp"
+                    android:layout_marginEnd="32sp"
+                    android:visibility="gone"
+                    android:text="Rewrite" >
+
+                </Button>
+
+            </RelativeLayout>
+
              <Button
                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

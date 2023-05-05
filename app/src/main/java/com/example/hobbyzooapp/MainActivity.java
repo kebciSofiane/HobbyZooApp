@@ -98,10 +98,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 showDurationDialog();
-                stopButton.setVisibility(View.VISIBLE);
-                pauseButton.setVisibility(View.VISIBLE);
-                addTimeButton.setVisibility(View.GONE);
-                validateButton.setVisibility(View.GONE);
+
             }
         });
 
@@ -118,6 +115,10 @@ public class MainActivity extends AppCompatActivity {
                 long durationMillis  = (hourOfDay * 60 * 60 * 1000) + (minute * 60 * 1000);
                 countDownTime = durationMillis;
                 startCountdown();
+                stopButton.setVisibility(View.VISIBLE);
+                pauseButton.setVisibility(View.VISIBLE);
+                addTimeButton.setVisibility(View.GONE);
+                validateButton.setVisibility(View.GONE);
             }
         }, currentHour, currentMinute, true);
         timePickerDialog.show();

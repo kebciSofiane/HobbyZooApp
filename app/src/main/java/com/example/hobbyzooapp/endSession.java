@@ -48,6 +48,7 @@ public class endSession extends AppCompatActivity {
     EditText commentField;
     TextView sessionCount;
     Button modifyPicButton;
+    Button modifyCommentButton;
     private String photoPath =null;
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
 
@@ -67,6 +68,7 @@ public class endSession extends AppCompatActivity {
         validateButton2 = findViewById(R.id.validateButton2);
         sessionCount= findViewById(R.id.sessionCount);
         modifyPicButton=findViewById(R.id.ModifyPicButton);
+        modifyCommentButton = findViewById(R.id.ModifyCommentButton);
 
         updateSessionCount();
 
@@ -86,6 +88,20 @@ public class endSession extends AppCompatActivity {
             }
         });
 
+        modifyCommentButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                commentField.setVisibility(View.VISIBLE);
+                commentValidated.setVisibility(View.GONE);
+                validateButton2.setVisibility(View.GONE);
+                validateButton.setVisibility(View.VISIBLE);
+                modifyCommentButton.setVisibility(View.GONE);
+            }
+        });
+
+
+
         modifyPicButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -97,6 +113,23 @@ public class endSession extends AppCompatActivity {
                 }
             }
         });
+
+        validateButton2.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                endSession();
+            }
+        });
+
+        skipButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                endSession();
+            }
+        });
+
 
         validateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,6 +143,7 @@ public class endSession extends AppCompatActivity {
                 takeApic.setVisibility(View.GONE);
                 validateButton2.setVisibility(View.VISIBLE);
                 modifyPicButton.setVisibility(View.VISIBLE);
+                modifyCommentButton.setVisibility(View.VISIBLE);
 
 
             }
@@ -148,9 +182,9 @@ public class endSession extends AppCompatActivity {
         //save
     }
 
-    /*@Override
+    @Override
     public void onBackPressed() {
-     }*/
+     }
 
 
     private void savePhotoToGallery() {
@@ -204,4 +238,10 @@ public class endSession extends AppCompatActivity {
             }
         }
     }
+
+    private void endSession(){
+        Intent intent = new Intent(endSession.this, endSessioPart2.class);
+        startActivity(intent);
+    }
+
 }

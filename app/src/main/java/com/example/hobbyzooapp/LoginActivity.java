@@ -36,8 +36,8 @@ import com.google.firebase.auth.GoogleAuthProvider;
 public class LoginActivity extends AppCompatActivity {
 
 
-    private static final int RC_SIGN_IN = 100;
     GoogleSignInClient googleSignInClient;
+    GoogleSignInOptions gso;
 
     EditText emailET, passwordEt;
     TextView notHaveAccountTv, recoverPassTv;
@@ -63,8 +63,7 @@ public class LoginActivity extends AppCompatActivity {
         actionBar.setDisplayShowHomeEnabled(true);
 
 
-        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
+        gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
 
@@ -114,14 +113,16 @@ public class LoginActivity extends AppCompatActivity {
         googleLoginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent signInIntent = googleSignInClient.getSignInIntent();
-                startActivityForResult(signInIntent, RC_SIGN_IN);
+              signIn();
             }
         });
 
         progressDialog = new ProgressDialog(this);
+    }
 
-
+    void signIn(){
+        Intent signInIntent = googleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, 1000);
     }
 
     private void showRecoverPasswordDialog() {
@@ -222,15 +223,22 @@ public class LoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == RC_SIGN_IN) {
+        if (requestCode == 1000) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
-                GoogleSignInAccount account = task.getResult(ApiException.class);
-                firebaseAuthWithGoogle(account);
+                task.getResult(ApiException.class);
+                navigateToSecondActivity();
             } catch (ApiException e) {
-                Toast.makeText(this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "something went wrong" + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    void navigateToSecondActivity(){
+        finish();
+        Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
+        startActivity(intent);
+
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {

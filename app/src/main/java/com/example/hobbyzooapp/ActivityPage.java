@@ -1,16 +1,25 @@
 package com.example.hobbyzooapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ActivityPage extends AppCompatActivity {
 
@@ -19,6 +28,13 @@ public class ActivityPage extends AppCompatActivity {
     Button editNamePetButton;
     EditText editTextPetName;
     Button validatePetNAme;
+    Button showMoreButton;
+    RecyclerView recyclerView;
+
+    List<String> items = new ArrayList<>();
+    MyAdapter adapter;
+
+
 
 
 
@@ -26,11 +42,33 @@ public class ActivityPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page);
+        items.addAll(List.of("5 juin à 13h00 - 15 min","7 juin à 13h00 - 15 min","13 juin à 13h00 - 15 min",
+                "5 juin à 13h00 - 15 min","5 juin à 13h00 - 15 min","5 juin à 13h00 - 15 min",
+                "5 juin à 13h00 - 15 min","7 juin à 13h00 - 15 min","16 juillet à 13h00 - 15 min",
+                "5 juin à 13h00 - 15 min","5 juin à 13h00 - 15 min","5 juin à 13h00 - 15 min"));
+
         petPic =findViewById(R.id.activityPagePetPic);
         petName = findViewById(R.id.activityPagePetName);
         petName.setText("Coco");
         petPic.setImageResource(R.drawable.koa);
+        showMoreButton=findViewById(R.id.activityPageShowMoreButton);
         editNamePetButton=findViewById(R.id.activityPageEditPetNameButton);
+
+
+        recyclerView=findViewById(R.id.activityPageRecyclerView);
+        GridLayoutManager layoutManager = new GridLayoutManager(this, 5, GridLayoutManager.HORIZONTAL, false);
+        recyclerView.setLayoutManager(layoutManager);
+        adapter = new MyAdapter(items);
+        recyclerView.setAdapter(adapter);
+
+
+
+
+
+
+
+
+
         editTextPetName = findViewById(R.id.activityPagePetNameEdit);
         InputFilter[] filters = new InputFilter[1];
         filters[0] = new InputFilter.LengthFilter(10);
@@ -55,6 +93,15 @@ public class ActivityPage extends AppCompatActivity {
                 editNamePetButton.setVisibility(View.GONE);
                 validatePetNAme.setVisibility(View.VISIBLE);
                 petName.setVisibility(View.GONE);
+            }
+        });
+
+        showMoreButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                adapter.setExpanded(!adapter.isExpanded());
+                adapter.notifyDataSetChanged();
             }
         });
 

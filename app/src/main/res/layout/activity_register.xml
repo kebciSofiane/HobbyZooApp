@@ -37,23 +37,21 @@
 
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/passwordTIL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:id="@+id/passwordTIL"
-        app:passwordToggleEnabled="true"
         android:layout_below="@+id/emailTIL"
+        android:layout_centerInParent="true"
         android:padding="10dp"
-        >
+        app:passwordToggleEnabled="true">
 
 
         <EditText
             android:id="@+id/passwordEt"
-            android:inputType="textPassword"
-            android:hint="Password"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:hint="Password"
+            android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
 

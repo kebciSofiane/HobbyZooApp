@@ -21,7 +21,7 @@ public class NewCategory extends AppCompatActivity {
     int color;
     ImageView imgView;
     TextView mColorValues;
-    View mColorViews;
+    View displayColors;
     Bitmap bitmap;
 
 
@@ -32,8 +32,7 @@ public class NewCategory extends AppCompatActivity {
 
         Button validationButton = findViewById(R.id.validationButton);
         imgView = findViewById(R.id.colorPickers);
-        mColorValues = findViewById(R.id.displayValues);
-        mColorViews = findViewById(R.id.displayColors);
+        displayColors = findViewById(R.id.displayColors);
 
         imgView.setDrawingCacheEnabled(true);
         imgView.buildDrawingCache(true);
@@ -50,10 +49,8 @@ public class NewCategory extends AppCompatActivity {
                     int b = Color.blue(pixels);
                     int g = Color.green(pixels);
 
-                    String hex = "#"+ Integer.toHexString(pixels);
-                    mColorViews.setBackgroundColor(Color.rgb(r,g,b));
+                    displayColors.setBackgroundColor(Color.rgb(r,g,b));
                     color = Color.rgb(r,g,b);
-                    mColorValues.setText("RGB: "+r+", "+g+", "+b+" \nHEX: "+hex);
 
                 }
                 return true;

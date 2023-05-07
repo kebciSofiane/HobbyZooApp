@@ -21,6 +21,19 @@
         tools:layout_editor_absoluteY="216dp" />
 
 
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/activityName2"
+        android:layout_width="296dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/inputColor"
+        android:hint=""
+        android:textColorHint="@color/inputColor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        tools:ignore="MissingConstraints" />
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -40,12 +53,12 @@
         android:id="@+id/animalName"
         android:layout_width="296dp"
         android:layout_height="60dp"
+        android:layout_marginTop="30dp"
         android:background="@color/inputColor"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="566dp" />
+        app:layout_constraintTop_toBottomOf="@+id/animalImage"
+        tools:ignore="MissingConstraints" />
 
     <TextView
         android:id="@+id/textView2"
@@ -73,6 +86,19 @@
         app:layout_constraintTop_toBottomOf="@+id/activityName"
         tools:ignore="MissingConstraints" />
 
+    <TextView
+        android:id="@+id/textView8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Choix de l'Animal :"
+        android:textSize="23sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.127"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/activityName2"
+        tools:ignore="MissingConstraints" />
+
     <Button
         android:id="@+id/validationButton"
         android:layout_width="wrap_content"
@@ -84,6 +110,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/animalImage"
+        android:layout_width="168dp"
+        android:layout_height="174dp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8"
+        app:srcCompat="@drawable/cat" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

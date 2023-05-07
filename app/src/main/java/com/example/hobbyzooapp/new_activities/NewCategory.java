@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -18,7 +19,7 @@ import com.example.hobbyzooapp.R;
 public class NewCategory extends AppCompatActivity {
 
     String name;
-    int color;
+    int color = 0;
     ImageView imgView;
     TextView mColorValues;
     View displayColors;
@@ -61,7 +62,10 @@ public class NewCategory extends AppCompatActivity {
             public void onClick(View view) {
                 name = findViewById(R.id.activityName).toString();
                 if(name.trim().isEmpty()){
-                    //Toast.makeText(this,"Le champ nom ne peut pas être vide!",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"Le champ nom ne peut pas être vide!",Toast.LENGTH_LONG).show();
+                }
+                else if(color == 0){
+                    Toast.makeText(getApplicationContext(),"Il faut choisir une couleur!",Toast.LENGTH_LONG).show();
                 }
                 else{
                     Category category = new Category(name, color);

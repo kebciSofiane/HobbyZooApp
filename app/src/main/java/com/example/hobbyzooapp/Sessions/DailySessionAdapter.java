@@ -32,14 +32,14 @@ public class DailySessionAdapter extends BaseAdapter{
 
     //private Date date;
 
-    public DailySessionAdapter(Context context, List<Session> sessionList, int month, int day, int year){
+    public DailySessionAdapter(Context context, List<Session> sessionList, int day, int month, int year){
         this.context = context;
         this.sessionList = sessionList;
         this.inflater = LayoutInflater.from(context);
         this.day = day;
         this.month = month;
         for(Session session : sessionList){
-            if ((session.getDay() == this.day) && (session.getMonth()==this.month) && (session.getYear()==this.month)){
+            if ((session.getDay() == this.day) && (session.getMonth()==this.month) && (session.getYear()==this.year)){
                 sessionListFiltered.add(session);
             }
         }

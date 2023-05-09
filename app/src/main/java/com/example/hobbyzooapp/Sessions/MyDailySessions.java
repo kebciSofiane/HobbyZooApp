@@ -59,7 +59,7 @@ public class MyDailySessions extends AppCompatActivity {
         //fonctionne pas ????
         //Date date = new Date(2023,10,10);
         GridView sessionListView = findViewById(R.id.session_list_view);
-        DailySessionAdapter adapter = new DailySessionAdapter(this,sessionList,month,day,year);
+        DailySessionAdapter adapter = new DailySessionAdapter(this,sessionList,day,month,year);
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position) {

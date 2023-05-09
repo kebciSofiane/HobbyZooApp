@@ -4,8 +4,10 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +15,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.hobbyzooapp.Category;
 import com.example.hobbyzooapp.ListAnimals;
 import com.example.hobbyzooapp.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class NewActivity extends AppCompatActivity {
 
@@ -34,6 +39,14 @@ public class NewActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Spinner activitySelector = findViewById(R.id.activityName);
+        List<String> categories = new ArrayList();
+        categories.add("Sport");
+        categories.add("Cuisine");
+        categories.add("Art");
+        ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, categories);
+        activitySelector.setAdapter(adapter);
 
 
 

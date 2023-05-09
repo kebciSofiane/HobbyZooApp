@@ -93,44 +93,78 @@
 
         </LinearLayout>
 
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/myNextSessionstext"
+    >
 
-        <LinearLayout
-            android:layout_width="250sp"
+    <LinearLayout
+        android:id="@+id/activityPageLinearLayoutNextSessions"
+        android:layout_width="250sp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/activityPageRecyclerView"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/border"
             android:orientation="vertical"
-            android:layout_below="@id/myNextSessionstext"
-            android:id="@+id/activityPageLinearLayoutNextSessions">
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/activityPageRecyclerView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="20sp"
-                android:orientation="vertical"
-                android:background="@drawable/border"
-                android:layout_centerHorizontal="true"
-               />
+            android:padding="20sp" />
 
-        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/activityPageShowLessButton"
+        android:layout_width="30sp"
+        android:layout_height="30sp"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/minus_icon"
+        android:visibility="gone">
+
+    </Button>
+
+    <Button
+        android:id="@+id/activityPageShowMoreButton"
+        android:layout_width="30sp"
+        android:layout_height="30sp"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/plus_icon"
+        android:visibility="visible">
+
+    </Button>
+
+
+
+</LinearLayout>
+
+
+        <TextView
+            android:id="@+id/myNextSessionstext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/headerLayout"
+            android:layout_marginBottom="10sp"
+
+            android:text="My next sessions :"
+            android:textSize="30sp">
+
+        </TextView>
+
+
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="My next sessions :"
-            android:id="@+id/myNextSessionstext"
-            android:layout_below="@id/headerLayout"
-            android:textSize="30sp"
-            android:layout_marginBottom="10sp">
-
-        </TextView>
-
-        <Button
-            android:id="@+id/activityPageShowMoreButton"
-            android:layout_width="30sp"
-            android:layout_height="30sp"
+            android:id="@+id/activityPageGoalsText"
+            android:text="Goal:"
             android:layout_below="@id/activityPageLinearLayoutNextSessions"
-            android:background="@drawable/plus_icon"
-            android:gravity="bottom|center_horizontal"
-            android:visibility="visible"></Button>
+            android:layout_marginTop="40sp"
+            android:layout_marginLeft="10sp"
+            android:textSize="30sp">
+        </TextView>
 
     </RelativeLayout>
 

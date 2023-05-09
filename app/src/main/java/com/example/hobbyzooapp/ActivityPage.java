@@ -2,19 +2,15 @@ package com.example.hobbyzooapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,10 +25,11 @@ public class ActivityPage extends AppCompatActivity {
     EditText editTextPetName;
     Button validatePetNAme;
     Button showMoreButton;
+    Button showLessButton;
     RecyclerView recyclerView;
-
+    TextView goalsText;
     List<String> items = new ArrayList<>();
-    MyAdapter adapter;
+    listSessionsAdapter adapter;
 
 
 
@@ -52,13 +49,14 @@ public class ActivityPage extends AppCompatActivity {
         petName.setText("Coco");
         petPic.setImageResource(R.drawable.koa);
         showMoreButton=findViewById(R.id.activityPageShowMoreButton);
+        showLessButton = findViewById(R.id.activityPageShowLessButton);
         editNamePetButton=findViewById(R.id.activityPageEditPetNameButton);
-
-
+        goalsText =findViewById(R.id.activityPageGoalsText);
+        goalsText.setText("Goal: 2h/5h");
         recyclerView=findViewById(R.id.activityPageRecyclerView);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 5, GridLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);
-        adapter = new MyAdapter(items);
+        adapter = new listSessionsAdapter(items);
         recyclerView.setAdapter(adapter);
 
 
@@ -102,6 +100,22 @@ public class ActivityPage extends AppCompatActivity {
             public void onClick(View v) {
                 adapter.setExpanded(!adapter.isExpanded());
                 adapter.notifyDataSetChanged();
+                showLessButton.setVisibility(View.VISIBLE);
+                showMoreButton.setVisibility(View.GONE);
+
+            }
+        });
+
+        showLessButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                adapter.setExpanded(!adapter.isExpanded());
+                adapter.notifyDataSetChanged();
+                showMoreButton.setVisibility(View.VISIBLE);
+                showLessButton.setVisibility(View.GONE);
+
+
             }
         });
 

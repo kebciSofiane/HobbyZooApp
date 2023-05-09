@@ -20,6 +20,7 @@ import java.util.Random;
 
 import com.example.hobbyzooapp.Activities.Activity;
 import com.example.hobbyzooapp.Activities.MyActivities;
+import com.example.hobbyzooapp.Sessions.CalendarSessions;
 import com.example.hobbyzooapp.Sessions.MyDailySessions;
 
 import java.util.ArrayList;
@@ -120,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openMyDailySessions() {
-        Intent intent = new Intent(this, MyDailySessions.class);
+        Intent intent = new Intent(this, CalendarSessions.class); //vers le calendrier
         startActivity(intent);
     }
 

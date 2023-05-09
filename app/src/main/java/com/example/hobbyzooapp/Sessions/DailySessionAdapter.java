@@ -27,18 +27,19 @@ public class DailySessionAdapter extends BaseAdapter{
     private LayoutInflater inflater;
     private int day;
     private int month;
+    private int year;
     private OnItemClickListener mListener;
 
     //private Date date;
 
-    public DailySessionAdapter(Context context, List<Session> sessionList, int month, int day){
+    public DailySessionAdapter(Context context, List<Session> sessionList, int month, int day, int year){
         this.context = context;
         this.sessionList = sessionList;
         this.inflater = LayoutInflater.from(context);
         this.day = day;
         this.month = month;
         for(Session session : sessionList){
-            if ((session.getDay() == this.day) && (session.getMonth()==this.month)){
+            if ((session.getDay() == this.day) && (session.getMonth()==this.month) && (session.getYear()==this.month)){
                 sessionListFiltered.add(session);
             }
         }

@@ -6,14 +6,15 @@ public class Session {
 
     private String name;
     private Time time;
-    private int month, day;
+    private int month, day, year;
 
 
-    public Session(String name, Time time, int day, int month ) {
+    public Session(String name, Time time, int day, int month , int year) {
         this.name = name;
         this.time = time;
         this.month = month;
         this.day = day;
+        this.year = year;
 
     }
     public String getName() {return name;}
@@ -24,4 +25,5 @@ public class Session {
 
     public int getDay() {return day;}
 
+    public int getYear() {return year;}
 }

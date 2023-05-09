@@ -38,6 +38,7 @@ public class RunSession extends AppCompatActivity {
     Button addTimeButton;
 
 
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {

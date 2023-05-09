@@ -38,19 +38,22 @@ public class CalendarSessions extends AppCompatActivity {
             }
         });
 
-        ActionBar actionBar = getSupportActionBar();
+        /*ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("");
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setDisplayShowHomeEnabled(true);*/
 
         calendarSes.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
             @Override
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-                String date = dayOfMonth + "/" + month + "/" + year;
+                String date = dayOfMonth + "/" + (month+1) + "/" + year;
                 Log.d(TAG, "onSelectedDayChange : dd/mm/yyyy : " + date);
 
-                Intent intent = new Intent(CalendarSessions.this, MySessionsTest.class);
-                intent.putExtra("date", date);
+                Intent intent = new Intent(CalendarSessions.this, MyDailySessions.class);
+                intent.putExtra("date",date);
+                intent.putExtra("dayOfMonth", dayOfMonth);
+                intent.putExtra("month", month+1);
+                intent.putExtra("year", year);
                 startActivity(intent);
             }
         });

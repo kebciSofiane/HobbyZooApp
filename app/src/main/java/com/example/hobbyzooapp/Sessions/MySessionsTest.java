@@ -21,9 +21,5 @@ public class MySessionsTest extends AppCompatActivity {
         String date = incomingIntent.getStringExtra("date");
         dateSession.setText(date);
 
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("");
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
     }
 }

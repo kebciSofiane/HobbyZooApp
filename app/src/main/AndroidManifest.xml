@@ -36,6 +36,10 @@
         <activity
             android:name=".Sessions.MyDailySessions"
             android:exported="false" />
+        <activity
+            android:name=".Sessions.CalendarSessions"
+            android:exported="false" />
+
 
         <activity
             android:name=".SplashScreenActivity"

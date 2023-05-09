@@ -5,10 +5,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.TextView;
 
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.hobbyzooapp.MainActivity;
 import com.example.hobbyzooapp.R;
 import com.example.hobbyzooapp.OnItemClickListener;
 
@@ -39,14 +41,25 @@ public class MyDailySessions extends AppCompatActivity {
 
 
         List<Session> sessionList = new ArrayList<>();
-        sessionList.add(new Session("Dessin", new Time(0, 1, 10), 10, 10));
-        sessionList.add(new Session("Bougie",new Time(0,2,0),5,2));
+        sessionList.add(new Session("Dessin", new Time(0, 1, 10), 10, 10,2023));
+        sessionList.add(new Session("Bougie",new Time(0,2,0),15,5,2023));
+
+        //date depuis calendrier
+        TextView dateSession = findViewById(R.id.dateSession); //mettre TextView à la date
+        Intent incomingIntent = getIntent();
+        //String date = incomingIntent.getStringExtra("date");
+        //dateSession.setText(date);
+        int month = incomingIntent.getIntExtra("month", 0);
+        int day = incomingIntent.getIntExtra("dayOfMonth", 00);
+        int year = incomingIntent.getIntExtra("year",0000);
+        String date = month + "," + day + "," + year;
+        dateSession.setText(date);
 
 
         //fonctionne pas ????
         //Date date = new Date(2023,10,10);
         GridView sessionListView = findViewById(R.id.session_list_view);
-        DailySessionAdapter adapter = new DailySessionAdapter(this,sessionList,10,10);
+        DailySessionAdapter adapter = new DailySessionAdapter(this,sessionList,month,day,year);
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
@@ -60,13 +73,12 @@ public class MyDailySessions extends AppCompatActivity {
         //je sais pas comment faire marcher ca
         // sessionListView.setOnItemClickListener();
 
-
         }
 
 
     public void openMainActivity(){
-        Intent intent = new Intent(this, RunSession.class);
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
-        finish();
+
     }
 }

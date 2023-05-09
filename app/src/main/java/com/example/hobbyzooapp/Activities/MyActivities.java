@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
 
+import com.example.hobbyzooapp.ActivityPage;
 import com.example.hobbyzooapp.MainActivity;
 import com.example.hobbyzooapp.OnItemClickListener;
 import com.example.hobbyzooapp.R;
@@ -52,7 +53,7 @@ public class MyActivities extends AppCompatActivity {
         //activityListView.setAdapter(new ActivityAdapter(this,activityList));
     }
     public void openMainActivity(){
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, ActivityPage.class);
         startActivity(intent);
         finish();
     }

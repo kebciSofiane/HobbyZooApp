@@ -14,6 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.hobbyzooapp.MainActivity;
 import com.example.hobbyzooapp.R;
 import com.example.hobbyzooapp.OnItemClickListener;
+import com.example.hobbyzooapp.RunSession;
 
 import java.sql.Time;
 import java.util.ArrayList;
@@ -64,13 +65,11 @@ public class MyDailySessions extends AppCompatActivity {
         // sessionListView.setOnItemClickListener();
 
 
-
-
         }
 
 
     public void openMainActivity(){
-        Intent intent = new Intent(this, MainActivity.class);
+        Intent intent = new Intent(this, RunSession.class);
         startActivity(intent);
         finish();
     }

@@ -16,6 +16,7 @@
         android:scrollbars="horizontal">
 
         <Button
+
             android:layout_width="30sp"
             android:layout_height="30sp"
             android:layout_centerHorizontal="true"

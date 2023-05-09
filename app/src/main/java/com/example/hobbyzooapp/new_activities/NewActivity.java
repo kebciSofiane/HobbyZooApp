@@ -35,6 +35,8 @@ public class NewActivity extends AppCompatActivity {
             }
         });
 
+
+
         validationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -8,19 +8,6 @@
     android:visibility="visible">
 
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/activityName"
-        android:layout_width="296dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="20dp"
-        android:background="@color/inputColor"
-        android:hint=""
-        android:textColorHint="@color/inputColor"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -108,6 +95,16 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView7" />
+
+    <Spinner
+        android:id="@+id/activityName"
+        android:layout_width="336dp"
+        android:layout_height="69dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
     />
 
 

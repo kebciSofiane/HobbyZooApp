@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class ProfileActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
 
@@ -22,7 +22,7 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_profile);
+        setContentView(R.layout.activity_home);
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Profile");
@@ -37,7 +37,7 @@ public class ProfileActivity extends AppCompatActivity {
             profileTv.setText(user.getEmail());
         }
         else{
-            startActivity(new Intent(ProfileActivity.this, RegistrationOrConnexion.class));
+            startActivity(new Intent(HomeActivity.this, RegistrationOrConnexion.class));
             finish();
         }
     }

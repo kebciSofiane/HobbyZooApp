@@ -24,7 +24,21 @@
             android:name=".endSession"
             android:exported="false" />
         <activity
+            android:name=".RunSession"
+            android:exported="false"/>
+        <activity
             android:name=".MainActivity"
+            android:exported="false"/>
+
+        <activity
+            android:name=".Activities.MyActivities"
+            android:exported="false" />
+        <activity
+            android:name=".Sessions.MyDailySessions"
+            android:exported="false" />
+
+        <activity
+            android:name=".SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

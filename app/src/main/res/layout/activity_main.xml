@@ -1,104 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Home" />
 
 
-        <TextView
-            android:id="@+id/countdownTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20sp"
-            android:text="Temps restant : "
-            android:textColor="@android:color/white"
-            android:textSize="20sp" />
+    <Button
+        android:id="@+id/session_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="123dp"
+        android:text="My Daily sessions" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="50sp"
-            android:id="@+id/petPicture"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_toStartOf="@id/pauseButton"
-            tools:ignore="NotSibling">
+    <Button
+        android:id="@+id/activities_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="39dp"
+        android:text="My activities" />
 
-        </ImageView>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="40sp"
-            android:gravity="center">
-
-            <Button
-                android:id="@+id/stopButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20sp"
-                android:text="Stop"
-                />
-
-            <Button
-                android:id="@+id/resumeButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20sp"
-                android:text="Resume"
-                android:visibility="gone"
-                />
-
-            <Button
-                android:id="@+id/pauseButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20sp"
-                android:text="Pause"
-                android:visibility="visible"
-
-                />
-
-            <Button
-                android:id="@+id/addTimeButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20sp"
-                android:text="Add time"
-                android:visibility="gone"
-                />
-
-            <Button
-                android:id="@+id/validateButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20sp"
-                android:text="Next"
-                android:visibility="gone"
-                />
-
-
-
-
-
-
-
-        </LinearLayout>
-
-
-    </RelativeLayout>
-
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
-
+</RelativeLayout>

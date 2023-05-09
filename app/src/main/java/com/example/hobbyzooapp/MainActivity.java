@@ -1,172 +1,143 @@
 package com.example.hobbyzooapp;
 
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import android.annotation.SuppressLint;
-import android.app.TimePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.CountDownTimer;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.GridView;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.TimePicker;
+import java.util.Random;
 
-import java.util.Calendar;
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
+import com.example.hobbyzooapp.Activities.Activity;
+import com.example.hobbyzooapp.Activities.MyActivities;
+import com.example.hobbyzooapp.Sessions.MyDailySessions;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+    private Button sessionButton;
+    private Button activitiesButton;
+
+    private LinearLayout linearLayout;
+    private HorizontalScrollView horizontalScrollView;
+    private ArrayList<Activity> myObjects;
 
 
-    private long countDownTime = 5000;
-    private long timeLeftInMillis = countDownTime;
-    public static long  totalSessionTime=0;
-    TextView countdownTextView;
-    CountDownTimer countDownTimer;
-    Button stopButton;
-    Button pauseButton;
-    Button resumeButton;
-    ImageView petPicture;
-    Button validateButton;
-    Button addTimeButton;
-
-
-    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        countdownTextView = findViewById(R.id.countdownTextView);
-        pauseButton = findViewById(R.id.pauseButton);
-        stopButton = findViewById(R.id.stopButton);
-        resumeButton=findViewById(R.id.resumeButton);
-        petPicture = findViewById(R.id.petPicture);
-        petPicture.setImageResource(R.drawable.koala);
-        validateButton = findViewById(R.id.validateButton);
-        addTimeButton = findViewById(R.id.addTimeButton);
-
-
-
-        startCountdown();
-
-        pauseButton.setOnClickListener(new View.OnClickListener() {
+        sessionButton = findViewById(R.id.session_button);
+        sessionButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                pauseCountDown();
-            }
-        });
-        resumeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                resumeCountDown();
+            public void onClick(View v) {
+                openMyDailySessions();
             }
         });
 
 
-        stopButton.setOnClickListener(new  View.OnClickListener(){
+        activitiesButton = findViewById(R.id.activities_button);
+        activitiesButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-                new AlertDialog.Builder(MainActivity.this)
-                        .setTitle("Vous êtes sur le point de mettre fin à votre activité !")
-                        .setMessage("Voulez-vous vraiment arrêter votre activité ?")
-                        .setNegativeButton(android.R.string.no, null)
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface arg0, int arg1) {
-                                totalSessionTime += countDownTime-timeLeftInMillis;
-                                countDownTimer.cancel();
-                                endSession();
-                            }
-                        }).create().show();
-
+            public void onClick(View v) {
+                openMyActivities();
             }
         });
 
-        validateButton.setOnClickListener(new  View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                endSession();
+/*
+        linearLayout = findViewById(R.id.linear_layout);
+        horizontalScrollView = findViewById(R.id.horizontal_scroll_view);
+
+        // Initialisation de la liste d'objets
+        myObjects = new ArrayList<>();
+        myObjects.add(new Activity("Objet 1", R.drawable.img1));
+        myObjects.add(new Activity("Objet 2", R.drawable.img2));
+        myObjects.add(new Activity("Objet 3", R.drawable.img3));
+
+
+        // Nombre maximum d'objets par page
+        int maxObjectsPerPage = 6;
+
+        // Nombre de pages
+        int nbPages = (int) Math.ceil((double) myObjects.size() / maxObjectsPerPage);
+
+        // Pour chaque page
+        for (int i = 0; i < nbPages; i++) {
+            // Création d'un LinearLayout horizontal pour chaque page
+            LinearLayout linearLayoutHorizontal = new LinearLayout(this);
+            linearLayoutHorizontal.setOrientation(LinearLayout.HORIZONTAL);
+            linearLayout.addView(linearLayoutHorizontal);
+
+            // Liste d'objets pour cette page
+            ArrayList<Activity> objectsForPage = new ArrayList<>();
+
+            // Ajout des objets dans la liste pour cette page
+            for (int j = i * maxObjectsPerPage; j < (i + 1) * maxObjectsPerPage && j < myObjects.size(); j++) {
+                objectsForPage.add(myObjects.get(j));
             }
-        });
 
-        addTimeButton.setOnClickListener(new  View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                showDurationDialog();
+            // Placement aléatoire des objets sur cette page
+            Collections.shuffle(objectsForPage);
+
+// Pour chaque objet dans la liste
+            for (MyObject obj : objectsForPage) {
+                // Création d'un nouveau layout pour l'objet
+                LayoutInflater inflater = LayoutInflater.from(this);
+                LinearLayout objectLayout = (LinearLayout) inflater.inflate(R.layout.item_object, linearLayoutHorizontal, false);
+
+                // Récupération des vues du layout
+                ImageView imageView = objectLayout.findViewById(R.id.image_view);
+                TextView textViewName = objectLayout.findViewById(R.id.text_view_name);
+
+                // Affichage de l'image et du nom de l'objet
+                imageView.setImageResource(obj.getImg());
+                textViewName.setText(obj.getName());
+
+                // Placement aléatoire de l'objet sur cette page
+                int randomX = (int) (Math.random() * (horizontalScrollView.getWidth() - imageView.getWidth()));
+                int randomY = (int) (Math.random() * (horizontalScrollView.getHeight() - imageView.getHeight()));
+                objectLayout.setX(randomX);
+                objectLayout.setY(randomY);
+
+                // Vérification qu'il n'y ait pas de superposition avec les objets déjà placés
+                boolean collisionDetected;
 
             }
-        });
-
+        }*/
     }
 
-    public void showDurationDialog() {
-        Calendar calendar = Calendar.getInstance();
-        int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
-        int currentMinute = calendar.get(Calendar.MINUTE);
-
-        TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                long durationMillis  = (hourOfDay * 60 * 60 * 1000) + (minute * 60 * 1000);
-                countDownTime = durationMillis;
-                startCountdown();
-                stopButton.setVisibility(View.VISIBLE);
-                pauseButton.setVisibility(View.VISIBLE);
-                addTimeButton.setVisibility(View.GONE);
-                validateButton.setVisibility(View.GONE);
-            }
-        }, currentHour, currentMinute, true);
-        timePickerDialog.show();
+    public void openMyDailySessions() {
+        Intent intent = new Intent(this, MyDailySessions.class);
+        startActivity(intent);
     }
 
-
-
-    private void pauseCountDown(){
-        countDownTimer.cancel();
-        resumeButton.setVisibility(View.VISIBLE);
-        pauseButton.setVisibility(View.GONE);
-    }
-    private void resumeCountDown(){
-        countDownTime = timeLeftInMillis;
-        startCountdown();
-        pauseButton.setVisibility(View.VISIBLE);
-        resumeButton.setVisibility(View.GONE);
-    }
-    private void startCountdown(){
-        countDownTimer=new CountDownTimer(countDownTime, 1000) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                timeLeftInMillis = millisUntilFinished;
-                updateCountdownText();
-            }
-            @Override
-            public void onFinish() {
-                totalSessionTime += countDownTime;
-                validateButton.setVisibility(View.VISIBLE);
-                resumeButton.setVisibility(View.GONE);
-                stopButton.setVisibility(View.GONE);
-                pauseButton.setVisibility(View.GONE);
-                addTimeButton.setVisibility(View.VISIBLE);
-            }
-        }.start();
-
-    }
-    private void updateCountdownText() {
-        long hours = TimeUnit.MILLISECONDS.toHours(timeLeftInMillis);
-        long minutes = TimeUnit.MILLISECONDS.toMinutes(timeLeftInMillis - TimeUnit.HOURS.toMillis(hours));
-        long seconds = TimeUnit.MILLISECONDS.toSeconds(timeLeftInMillis - TimeUnit.HOURS.toMillis(hours) - TimeUnit.MINUTES.toMillis(minutes));
-        String timeRemainingFormatted = String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds);
-        countdownTextView.setText("Temps restant : " + timeRemainingFormatted);
-    }
-    private void endSession(){
-        Intent intent = new Intent(MainActivity.this, endSession.class);
+    public void openMyActivities() {
+        Intent intent = new Intent(this, MyActivities.class);
         startActivity(intent);
     }
 
 
 }
+
+
+
+
+
+
+
+
+
+

@@ -218,7 +218,7 @@ public class endSession extends AppCompatActivity {
 
 
     public  void updateSessionCount(){
-        long totalSessionTime = MainActivity.totalSessionTime;
+        long totalSessionTime = RunSession.totalSessionTime;
         long hours = TimeUnit.MILLISECONDS.toHours(totalSessionTime);
         long minutes = TimeUnit.MILLISECONDS.toMinutes(totalSessionTime - TimeUnit.HOURS.toMillis(hours));
         sessionCount.setText(hours+"h:"+minutes+"mn/10h:30mn");

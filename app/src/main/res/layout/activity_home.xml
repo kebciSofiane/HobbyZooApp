@@ -3,26 +3,29 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center"
-    tools:context=".HomeActivity">
-
-
-    <FrameLayout
-        android:id="@+id/content"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1">
-    </FrameLayout>
-
-<com.google.android.material.bottomnavigation.BottomNavigationView
-    android:id="@+id/navigation"
-    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_gravity="bottom"
-    android:background="?android:attr/windowBackground"
-    app:menu="@menu/menu_nav">
+    android:orientation="horizontal"
+    android:layout_gravity="bottom">
 
-</com.google.android.material.bottomnavigation.BottomNavigationView>
+    <ImageButton
+        android:id="@+id/calendar_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        app:srcCompat="@drawable/ic_calendar" />
+
+    <ImageButton
+        android:id="@+id/run_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        app:srcCompat="@drawable/ic_play" />
+
+    <ImageButton
+        android:id="@+id/profile_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        app:srcCompat="@drawable/ic_profile" />
+
 </LinearLayout>

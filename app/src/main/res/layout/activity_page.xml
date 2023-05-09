@@ -97,6 +97,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_below="@id/myNextSessionstext"
+    android:id="@+id/activityPageLinearLayoutNextSessionsAndShowButton"
     >
 
     <LinearLayout
@@ -160,8 +161,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/activityPageGoalsText"
             android:text="Goal:"
-            android:layout_below="@id/activityPageLinearLayoutNextSessions"
-            android:layout_marginTop="40sp"
+            android:layout_below="@id/activityPageLinearLayoutNextSessionsAndShowButton"
+            android:layout_marginTop="10sp"
             android:layout_marginLeft="10sp"
             android:textSize="30sp">
         </TextView>

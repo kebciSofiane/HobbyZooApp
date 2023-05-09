@@ -6,9 +6,9 @@
         android:icon="@drawable/ic_calendar"/>
     <item android:id="@+id/nav_runsession"
         android:title="RunSession"
-        android:icon="@drawable/ic_runsession"/>
+        android:icon="@drawable/ic_timer"/>
     <item android:id="@+id/nav_profile"
         android:title="Profile"
-        android:icon="@drawable/ic_runsession"/>
+        android:icon="@drawable/ic_profile"/>
 
 </menu>

@@ -1,4 +1,4 @@
-package com.example.hobbyzooapp;
+package com.example.hobbyzooapp.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -13,6 +13,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.hobbyzooapp.R;
+import com.example.hobbyzooapp.Sessions.listSessionsAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

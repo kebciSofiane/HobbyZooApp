@@ -18,13 +18,13 @@
         android:theme="@style/Theme.HobbyZooApp"
         tools:targetApi="31">
         <activity
-            android:name=".ActivityPage"
+            android:name=".Activities.ActivityPage"
             android:exported="false" />
         <activity
-            android:name=".endSession"
+            android:name=".Sessions.endSession"
             android:exported="false" />
         <activity
-            android:name=".RunSession"
+            android:name=".Sessions.RunSession"
             android:exported="false"/>
         <activity
             android:name=".MainActivity"

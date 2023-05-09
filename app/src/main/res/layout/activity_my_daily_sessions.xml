@@ -6,35 +6,63 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
-        android:id="@+id/page_name"
-        android:layout_width="363dp"
-        android:layout_height="44dp"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/radius_background"
-        android:gravity="center"
-        android:text="My daily sessions"
-        android:textColor="@color/black" />
-
-
-    <Button
-        android:id="@+id/dailySessionPageEditButton"
-        android:layout_width="30sp"
-        android:layout_height="30sp"
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="381dp"
+        android:layout_height="126dp"
+        android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_alignParentEnd="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="26dp"
-        android:layout_marginEnd="52dp"
-        android:background="@drawable/edit_pic"
-        android:visibility="visible"></Button>
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="17dp"
+        android:background="@drawable/radius_background"
+        android:gravity="center">
+
+        <TextView
+            android:id="@+id/page_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="65dp"
+            android:layout_marginEnd="0dp"
+            android:gravity="center"
+            android:text="My daily sessions"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/dateSession"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="87dp"
+            android:layout_marginBottom="4dp"
+            android:gravity="center"
+            android:hint="Date"
+            android:text="@string/default_session_date"
+            android:textColor="@color/black" />
+
+        <Button
+            android:id="@+id/dailySessionPageEditButton"
+            android:layout_width="30sp"
+            android:layout_height="30sp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="26dp"
+            android:layout_marginEnd="52dp"
+            android:background="@drawable/edit_pic"
+            android:visibility="visible" />
+
+
+    </RelativeLayout>
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="358dp"
         android:layout_height="653dp"
-        android:layout_below="@+id/page_name"
+        android:layout_below="@+id/header"
         android:layout_above="@+id/homeButton"
         android:layout_margin="20dp">
 

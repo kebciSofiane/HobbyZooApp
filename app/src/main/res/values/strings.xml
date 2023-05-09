@@ -3,4 +3,5 @@
     <string name="pet_default_name">Pet Name</string>
     <string name="activity_default_name">Activity Name</string>
     <string name="activity_default_time">Activity Time</string>
+    <string name="default_session_date">Sessions date</string>
 </resources>

@@ -2,19 +2,15 @@ package com.example.hobbyzooapp.Sessions;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputFilter;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
-import android.widget.EditText;
 
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.hobbyzooapp.MainActivity;
 import com.example.hobbyzooapp.R;
 import com.example.hobbyzooapp.OnItemClickListener;
-import com.example.hobbyzooapp.RunSession;
 
 import java.sql.Time;
 import java.util.ArrayList;

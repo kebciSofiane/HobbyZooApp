@@ -8,8 +8,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
 
-import com.example.hobbyzooapp.ActivityPage;
-import com.example.hobbyzooapp.MainActivity;
 import com.example.hobbyzooapp.OnItemClickListener;
 import com.example.hobbyzooapp.R;
 

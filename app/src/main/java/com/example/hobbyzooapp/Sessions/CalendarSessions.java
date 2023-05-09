@@ -1,7 +1,6 @@
 package com.example.hobbyzooapp.Sessions;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -12,7 +11,6 @@ import android.view.View;
 import android.widget.CalendarView;
 import android.widget.ImageButton;
 
-import com.example.hobbyzooapp.Sessions.MySessionsTest;
 import com.example.hobbyzooapp.R;
 
 public class CalendarSessions extends AppCompatActivity {

@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.hobbyzooapp.Activities.ActivityPage;
 import com.example.hobbyzooapp.MainActivity;
 import com.example.hobbyzooapp.R;
 import com.example.hobbyzooapp.OnItemClickListener;
@@ -52,32 +53,32 @@ public class MyDailySessions extends AppCompatActivity {
         int month = incomingIntent.getIntExtra("month", 0);
         int day = incomingIntent.getIntExtra("dayOfMonth", 00);
         int year = incomingIntent.getIntExtra("year",0000);
-        String date = month + "," + day + "," + year;
+        String date = day + "," + month + "," + year;
         dateSession.setText(date);
 
 
-        //fonctionne pas ????
-        //Date date = new Date(2023,10,10);
         GridView sessionListView = findViewById(R.id.session_list_view);
-        DailySessionAdapter adapter = new DailySessionAdapter(this,sessionList,day,month,year);
+        DailySessionAdapter adapter = new DailySessionAdapter(this,sessionList,10,10,2023);
+        sessionListView.setAdapter(adapter);
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                openMainActivity();
+                openActivityPage();
             }
         });
-        sessionListView.setAdapter(adapter);
 
-        //GridView sessionListView = findViewById(R.id.session_list_view);
-        //sessionListView.setAdapter(new SessionAdapter(this,sessionList,10,10));
-        //je sais pas comment faire marcher ca
-        // sessionListView.setOnItemClickListener();
 
         }
 
 
     public void openMainActivity(){
         Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+
+    }
+
+    public void openActivityPage(){
+        Intent intent = new Intent(this, ActivityPage.class);
         startActivity(intent);
 
     }

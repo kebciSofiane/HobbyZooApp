@@ -1,6 +1,5 @@
 package com.example.hobbyzooapp;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
+public class listSessionsAdapter extends RecyclerView.Adapter<listSessionsAdapter.ViewHolder> {
     private List<String> items;
     private int displayedItemCount = 2;
     private boolean isExpanded = false;
@@ -20,7 +19,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         this.displayedItemCount = displayedItemCount;
     }
 
-    public MyAdapter(List<String> items) {
+    public listSessionsAdapter(List<String> items) {
         this.items = items;
     }
 

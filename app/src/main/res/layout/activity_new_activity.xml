@@ -90,13 +90,15 @@
         android:id="@+id/validationButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:layout_marginBottom="16dp"
         android:text="Valider"
         app:backgroundTint="@color/valid"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/animalName" />
 
     <ImageView
         android:id="@+id/animalImage"
@@ -114,6 +116,7 @@
         android:layout_width="331dp"
         android:layout_height="60dp"
         android:layout_marginTop="20dp"
+        android:background="@color/inputColor"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"

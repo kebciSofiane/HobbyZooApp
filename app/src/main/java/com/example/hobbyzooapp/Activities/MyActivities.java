@@ -6,18 +6,27 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.GridView;
+import android.widget.Toast;
 
+import com.example.hobbyzooapp.Category.Category;
 import com.example.hobbyzooapp.MainActivity;
 import com.example.hobbyzooapp.OnItemClickListener;
 import com.example.hobbyzooapp.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MyActivities extends AppCompatActivity {
 
     private Button homeButton;
+    ExpandableListView expandableListView;
+    ExpandableListAdapter expandableListAdapter;
+    List<String> expandableListTitle;
+    HashMap<String, List<Activity>> expandableListDetail;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,27 +34,59 @@ public class MyActivities extends AppCompatActivity {
         setContentView(R.layout.activity_my_activity);
 
         homeButton = findViewById(R.id.homeButton);
-        homeButton.setOnClickListener(new View.OnClickListener(){
+        homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 openMainActivity();
             }
         });
 
-        List<Activity> activityList = new ArrayList<>();
-        activityList.add(new Activity("Dessin","Biquette",null,10,"sheep"));
-        activityList.add(new Activity("Bougie","Coco",null,10,"koala"));
+        expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
 
-        GridView activityListView = findViewById(R.id.activity_list_view);
-        ActivityListAdapter adapter = new ActivityListAdapter(this,activityList);
-        adapter.setOnItemClickListener(new OnItemClickListener() {
+
+
+
+
+        expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
+        expandableListDetail = ExpandableListData.getData();
+        expandableListTitle = new ArrayList<String>(expandableListDetail.keySet());
+        expandableListAdapter = new ExpandableListAdapter(this, expandableListTitle, expandableListDetail);
+        expandableListView.setAdapter(expandableListAdapter);
+
+
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+
+
             @Override
-            public void onItemClick(int position) {
+            public boolean onChildClick(ExpandableListView parent, View v,
+                                        int groupPosition, int childPosition, long id) {
                 openActivityPage();
+                return true;
             }
         });
-        activityListView.setAdapter(adapter);
 
+
+        ArrayList<Activity> activities = new ArrayList<>();
+        activities.add(new Activity("Dessin", "Biquette", 10, "sheep"));
+        activities.add(new Activity("poetry", "Coco", 10, "koala"));
+        activities.add(new Activity("poetry", "Coco", 10, "koala"));
+
+        ArrayList<Activity> activities2 = new ArrayList<>();
+        activities2.add(new Activity("Muscu", "Biquette", 10, "sheep"));
+
+        ArrayList<Activity> activities3 = new ArrayList<>();
+        activities3.add(new Activity("Patisserie", "Biquette", 10, "sheep"));
+
+
+        List<Category> category = new ArrayList<>();
+        category.add(new Category(10, "Art", null, activities));
+        category.add(new Category(11, "Sport", null, activities2));
+        category.add(new Category(11, "Cuisine", null, activities3));
+
+
+        //GridView activityListView = findViewById(R.id.category_list_view);
+        //CategoryListAdapter adapter = new CategoryListAdapter(this,category);
+        //adapter.setOnItemClickListener(new OnItemClickListener() {
     }
 
 

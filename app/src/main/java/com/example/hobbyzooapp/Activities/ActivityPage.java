@@ -42,6 +42,7 @@ public class ActivityPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page);
+
         items.addAll(List.of("5 juin à 13h00 - 15 min","7 juin à 13h00 - 15 min","13 juin à 13h00 - 15 min",
                 "5 juin à 13h00 - 15 min","5 juin à 13h00 - 15 min","5 juin à 13h00 - 15 min",
                 "5 juin à 13h00 - 15 min","7 juin à 13h00 - 15 min","16 juillet à 13h00 - 15 min",
@@ -56,6 +57,9 @@ public class ActivityPage extends AppCompatActivity {
         editNamePetButton=findViewById(R.id.activityPageEditPetNameButton);
         goalsText =findViewById(R.id.activityPageGoalsText);
         goalsText.setText("Goal: 2h/5h");
+
+
+
         recyclerView=findViewById(R.id.activityPageRecyclerView);
         GridLayoutManager layoutManager = new GridLayoutManager(this, 5, GridLayoutManager.HORIZONTAL, false);
         recyclerView.setLayoutManager(layoutManager);

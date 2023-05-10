@@ -1,11 +1,8 @@
 package com.example.hobbyzooapp.new_activities;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -16,10 +13,8 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.hobbyzooapp.Category;
 import com.example.hobbyzooapp.R;
 
-import java.sql.Array;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.util.ArrayList;

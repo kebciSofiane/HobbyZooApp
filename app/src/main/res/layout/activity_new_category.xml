@@ -70,8 +70,8 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <LinearLayout
-        android:layout_width="281dp"
-        android:layout_height="270dp"
+        android:layout_width="287dp"
+        android:layout_height="279dp"
         android:layout_marginTop="32dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toTopOf="@+id/validationButton"
@@ -94,8 +94,7 @@
             android:id="@+id/displayColors"
             android:layout_width="60dp"
             android:layout_height="32dp"
-            android:layout_gravity="center"
-             />
+            android:layout_gravity="center" />
 
 
     </LinearLayout>

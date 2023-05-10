@@ -2,17 +2,16 @@ package com.example.hobbyzooapp.new_activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.hobbyzooapp.Category;
 import com.example.hobbyzooapp.ListAnimals;
 import com.example.hobbyzooapp.R;
 
@@ -40,26 +39,29 @@ public class NewActivity extends AppCompatActivity {
             }
         });
 
-        Spinner activitySelector = findViewById(R.id.activityName);
+        Spinner categorySelector = findViewById(R.id.categoryName);
         List<String> categories = new ArrayList();
         categories.add("Sport");
         categories.add("Cuisine");
         categories.add("Art");
         ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, categories);
-        activitySelector.setAdapter(adapter);
+        categorySelector.setAdapter(adapter);
 
 
 
         validationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                name = findViewById(R.id.activityName).toString();
+                EditText text = findViewById(R.id.activityName);
+                name = text.getText().toString();
+                EditText textAnimal = findViewById(R.id.animalName);
+                animalName = textAnimal.getText().toString();
                 if(name.trim().isEmpty() || animalName.trim().isEmpty()){
                     Toast.makeText(getApplicationContext(),"Le champ nom ne peut pas être vide!",Toast.LENGTH_LONG).show();
                 }
                 else{
 
-                    finish();
+                    Toast.makeText(getApplicationContext(),"name: "+name+", c: "+categorySelector.getSelectedItem()+", nAni: "+animalName,Toast.LENGTH_LONG).show();
                 }
             }
         });

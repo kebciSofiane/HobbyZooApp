@@ -2,24 +2,28 @@ package com.example.hobbyzooapp.new_activities;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.hobbyzooapp.Category;
 import com.example.hobbyzooapp.R;
 
 
 public class NewCategory extends AppCompatActivity {
 
     String name;
-    int color = 0;
+    int colorRGB = 0;
+    Color color;
+    int red, blue, green;
     ImageView imgView;
     TextView mColorValues;
     View displayColors;
@@ -46,30 +50,37 @@ public class NewCategory extends AppCompatActivity {
                     bitmap = imgView.getDrawingCache();
                     int pixels = bitmap.getPixel((int)event.getX(), (int)event.getY());
 
-                    int r = Color.red(pixels);
-                    int b = Color.blue(pixels);
-                    int g = Color.green(pixels);
+                    red = Color.red(pixels);
+                    blue = Color.blue(pixels);
+                    green = Color.green(pixels);
 
-                    displayColors.setBackgroundColor(Color.rgb(r,g,b));
-                    color = Color.rgb(r,g,b);
+                    displayColors.setBackgroundColor(Color.rgb(red,green,blue));
+                    colorRGB = Color.rgb(red,green,blue);
 
                 }
                 return true;
             }
         });
+
+
         validationButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View view) {
-                name = findViewById(R.id.activityName).toString();
+                EditText text = findViewById(R.id.categoryName);
+                String colorHex = "#";
+                colorHex += Integer.toHexString(red);
+                colorHex += Integer.toHexString(green);
+                colorHex += Integer.toHexString(blue);
+
+                name = text.getText().toString();
                 if(name.trim().isEmpty()){
                     Toast.makeText(getApplicationContext(),"Le champ nom ne peut pas être vide!",Toast.LENGTH_LONG).show();
                 }
-                else if(color == 0){
+                else if (colorRGB == 0) {
                     Toast.makeText(getApplicationContext(),"Il faut choisir une couleur!",Toast.LENGTH_LONG).show();
-                }
-                else{
-                    Category category = new Category(name, color);
-                    finish();
+                } else {
+                    Toast.makeText(getApplicationContext(),"name: "+ name+", color: "+ colorHex,Toast.LENGTH_LONG).show();
                 }
             }
         });

@@ -38,6 +38,7 @@ public class DailySessionAdapter extends BaseAdapter{
         this.inflater = LayoutInflater.from(context);
         this.day = day;
         this.month = month;
+        this.year = year;
         for(Session session : sessionList){
             if ((session.getDay() == this.day) && (session.getMonth()==this.month) && (session.getYear()==this.year)){
                 sessionListFiltered.add(session);

@@ -59,13 +59,13 @@ public class MyDailySessions extends AppCompatActivity {
 
         GridView sessionListView = findViewById(R.id.session_list_view);
         DailySessionAdapter adapter = new DailySessionAdapter(this,sessionList,10,10,2023);
-        sessionListView.setAdapter(adapter);
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
                 openActivityPage();
             }
         });
+        sessionListView.setAdapter(adapter);
 
 
         }

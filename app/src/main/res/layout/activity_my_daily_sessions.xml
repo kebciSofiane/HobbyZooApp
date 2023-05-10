@@ -9,59 +9,42 @@
     <RelativeLayout
         android:id="@+id/header"
         android:layout_width="381dp"
-        android:layout_height="126dp"
+        android:layout_height="100dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginStart="13dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="17dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
         android:background="@drawable/radius_background">
 
-        <LinearLayout
-            android:id="@+id/page_name_edit"
+        <TextView
+            android:id="@+id/page_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="163dp"
-            android:layout_marginBottom="52dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/page_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-
-                android:gravity="center"
-                android:text="My daily sessions"
-                android:textColor="@color/black" />
-
-            <Button
-                android:id="@+id/dailySessionPageEditButton"
-                android:layout_width="33dp"
-                android:layout_height="30sp"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="26dp"
-                android:layout_marginEnd="52dp"
-                android:background="@drawable/edit_pic"
-                android:visibility="visible" />
-
-        </LinearLayout>
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"
+            android:textSize="@dimen/title_size"
+            android:text="My daily sessions"
+            android:textColor="@color/black" />
 
         <TextView
             android:id="@+id/dateSession"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/page_name_edit"
-            android:layout_marginStart="87dp"
-            android:layout_marginTop="21dp"
-            android:layout_marginBottom="4dp"
-            android:gravity="center"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="55dp"
             android:hint="Date"
             android:text="@string/default_session_date"
             android:textColor="@color/black" />
+
+        <Button
+            android:id="@+id/dailySessionPageEditButton"
+            android:layout_width="33dp"
+            android:layout_height="30sp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="9dp"
+            android:background="@drawable/edit_pic" />
 
 
     </RelativeLayout>

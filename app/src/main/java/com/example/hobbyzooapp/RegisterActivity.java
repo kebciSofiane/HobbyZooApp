@@ -6,12 +6,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +29,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 
 
@@ -32,10 +39,15 @@ public class RegisterActivity extends AppCompatActivity  {
     EditText emailEt, passwordEt, pseudoET;
     Button registerBtn;
     TextView haveAccountTv;
-
+    ImageView photoIV;
 
     ProgressDialog progressDialog;
     private FirebaseAuth auth;
+
+    private static final int PICK_IMAGE_REQUEST = 1;
+    private Uri mImageUri;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,12 +67,22 @@ public class RegisterActivity extends AppCompatActivity  {
         registerBtn = findViewById(R.id.register_btn);
         haveAccountTv = findViewById(R.id.have_accountTv);
         pseudoET =  findViewById(R.id.pseudoET);
+        photoIV = findViewById(R.id.photoIV);
+
 
         auth =FirebaseAuth.getInstance();
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Registering User...");
 
+        photoIV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Ouvrir la galerie de photos
+                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, 1);
+            }
+        });
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,6 +100,11 @@ public class RegisterActivity extends AppCompatActivity  {
                 else{
                     registerUser(email, password,pseudo);
                 }
+
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
             }
         });
 
@@ -91,7 +118,7 @@ public class RegisterActivity extends AppCompatActivity  {
     }
 
 
-    private void registerUser(String email, String password,String pseudo) {
+    private void registerUser(String email, String password, String pseudo) {
         progressDialog.show();
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -111,11 +138,25 @@ public class RegisterActivity extends AppCompatActivity  {
 
                             //when user is registered, store user info in firebase realtime database
                             HashMap<Object, String> hashMap = new HashMap<>();
-
                             hashMap.put("email", email);
                             hashMap.put("uid", uid);
                             hashMap.put("pseudo", pseudo);
-                            hashMap.put("image", "");
+
+                            // Convert image to base64 string
+                            String imageString = "";
+                            if (mImageUri != null) {
+                                try {
+                                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), mImageUri);
+                                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                                    bitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
+                                    byte[] imageBytes = byteArrayOutputStream.toByteArray();
+                                    imageString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                            hashMap.put("image", imageString);
 
                             FirebaseDatabase database = FirebaseDatabase.getInstance();
 
@@ -123,7 +164,7 @@ public class RegisterActivity extends AppCompatActivity  {
                             reference.child(uid).setValue(hashMap);
 
                             Toast.makeText(RegisterActivity.this, "Registered...\n" + user.getEmail(), Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(RegisterActivity.this, HomeActivity.class ));
+                            startActivity(new Intent(RegisterActivity.this, HomeActivity.class));
                             finish();
                         } else {
                             // If sign in fails, display a message to the user.
@@ -151,4 +192,15 @@ public class RegisterActivity extends AppCompatActivity  {
 
         return super.onOptionsItemSelected(item);
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            mImageUri = data.getData();
+            photoIV.setImageURI(mImageUri);
+        }
+    }
+
+
 }

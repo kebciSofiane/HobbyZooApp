@@ -1,7 +1,6 @@
 package com.example.hobbyzooapp.Calendar;
-import com.example.hobbyzooapp.Activities.MyActivities;
 import com.example.hobbyzooapp.R;
-import com.example.hobbyzooapp.Sessions.TodaySessions;
+import com.example.hobbyzooapp.Sessions.MyDailySessions;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -105,7 +104,7 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
 
 
     public void openTodaySessions(){
-        Intent intent = new Intent(this, TodaySessions.class);
+        Intent intent = new Intent(this, MyDailySessions.class);
         startActivity(intent);}
 
 

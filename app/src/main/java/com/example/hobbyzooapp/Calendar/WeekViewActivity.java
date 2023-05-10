@@ -1,19 +1,17 @@
 package com.example.hobbyzooapp.Calendar;
 import com.example.hobbyzooapp.R;
 import com.example.hobbyzooapp.Sessions.Session;
-import com.example.hobbyzooapp.Sessions.TodaySessionsAdapter;
+import com.example.hobbyzooapp.Sessions.MyDailySessionsAdapter;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.GridView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.sql.Time;
@@ -46,7 +44,7 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
 
         GridView eventListView = findViewById(R.id.eventListView);
         LocalDate localDate = CalendarUtils.selectedDate;
-        TodaySessionsAdapter adapter = new TodaySessionsAdapter(this,sessionList,localDate);
+        MyDailySessionsAdapter adapter = new MyDailySessionsAdapter(this,sessionList,localDate);
         eventListView.setAdapter(adapter);
 
     }

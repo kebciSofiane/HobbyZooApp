@@ -34,7 +34,7 @@
             android:name=".Activities.MyActivities"
             android:exported="false" />
         <activity
-            android:name=".Sessions.TodaySessions"
+            android:name=".Sessions.MyDailySessions"
             android:exported="false" />
         <activity
             android:name=".Calendar.CalendarActivity"

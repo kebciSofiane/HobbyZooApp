@@ -21,9 +21,8 @@ import com.example.hobbyzooapp.OnItemClickListener;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
-public class TodaySessions extends AppCompatActivity {
+public class MyDailySessions extends AppCompatActivity {
 
     private Button homeButton;
     private View sessionButton;
@@ -54,13 +53,20 @@ public class TodaySessions extends AppCompatActivity {
 
         GridView sessionListView = findViewById(R.id.session_list_view);
         LocalDate localDate = CalendarUtils.selectedDate;
-        TodaySessionsAdapter adapter = new TodaySessionsAdapter(this,sessionList,localDate);
+        MyDailySessionsAdapter adapter = new MyDailySessionsAdapter(this,sessionList,localDate);
+
+        TextView dateSession = findViewById(R.id.dateSession);
+        String date = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            date = localDate.getDayOfMonth() +"/"+ localDate.getMonth().getValue() +"/"+localDate.getYear();
+        }
+        dateSession.setText(date);
 
 
         adapter.setOnItemClickListener(new OnItemClickListener(){
             @Override
             public void onItemClick(int position) {
-                new AlertDialog.Builder(TodaySessions.this)
+                new AlertDialog.Builder(MyDailySessions.this)
                         .setTitle("Vous avez selectionné une session de "+adapter.getItem(position).getName()+" de "+adapter.getItem(position).getTime())
                         .setMessage("Voulez-vous commencer cette session ?")
                         .setNegativeButton(android.R.string.no, null)
@@ -72,15 +78,7 @@ public class TodaySessions extends AppCompatActivity {
             }
         });
         sessionListView.setAdapter(adapter);
-        /*
-        adapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(int position) {
-                openRunSession();
-            }
-        });
 
-        */
         }
 
 

@@ -16,7 +16,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TodaySessionsAdapter extends BaseAdapter{
+public class MyDailySessionsAdapter extends BaseAdapter{
 
     private Context context;
     private List<Session> sessionList;
@@ -29,7 +29,7 @@ public class TodaySessionsAdapter extends BaseAdapter{
 
     //private Date date;
 
-    public TodaySessionsAdapter(Context context, List<Session> sessionList, LocalDate localDate){
+    public MyDailySessionsAdapter(Context context, List<Session> sessionList, LocalDate localDate){
         this.context = context;
         this.sessionList = sessionList;
         this.inflater = LayoutInflater.from(context);

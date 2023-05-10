@@ -6,4 +6,5 @@
     <string name="default_session_date">Sessions date</string>
     <string name="back"><![CDATA[<-]]></string>
     <string name="forward"><![CDATA[->]]></string>
+    <string name="back_back"><![CDATA[<<]]></string>
 </resources>

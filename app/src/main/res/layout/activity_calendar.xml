@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Weekly details"
-        android:textColor="@color/green_backgroundbis"
+        android:textColor="@color/green"
         android:background="@null"
         android:textStyle="bold"
         android:textSize="20sp"/>
@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/back"
-            android:textColor="@color/green_backgroundbis"
+            android:textColor="@color/green"
             android:background="@null"
             android:textStyle="bold"
             android:onClick="previousMonthAction"
@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/forward"
-            android:textColor="@color/green_backgroundbis"
+            android:textColor="@color/green"
             android:background="@null"
             android:textStyle="bold"
             android:onClick="nextMonthAction"
@@ -149,33 +149,34 @@
     <Button
         android:id="@+id/today_month"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:layout_height="50dp"
         android:layout_marginRight="0dp"
-        android:background="@null"
-        android:text="<<"
-        android:textColor="@color/green_backgroundbis"
+        android:layout_weight="1"
+        android:background="@color/transparent"
+        android:text="@string/back_back"
+        android:textColor="@color/green"
         android:textSize="20sp"
         android:textStyle="bold" />
 
     <Button
         android:id="@+id/today_session"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="91dp"
+        android:layout_height="50dp"
         android:layout_weight="1"
-        android:background="@null"
+        android:background="@color/transparent"
         android:text="Today Sessions"
-        android:textColor="@color/green_backgroundbis"
+        android:textColor="@color/green"
         android:textSize="15sp"
         android:textStyle="bold" />
+
     <Button
         android:id="@+id/home_button"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_weight="1"
-        android:background="@null"
+        android:background="@color/transparent"
         android:text="Home"
-        android:textColor="@color/green_backgroundbis"
+        android:textColor="@color/green"
         android:textSize="15sp"
         android:textStyle="bold" />
 

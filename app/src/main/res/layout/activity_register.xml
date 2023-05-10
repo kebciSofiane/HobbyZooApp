@@ -25,7 +25,7 @@
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/register_title"
-        android:background="@drawable/ic_profile" />
+        android:background="@drawable/ic_addphoto" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/pseudoTIL"
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/photoIV"
         android:padding="10dp">
-zz
+
         <EditText
             android:id="@+id/pseudoET"
             android:layout_width="match_parent"

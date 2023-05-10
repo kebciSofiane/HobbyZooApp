@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -22,12 +23,23 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.karumi.dexter.Dexter;
+import com.karumi.dexter.PermissionToken;
+import com.karumi.dexter.listener.PermissionDeniedResponse;
+import com.karumi.dexter.listener.PermissionGrantedResponse;
+import com.karumi.dexter.listener.PermissionRequest;
+import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -41,14 +53,43 @@ public class RegisterActivity extends AppCompatActivity  {
     TextView haveAccountTv;
     ImageView photoIV;
 
+
+    StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("images");
+
     ProgressDialog progressDialog;
     private FirebaseAuth auth;
+
 
     private static final int PICK_IMAGE_REQUEST = 1;
     private Uri mImageUri;
 
+    StorageReference imageRef = storageRef.child(mImageUri.getLastPathSegment());
+    UploadTask uploadTask = imageRef.putFile(mImageUri);
 
 
+
+    uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+        @Override
+        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+            // L'image a été enregistrée avec succès dans le stockage Firebase
+            // Vous pouvez obtenir l'URL de l'image en utilisant la méthode `getDownloadUrl()`
+            imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                @Override
+                public void onSuccess(Uri uri) {
+                    // L'URL de l'image est disponible dans l'objet Uri `uri`
+                    String imageUrl = uri.toString();
+                    // Maintenant, vous pouvez enregistrer l'URL de l'image dans la base de données Firebase Realtime
+                    // ou faire ce que vous voulez avec l'URL de l'image
+                }
+            });
+        }
+    }).addOnFailureListener(new OnFailureListener() {
+        @Override
+        public void onFailure(@NonNull Exception e) {
+            // Une erreur s'est produite lors de l'enregistrement de l'image dans le stockage Firebase
+            // Gérer l'erreur ici
+        }
+    });
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,6 +109,7 @@ public class RegisterActivity extends AppCompatActivity  {
         haveAccountTv = findViewById(R.id.have_accountTv);
         pseudoET =  findViewById(R.id.pseudoET);
         photoIV = findViewById(R.id.photoIV);
+
 
 
         auth =FirebaseAuth.getInstance();

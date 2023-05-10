@@ -42,6 +42,7 @@ import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -53,9 +54,6 @@ public class RegisterActivity extends AppCompatActivity  {
     TextView haveAccountTv;
     ImageView photoIV;
 
-
-    StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("images");
-
     ProgressDialog progressDialog;
     private FirebaseAuth auth;
 
@@ -63,33 +61,36 @@ public class RegisterActivity extends AppCompatActivity  {
     private static final int PICK_IMAGE_REQUEST = 1;
     private Uri mImageUri;
 
-    StorageReference imageRef = storageRef.child(mImageUri.getLastPathSegment());
-    UploadTask uploadTask = imageRef.putFile(mImageUri);
+    // Get a reference to the Firebase Storage
+    FirebaseStorage storage = FirebaseStorage.getInstance();
 
+    // Create a storage reference
+    StorageReference storageRef = storage.getReference();
 
+    // Create a reference to the file you want to upload
+    Uri file = Uri.fromFile(new File("path/to/file"));
 
-    uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-        @Override
-        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-            // L'image a été enregistrée avec succès dans le stockage Firebase
-            // Vous pouvez obtenir l'URL de l'image en utilisant la méthode `getDownloadUrl()`
-            imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri uri) {
-                    // L'URL de l'image est disponible dans l'objet Uri `uri`
-                    String imageUrl = uri.toString();
-                    // Maintenant, vous pouvez enregistrer l'URL de l'image dans la base de données Firebase Realtime
-                    // ou faire ce que vous voulez avec l'URL de l'image
-                }
-            });
-        }
-    }).addOnFailureListener(new OnFailureListener() {
-        @Override
-        public void onFailure(@NonNull Exception e) {
-            // Une erreur s'est produite lors de l'enregistrement de l'image dans le stockage Firebase
-            // Gérer l'erreur ici
-        }
+    // Create a reference to the location where you want to save the file in Firebase Storage
+    StorageReference fileRef = storageRef.child("images/profile.jpg");
+
+// Upload the file to Firebase Storage
+fileRef.putFile(file)
+            .addOnSuccessListener(taskSnapshot -> {
+        // The file was successfully uploaded
+        // Get the download URL of the uploaded file
+        fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
+            // The download URL was successfully retrieved
+            String downloadUrl = uri.toString();
+            // Do something with the download URL
+        });
+    })
+            .addOnFailureListener(exception -> {
+        // The file could not be uploaded
+        // Handle the error
     });
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

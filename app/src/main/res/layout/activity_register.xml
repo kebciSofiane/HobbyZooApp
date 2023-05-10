@@ -9,6 +9,7 @@
 
 
     <TextView
+        android:id="@+id/register_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Register"
@@ -18,21 +19,42 @@
         android:layout_marginTop="30dp"
         android:textSize="25sp" />
 
+    <ImageView
+        android:id="@+id/photoIV"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/register_title"
+        android:background="@drawable/ic_profile" />
+
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/pseudoTIL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_below="@+id/photoIV"
+        android:padding="10dp">
+
+        <EditText
+            android:id="@+id/pseudoET"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:hint="Pseudo"
+            android:inputType="textPersonName" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/emailTIL"
-        android:padding="10dp"
-        >
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/pseudoTIL"
+        android:padding="10dp">
 
         <EditText
             android:id="@+id/emailEt"
-            android:inputType="textEmailAddress"
-            android:hint="Email address"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:hint="Email address"
+            android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -41,10 +63,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/emailTIL"
-        android:layout_centerInParent="true"
         android:padding="10dp"
         app:passwordToggleEnabled="true">
-
 
         <EditText
             android:id="@+id/passwordEt"
@@ -53,7 +73,6 @@
             android:hint="Password"
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
-
 
     <Button
         android:id="@+id/register_btn"

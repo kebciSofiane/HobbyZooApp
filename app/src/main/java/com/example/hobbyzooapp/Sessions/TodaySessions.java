@@ -1,5 +1,6 @@
 package com.example.hobbyzooapp.Sessions;
 
+import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,24 +13,29 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.hobbyzooapp.Calendar.CalendarUtils;
 import com.example.hobbyzooapp.MainActivity;
 import com.example.hobbyzooapp.R;
 import com.example.hobbyzooapp.OnItemClickListener;
 
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyDailySessions extends AppCompatActivity {
+public class TodaySessions extends AppCompatActivity {
 
     private Button homeButton;
     private View sessionButton;
 
+    public ArrayList<Session> sessionList;
 
+
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_daily_sessions);
+        setContentView(R.layout.activity_today_sessions);
 
         homeButton = findViewById(R.id.homeButton);
         homeButton.setOnClickListener(new View.OnClickListener(){
@@ -40,32 +46,21 @@ public class MyDailySessions extends AppCompatActivity {
         });
 
         sessionButton = findViewById(R.id.session);
+        sessionList = new ArrayList<>();
 
-
-        List<Session> sessionList = new ArrayList<>();
-        sessionList.add(new Session("Dessin", new Time(0, 1, 10), 10, 10,2023,null));
-        sessionList.add(new Session("Bougie",new Time(0,2,0),15,5,2023,null));
-
-        //date depuis calendrier
-        TextView dateSession = findViewById(R.id.dateSession); //mettre TextView à la date
-        Intent incomingIntent = getIntent();
-        //String date = incomingIntent.getStringExtra("date");
-        //dateSession.setText(date);
-        int month = incomingIntent.getIntExtra("month", 0);
-        int day = incomingIntent.getIntExtra("dayOfMonth", 00);
-        int year = incomingIntent.getIntExtra("year",0000);
-        String date = day + "," + month + "," + year;
-        dateSession.setText(date);
+        sessionList.add(new Session("Dessin", new Time(0, 1, 10), 10, 10,2023));
+        sessionList.add(new Session("Bougie",new Time(0,2,0),15,5,2023));
 
 
         GridView sessionListView = findViewById(R.id.session_list_view);
-        DailySessionAdapter adapter = new DailySessionAdapter(this,sessionList,10,10,2023);
+        LocalDate localDate = CalendarUtils.selectedDate;
+        TodaySessionsAdapter adapter = new TodaySessionsAdapter(this,sessionList,localDate);
 
 
         adapter.setOnItemClickListener(new OnItemClickListener(){
             @Override
             public void onItemClick(int position) {
-                new AlertDialog.Builder(MyDailySessions.this)
+                new AlertDialog.Builder(TodaySessions.this)
                         .setTitle("Vous avez selectionné une session de "+adapter.getItem(position).getName()+" de "+adapter.getItem(position).getTime())
                         .setMessage("Voulez-vous commencer cette session ?")
                         .setNegativeButton(android.R.string.no, null)
@@ -100,4 +95,7 @@ public class MyDailySessions extends AppCompatActivity {
         startActivity(intent);
 
     }
+
+
+
 }

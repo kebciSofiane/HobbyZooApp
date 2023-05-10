@@ -1,6 +1,7 @@
 package com.example.hobbyzooapp.Sessions;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +12,11 @@ import android.widget.TextView;
 import com.example.hobbyzooapp.OnItemClickListener;
 import com.example.hobbyzooapp.R;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DailySessionAdapter extends BaseAdapter{
+public class TodaySessionsAdapter extends BaseAdapter{
 
     private Context context;
     private List<Session> sessionList;
@@ -27,13 +29,20 @@ public class DailySessionAdapter extends BaseAdapter{
 
     //private Date date;
 
-    public DailySessionAdapter(Context context, List<Session> sessionList, int day, int month, int year){
+    public TodaySessionsAdapter(Context context, List<Session> sessionList, LocalDate localDate){
         this.context = context;
         this.sessionList = sessionList;
         this.inflater = LayoutInflater.from(context);
-        this.day = day;
-        this.month = month;
-        this.year = year;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            this.day = localDate.getDayOfMonth();
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            this.month = localDate.getMonthValue();
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            this.year = localDate.getYear();
+        }
         for(Session session : sessionList){
             if ((session.getDay() == this.day) && (session.getMonth()==this.month) && (session.getYear()==this.year)){
                 sessionListFiltered.add(session);

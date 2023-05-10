@@ -1,5 +1,7 @@
 package com.example.hobbyzooapp.Calendar;
+import com.example.hobbyzooapp.Activities.MyActivities;
 import com.example.hobbyzooapp.R;
+import com.example.hobbyzooapp.Sessions.TodaySessions;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +26,7 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
     private Button weeklyViewButton;
+    private Button todaySessionButton;
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -44,6 +47,17 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
                 weeklyAction();
             }
         });
+
+        todaySessionButton = findViewById(R.id.today_session);
+        todaySessionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openTodaySessions();
+            }
+        });
+
+
+
     }
 
     private void initWidgets()
@@ -85,10 +99,14 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
         if(date != null)
         {
             CalendarUtils.selectedDate = date;
-            setMonthView();
+            openTodaySessions();
         }
     }
 
+
+    public void openTodaySessions(){
+        Intent intent = new Intent(this, TodaySessions.class);
+        startActivity(intent);}
 
 
     public void weeklyAction()

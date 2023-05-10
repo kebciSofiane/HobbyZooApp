@@ -138,7 +138,19 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/calendarRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="477dp" />
+
+    <Button
+        android:id="@+id/today_session"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:background="@null"
+        android:text="Today Session "
+        android:textColor="@color/green_backgroundbis"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
 </LinearLayout>
 

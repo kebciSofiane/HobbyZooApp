@@ -1,4 +1,5 @@
 package com.example.hobbyzooapp.Calendar;
+import com.example.hobbyzooapp.MainActivity;
 import com.example.hobbyzooapp.R;
 import com.example.hobbyzooapp.Sessions.MyDailySessions;
 
@@ -7,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,8 +28,11 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
     private RecyclerView calendarRecyclerView;
     private Button weeklyViewButton;
     private Button todaySessionButton;
+    private Button todayMonthButton;
+    private Button homeButton;
 
 
+    @SuppressLint("MissingInflatedId")
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -51,23 +56,38 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
         todaySessionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                CalendarUtils.selectedDate = LocalDate.now();
                 openTodaySessions();
             }
         });
 
+        todayMonthButton = findViewById(R.id.today_month);
+        todayMonthButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CalendarUtils.selectedDate = LocalDate.now();
+                setMonthView();
+            }
+        });
 
+        homeButton = findViewById(R.id.home_button);
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openMainActivity();
+                finish();
+            }
+        });
 
     }
 
-    private void initWidgets()
-    {
+    private void initWidgets() {
         calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
         monthYearText = findViewById(R.id.monthYearTV);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void setMonthView()
-    {
+    private void setMonthView() {
         monthYearText.setText(monthYearFromDate(CalendarUtils.selectedDate));
         ArrayList<LocalDate> daysInMonth = daysInMonthArray(CalendarUtils.selectedDate);
 
@@ -105,6 +125,10 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
 
     public void openTodaySessions(){
         Intent intent = new Intent(this, MyDailySessions.class);
+        startActivity(intent);}
+
+    public void openMainActivity(){
+        Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);}
 
 

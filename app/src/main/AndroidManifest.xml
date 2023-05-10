@@ -32,6 +32,7 @@
             android:parentActivityName=".new_activities.NewSession"
             android:exported="true">
         </activity>
+
     </application>
 
 </manifest>

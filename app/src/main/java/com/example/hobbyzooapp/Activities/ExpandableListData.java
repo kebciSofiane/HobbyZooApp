@@ -25,23 +25,6 @@ public class ExpandableListData {
 
 
 
-
-        List<String> smartphones = new ArrayList<String>();
-        smartphones.add("Apple");
-        smartphones.add("Blackberry");
-        smartphones.add("Samsung");
-        smartphones.add("Nokia");
-        smartphones.add("Micromax");
-        smartphones.add("Lenovo");
-        smartphones.add("Motorola");
-
-        List<String> bikes = new ArrayList<String>();
-        bikes.add("Yamaha");
-        bikes.add("Honda");
-        bikes.add("Suzuki");
-        bikes.add("Tvs");
-        bikes.add("Duccati");
-
         expandableListDetail.put("Sport",activities);
         expandableListDetail.put("Cooking", activities2);
         expandableListDetail.put("Art", activities3);

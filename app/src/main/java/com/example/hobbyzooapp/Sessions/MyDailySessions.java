@@ -12,7 +12,6 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.hobbyzooapp.Activities.ActivityPage;
 import com.example.hobbyzooapp.MainActivity;
 import com.example.hobbyzooapp.R;
 import com.example.hobbyzooapp.OnItemClickListener;
@@ -44,8 +43,8 @@ public class MyDailySessions extends AppCompatActivity {
 
 
         List<Session> sessionList = new ArrayList<>();
-        sessionList.add(new Session("Dessin", new Time(0, 1, 10), 10, 10,2023));
-        sessionList.add(new Session("Bougie",new Time(0,2,0),15,5,2023));
+        sessionList.add(new Session("Dessin", new Time(0, 1, 10), 10, 10,2023,null));
+        sessionList.add(new Session("Bougie",new Time(0,2,0),15,5,2023,null));
 
         //date depuis calendrier
         TextView dateSession = findViewById(R.id.dateSession); //mettre TextView à la date

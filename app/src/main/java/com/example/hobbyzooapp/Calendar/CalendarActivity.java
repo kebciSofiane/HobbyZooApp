@@ -1,13 +1,16 @@
 package com.example.hobbyzooapp.Calendar;
 import com.example.hobbyzooapp.R;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.time.LocalDate;
@@ -20,16 +23,27 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
 {
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
+    private Button weeklyViewButton;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_calendar);
         initWidgets();
         CalendarUtils.selectedDate = LocalDate.now();
         setMonthView();
+
+
+        weeklyViewButton = findViewById(R.id.weekly_view);
+        weeklyViewButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                weeklyAction();
+            }
+        });
     }
 
     private void initWidgets()
@@ -38,6 +52,7 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
         monthYearText = findViewById(R.id.monthYearTV);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void setMonthView()
     {
         monthYearText.setText(monthYearFromDate(CalendarUtils.selectedDate));
@@ -49,18 +64,21 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
         calendarRecyclerView.setAdapter(calendarAdapter);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void previousMonthAction(View view)
     {
         CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusMonths(1);
         setMonthView();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void nextMonthAction(View view)
     {
         CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusMonths(1);
         setMonthView();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onItemClick(int position, LocalDate date)
     {
@@ -71,7 +89,9 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
         }
     }
 
-    public void weeklyAction(View view)
+
+
+    public void weeklyAction()
     {
         startActivity(new Intent(this, WeekViewActivity.class));
     }

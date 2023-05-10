@@ -20,11 +20,11 @@
             android:id="@+id/page_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:layout_centerHorizontal="true"
-            android:textSize="@dimen/title_size"
+            android:layout_marginTop="20dp"
             android:text="My daily sessions"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:textSize="@dimen/title_size" />
 
         <TextView
             android:id="@+id/dateSession"
@@ -50,12 +50,12 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="358dp"
         android:layout_height="653dp"
-        android:layout_below="@+id/header"
         android:layout_above="@+id/homeButton"
-        android:layout_margin="20dp">
+        android:layout_below="@+id/header"
+        android:layout_margin="20dp"
+        android:orientation="horizontal">
 
         <GridView
             android:id="@+id/session_list_view"

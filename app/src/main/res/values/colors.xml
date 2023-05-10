@@ -13,5 +13,6 @@
     <color name="green_backgroundbis">#0F9500</color>
     <color name="splash_background">#a9e693</color>
     <color name="splash_backgroundbis">#0F9500</color>
+    <color name="background">#DDDDDD</color>
 
 </resources>

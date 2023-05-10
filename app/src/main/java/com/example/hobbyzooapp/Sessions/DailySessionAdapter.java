@@ -5,17 +5,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 
 import com.example.hobbyzooapp.OnItemClickListener;
 import com.example.hobbyzooapp.R;
-import com.example.hobbyzooapp.Sessions.Session;
 
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 

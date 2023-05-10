@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openMyDailySessions() {
-        Intent intent = new Intent(this, CalendarActivity.class); //vers le calendrier
+        Intent intent = new Intent(this, CalendarActivity.class);
         startActivity(intent);
     }
 

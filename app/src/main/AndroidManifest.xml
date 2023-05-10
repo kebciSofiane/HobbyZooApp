@@ -39,6 +39,9 @@
         <activity
             android:name=".Calendar.CalendarActivity"
             android:exported="false" />
+        <activity
+            android:name=".Calendar.WeekViewActivity"
+            android:exported="false" />
 
 
         <activity

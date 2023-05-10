@@ -6,17 +6,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/background"
     tools:context=".Calendar.CalendarActivity">
 
     <Button
         android:layout_width="wrap_content"
+        android:id="@+id/weekly_view"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Weekly"
-        android:textColor="@color/blue"
+        android:text="Weekly details"
+        android:textColor="@color/green_backgroundbis"
         android:background="@null"
         android:textStyle="bold"
-        android:onClick="weeklyAction"
         android:textSize="20sp"/>
 
 
@@ -28,11 +29,12 @@
         android:layout_marginTop="20dp">
 
         <Button
+
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/back"
-            android:textColor="@color/blue"
+            android:textColor="@color/green_backgroundbis"
             android:background="@null"
             android:textStyle="bold"
             android:onClick="previousMonthAction"
@@ -53,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/forward"
-            android:textColor="@color/blue"
+            android:textColor="@color/green_backgroundbis"
             android:background="@null"
             android:textStyle="bold"
             android:onClick="nextMonthAction"

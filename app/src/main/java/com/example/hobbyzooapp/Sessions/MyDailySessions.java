@@ -1,5 +1,6 @@
 package com.example.hobbyzooapp.Sessions;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -8,6 +9,7 @@ import android.widget.GridView;
 import android.widget.TextView;
 
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hobbyzooapp.Activities.ActivityPage;
@@ -59,15 +61,32 @@ public class MyDailySessions extends AppCompatActivity {
 
         GridView sessionListView = findViewById(R.id.session_list_view);
         DailySessionAdapter adapter = new DailySessionAdapter(this,sessionList,10,10,2023);
-        adapter.setOnItemClickListener(new OnItemClickListener() {
+
+
+        adapter.setOnItemClickListener(new OnItemClickListener(){
             @Override
             public void onItemClick(int position) {
-                openActivityPage();
+                new AlertDialog.Builder(MyDailySessions.this)
+                        .setTitle("Vous avez selectionné une session de "+adapter.getItem(position).getName()+" de "+adapter.getItem(position).getTime())
+                        .setMessage("Voulez-vous commencer cette session ?")
+                        .setNegativeButton(android.R.string.no, null)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface arg0, int arg1) {
+                                openRunSession();
+                            }
+                        }).create().show();
             }
         });
         sessionListView.setAdapter(adapter);
+        /*
+        adapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onItemClick(int position) {
+                openRunSession();
+            }
+        });
 
-
+        */
         }
 
 
@@ -77,8 +96,8 @@ public class MyDailySessions extends AppCompatActivity {
 
     }
 
-    public void openActivityPage(){
-        Intent intent = new Intent(this, ActivityPage.class);
+    public void openRunSession(){
+        Intent intent = new Intent(this, RunSession.class);
         startActivity(intent);
 
     }

@@ -39,7 +39,6 @@ import java.util.concurrent.TimeUnit;
 public class endSession extends AppCompatActivity {
 
 
-
     private static final int RETOUR_PRENDRE_PHOTO =1;
     ImageView petPic;
     Button takeApic;

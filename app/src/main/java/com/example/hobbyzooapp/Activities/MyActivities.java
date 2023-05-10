@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
 
+import com.example.hobbyzooapp.MainActivity;
 import com.example.hobbyzooapp.OnItemClickListener;
 import com.example.hobbyzooapp.R;
 
@@ -40,23 +41,24 @@ public class MyActivities extends AppCompatActivity {
         adapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(int position) {
-                openMainActivity();
+                openActivityPage();
             }
         });
         activityListView.setAdapter(adapter);
 
-
-
-
-        //activityListView.setAdapter(new ActivityAdapter(this,activityList));
     }
+
+
     public void openMainActivity(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
+    public void openActivityPage(){
         Intent intent = new Intent(this, ActivityPage.class);
         startActivity(intent);
-        finish();
     }
 
-    //SELECT * from activities a, activities b where categorie.a=categorie.b
 
 
 }

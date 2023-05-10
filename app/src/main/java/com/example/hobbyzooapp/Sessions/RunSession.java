@@ -23,8 +23,6 @@ import java.util.concurrent.TimeUnit;
 
 public class RunSession extends AppCompatActivity {
 
-
-
     private long countDownTime = 5000;
     private long timeLeftInMillis = countDownTime;
     public static long  totalSessionTime=0;

@@ -1,31 +1,19 @@
 package com.example.hobbyzooapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
-import android.widget.GridView;
 import android.widget.HorizontalScrollView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TextView;
-import java.util.Random;
 
 import com.example.hobbyzooapp.Activities.Activity;
 import com.example.hobbyzooapp.Activities.MyActivities;
-import com.example.hobbyzooapp.Sessions.CalendarSessions;
-import com.example.hobbyzooapp.Sessions.MyDailySessions;
+import com.example.hobbyzooapp.Calendar.CalendarActivity;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -121,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openMyDailySessions() {
-        Intent intent = new Intent(this, CalendarSessions.class); //vers le calendrier
+        Intent intent = new Intent(this, CalendarActivity.class); //vers le calendrier
         startActivity(intent);
     }
 

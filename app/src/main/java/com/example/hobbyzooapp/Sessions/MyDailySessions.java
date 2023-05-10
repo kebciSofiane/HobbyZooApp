@@ -13,6 +13,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.hobbyzooapp.Calendar.CalendarActivity;
 import com.example.hobbyzooapp.Calendar.CalendarUtils;
 import com.example.hobbyzooapp.MainActivity;
 import com.example.hobbyzooapp.R;
@@ -25,6 +26,8 @@ import java.util.ArrayList;
 public class MyDailySessions extends AppCompatActivity {
 
     private Button homeButton;
+    private Button addSessionButton;
+    private Button calendarButton;
     private View sessionButton;
 
     public ArrayList<Session> sessionList;
@@ -34,13 +37,27 @@ public class MyDailySessions extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_today_sessions);
+        setContentView(R.layout.activity_my_daily_sessions);
 
-        homeButton = findViewById(R.id.homeButton);
+        homeButton = findViewById(R.id.home_button);
         homeButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 openMainActivity();
+            }
+        });
+
+        addSessionButton = findViewById(R.id.add_session_button);
+        addSessionButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){}
+        });
+
+        calendarButton = findViewById(R.id.calendar_button);
+        calendarButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                openCalendar();
             }
         });
 
@@ -86,6 +103,11 @@ public class MyDailySessions extends AppCompatActivity {
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
 
+    }
+
+    public void openCalendar(){
+        Intent intent = new Intent(this, CalendarActivity.class);
+        startActivity(intent);
     }
 
     public void openRunSession(){

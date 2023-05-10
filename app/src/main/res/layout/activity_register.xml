@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/photoIV"
         android:padding="10dp">
-
+zz
         <EditText
             android:id="@+id/pseudoET"
             android:layout_width="match_parent"

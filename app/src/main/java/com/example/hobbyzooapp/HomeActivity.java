@@ -1,11 +1,13 @@
 package com.example.hobbyzooapp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +23,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class HomeActivity extends AppCompatActivity {
@@ -36,6 +40,9 @@ public class HomeActivity extends AppCompatActivity {
 
     ImageButton calendarBtn, runBtn, profileBtn;
 
+
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,21 +82,63 @@ public class HomeActivity extends AppCompatActivity {
         int surfaceWidth = 800;
         int surfaceHeight =800 ;
 
+        int cellHeight= surfaceHeight/5;
+        int cellWidth = surfaceWidth/5;
+
+        ArrayList<int[]> cellList = new ArrayList<>();
+
+        for (int i=0; i<5;i++)
+            for (int j=0; j<5;j++)
+            {
+                int[] val = new int[2];
+                val[0] = i*cellWidth;
+                val[1] = j*cellHeight;
+                cellList.add(val);
+            }
+
+
+        System.out.println(cellList);
+
         // Générez les coordonnées aléatoires pour chaque ImageView
-        int image1X = random.nextInt(surfaceWidth - imageView1.getWidth());
-        int image1Y = random.nextInt(surfaceHeight - imageView1.getHeight());
 
-        int image2X = random.nextInt(surfaceWidth - imageView2.getWidth());
-        int image2Y = random.nextInt(surfaceHeight - imageView2.getHeight());
 
-        int image3X = random.nextInt(surfaceWidth - imageView3.getWidth());
-        int image3Y = random.nextInt(surfaceHeight - imageView3.getHeight());
+        int image1X = 0;
+        int image1Y = 0;
+        int val =random.nextInt(cellList.size()-1);
+             image1X = cellList.get(val)[0];
+             image1Y = cellList.get(val)[1];
+        cellList.remove(val);
 
-        int image4X = random.nextInt(surfaceWidth - imageView4.getWidth());
-        int image4Y = random.nextInt(surfaceHeight - imageView4.getHeight());
+        int image2X = 0;
+        int image2Y = 0;
+        val =random.nextInt(cellList.size()-1);
+        image2X = cellList.get(val)[0];
+        image2Y = cellList.get(val)[1];
+        cellList.remove(val);
 
-        int image5X = random.nextInt(surfaceWidth - imageView5.getWidth());
-        int image5Y = random.nextInt(surfaceHeight - imageView5.getHeight());
+        int image3X = 0;
+        int image3Y = 0;
+        val =random.nextInt(cellList.size()-1);
+        image3X = cellList.get(val)[0];
+        image3Y = cellList.get(val)[1];
+        cellList.remove(val);
+
+
+        int image4X = 0;
+        int image4Y = 0;
+        val =random.nextInt(cellList.size()-1);
+        image4X = cellList.get(val)[0];
+        image4Y = cellList.get(val)[1];
+        cellList.remove(val);
+
+
+        int image5X = 0;
+        int image5Y = 0;
+        val =random.nextInt(cellList.size()-1);
+        image5X = cellList.get(val)[0];
+        image5Y = cellList.get(val)[1];
+        cellList.remove(val);
+
 
 
 

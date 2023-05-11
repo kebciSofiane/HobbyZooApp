@@ -31,6 +31,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -40,6 +41,7 @@ import com.karumi.dexter.listener.PermissionDeniedResponse;
 import com.karumi.dexter.listener.PermissionGrantedResponse;
 import com.karumi.dexter.listener.PermissionRequest;
 import com.karumi.dexter.listener.single.PermissionListener;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -58,8 +60,14 @@ public class RegisterActivity extends AppCompatActivity  {
     private FirebaseAuth auth;
 
 
-    private static final int PICK_IMAGE_REQUEST = 1;
+    private static final int CAMERA_REQUEST_CODE = 200;
+    private static final int STORAGE_REQUEST_CODE = 300;
+    private static final int PICK_IMAGE_REQUEST = 100;
+    private static final int PICK_IMAGE_CAMERA_REQUEST = 400;
+
     private Uri mImageUri;
+    String storagePath="Users_Profile_Cover_Imgs/";
+
 
     // Get a reference to the Firebase Storage
     FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -74,23 +82,8 @@ public class RegisterActivity extends AppCompatActivity  {
     StorageReference fileRef = storageRef.child("images/profile.jpg");
 
 // Upload the file to Firebase Storage
-fileRef.putFile(file)
-            .addOnSuccessListener(taskSnapshot -> {
-        // The file was successfully uploaded
-        // Get the download URL of the uploaded file
-        fileRef.getDownloadUrl().addOnSuccessListener(uri -> {
-            // The download URL was successfully retrieved
-            String downloadUrl = uri.toString();
-            // Do something with the download URL
-        });
-    })
-            .addOnFailureListener(exception -> {
-        // The file could not be uploaded
-        // Handle the error
-    });
-
-
-
+    DatabaseReference databaseReference;
+    FirebaseUser user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,8 +108,19 @@ fileRef.putFile(file)
 
         auth =FirebaseAuth.getInstance();
 
+
+
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Registering User...");
+
+
+        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+
+
+
+
+
+
 
         photoIV.setOnClickListener(new View.OnClickListener() {
             @Override

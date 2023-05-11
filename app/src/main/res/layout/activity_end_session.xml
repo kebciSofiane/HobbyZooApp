@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Sessions.endSession">
+    tools:context=".endSession">
 
 
 
@@ -131,11 +131,11 @@
 
             </RelativeLayout>
 
-             <Button
-               android:layout_width="wrap_content"
+            <Button
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ok"
-                 android:id="@+id/validateButton"
+                android:id="@+id/validateButton"
                 android:layout_gravity="end"
                 android:layout_marginRight="20sp"
                 >

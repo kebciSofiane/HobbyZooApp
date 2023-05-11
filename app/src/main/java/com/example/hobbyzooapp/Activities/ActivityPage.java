@@ -1,9 +1,6 @@
 package com.example.hobbyzooapp.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -14,7 +11,14 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.hobbyzooapp.Activities.TodoAdapter;
+import com.example.hobbyzooapp.MainActivity;
 import com.example.hobbyzooapp.R;
+import com.example.hobbyzooapp.TodoTask;
 import com.example.hobbyzooapp.Sessions.listSessionsAdapter;
 
 import java.util.ArrayList;
@@ -30,9 +34,13 @@ public class ActivityPage extends AppCompatActivity {
     Button showMoreButton;
     Button showLessButton;
     RecyclerView recyclerView;
+    Button homeButton;
     TextView goalsText;
     List<String> items = new ArrayList<>();
     listSessionsAdapter adapter;
+    private List<TodoTask> todoList = new ArrayList<>();
+    Boolean allSessions = false;
+
 
 
 
@@ -42,7 +50,6 @@ public class ActivityPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page);
-
         items.addAll(List.of("5 juin à 13h00 - 15 min","7 juin à 13h00 - 15 min","13 juin à 13h00 - 15 min",
                 "5 juin à 13h00 - 15 min","5 juin à 13h00 - 15 min","5 juin à 13h00 - 15 min",
                 "5 juin à 13h00 - 15 min","7 juin à 13h00 - 15 min","16 juillet à 13h00 - 15 min",
@@ -56,16 +63,26 @@ public class ActivityPage extends AppCompatActivity {
         showLessButton = findViewById(R.id.activityPageShowLessButton);
         editNamePetButton=findViewById(R.id.activityPageEditPetNameButton);
         goalsText =findViewById(R.id.activityPageGoalsText);
+        homeButton = findViewById(R.id.homeButton);
         goalsText.setText("Goal: 2h/5h");
-
-
-
         recyclerView=findViewById(R.id.activityPageRecyclerView);
-        GridLayoutManager layoutManager = new GridLayoutManager(this, 5, GridLayoutManager.HORIZONTAL, false);
-        recyclerView.setLayoutManager(layoutManager);
+        GridLayoutManager layoutManager;
+
+        changeManager();
+
         adapter = new listSessionsAdapter(items);
         recyclerView.setAdapter(adapter);
 
+
+        todoList.add(new TodoTask("Manger", Boolean.FALSE));
+        todoList.add(new TodoTask("Dormir", Boolean.TRUE));
+        todoList.add(new TodoTask("Voyager", Boolean.TRUE));
+
+
+        RecyclerView recyclerView = findViewById(R.id.todoRecyclerView);
+        TodoAdapter adapterTodoList = new TodoAdapter(todoList);
+        recyclerView.setLayoutManager(new GridLayoutManager(this, todoList.size(), GridLayoutManager.HORIZONTAL, false));
+        recyclerView.setAdapter(adapterTodoList);
 
 
 
@@ -101,10 +118,20 @@ public class ActivityPage extends AppCompatActivity {
             }
         });
 
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openMainActivity();
+
+            }
+        });
+
         showMoreButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
+                allSessions =true;
+                changeManager();
                 adapter.setExpanded(!adapter.isExpanded());
                 adapter.notifyDataSetChanged();
                 showLessButton.setVisibility(View.VISIBLE);
@@ -117,6 +144,9 @@ public class ActivityPage extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
+                allSessions=false;
+                changeManager();
+
                 adapter.setExpanded(!adapter.isExpanded());
                 adapter.notifyDataSetChanged();
                 showMoreButton.setVisibility(View.VISIBLE);
@@ -141,6 +171,23 @@ public class ActivityPage extends AppCompatActivity {
 
 
 
+    }
+
+    private void changeManager() {
+        GridLayoutManager layoutManager;
+        if (allSessions)
+            layoutManager = new GridLayoutManager(this, 5, GridLayoutManager.HORIZONTAL, false);
+        else
+            layoutManager = new GridLayoutManager(this, 2, GridLayoutManager.HORIZONTAL, false);
+
+        recyclerView.setLayoutManager(layoutManager);
+    }
+
+
+    public void openMainActivity(){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
 }

@@ -1,4 +1,5 @@
 package com.example.hobbyzooapp.Sessions;
+import com.example.hobbyzooapp.R;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -27,7 +28,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hobbyzooapp.Activities.ActivityPage;
-import com.example.hobbyzooapp.R;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,6 +37,7 @@ import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class endSession extends AppCompatActivity {
+
 
 
     private static final int RETOUR_PRENDRE_PHOTO =1;
@@ -168,7 +169,7 @@ public class endSession extends AppCompatActivity {
                         photoFile);
             }
             intent.putExtra(MediaStore.EXTRA_OUTPUT,photoUri);
-                startActivityForResult(intent, RETOUR_PRENDRE_PHOTO);
+            startActivityForResult(intent, RETOUR_PRENDRE_PHOTO);
 
         }
 
@@ -185,7 +186,7 @@ public class endSession extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-     }
+    }
 
 
     private void savePhotoToGallery() {

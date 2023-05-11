@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">HobbyZooBeZoo</string>
-    <string-array name="categories"></string-array>
+    <string name="new_category">Nouvelle Catégorie</string>
+    <string name="new_session">Nouvelle Session</string>
 </resources>

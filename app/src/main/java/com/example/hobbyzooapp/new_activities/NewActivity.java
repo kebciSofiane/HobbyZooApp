@@ -44,9 +44,14 @@ public class NewActivity extends AppCompatActivity {
         categories.add("Sport");
         categories.add("Cuisine");
         categories.add("Art");
+        categories.add("@string/new_category");
         ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, categories);
         categorySelector.setAdapter(adapter);
 
+        if(categorySelector.getSelectedItem() == "@string/new_category"){
+            Intent intent = new Intent().setClass(getApplicationContext(), NewCategory.class);
+            startActivity(intent);
+        }
 
 
         validationButton.setOnClickListener(new View.OnClickListener() {

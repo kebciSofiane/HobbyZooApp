@@ -71,11 +71,11 @@ public class HomeActivity extends AppCompatActivity {
 
         Random random = new Random();
 
-// Récupérez les dimensions de la surface prédéfinie
+        // Récupérez les dimensions de la surface prédéfinie
         int surfaceWidth = 800;
         int surfaceHeight =800 ;
 
-// Générez les coordonnées aléatoires pour chaque ImageView
+        // Générez les coordonnées aléatoires pour chaque ImageView
         int image1X = random.nextInt(surfaceWidth - imageView1.getWidth());
         int image1Y = random.nextInt(surfaceHeight - imageView1.getHeight());
 
@@ -90,6 +90,8 @@ public class HomeActivity extends AppCompatActivity {
 
         int image5X = random.nextInt(surfaceWidth - imageView5.getWidth());
         int image5Y = random.nextInt(surfaceHeight - imageView5.getHeight());
+
+
 
 
         RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams(
@@ -184,6 +186,46 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
         profileBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this,CalendarActivity.class));
+
+            }
+        });
+
+        imageView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this,CalendarActivity.class));
+
+            }
+        });
+
+        imageView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this,CalendarActivity.class));
+
+            }
+        });
+
+        imageView3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this,CalendarActivity.class));
+
+            }
+        });
+
+        imageView4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this,CalendarActivity.class));
+
+            }
+        });
+
+        imageView5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(HomeActivity.this,CalendarActivity.class));

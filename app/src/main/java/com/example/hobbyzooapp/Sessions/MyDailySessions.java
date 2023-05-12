@@ -18,6 +18,7 @@ import com.example.hobbyzooapp.Calendar.CalendarUtils;
 import com.example.hobbyzooapp.HomeActivity;
 import com.example.hobbyzooapp.R;
 import com.example.hobbyzooapp.OnItemClickListener;
+import com.example.hobbyzooapp.new_activities.NewSession;
 
 import java.sql.Time;
 import java.time.LocalDate;
@@ -50,7 +51,9 @@ public class MyDailySessions extends AppCompatActivity {
         addSessionButton = findViewById(R.id.add_session_button);
         addSessionButton.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v){}
+            public void onClick(View v){
+                startActivity(new Intent(MyDailySessions.this, NewSession.class));
+            }
         });
 
         calendarButton = findViewById(R.id.calendar_button);

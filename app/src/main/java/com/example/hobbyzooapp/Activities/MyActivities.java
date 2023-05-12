@@ -11,6 +11,7 @@ import android.widget.ExpandableListView;
 import com.example.hobbyzooapp.Category.Category;
 import com.example.hobbyzooapp.HomeActivity;
 import com.example.hobbyzooapp.R;
+import com.example.hobbyzooapp.new_activities.NewActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,7 +43,9 @@ public class MyActivities extends AppCompatActivity {
         addActivityButton = findViewById(R.id.add_activity_button);
         addActivityButton.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View v){}
+            public void onClick(View v){
+                startActivity(new Intent(MyActivities.this, NewActivity.class));
+            }
         });
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);

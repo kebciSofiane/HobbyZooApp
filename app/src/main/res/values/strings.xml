@@ -10,7 +10,6 @@
     <string name="forward"><![CDATA[->]]></string>
     <string name="back_back"><![CDATA[<<]]></string>
     <string name="plus">+</string>
-    <string name="app_name">HobbyZooBeZoo</string>
     <string name="new_category">Nouvelle Catégorie</string>
     <string name="new_session">Nouvelle Session</string>
 </resources>

@@ -83,6 +83,7 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
         setWeekView();
     }
 
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onItemClick(int position, LocalDate date)

@@ -1,11 +1,13 @@
 package com.example.hobbyzooapp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,6 +16,10 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.example.hobbyzooapp.Activities.MyActivities;
+import com.example.hobbyzooapp.Calendar.CalendarActivity;
+import com.example.hobbyzooapp.Calendar.CalendarUtils;
+import com.example.hobbyzooapp.Sessions.RunSession;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,6 +31,7 @@ public class HomeActivity extends AppCompatActivity {
     ActionBar actionBar;
 
     ImageButton calendarBtn, runBtn, profileBtn;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,17 +59,21 @@ public class HomeActivity extends AppCompatActivity {
         runBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this,CalendarActivity.class));
+                startActivity(new Intent(HomeActivity.this, RunSession.class));
 
             }
         });
         profileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this,CalendarActivity.class));
+                startActivity(new Intent(HomeActivity.this,MyActivities.class));
 
             }
         });
+
+
+
+
 
         //bottom navigation
 //        BottomNavigationView navigationView = findViewById(R.id.navigation);

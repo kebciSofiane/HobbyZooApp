@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.ActivityPage">
+
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="horizontal">
+
+
+
+        <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <Button
+                    android:layout_width="30sp"
+                    android:layout_height="30sp"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/edit_pic"
+                    android:id="@+id/activityPageEditPetNameButton"
+                    android:layout_alignParentEnd="true"
+                    android:visibility="visible">
+                </Button>
+
+                <Button
+                    android:layout_width="30sp"
+                    android:layout_height="30sp"
+                    android:layout_centerHorizontal="true"
+                    android:background="@drawable/check_icon"
+                    android:id="@+id/activityPagecheckPetNameButton"
+                    android:layout_alignParentEnd="true"
+                    android:visibility="gone">
+                </Button>
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/radius_background"
+                    android:layout_centerHorizontal="true"
+                    android:gravity="center"
+                    android:id="@+id/headerLayout"
+                    >
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:scaleType="centerCrop"
+                        android:paddingLeft="20sp"
+                        android:paddingRight="20sp"
+                        android:paddingTop="20sp"
+                        android:layout_centerHorizontal="true"
+                        android:id="@+id/activityPagePetPic">
+                    </ImageView>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Coco"
+                            android:textSize="25sp"
+                            android:textColor="@color/black"
+                            android:id="@+id/activityPagePetName">
+                        </TextView>
+
+                        <EditText
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="15sp"
+                            android:textColor="@color/black"
+                            android:id="@+id/activityPagePetNameEdit"
+                            android:visibility="gone">
+                        </EditText>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Activity"
+                            android:textSize="20sp"
+                            android:textColor="@color/black"
+                            android:id="@+id/activityPageActivityName">
+                        </TextView>
+
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/myNextSessionstext"
+                    android:id="@+id/activityPageLinearLayoutNextSessionsAndShowButton"
+                    >
+
+                    <LinearLayout
+                        android:id="@+id/activityPageLinearLayoutNextSessions"
+                        android:layout_width="250sp"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <androidx.recyclerview.widget.RecyclerView
+                            android:id="@+id/activityPageRecyclerView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:background="@drawable/border"
+                            android:orientation="vertical"
+                            android:layout_marginLeft="30sp"
+                            android:padding="20sp" />
+
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/activityPageShowLessButton"
+                        android:layout_width="30sp"
+                        android:layout_height="30sp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/minus_icon"
+                        android:visibility="gone">
+
+                    </Button>
+
+                    <Button
+                        android:id="@+id/activityPageShowMoreButton"
+                        android:layout_width="30sp"
+                        android:layout_height="30sp"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/plus_icon"
+                        android:visibility="visible">
+
+                    </Button>
+
+
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:id="@+id/myNextSessionstext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/headerLayout"
+                    android:layout_marginBottom="10sp"
+                    android:text="My next sessions :"
+                    android:textSize="30sp">
+
+                </TextView>
+
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/activityPageGoalsText"
+                    android:text="Goal:"
+                    android:layout_below="@id/activityPageLinearLayoutNextSessionsAndShowButton"
+                    android:layout_marginTop="10sp"
+                    android:layout_marginLeft="10sp"
+                    android:textSize="30sp">
+                </TextView>
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/todoRecyclerView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/activityPageGoalsText"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="30sp"
+                    android:padding="20sp"
+                    android:background="@drawable/border"
+                    />
+
+            </RelativeLayout>
+
+
+        </ScrollView>
+
+        <Button
+            android:id="@+id/homeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="24dp"
+            android:layout_marginBottom="27dp"
+            android:text="Home"/>
+
+    </RelativeLayout>
+
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.hobbyzooapp">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -16,11 +20,14 @@
         android:theme="@style/Theme.HobbyZooApp"
         tools:targetApi="31">
         <activity
-            android:name=".ProfileActivity"
+            android:name=".Activities.ActivityPage"
             android:exported="false" />
         <activity
-            android:name=".CalendarActivity"
+            android:name=".Sessions.endSession"
             android:exported="false" />
+        <activity
+            android:name=".Sessions.RunSession"
+            android:exported="false"/>
         <activity
             android:name=".RegisterActivity"
             android:exported="true"
@@ -34,6 +41,24 @@
             android:exported="false" />
         <activity
             android:name=".RegistrationOrConnexion"
+            android:exported="false"/>
+
+        <activity
+            android:name=".Activities.MyActivities"
+            android:exported="false" />
+        <activity
+            android:name=".Sessions.MyDailySessions"
+            android:exported="false" />
+        <activity
+            android:name=".Calendar.CalendarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Calendar.WeekViewActivity"
+            android:exported="false" />
+
+
+        <activity
+            android:name=".SplashScreenActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -41,6 +66,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.hobbyzooapp.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
     </application>
 
 </manifest>

@@ -60,12 +60,25 @@
 
         <activity
             android:name=".SplashScreenActivity"
+        <activity android:name=".new_activities.NewSession"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
+        </activity>
+        <activity
+            android:name=".new_activities.NewCategory"
+            android:parentActivityName=".new_activities.NewActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".new_activities.NewActivity"
+            android:parentActivityName=".new_activities.NewSession"
+            android:exported="true">
+
         </activity>
 
         <provider

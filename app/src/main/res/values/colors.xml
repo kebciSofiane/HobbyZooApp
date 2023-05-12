@@ -18,4 +18,6 @@
     <color name="transparent">#00FFFFFF</color>
 
 
+    <color name="inputColor">#009688</color>
+    <color name="valid">#73B626</color>
 </resources>

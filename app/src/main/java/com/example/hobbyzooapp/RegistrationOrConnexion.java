@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class RegistrationOrConnexion extends AppCompatActivity {
 
-    Button registerBtn,loginBtn;
+    Button registerBtn,loginBtn, home;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,6 +21,15 @@ public class RegistrationOrConnexion extends AppCompatActivity {
 
         registerBtn = findViewById(R.id.register_btn);
         loginBtn = findViewById(R.id.login_btn);
+        home = findViewById(R.id.Home);
+
+        home.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RegistrationOrConnexion.this,HomeActivity.class));
+
+            }
+        });
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override

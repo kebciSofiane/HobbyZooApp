@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/grass"
-    >
+    android:background="@drawable/grass_sky">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -48,31 +47,52 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
 
-        <ImageButton
-            android:id="@+id/calendar_btn"
-            android:layout_width="0dp"
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="106dp"
+            android:src="@drawable/cloture" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/ic_calendar" />
+            android:layout_alignParentBottom="true">
 
-        <ImageButton
-            android:id="@+id/run_btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/ic_play" />
+            <ImageButton
+                android:id="@+id/calendar_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:scaleType="center"
+                android:backgroundTint="#DD9A4D"
+                android:tint="#FAC792"
+                app:srcCompat="@drawable/ic_calendar" />
 
-        <ImageButton
-            android:id="@+id/profile_btn"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            app:srcCompat="@drawable/ic_profile" />
+            <ImageButton
+                android:id="@+id/run_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:backgroundTint="#DD9A4D"
+                android:tint="#FAC792"
+                android:visibility="visible"
+                app:srcCompat="@drawable/ic_play"
+                tools:visibility="visible" />
 
+            <ImageButton
+                android:id="@+id/profile_btn"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:cropToPadding="false"
+                android:backgroundTint="#DD9A4D"
+                android:tint="#FAC792"
+                app:srcCompat="@drawable/ic_profile" />
+
+        </LinearLayout>
     </LinearLayout>
-
 
 
 </RelativeLayout>

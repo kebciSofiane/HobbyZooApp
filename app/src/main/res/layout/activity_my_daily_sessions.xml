@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -53,7 +53,7 @@
     <LinearLayout
         android:layout_width="358dp"
         android:layout_height="472dp"
-        android:layout_above="@+id/buttons"
+        android:layout_above="@+id/add_session_button"
         android:layout_below="@+id/header"
         android:layout_margin="20dp"
         android:orientation="horizontal">
@@ -65,48 +65,48 @@
             android:numColumns="2" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/buttons"
-        android:layout_width="match_parent"
+    <ImageButton
+        android:id="@+id/calendar_button"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="20dp">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginBottom="30dp"
+        android:backgroundTint="@color/green"
+        android:scaleType="center"
+        app:srcCompat="@drawable/ic_calendar"
+        app:tint="@color/white" />
 
-        <Button
-            android:id="@+id/calendar_button"
-            android:layout_width="36dp"
-            android:layout_height="50dp"
-            android:layout_marginRight="0dp"
-            android:layout_weight="1"
-            android:background="@color/transparent"
-            android:text="Calendar"
-            android:textColor="@color/green"
-            android:textSize="15sp"
-            android:textStyle="bold" />
+    <Button
+        android:id="@+id/add_session_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:background="@color/transparent"
+        android:text="@string/plus"
+        android:textColor="@color/green"
+        android:textSize="90sp"
+        android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/add_session_button"
-            android:layout_width="5dp"
-            android:layout_height="68dp"
-            android:layout_weight="1"
-            android:background="@color/transparent"
-            android:text="@string/plus"
-            android:textColor="@color/green"
-            android:textSize="30sp"
-            android:textStyle="bold" />
-
-        <Button
-            android:id="@+id/home_button"
-            android:layout_width="10dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:background="@color/transparent"
-            android:text="Home"
-            android:textColor="@color/green"
-            android:textSize="15sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
+    <ImageButton
+        android:id="@+id/home_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="30dp"
+        android:backgroundTint="@color/green"
+        android:scaleType="center"
+        app:srcCompat="@drawable/ic_home"
+        app:tint="@color/white" />
 
 
-</LinearLayout>
+
+
+
+
+</RelativeLayout>

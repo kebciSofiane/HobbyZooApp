@@ -8,6 +8,7 @@ import android.text.InputFilter;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,7 +34,7 @@ public class ActivityPage extends AppCompatActivity {
     Button showMoreButton;
     Button showLessButton;
     RecyclerView recyclerView;
-    Button homeButton;
+    ImageButton homeButton;
     TextView goalsText;
     List<String> items = new ArrayList<>();
     listSessionsAdapter adapter;

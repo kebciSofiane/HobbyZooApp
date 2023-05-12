@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
 
 import com.example.hobbyzooapp.Category.Category;
 import com.example.hobbyzooapp.HomeActivity;
@@ -19,7 +20,7 @@ import java.util.List;
 
 public class MyActivities extends AppCompatActivity {
 
-    private Button homeButton;
+    private ImageButton homeButton;
     private Button addActivityButton;
     ExpandableListView expandableListView;
     ExpandableListAdapter expandableListAdapter;

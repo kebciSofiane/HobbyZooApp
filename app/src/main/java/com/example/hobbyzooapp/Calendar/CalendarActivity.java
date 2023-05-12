@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.time.LocalDate;
@@ -29,7 +30,7 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
     private Button weeklyViewButton;
     private Button todaySessionButton;
     private Button todayMonthButton;
-    private Button homeButton;
+    private ImageButton homeButton;
 
 
     @SuppressLint("MissingInflatedId")

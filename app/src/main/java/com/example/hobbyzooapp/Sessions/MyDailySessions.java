@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 
@@ -26,9 +27,9 @@ import java.util.ArrayList;
 
 public class MyDailySessions extends AppCompatActivity {
 
-    private Button homeButton;
+    private ImageButton homeButton;
     private Button addSessionButton;
-    private Button calendarButton;
+    private ImageButton calendarButton;
     private View sessionButton;
 
     public ArrayList<Session> sessionList;

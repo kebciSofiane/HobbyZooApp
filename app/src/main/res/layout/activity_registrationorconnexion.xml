@@ -8,13 +8,6 @@
     tools:context=".RegistrationOrConnexion">
 
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Home"
-        android:id="@+id/Home">
-
-    </Button>
 
     <Button
         android:id="@+id/register_btn"

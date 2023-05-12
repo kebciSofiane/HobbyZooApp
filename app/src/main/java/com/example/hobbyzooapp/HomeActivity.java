@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.hobbyzooapp.Activities.Activity;
+import com.example.hobbyzooapp.Activities.ActivityPage;
 import com.example.hobbyzooapp.Activities.MyActivities;
 import com.example.hobbyzooapp.Calendar.CalendarActivity;
 import com.example.hobbyzooapp.Calendar.CalendarUtils;
@@ -52,8 +54,8 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        actionBar = getSupportActionBar();
-        actionBar.setTitle("Profile");
+//        actionBar = getSupportActionBar();
+//        actionBar.setTitle("Profile");
 
         //firebaseAuth = FirebaseAuth.getInstance();
 
@@ -63,8 +65,6 @@ public class HomeActivity extends AppCompatActivity {
         imageList.add(R.drawable.panda);
         imageList.add(R.drawable.dog_bizarre);
         imageList.add(R.drawable.pig);
-
-
 
 
         ImageView imageView1 = findViewById(R.id.imageView1);
@@ -249,7 +249,7 @@ public class HomeActivity extends AppCompatActivity {
         imageView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this,CalendarActivity.class));
+                startActivity(new Intent(HomeActivity.this, ActivityPage.class));
 
             }
         });
@@ -257,7 +257,7 @@ public class HomeActivity extends AppCompatActivity {
         imageView2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this,CalendarActivity.class));
+                startActivity(new Intent(HomeActivity.this, ActivityPage.class));
 
             }
         });
@@ -265,7 +265,7 @@ public class HomeActivity extends AppCompatActivity {
         imageView3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this,CalendarActivity.class));
+                startActivity(new Intent(HomeActivity.this,ActivityPage.class));
 
             }
         });
@@ -273,7 +273,7 @@ public class HomeActivity extends AppCompatActivity {
         imageView4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this,CalendarActivity.class));
+                startActivity(new Intent(HomeActivity.this,ActivityPage.class));
 
             }
         });
@@ -281,7 +281,7 @@ public class HomeActivity extends AppCompatActivity {
         imageView5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this,CalendarActivity.class));
+                startActivity(new Intent(HomeActivity.this,ActivityPage.class));
 
             }
         });
@@ -306,12 +306,6 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-    }
-
-    @Override
-    protected void onStart(){
-        checkUserStatus();
-        super.onStart();
     }
 
 

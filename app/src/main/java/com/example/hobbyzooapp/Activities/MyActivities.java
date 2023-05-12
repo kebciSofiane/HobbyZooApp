@@ -19,6 +19,7 @@ import java.util.List;
 public class MyActivities extends AppCompatActivity {
 
     private Button homeButton;
+    private Button addActivityButton;
     ExpandableListView expandableListView;
     ExpandableListAdapter expandableListAdapter;
     List<String> expandableListTitle;
@@ -28,7 +29,7 @@ public class MyActivities extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_my_activity);
+        setContentView(R.layout.activity_my_activities);
 
         homeButton = findViewById(R.id.homeButton);
         homeButton.setOnClickListener(new View.OnClickListener() {
@@ -36,6 +37,12 @@ public class MyActivities extends AppCompatActivity {
             public void onClick(View v) {
                 openMainActivity();
             }
+        });
+
+        addActivityButton = findViewById(R.id.add_activity_button);
+        addActivityButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){}
         });
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);

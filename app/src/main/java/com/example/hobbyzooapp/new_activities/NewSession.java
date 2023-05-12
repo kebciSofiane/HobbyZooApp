@@ -1,8 +1,10 @@
 package com.example.hobbyzooapp.new_activities;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -39,19 +41,29 @@ public class NewSession extends AppCompatActivity {
         timePicker.setHour(0);
         timePicker.setMinute(0);
 
-        Date now = new Date();
-        DateFormat dateformatter = DateFormat.getDateInstance(DateFormat.SHORT);
-        String formattedDate = dateformatter.format(now);
-        //datePicker.setMinDate(Long.parseLong(formattedDate));
-
         Spinner activitySelector = findViewById(R.id.activityName);
         List<String> activities = new ArrayList();
         activities.add("Bougie");
         activities.add("Cuisine");
         activities.add("Dessin");
+        activities.add("Nouvelle Activité");
         ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, activities);
         activitySelector.setAdapter(adapter);
-        //activitySelector.setOnItemClickListener(AdapterView.OnItemClickListener);
+        activitySelector.setOnItemSelectedListener(
+                new AdapterView.OnItemSelectedListener() {
+                    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+
+                        Object item = parent.getItemAtPosition(pos);
+                        if(parent.getItemAtPosition(pos) == "Nouvelle Activité"){
+                            Intent intent = new Intent().setClass(getApplicationContext(), NewActivity.class);
+                            startActivity(intent);
+                        }
+                        System.out.println(item.toString());
+
+                    }
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
 
         Button validationButton = findViewById(R.id.validationButton);
         validationButton.setOnClickListener(new View.OnClickListener() {

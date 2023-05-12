@@ -3,6 +3,7 @@ package com.example.hobbyzooapp.new_activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,14 +45,25 @@ public class NewActivity extends AppCompatActivity {
         categories.add("Sport");
         categories.add("Cuisine");
         categories.add("Art");
-        categories.add("@string/new_category");
+        categories.add("Nouvelle Catégorie");
         ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, categories);
         categorySelector.setAdapter(adapter);
+        categorySelector.setOnItemSelectedListener(
+                new AdapterView.OnItemSelectedListener() {
+                    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 
-        if(categorySelector.getSelectedItem() == "@string/new_category"){
-            Intent intent = new Intent().setClass(getApplicationContext(), NewCategory.class);
-            startActivity(intent);
-        }
+                        Object item = parent.getItemAtPosition(pos);
+                        if(parent.getItemAtPosition(pos) == "Nouvelle Catégorie"){
+                            Intent intent = new Intent().setClass(getApplicationContext(), NewCategory.class);
+                            startActivity(intent);
+                        }
+                        System.out.println(item.toString());
+
+                    }
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
+
 
 
         validationButton.setOnClickListener(new View.OnClickListener() {

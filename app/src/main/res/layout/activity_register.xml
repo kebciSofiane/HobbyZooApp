@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="20dp"
+    android:background="@color/app_background"
     tools:context=".RegisterActivity">
 
 
@@ -12,9 +13,9 @@
         android:id="@+id/register_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Register"
+        android:text="@string/register"
         android:textAlignment="center"
-        android:textColor="@color/black"
+        android:textColor="@color/title_page"
         android:textStyle="bold"
         android:layout_marginTop="30dp"
         android:textSize="25sp" />
@@ -33,12 +34,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/photoIV"
         android:padding="10dp">
-zz
+
         <EditText
             android:id="@+id/pseudoET"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Pseudo"
+            android:hint="@string/pseudo"
             android:inputType="textPersonName" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -53,7 +54,7 @@ zz
             android:id="@+id/emailEt"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Email address"
+            android:hint="@string/email_address"
             android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -70,7 +71,7 @@ zz
             android:id="@+id/passwordEt"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="Password"
+            android:hint="@string/password"
             android:inputType="textPassword" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -81,7 +82,7 @@ zz
         android:layout_height="wrap_content"
         android:layout_below="@+id/passwordTIL"
         android:layout_centerHorizontal="true"
-        android:text="Register" />
+        android:text="@string/register" />
 
     <TextView
         android:id="@+id/have_accountTv"
@@ -89,7 +90,7 @@ zz
         android:layout_height="wrap_content"
         android:layout_below="@+id/register_btn"
         android:layout_marginTop="30dp"
-        android:text="Already have account? Login"
+        android:text="@string/already_have_account_login"
         android:textAlignment="center"
         android:textColor="@color/black" />
 

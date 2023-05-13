@@ -2,14 +2,66 @@
     <string name="app_name">HobbyZooApp</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="pet_default_name">Pet Name</string>
-    <string name="activity_default_name">Activity Name</string>
-    <string name="activity_default_time">Activity Time</string>
+    <!-- Default values of list (adapter) -->
+    <string name="default_pet_name">Pet Name</string>
+    <string name="default_activity_name">Activity Name</string>
+    <string name="default_activity_time">Activity Time</string>
     <string name="default_session_date">Sessions date</string>
+
+    <!-- A changer par un image button  -->
+    <string name="add_new">+</string>
+    <string name="back_back"><![CDATA[<<]]></string>
+    <!-- A changer PEUT ETRE par un image button  -->
     <string name="back"><![CDATA[<-]]></string>
     <string name="forward"><![CDATA[->]]></string>
-    <string name="back_back"><![CDATA[<<]]></string>
-    <string name="plus">+</string>
-    <string name="new_category">Nouvelle Catégorie</string>
-    <string name="new_session">Nouvelle Session</string>
+
+    <!-- New category -->
+    <string name="new_category">New Category</string>
+    <string name="category_name_">Category name :</string>
+    <string name="category_color_">Category color :</string>
+    <!-- New activity -->
+    <string name="new_activity">New Activity</string>
+    <string name="activity_name_">Activity name :</string>
+    <string name="category_">Category :</string>
+    <string name="pet_choice_">Choose a pet :</string>
+    <!-- New session -->
+    <string name="new_session">New Session</string>
+    <string name="activity_">Activity :</string>
+    <string name="duration_session_">Durée de la Session :</string>
+    <string name="date_">Date :</string>
+
+    <!-- A changer par un image button  -->
+    <string name="valider">Valider</string>
+    <string name="my_next_sessions_">My next sessions :</string>
+    <string name="goal_">Goal:</string>
+    <string name="forgot_password_">Forgot password? Recover</string>
+    <string name="do_not_have_account_">Do not have account? Register</string>
+    <string name="register">Register</string>
+    <string name="pseudo">Pseudo</string>
+    <string name="email_address">Email address</string>
+    <string name="password">Password</string>
+    <string name="already_have_account_login">Already have account? Login</string>
+    <string name="login">Login</string>
+    <string name="stop">Stop</string>
+    <string name="resume">Resume</string>
+    <string name="pause">Pause</string>
+    <string name="add_time">Add time</string>
+    <string name="next">Next</string>
+    <string name="temps_restant_">Temps restant :</string>
+    <string name="default_calendar_date">Feb 2021</string>
+    <string name="sun">SUN</string>
+    <string name="mon">MON</string>
+    <string name="tue">TUE</string>
+    <string name="wed">WED</string>
+    <string name="thur">THUR</string>
+    <string name="fri">FRI</string>
+    <string name="sat">SAT</string>
+    <string name="today_sessions">Today Sessions</string>
+    <string name="ok">Ok</string>
+    <string name="rewrite">Rewrite</string>
+    <string name="session_comment_edit">Un petit commentaire ?</string>
+    <string name="retake">Retake</string>
+    <string name="default_time_end_session">1h/2h</string>
+    <string name="skip">Skip</string>
+
 </resources>

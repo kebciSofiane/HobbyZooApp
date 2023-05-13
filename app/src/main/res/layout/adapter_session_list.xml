@@ -17,16 +17,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20sp"
-            android:textColor="@color/green_background"
-            android:text="@string/activity_default_name" />
+            android:textColor="@color/light_green"
+            android:text="@string/default_activity_name" />
 
         <TextView
             android:id="@+id/session_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15sp"
-            android:textColor="@color/green_background"
-            android:text="@string/activity_default_time"
+            android:textColor="@color/light_green"
+            android:text="@string/default_activity_time"
             android:layout_below="@+id/session_name"/>
     </RelativeLayout>
 

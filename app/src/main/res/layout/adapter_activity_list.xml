@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="10dp"
+    android:background="@color/app_background"
     android:id="@+id/radius_square_activity">
 
 
@@ -23,8 +24,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="15sp"
-            android:textColor="@color/green_background"
-            android:text="@string/pet_default_name"/>
+            android:textColor="@color/sub_tilte"
+            android:text="@string/default_pet_name"/>
 
         <TextView
             android:id="@+id/child_text"
@@ -32,7 +33,7 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:textColor="@color/dark_gray"
-            android:text="@string/activity_default_name"
+            android:text="@string/default_activity_name"
             android:paddingBottom="10dp"
             android:layout_below="@id/pet_name"/>
 

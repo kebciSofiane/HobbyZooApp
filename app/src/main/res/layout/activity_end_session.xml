@@ -4,48 +4,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/app_background"
     tools:context="Sessions.endSession">
-
-
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+        android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/sessionCount"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="1h/2h"
-            android:textColor="@color/white"
+            android:text="@string/default_time_end_session"
+            android:textColor="@color/black"
             android:textSize="20sp"
-            android:layout_marginRight="10sp"
+            android:layout_marginEnd="10sp"
             android:layout_marginTop="10sp"
-            android:id="@+id/sessionCount"
-            android:gravity="center"
-            >
+            android:gravity="center"/>
 
-        </TextView>
         <ImageView
+            android:id="@+id/petPicture"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/petPicture"
             android:layout_marginTop="20sp"
             android:layout_below="@id/sessionCount"
             android:layout_centerHorizontal="true"
-            android:visibility="visible">
-        </ImageView>
+            android:visibility="visible"/>
 
         <Button
+            android:id="@+id/takeAPic"
             android:layout_width="115dp"
             android:layout_height="97dp"
             android:layout_below="@id/petPicture"
             android:layout_centerHorizontal="true"
             android:background="@drawable/takepic"
-            android:id="@+id/takeAPic"
-            android:visibility="visible">
-
-        </Button>
+            android:visibility="visible"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -62,9 +55,7 @@
                 android:layout_marginBottom="50sp"
                 android:background="@color/white"
                 android:scaleType="centerCrop"
-                android:visibility="gone">
-
-            </ImageView>
+                android:visibility="gone"/>
 
             <Button
                 android:id="@+id/ModifyPicButton"
@@ -73,7 +64,9 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="10sp"
                 android:layout_marginEnd="22sp"
-                android:text="Retake"
+                android:text="@string/retake"
+                android:backgroundTint="@color/green_btn"
+                android:textColor="@color/green_btn_text"
                 android:visibility="gone" />
 
         </RelativeLayout>
@@ -89,11 +82,10 @@
                 android:id="@+id/commentText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
                 android:layout_marginLeft="20sp"
                 android:layout_marginRight="20sp"
                 android:layout_marginBottom="20sp"
-                android:hint="Un petit commentaire ?"
+                android:hint="@string/session_comment_edit"
                 android:visibility="visible" />
 
             <RelativeLayout
@@ -101,6 +93,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
+                    android:id="@+id/commentValidated"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:minHeight="60sp"
@@ -109,13 +102,11 @@
                     android:layout_marginLeft="30sp"
                     android:layout_marginRight="30sp"
                     android:layout_marginBottom="50sp"
-                    android:paddingLeft="10sp"
+                    android:paddingStart="10sp"
                     android:paddingTop="10sp"
                     android:paddingBottom="10sp"
-                    android:paddingRight="100sp"
-                    android:id="@+id/commentValidated"
-                    android:visibility="gone">
-                </TextView>
+                    android:paddingEnd="100sp"
+                    android:visibility="gone"/>
 
                 <Button
                     android:id="@+id/ModifyCommentButton"
@@ -124,53 +115,48 @@
                     android:layout_alignParentEnd="true"
                     android:layout_marginTop="10sp"
                     android:layout_marginEnd="32sp"
-                    android:visibility="gone"
-                    android:text="Rewrite" >
-
-                </Button>
+                    android:text="@string/rewrite"
+                    android:backgroundTint="@color/green_btn"
+                    android:textColor="@color/green_btn_text"
+                    android:visibility="gone"/>
 
             </RelativeLayout>
 
             <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Ok"
                 android:id="@+id/validateButton"
-                android:layout_gravity="end"
-                android:layout_marginRight="20sp"
-                >
-
-            </Button>
-
-            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ok"
+                android:layout_marginEnd="20sp"
+                android:text="@string/ok"
+                android:backgroundTint="@color/green_btn"
+                android:textColor="@color/green_btn_text"
+                android:layout_gravity="end" />
+
+
+            <Button
                 android:id="@+id/validateButton2"
-                android:layout_gravity="end"
-                android:layout_marginRight="20sp"
-                android:visibility="gone"
-                >
-            </Button>
-            <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Skip"
-                android:id="@+id/skipButton"
+                android:layout_marginEnd="20sp"
+                android:text="@string/ok"
+                android:backgroundTint="@color/green_btn"
+                android:textColor="@color/green_btn_text"
                 android:layout_gravity="end"
+                android:visibility="gone" />
+            <Button
+                android:id="@+id/skipButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="50sp"
-                android:layout_marginRight="20sp"
-                android:visibility="visible"
-                >
-
-            </Button>
+                android:layout_marginEnd="20sp"
+                android:text="@string/skip"
+                android:backgroundTint="@color/green_btn"
+                android:textColor="@color/green_btn_text"
+                android:layout_gravity="end"
+                android:visibility="visible" />
 
         </LinearLayout>
 
-
     </RelativeLayout>
-
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

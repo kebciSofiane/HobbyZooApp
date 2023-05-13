@@ -2,13 +2,14 @@
     <!-- Base application theme. -->
     <style name="Theme.HobbyZooApp" parent="Theme.MaterialComponents.NoActionBar">
         <!-- Primary brand color. -->
+
         <item name="colorPrimary">#02BA3F</item>
         <item name="colorPrimaryVariant">#018E41</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorOnPrimary">#181818</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">#4299F5</item>
         <item name="colorSecondaryVariant">#4558C5</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorOnSecondary">#CCCBC0</item>
 
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">#00018E41</item>

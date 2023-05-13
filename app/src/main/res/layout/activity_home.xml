@@ -66,20 +66,20 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:scaleType="center"
-                android:backgroundTint="#DD9A4D"
-                android:tint="#FAC792"
-                app:srcCompat="@drawable/ic_calendar" />
+                android:backgroundTint="@color/brown_btn"
+                app:srcCompat="@drawable/ic_calendar"
+                app:tint="@color/brown_btn_text" />
 
             <ImageButton
                 android:id="@+id/run_btn"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:backgroundTint="#DD9A4D"
-                android:tint="#FAC792"
+                android:backgroundTint="@color/brown_btn"
                 android:visibility="visible"
                 app:srcCompat="@drawable/ic_play"
-                tools:visibility="visible" />
+                tools:visibility="visible"
+                app:tint="@color/brown_btn_text" />
 
             <ImageButton
                 android:id="@+id/profile_btn"
@@ -87,9 +87,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:cropToPadding="false"
-                android:backgroundTint="#DD9A4D"
-                android:tint="#FAC792"
-                app:srcCompat="@drawable/ic_profile" />
+                android:backgroundTint="@color/brown_btn"
+                app:srcCompat="@drawable/ic_profile"
+                app:tint="@color/brown_btn_text" />
 
         </LinearLayout>
     </LinearLayout>

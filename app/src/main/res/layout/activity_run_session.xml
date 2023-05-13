@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/grass_sky"
     tools:context=".Sessions.RunSession">
 
     <RelativeLayout
@@ -17,8 +18,8 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20sp"
-            android:text="Temps restant : "
-            android:textColor="@android:color/white"
+            android:text="@string/temps_restant_"
+            android:textColor="@color/black"
             android:textSize="20sp" />
 
         <ImageView
@@ -29,9 +30,7 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_toStartOf="@id/pauseButton"
-            tools:ignore="NotSibling">
-
-        </ImageView>
+            tools:ignore="NotSibling"/>
 
 
         <LinearLayout
@@ -46,59 +45,54 @@
                 android:id="@+id/stopButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20sp"
-                android:text="Stop"
-                />
+                android:layout_marginStart="20sp"
+                android:backgroundTint="@color/brown_btn"
+                android:textColor="@color/brown_btn_text"
+                android:text="@string/stop" />
 
             <Button
                 android:id="@+id/resumeButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20sp"
-                android:text="Resume"
-                android:visibility="gone"
-                />
+                android:layout_marginStart="20sp"
+                android:backgroundTint="@color/brown_btn"
+                android:textColor="@color/brown_btn_text"
+                android:text="@string/resume"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/pauseButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20sp"
-                android:text="Pause"
-                android:visibility="visible"
-
-                />
+                android:layout_marginStart="20sp"
+                android:backgroundTint="@color/brown_btn"
+                android:textColor="@color/brown_btn_text"
+                android:text="@string/pause"
+                android:visibility="visible" />
 
             <Button
                 android:id="@+id/addTimeButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20sp"
-                android:text="Add time"
-                android:visibility="gone"
-                />
+                android:layout_marginStart="20sp"
+                android:backgroundTint="@color/brown_btn"
+                android:textColor="@color/brown_btn_text"
+                android:text="@string/add_time"
+                android:visibility="gone" />
 
             <Button
                 android:id="@+id/validateButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20sp"
-                android:text="Next"
-                android:visibility="gone"
-                />
-
-
-
-
-
-
+                android:layout_marginStart="20sp"
+                android:backgroundTint="@color/brown_btn"
+                android:textColor="@color/brown_btn_text"
+                android:text="@string/next"
+                android:visibility="gone" />
 
         </LinearLayout>
 
-
     </RelativeLayout>
-
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 

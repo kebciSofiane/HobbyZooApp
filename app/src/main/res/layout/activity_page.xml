@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/app_background"
     tools:context=".Activities.ActivityPage">
-
 
 
     <RelativeLayout
@@ -13,102 +13,91 @@
         android:layout_height="match_parent"
         android:scrollbars="horizontal">
 
+        <LinearLayout
+            android:id="@+id/headerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/radius_background"
+            android:layout_centerHorizontal="true"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/activityPagePetPic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20sp"
+                android:paddingTop="20sp"
+                android:paddingRight="20sp" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/activityPagePetName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/default_pet_name"
+                    android:textSize="25sp"
+                    android:textColor="@color/title_page" />
+
+                <EditText
+                    android:id="@+id/activityPagePetNameEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="15sp"
+                    android:textColor="@color/black"
+                    android:visibility="gone"/>
+
+                <TextView
+                    android:id="@+id/activityPageActivityName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/default_activity_name"
+                    android:textSize="20sp"
+                    android:textColor="@color/title_page" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/activityPageEditPetNameButton"
+            android:layout_width="30sp"
+            android:layout_height="30sp"
+            android:background="@drawable/edit_pic"
+            android:layout_alignParentEnd="true"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="30dp"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/activityPagecheckPetNameButton"
+            android:layout_width="30sp"
+            android:layout_height="30sp"
+            android:background="@drawable/check_icon"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="30dp"
+            android:layout_marginTop="25dp"
+            android:visibility="gone"/>
 
 
         <ScrollView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="564dp"
+            android:layout_below="@+id/headerLayout">
 
             <RelativeLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <Button
-                    android:layout_width="30sp"
-                    android:layout_height="30sp"
-                    android:layout_centerHorizontal="true"
-                    android:background="@drawable/edit_pic"
-                    android:id="@+id/activityPageEditPetNameButton"
-                    android:layout_alignParentEnd="true"
-                    android:visibility="visible">
-                </Button>
-
-                <Button
-                    android:layout_width="30sp"
-                    android:layout_height="30sp"
-                    android:layout_centerHorizontal="true"
-                    android:background="@drawable/check_icon"
-                    android:id="@+id/activityPagecheckPetNameButton"
-                    android:layout_alignParentEnd="true"
-                    android:visibility="gone">
-                </Button>
-
-
-
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/radius_background"
-                    android:layout_centerHorizontal="true"
-                    android:gravity="center"
-                    android:id="@+id/headerLayout"
-                    >
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:scaleType="centerCrop"
-                        android:paddingLeft="20sp"
-                        android:paddingRight="20sp"
-                        android:paddingTop="20sp"
-                        android:layout_centerHorizontal="true"
-                        android:id="@+id/activityPagePetPic">
-                    </ImageView>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Coco"
-                            android:textSize="25sp"
-                            android:textColor="@color/black"
-                            android:id="@+id/activityPagePetName">
-                        </TextView>
-
-                        <EditText
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textSize="15sp"
-                            android:textColor="@color/black"
-                            android:id="@+id/activityPagePetNameEdit"
-                            android:visibility="gone">
-                        </EditText>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Activity"
-                            android:textSize="20sp"
-                            android:textColor="@color/black"
-                            android:id="@+id/activityPageActivityName">
-                        </TextView>
-
-
-                    </LinearLayout>
-
-                </LinearLayout>
-
-                <LinearLayout
+                    android:id="@+id/activityPageLinearLayoutNextSessionsAndShowButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/myNextSessionstext"
-                    android:id="@+id/activityPageLinearLayoutNextSessionsAndShowButton"
-                    >
+                    android:layout_below="@id/myNextSessionstext">
 
                     <LinearLayout
                         android:id="@+id/activityPageLinearLayoutNextSessions"
@@ -120,10 +109,9 @@
                             android:id="@+id/activityPageRecyclerView"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
+                            android:layout_marginStart="30sp"
                             android:background="@drawable/border"
                             android:orientation="vertical"
-                            android:layout_marginLeft="30sp"
                             android:padding="20sp" />
 
                     </LinearLayout>
@@ -134,9 +122,7 @@
                         android:layout_height="30sp"
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/minus_icon"
-                        android:visibility="gone">
-
-                    </Button>
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/activityPageShowMoreButton"
@@ -144,50 +130,42 @@
                         android:layout_height="30sp"
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/plus_icon"
-                        android:visibility="visible">
-
-                    </Button>
-
-
+                        android:visibility="visible" />
 
                 </LinearLayout>
-
 
                 <TextView
                     android:id="@+id/myNextSessionstext"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/headerLayout"
+                    android:layout_marginStart="25sp"
+                    android:layout_marginTop="20sp"
                     android:layout_marginBottom="10sp"
-                    android:text="My next sessions :"
-                    android:textSize="30sp">
-
-                </TextView>
-
-
+                    android:text="@string/my_next_sessions_"
+                    android:textColor="@color/sub_tilte"
+                    android:textSize="25sp" />
 
                 <TextView
+                    android:id="@+id/activityPageGoalsText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/activityPageGoalsText"
-                    android:text="Goal:"
                     android:layout_below="@id/activityPageLinearLayoutNextSessionsAndShowButton"
-                    android:layout_marginTop="10sp"
-                    android:layout_marginLeft="10sp"
-                    android:textSize="30sp">
-                </TextView>
-
+                    android:layout_marginStart="25sp"
+                    android:layout_marginTop="20sp"
+                    android:layout_marginBottom="10sp"
+                    android:text="@string/goal_"
+                    android:textColor="@color/sub_tilte"
+                    android:textSize="25sp" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/todoRecyclerView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/activityPageGoalsText"
-                    android:orientation="vertical"
                     android:layout_marginLeft="30sp"
-                    android:padding="20sp"
                     android:background="@drawable/border"
-                    />
+                    android:orientation="vertical"
+                    android:padding="20sp" />
 
             </RelativeLayout>
 
@@ -202,16 +180,12 @@
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="30dp"
             android:layout_marginBottom="30dp"
-            android:backgroundTint="@color/green"
+            android:backgroundTint="@color/green_btn"
             android:scaleType="center"
             app:srcCompat="@drawable/ic_home"
-            app:tint="@color/white" />
+            app:tint="@color/green_btn_text" />
 
     </RelativeLayout>
-
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

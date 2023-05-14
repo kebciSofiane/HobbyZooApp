@@ -5,6 +5,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Build;
@@ -33,6 +35,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
@@ -44,9 +47,30 @@ public class HomeActivity extends AppCompatActivity {
 
     ImageView fenceImage;
 
+    Button next;
+
 
 
     ImageButton calendarBtn, runBtn, profileBtn;
+
+    ImageView imageView1;
+    ImageView imageView2;
+    ImageView imageView3;
+    ImageView imageView4;
+    ImageView imageView5;
+
+    TextView textView1;
+    TextView textView2;
+    TextView textView3;
+    TextView textView4;
+    TextView textView5;
+
+    LinearLayout linearLayout1;
+    LinearLayout linearLayout2 ;
+    LinearLayout linearLayout3 ;
+    LinearLayout linearLayout4 ;
+    LinearLayout linearLayout5 ;
+
 
 
 
@@ -55,10 +79,8 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        next = findViewById(R.id.scrollAnimals);
 
-//        actionBar = getSupportActionBar();
-//        actionBar.setTitle("Profile");
-        //firebaseAuth = FirebaseAuth.getInstance();
 
         ArrayList<Integer> imageList = new ArrayList<>();
         imageList.add(R.drawable.lion);
@@ -66,25 +88,149 @@ public class HomeActivity extends AppCompatActivity {
         imageList.add(R.drawable.singe);
         imageList.add(R.drawable.cat);
         imageList.add(R.drawable.chick);
+        imageList.add(R.drawable.beaver);
+        imageList.add(R.drawable.cow);
+        imageList.add(R.drawable.rabbit);
+        imageList.add(R.drawable.tl);
+        imageList.add(R.drawable.tiger);
 
 
-        ImageView imageView1 = findViewById(R.id.imageView1);
-        ImageView imageView2 = findViewById(R.id.imageView2);
-        ImageView imageView3 = findViewById(R.id.imageView3);
-        ImageView imageView4 = findViewById(R.id.imageView4);
-        ImageView imageView5 = findViewById(R.id.imageView5);
+        showAnimals(imageList);
 
-        TextView textView1 = findViewById(R.id.homePageAnimalText1);
-        TextView textView2 = findViewById(R.id.homePageAnimalText2);
-        TextView textView3 = findViewById(R.id.homePageAnimalText3);
-        TextView textView4 = findViewById(R.id.homePageAnimalText4);
-        TextView textView5 = findViewById(R.id.homePageAnimalText5);
 
-        LinearLayout linearLayout1 = findViewById(R.id.linearLayoutHomePageAnimal1);
-        LinearLayout linearLayout2 = findViewById(R.id.linearLayoutHomePageAnimal2);
-        LinearLayout linearLayout3 = findViewById(R.id.linearLayoutHomePageAnimal3);
-        LinearLayout linearLayout4 = findViewById(R.id.linearLayoutHomePageAnimal4);
-        LinearLayout linearLayout5 = findViewById(R.id.linearLayoutHomePageAnimal5);
+
+        //buttons
+
+        calendarBtn = findViewById(R.id.calendar_btn);
+        runBtn = findViewById(R.id.run_btn);
+        profileBtn = findViewById(R.id.profile_btn);
+
+        calendarBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this,CalendarActivity.class));
+
+            }
+        });
+        runBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this, RunSession.class));
+
+            }
+        });
+        profileBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this,MyActivities.class));
+
+            }
+        });
+
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showAnimals(imageList);
+            }
+        });
+
+
+        imageView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               startActivity(new Intent(HomeActivity.this, ActivityPage.class));
+            }
+        });
+
+        imageView2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this, ActivityPage.class));
+
+            }
+        });
+
+        imageView3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this,ActivityPage.class));
+
+            }
+        });
+
+        imageView4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent =new Intent(HomeActivity.this,ActivityPage.class);
+                startActivity(intent);
+            }
+        });
+
+        imageView5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this,ActivityPage.class));
+
+            }
+        });
+
+
+
+    }
+
+
+    private void checkUserStatus(){
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if(user != null){
+
+        }
+        else{
+            //startActivity(new Intent(HomeActivity.this, RegistrationOrConnexion.class));
+            //finish();
+        }
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.action_logout){
+            firebaseAuth.signOut();
+            checkUserStatus();
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void showAnimals(ArrayList<Integer> imageList){
+        imageView1 = findViewById(R.id.imageView1);
+        imageView2 = findViewById(R.id.imageView2);
+        imageView3 = findViewById(R.id.imageView3);
+        imageView4 = findViewById(R.id.imageView4);
+        imageView5 = findViewById(R.id.imageView5);
+
+        textView1 = findViewById(R.id.homePageAnimalText1);
+        textView2 = findViewById(R.id.homePageAnimalText2);
+        textView3 = findViewById(R.id.homePageAnimalText3);
+        textView4 = findViewById(R.id.homePageAnimalText4);
+        textView5 = findViewById(R.id.homePageAnimalText5);
+
+        linearLayout1 = findViewById(R.id.linearLayoutHomePageAnimal1);
+        linearLayout2 = findViewById(R.id.linearLayoutHomePageAnimal2);
+        linearLayout3 = findViewById(R.id.linearLayoutHomePageAnimal3);
+        linearLayout4 = findViewById(R.id.linearLayoutHomePageAnimal4);
+        linearLayout5 = findViewById(R.id.linearLayoutHomePageAnimal5);
 
 
         textView1.setText("Dessin");
@@ -94,26 +240,28 @@ public class HomeActivity extends AppCompatActivity {
         textView5.setText("Yoga");
 
 
-        imageView1.setImageResource(imageList.get(0));
-        imageView2.setImageResource(imageList.get(1));
-        imageView3.setImageResource(imageList.get(2));
-        imageView4.setImageResource(imageList.get(3));
-        imageView5.setImageResource(imageList.get(4));
+Random random = new Random();
 
 
-        Random random = new Random();
+        imageView1.setImageResource(imageList.get(random.nextInt(imageList.size()-1)));
+        imageView2.setImageResource(imageList.get(random.nextInt(imageList.size()-1)));
+        imageView3.setImageResource(imageList.get(random.nextInt(imageList.size()-1)));
+        imageView4.setImageResource(imageList.get(random.nextInt(imageList.size()-1)));
+        imageView5.setImageResource(imageList.get(random.nextInt(imageList.size()-1)));
+
+
 
         // Obtenir le gestionnaire de fenêtres
         WindowManager windowManager = getWindowManager();
 
-// Obtenir les métriques d'affichage
+        // Obtenir les métriques d'affichage
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((WindowManager) windowManager).getDefaultDisplay().getMetrics(displayMetrics);
 
-// Obtenir la largeur de l'écran
+        // Obtenir la largeur de l'écran
         int surfaceWidth = displayMetrics.widthPixels;
 
-// Obtenir la hauteur de l'écran
+        // Obtenir la hauteur de l'écran
         int surfaceHeight = displayMetrics.heightPixels;
 
         int cellHeight= surfaceHeight/5;
@@ -135,12 +283,11 @@ public class HomeActivity extends AppCompatActivity {
 
         // Générez les coordonnées aléatoires pour chaque ImageView
 
-
         int image1X = 0;
         int image1Y = 0;
         int val =random.nextInt(cellList.size()-1);
-             image1X = cellList.get(val)[0];
-             image1Y = cellList.get(val)[1];
+        image1X = cellList.get(val)[0];
+        image1Y = cellList.get(val)[1];
         cellList.remove(val);
 
         int image2X = 0;
@@ -214,108 +361,6 @@ public class HomeActivity extends AppCompatActivity {
         params5.leftMargin = image5X;
         params5.topMargin = image5Y;
         linearLayout5.setLayoutParams(params5);
-        //buttons
-
-        calendarBtn = findViewById(R.id.calendar_btn);
-        runBtn = findViewById(R.id.run_btn);
-        profileBtn = findViewById(R.id.profile_btn);
-
-        calendarBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this,CalendarActivity.class));
-
-            }
-        });
-        runBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this, RunSession.class));
-
-            }
-        });
-        profileBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this,MyActivities.class));
-
-            }
-        });
-
-        imageView1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               startActivity(new Intent(HomeActivity.this, ActivityPage.class));
-            }
-        });
-
-        imageView2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this, ActivityPage.class));
-
-            }
-        });
-
-        imageView3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this,ActivityPage.class));
-
-            }
-        });
-
-        imageView4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent =new Intent(HomeActivity.this,ActivityPage.class);
-            }
-        });
-
-        imageView5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this,ActivityPage.class));
-
-            }
-        });
-
-
-
     }
 
-
-    private void checkUserStatus(){
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        if(user != null){
-
-        }
-        else{
-            //startActivity(new Intent(HomeActivity.this, RegistrationOrConnexion.class));
-            //finish();
-        }
-    }
-
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        if(id == R.id.action_logout){
-            firebaseAuth.signOut();
-            checkUserStatus();
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }

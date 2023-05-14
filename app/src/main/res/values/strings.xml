@@ -63,5 +63,6 @@
     <string name="retake">Retake</string>
     <string name="default_time_end_session">1h/2h</string>
     <string name="skip">Skip</string>
+    <string name="Next">next</string>
 
 </resources>

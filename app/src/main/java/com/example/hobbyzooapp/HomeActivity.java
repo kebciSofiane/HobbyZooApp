@@ -61,11 +61,11 @@ public class HomeActivity extends AppCompatActivity {
         //firebaseAuth = FirebaseAuth.getInstance();
 
         ArrayList<Integer> imageList = new ArrayList<>();
-        imageList.add(R.drawable.bear);
-        imageList.add(R.drawable.fox);
-        imageList.add(R.drawable.panda);
-        imageList.add(R.drawable.dog_bizarre);
-        imageList.add(R.drawable.pig);
+        imageList.add(R.drawable.lion);
+        imageList.add(R.drawable.koala);
+        imageList.add(R.drawable.singe);
+        imageList.add(R.drawable.cat);
+        imageList.add(R.drawable.chick);
 
 
         ImageView imageView1 = findViewById(R.id.imageView1);
@@ -116,13 +116,13 @@ public class HomeActivity extends AppCompatActivity {
 // Obtenir la hauteur de l'écran
         int surfaceHeight = displayMetrics.heightPixels;
 
-        int cellHeight= surfaceHeight/6;
-        int cellWidth = surfaceWidth/6;
+        int cellHeight= surfaceHeight/5;
+        int cellWidth = surfaceWidth/5;
 
         ArrayList<int[]> cellList = new ArrayList<>();
 
-        for (int i=0; i<6;i++)
-            for (int j=0; j<5;j++)
+        for (int i=0; i<5;i++)
+            for (int j=0; j<4;j++)
             {
                 int[] val = new int[2];
                 val[0] = i*cellWidth;

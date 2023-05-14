@@ -9,12 +9,15 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -40,8 +43,6 @@ public class HomeActivity extends AppCompatActivity {
     ActionBar actionBar;
 
     ImageView fenceImage;
-
-
 
 
     ImageButton calendarBtn, runBtn, profileBtn;
@@ -73,6 +74,26 @@ public class HomeActivity extends AppCompatActivity {
         ImageView imageView4 = findViewById(R.id.imageView4);
         ImageView imageView5 = findViewById(R.id.imageView5);
 
+        TextView textView1 = findViewById(R.id.homePageAnimalText1);
+        TextView textView2 = findViewById(R.id.homePageAnimalText2);
+        TextView textView3 = findViewById(R.id.homePageAnimalText3);
+        TextView textView4 = findViewById(R.id.homePageAnimalText4);
+        TextView textView5 = findViewById(R.id.homePageAnimalText5);
+
+        LinearLayout linearLayout1 = findViewById(R.id.linearLayoutHomePageAnimal1);
+        LinearLayout linearLayout2 = findViewById(R.id.linearLayoutHomePageAnimal2);
+        LinearLayout linearLayout3 = findViewById(R.id.linearLayoutHomePageAnimal3);
+        LinearLayout linearLayout4 = findViewById(R.id.linearLayoutHomePageAnimal4);
+        LinearLayout linearLayout5 = findViewById(R.id.linearLayoutHomePageAnimal5);
+
+
+        textView1.setText("Dessin");
+        textView2.setText("Muscu");
+        textView3.setText("Dance");
+        textView4.setText("DIY");
+        textView5.setText("Yoga");
+
+
         imageView1.setImageResource(imageList.get(0));
         imageView2.setImageResource(imageList.get(1));
         imageView3.setImageResource(imageList.get(2));
@@ -82,16 +103,25 @@ public class HomeActivity extends AppCompatActivity {
 
         Random random = new Random();
 
-        // Récupérez les dimensions de la surface prédéfinie
-        int surfaceWidth = 800;
-        int surfaceHeight =800 ;
+        // Obtenir le gestionnaire de fenêtres
+        WindowManager windowManager = getWindowManager();
 
-        int cellHeight= surfaceHeight/5;
-        int cellWidth = surfaceWidth/5;
+// Obtenir les métriques d'affichage
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((WindowManager) windowManager).getDefaultDisplay().getMetrics(displayMetrics);
+
+// Obtenir la largeur de l'écran
+        int surfaceWidth = displayMetrics.widthPixels;
+
+// Obtenir la hauteur de l'écran
+        int surfaceHeight = displayMetrics.heightPixels;
+
+        int cellHeight= surfaceHeight/6;
+        int cellWidth = surfaceWidth/6;
 
         ArrayList<int[]> cellList = new ArrayList<>();
 
-        for (int i=0; i<5;i++)
+        for (int i=0; i<6;i++)
             for (int j=0; j<5;j++)
             {
                 int[] val = new int[2];
@@ -155,69 +185,35 @@ public class HomeActivity extends AppCompatActivity {
 
 
         params1.topMargin = image1Y;
-        imageView1.setLayoutParams(params1);
+        linearLayout1.setLayoutParams(params1);
 
         RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
         params2.leftMargin = image2X;
         params2.topMargin = image2Y;
-        imageView2.setLayoutParams(params2);
+        linearLayout2.setLayoutParams(params2);
 
         RelativeLayout.LayoutParams params3 = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
         params3.leftMargin = image3X;
         params3.topMargin = image3Y;
-        imageView3.setLayoutParams(params3);
+        linearLayout3.setLayoutParams(params3);
 
         RelativeLayout.LayoutParams params4 = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
         params4.leftMargin = image4X;
         params4.topMargin = image4Y;
-        imageView4.setLayoutParams(params4);
+        linearLayout4.setLayoutParams(params4);
 
         RelativeLayout.LayoutParams params5 = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
         params5.leftMargin = image5X;
         params5.topMargin = image5Y;
-        imageView5.setLayoutParams(params5);
-
-
-
-        // Modifier la taille de l'image1
-       params1 = (RelativeLayout.LayoutParams) imageView1.getLayoutParams();
-        params1.width = 150;
-        params1.height = 150;
-        imageView1.setLayoutParams(params1);
-
-// Modifier la taille de l'image2
-        params2 = (RelativeLayout.LayoutParams) imageView2.getLayoutParams();
-        params2.width = 150;
-        params2.height = 150;
-        imageView2.setLayoutParams(params2);
-
-// Modifier la taille de l'image3
-         params3 = (RelativeLayout.LayoutParams) imageView3.getLayoutParams();
-        params3.width = 150;
-        params3.height = 150;
-        imageView3.setLayoutParams(params3);
-
-// Modifier la taille de l'image4
-        params4 = (RelativeLayout.LayoutParams) imageView4.getLayoutParams();
-        params4.width = 150;
-        params4.height = 150;
-        imageView4.setLayoutParams(params4);
-
-// Modifier la taille de l'image5
-         params5 = (RelativeLayout.LayoutParams) imageView5.getLayoutParams();
-        params5.width = 150;
-        params5.height = 150;
-        imageView5.setLayoutParams(params5);
-
-
+        linearLayout5.setLayoutParams(params5);
         //buttons
 
         calendarBtn = findViewById(R.id.calendar_btn);

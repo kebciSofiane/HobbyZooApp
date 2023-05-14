@@ -45,6 +45,7 @@ public class HomeActivity extends AppCompatActivity {
     ImageView fenceImage;
 
 
+
     ImageButton calendarBtn, runBtn, profileBtn;
 
 
@@ -57,7 +58,6 @@ public class HomeActivity extends AppCompatActivity {
 
 //        actionBar = getSupportActionBar();
 //        actionBar.setTitle("Profile");
-
         //firebaseAuth = FirebaseAuth.getInstance();
 
         ArrayList<Integer> imageList = new ArrayList<>();
@@ -245,8 +245,7 @@ public class HomeActivity extends AppCompatActivity {
         imageView1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this, ActivityPage.class));
-
+               startActivity(new Intent(HomeActivity.this, ActivityPage.class));
             }
         });
 
@@ -269,8 +268,7 @@ public class HomeActivity extends AppCompatActivity {
         imageView4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this,ActivityPage.class));
-
+                Intent intent =new Intent(HomeActivity.this,ActivityPage.class);
             }
         });
 

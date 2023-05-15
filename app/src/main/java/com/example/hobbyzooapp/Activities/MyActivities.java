@@ -12,7 +12,6 @@ import android.widget.ImageButton;
 import com.example.hobbyzooapp.Category.Category;
 import com.example.hobbyzooapp.HomeActivity;
 import com.example.hobbyzooapp.R;
-import com.example.hobbyzooapp.new_activities.NewActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;

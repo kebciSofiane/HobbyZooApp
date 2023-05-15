@@ -19,7 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.hobbyzooapp.HomeActivity;
 import com.example.hobbyzooapp.R;
 import com.example.hobbyzooapp.TodoTask;
-import com.example.hobbyzooapp.Sessions.listSessionsAdapter;
+import com.example.hobbyzooapp.Sessions.ListSessionsAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +37,7 @@ public class ActivityPage extends AppCompatActivity {
     ImageButton homeButton;
     TextView goalsText;
     List<String> items = new ArrayList<>();
-    listSessionsAdapter adapter;
+    ListSessionsAdapter adapter;
     private List<TodoTask> todoList = new ArrayList<>();
     Boolean allSessions = false;
 
@@ -70,7 +70,7 @@ public class ActivityPage extends AppCompatActivity {
 
         changeManager();
 
-        adapter = new listSessionsAdapter(items);
+        adapter = new ListSessionsAdapter(items);
         recyclerView.setAdapter(adapter);
 
 

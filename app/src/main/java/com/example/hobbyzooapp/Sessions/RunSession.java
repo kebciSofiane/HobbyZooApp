@@ -48,7 +48,7 @@ public class RunSession extends AppCompatActivity {
         stopButton = findViewById(R.id.stopButton);
         resumeButton=findViewById(R.id.resumeButton);
         petPicture = findViewById(R.id.petPicture);
-        petPicture.setImageResource(R.drawable.koala);
+        petPicture.setImageResource(R.drawable.koa);
         validateButton = findViewById(R.id.validateButton);
         addTimeButton = findViewById(R.id.addTimeButton);
 
@@ -165,7 +165,7 @@ public class RunSession extends AppCompatActivity {
         countdownTextView.setText("Temps restant : " + timeRemainingFormatted);
     }
     private void endSession(){
-        Intent intent = new Intent(RunSession.this, endSession.class);
+        Intent intent = new Intent(RunSession.this, EndSession.class);
         startActivity(intent);
     }
 

@@ -1,4 +1,4 @@
-package com.example.hobbyzooapp.new_activities;
+package com.example.hobbyzooapp.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.hobbyzooapp.Category.NewCategory;
 import com.example.hobbyzooapp.ListAnimals;
 import com.example.hobbyzooapp.R;
 

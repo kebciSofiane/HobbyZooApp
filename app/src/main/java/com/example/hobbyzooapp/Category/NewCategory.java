@@ -1,4 +1,4 @@
-package com.example.hobbyzooapp.new_activities;
+package com.example.hobbyzooapp.Category;
 
 import android.graphics.Bitmap;
 import android.graphics.Color;

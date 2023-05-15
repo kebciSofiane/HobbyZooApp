@@ -11,7 +11,7 @@ import com.example.hobbyzooapp.R;
 
 import java.util.List;
 
-public class listSessionsAdapter extends RecyclerView.Adapter<listSessionsAdapter.ViewHolder> {
+public class ListSessionsAdapter extends RecyclerView.Adapter<ListSessionsAdapter.ViewHolder> {
     private List<String> items;
     private int displayedItemCount = 2;
     private boolean isExpanded = false;
@@ -21,7 +21,7 @@ public class listSessionsAdapter extends RecyclerView.Adapter<listSessionsAdapte
         this.displayedItemCount = displayedItemCount;
     }
 
-    public listSessionsAdapter(List<String> items) {
+    public ListSessionsAdapter(List<String> items) {
         this.items = items;
     }
 

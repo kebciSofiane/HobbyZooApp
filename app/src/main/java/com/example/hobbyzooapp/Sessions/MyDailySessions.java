@@ -19,7 +19,6 @@ import com.example.hobbyzooapp.Calendar.CalendarUtils;
 import com.example.hobbyzooapp.HomeActivity;
 import com.example.hobbyzooapp.R;
 import com.example.hobbyzooapp.OnItemClickListener;
-import com.example.hobbyzooapp.new_activities.NewSession;
 
 import java.sql.Time;
 import java.time.LocalDate;

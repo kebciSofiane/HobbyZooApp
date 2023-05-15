@@ -4,9 +4,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Build;
@@ -23,20 +20,14 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.example.hobbyzooapp.Activities.Activity;
 import com.example.hobbyzooapp.Activities.ActivityPage;
 import com.example.hobbyzooapp.Activities.MyActivities;
 import com.example.hobbyzooapp.Calendar.CalendarActivity;
-import com.example.hobbyzooapp.Calendar.CalendarUtils;
 import com.example.hobbyzooapp.Sessions.RunSession;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 public class HomeActivity extends AppCompatActivity {
@@ -84,7 +75,7 @@ public class HomeActivity extends AppCompatActivity {
 
         ArrayList<Integer> imageList = new ArrayList<>();
         imageList.add(R.drawable.lion);
-        imageList.add(R.drawable.koala);
+        imageList.add(R.drawable.koa);
         imageList.add(R.drawable.singe);
         imageList.add(R.drawable.cat);
         imageList.add(R.drawable.chick);

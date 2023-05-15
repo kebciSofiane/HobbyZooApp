@@ -91,7 +91,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:paddingBottom="20dp"
-            android:src="@drawable/colorpicker" />
+            android:src="@drawable/color_picker" />
 
         <View
             android:id="@+id/displayColors"

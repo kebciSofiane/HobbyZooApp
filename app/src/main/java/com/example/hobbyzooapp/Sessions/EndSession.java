@@ -36,7 +36,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-public class endSession extends AppCompatActivity {
+public class EndSession extends AppCompatActivity {
 
 
 
@@ -61,7 +61,7 @@ public class endSession extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_session);
         petPic = findViewById(R.id.petPicture);
-        petPic.setImageResource(R.drawable.koala);
+        petPic.setImageResource(koa);
         takeApic=findViewById(R.id.takeAPic);
         takenImage =findViewById(R.id.takenImage);
         commentField =findViewById(R.id.commentText);
@@ -164,8 +164,8 @@ public class endSession extends AppCompatActivity {
             photoPath =photoFile.getAbsolutePath();
             Uri photoUri = null;
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
-                photoUri = FileProvider.getUriForFile(endSession.this,
-                        endSession.this.getApplicationContext().getOpPackageName()+".provider",
+                photoUri = FileProvider.getUriForFile(EndSession.this,
+                        EndSession.this.getApplicationContext().getOpPackageName()+".provider",
                         photoFile);
             }
             intent.putExtra(MediaStore.EXTRA_OUTPUT,photoUri);
@@ -181,7 +181,7 @@ public class endSession extends AppCompatActivity {
         Bitmap image = BitmapFactory.decodeFile(photoPath);
         takenImage.setImageBitmap(image);
         takenImage.setVisibility(View.VISIBLE);
-        petPic.setImageResource(R.drawable.koa);
+        petPic.setImageResource(R.pet.koa);
     }
 
     @Override
@@ -242,7 +242,7 @@ public class endSession extends AppCompatActivity {
     }
 
     private void endSession(){
-        Intent intent = new Intent(endSession.this, ActivityPage.class);
+        Intent intent = new Intent(EndSession.this, ActivityPage.class);
         startActivity(intent);
     }
 

@@ -1,4 +1,4 @@
-package com.example.hobbyzooapp.new_activities;
+package com.example.hobbyzooapp.Sessions;
 
 import android.content.Intent;
 import android.os.Build;
@@ -16,9 +16,9 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hobbyzooapp.R;
+import com.example.hobbyzooapp.Activities.NewActivity;
 
 import java.sql.Time;
-import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

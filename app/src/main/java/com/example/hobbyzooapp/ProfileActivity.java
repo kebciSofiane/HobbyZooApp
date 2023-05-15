@@ -3,7 +3,6 @@ package com.example.hobbyzooapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.hobbyzooapp.Activities.MyActivities;
-import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -43,9 +41,6 @@ public class ProfileActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-
-
-
 
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
@@ -83,7 +78,7 @@ public class ProfileActivity extends AppCompatActivity {
         Glide.with(this)
                 .load(imageUrl)
                 .placeholder(R.drawable.ic_profile) // Image de remplacement temporaire
-                .error(R.drawable.ic_calendar) // Image d'erreur en cas de chargement échoué
+                .error(R.drawable.ic_error) // Image d'erreur en cas de chargement échoué
                 .into(profileImageView);
 
         myActivitiesButton.setOnClickListener(new View.OnClickListener() {

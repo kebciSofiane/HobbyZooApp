@@ -5,10 +5,7 @@
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-
     <uses-permission android:name="android.permission.INTERNET" />
-
 
     <application
         android:allowBackup="true"
@@ -21,6 +18,9 @@
         android:theme="@style/Theme.HobbyZooApp"
         tools:targetApi="31">
         <activity
+            android:name=".ProfileActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.ActivityPage"
             android:exported="false" />
         <activity
@@ -28,12 +28,11 @@
             android:exported="false" />
         <activity
             android:name=".Sessions.RunSession"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".RegisterActivity"
             android:exported="true"
             android:parentActivityName=".RegistrationOrConnexion" />
-
         <activity
             android:name=".LoginActivity"
             android:exported="false"
@@ -43,8 +42,7 @@
             android:exported="false" />
         <activity
             android:name=".RegistrationOrConnexion"
-            android:exported="false"/>
-
+            android:exported="false" />
         <activity
             android:name=".Activities.MyActivities"
             android:exported="false" />
@@ -57,32 +55,26 @@
         <activity
             android:name=".Calendar.WeekViewActivity"
             android:exported="false" />
-
-
         <activity
             android:name=".SplashScreenActivity"
             android:exported="true">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-         </activity>
-        <activity android:name=".Sessions.NewSession"
-            android:exported="true">
-
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
+        <activity
+            android:name=".Sessions.NewSession"
+            android:exported="true"></activity>
         <activity
             android:name=".Category.NewCategory"
-            android:parentActivityName=".Activities.NewActivity"
-            android:exported="true">
-        </activity>
+            android:exported="true"
+            android:parentActivityName=".Activities.NewActivity"></activity>
         <activity
             android:name=".Activities.NewActivity"
-            android:parentActivityName=".Sessions.NewSession"
-            android:exported="true">
-
-        </activity>
+            android:exported="true"
+            android:parentActivityName=".Sessions.NewSession"></activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"

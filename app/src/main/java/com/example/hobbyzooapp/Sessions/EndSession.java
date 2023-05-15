@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hobbyzooapp.Activities.ActivityPage;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.io.File;
 import java.io.IOException;
@@ -54,12 +55,14 @@ public class EndSession extends AppCompatActivity {
     Button modifyCommentButton;
     private String photoPath =null;
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
+    FirebaseAuth firebaseAuth;
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_session);
+        firebaseAuth = FirebaseAuth.getInstance();
         petPic = findViewById(R.id.petPicture);
         petPic.setImageResource(R.drawable.koa);
         takeApic=findViewById(R.id.takeAPic);

@@ -2,6 +2,7 @@ package com.example.hobbyzooapp.Calendar;
 import com.example.hobbyzooapp.R;
 import com.example.hobbyzooapp.Sessions.Session;
 import com.example.hobbyzooapp.Sessions.MyDailySessionsAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,6 +27,7 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
     private GridView eventListView;
+    FirebaseAuth firebaseAuth;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -33,6 +35,7 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_week_view);
+        firebaseAuth = FirebaseAuth.getInstance();
         initWidgets();
         setWeekView();
 

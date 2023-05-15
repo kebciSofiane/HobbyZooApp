@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.example.hobbyzooapp.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Calendar;
 import java.util.Locale;
@@ -34,6 +35,7 @@ public class RunSession extends AppCompatActivity {
     ImageView petPicture;
     Button validateButton;
     Button addTimeButton;
+    FirebaseAuth firebaseAuth;
 
 
 
@@ -42,6 +44,7 @@ public class RunSession extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_run_session);
+        firebaseAuth = FirebaseAuth.getInstance();
 
         countdownTextView = findViewById(R.id.countdownTextView);
         pauseButton = findViewById(R.id.pauseButton);

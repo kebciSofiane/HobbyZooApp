@@ -19,6 +19,7 @@ import com.example.hobbyzooapp.Calendar.CalendarUtils;
 import com.example.hobbyzooapp.HomeActivity;
 import com.example.hobbyzooapp.R;
 import com.example.hobbyzooapp.OnItemClickListener;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.sql.Time;
 import java.time.LocalDate;
@@ -30,6 +31,7 @@ public class MyDailySessions extends AppCompatActivity {
     private Button addSessionButton;
     private ImageButton calendarButton;
     private View sessionButton;
+    FirebaseAuth firebaseAuth;
 
     public ArrayList<Session> sessionList;
 
@@ -39,6 +41,7 @@ public class MyDailySessions extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_daily_sessions);
+        firebaseAuth = FirebaseAuth.getInstance();
 
         homeButton = findViewById(R.id.home_button);
         homeButton.setOnClickListener(new View.OnClickListener(){

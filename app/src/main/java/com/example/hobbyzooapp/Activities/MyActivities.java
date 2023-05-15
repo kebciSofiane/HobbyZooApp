@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import com.example.hobbyzooapp.Category.Category;
 import com.example.hobbyzooapp.HomeActivity;
 import com.example.hobbyzooapp.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,12 +26,14 @@ public class MyActivities extends AppCompatActivity {
     ExpandableListAdapter expandableListAdapter;
     List<String> expandableListTitle;
     HashMap<String, List<Activity>> expandableListDetail;
+    FirebaseAuth firebaseAuth;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_activities);
+        firebaseAuth = FirebaseAuth.getInstance();
 
         homeButton = findViewById(R.id.homeButton);
         homeButton.setOnClickListener(new View.OnClickListener() {

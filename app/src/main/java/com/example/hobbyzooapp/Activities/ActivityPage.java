@@ -20,6 +20,7 @@ import com.example.hobbyzooapp.HomeActivity;
 import com.example.hobbyzooapp.R;
 import com.example.hobbyzooapp.TodoTask;
 import com.example.hobbyzooapp.Sessions.ListSessionsAdapter;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +41,7 @@ public class ActivityPage extends AppCompatActivity {
     ListSessionsAdapter adapter;
     private List<TodoTask> todoList = new ArrayList<>();
     Boolean allSessions = false;
+    FirebaseAuth firebaseAuth;
 
 
 
@@ -50,6 +52,7 @@ public class ActivityPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page);
+        firebaseAuth = FirebaseAuth.getInstance();
         items.addAll(List.of("5 juin à 13h00 - 15 min","7 juin à 13h00 - 15 min","13 juin à 13h00 - 15 min",
                 "5 juin à 13h00 - 15 min","5 juin à 13h00 - 15 min","5 juin à 13h00 - 15 min",
                 "5 juin à 13h00 - 15 min","7 juin à 13h00 - 15 min","16 juillet à 13h00 - 15 min",

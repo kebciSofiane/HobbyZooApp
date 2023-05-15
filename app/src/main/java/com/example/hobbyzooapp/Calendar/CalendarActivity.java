@@ -2,6 +2,7 @@ package com.example.hobbyzooapp.Calendar;
 import com.example.hobbyzooapp.HomeActivity;
 import com.example.hobbyzooapp.R;
 import com.example.hobbyzooapp.Sessions.MyDailySessions;
+import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,6 +32,7 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
     private Button todaySessionButton;
     private Button todayMonthButton;
     private ImageButton homeButton;
+    FirebaseAuth firebaseAuth;
 
 
     @SuppressLint("MissingInflatedId")
@@ -40,6 +42,7 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
+        firebaseAuth = FirebaseAuth.getInstance();
         initWidgets();
         CalendarUtils.selectedDate = LocalDate.now();
         setMonthView();

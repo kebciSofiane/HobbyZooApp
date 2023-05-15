@@ -42,6 +42,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
 
+
     ImageButton calendarBtn, runBtn, profileBtn;
 
     ImageView imageView1;
@@ -222,7 +223,6 @@ public class HomeActivity extends AppCompatActivity {
         linearLayout3 = findViewById(R.id.linearLayoutHomePageAnimal3);
         linearLayout4 = findViewById(R.id.linearLayoutHomePageAnimal4);
         linearLayout5 = findViewById(R.id.linearLayoutHomePageAnimal5);
-
 
         textView1.setText("Dessin");
         textView2.setText("Muscu");

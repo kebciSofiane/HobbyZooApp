@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20sp"
-            android:text="@string/temps_restant_"
+            android:text="@string/time_left_"
             android:textColor="@color/black"
             android:textSize="20sp" />
 

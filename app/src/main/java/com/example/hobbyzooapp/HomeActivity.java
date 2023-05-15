@@ -76,7 +76,7 @@ public class HomeActivity extends AppCompatActivity {
         ArrayList<Integer> imageList = new ArrayList<>();
         imageList.add(R.drawable.lion);
         imageList.add(R.drawable.koa);
-        imageList.add(R.drawable.singe);
+        //imageList.add(R.drawable.singe);
         imageList.add(R.drawable.cat);
         imageList.add(R.drawable.chick);
         imageList.add(R.drawable.beaver);

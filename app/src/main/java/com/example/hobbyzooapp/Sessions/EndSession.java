@@ -61,7 +61,7 @@ public class EndSession extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_session);
         petPic = findViewById(R.id.petPicture);
-        petPic.setImageResource(koa);
+        petPic.setImageResource(R.drawable.koa);
         takeApic=findViewById(R.id.takeAPic);
         takenImage =findViewById(R.id.takenImage);
         commentField =findViewById(R.id.commentText);
@@ -181,7 +181,7 @@ public class EndSession extends AppCompatActivity {
         Bitmap image = BitmapFactory.decodeFile(photoPath);
         takenImage.setImageBitmap(image);
         takenImage.setVisibility(View.VISIBLE);
-        petPic.setImageResource(R.pet.koa);
+        petPic.setImageResource(R.drawable.koa);
     }
 
     @Override

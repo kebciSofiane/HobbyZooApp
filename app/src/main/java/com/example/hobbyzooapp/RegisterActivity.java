@@ -35,7 +35,7 @@ public class RegisterActivity extends AppCompatActivity  {
 
 
     ProgressDialog progressDialog;
-    private FirebaseAuth auth;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +56,7 @@ public class RegisterActivity extends AppCompatActivity  {
         haveAccountTv = findViewById(R.id.have_accountTv);
         pseudoET =  findViewById(R.id.pseudoET);
 
-        auth =FirebaseAuth.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
 
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Registering User...");
@@ -93,14 +93,14 @@ public class RegisterActivity extends AppCompatActivity  {
 
     private void registerUser(String email, String password,String pseudo) {
         progressDialog.show();
-        auth.createUserWithEmailAndPassword(email, password)
+        firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, dismiss dialog and start register activity
                             progressDialog.dismiss();
-                            FirebaseUser user = auth.getCurrentUser();
+                            FirebaseUser user = firebaseAuth.getCurrentUser();
 
                             //get user uid and email from auth
                             String email = user.getEmail();

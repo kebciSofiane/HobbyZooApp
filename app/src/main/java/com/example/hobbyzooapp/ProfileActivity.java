@@ -2,11 +2,13 @@ package com.example.hobbyzooapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,9 +32,13 @@ public class ProfileActivity extends AppCompatActivity {
     private Button personalInfoButton;
     private Button myActivitiesButton;
     private Button followMyProgressButton;
+    private ImageButton homeButton;
+    private ImageButton settingsButton;
+
     FirebaseAuth firebaseAuth;
     private FirebaseStorage storage;
     private StorageReference storageReference;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +56,8 @@ public class ProfileActivity extends AppCompatActivity {
         personalInfoButton = findViewById(R.id.personal_info);
         myActivitiesButton = findViewById(R.id.my_activities);
         followMyProgressButton = findViewById(R.id.follow_my_progress);
+        homeButton = findViewById(R.id.home_button);
+        settingsButton = findViewById(R.id.settings_button);
 
         if (user != null) {
             DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid());
@@ -88,6 +96,23 @@ public class ProfileActivity extends AppCompatActivity {
 
             }
         });
+
+        homeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileActivity.this, HomeActivity.class));
+                finish();
+
+            }
+        });
+
+//        settingsButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(ProfileActivity.this, SettingsActivity.class));
+//
+//            }
+//        });
     }
 
 

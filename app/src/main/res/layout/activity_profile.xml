@@ -1,85 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_background"
-    android:orientation="vertical">
+    android:background="@color/app_background">
 
-    <!-- Header -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="16dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <!-- Header -->
+
+        <!-- Edit Profile Text -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="16dp">
+
+            <TextView
+                android:id="@+id/profile_username"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_weight="1"
+                android:text="@string/username"
+                android:textColor="@color/black"
+                android:textSize="30sp" />
+
+            <ImageView
+                android:id="@+id/profile_image"
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/ic_profile" />
+
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/profile_username"
-            android:layout_width="0dp"
+            android:id="@+id/edit_profile"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="John Doe"
-            android:textSize="24sp"
-            android:textColor="@color/black"/>
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="5dp"
+            android:text="Edit profile"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
 
-        <ImageView
-            android:id="@+id/profile_image"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/ic_profile"
-            android:layout_gravity="center_vertical"
-            android:layout_marginStart="16dp"/>
+        <!-- Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <Button
+                android:id="@+id/personal_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="@color/black"
+                android:text="Personal information"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/my_activities"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="@color/black"
+                android:text="My activities"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/follow_my_progress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="@color/black"
+                android:text="My evolution"
+                android:textColor="@color/white"
+                android:textSize="16sp" />
+
+
+        </LinearLayout>
 
     </LinearLayout>
-
-    <!-- Edit Profile Text -->
-    <TextView
-        android:id="@+id/edit_profile"
+    <ImageButton
+        android:id="@+id/settings_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Modifier le profil"
-        android:textSize="16sp"
-        android:textColor="@color/black"
-        android:layout_marginHorizontal="16dp"
-        android:layout_marginTop="8dp"/>
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="20dp"
+        android:src="@drawable/ic_settings"
+        android:backgroundTint="@color/transparent" />
 
-    <!-- Buttons -->
-    <LinearLayout
-        android:layout_width="match_parent"
+    <ImageButton
+        android:id="@+id/home_button"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        android:padding="16dp">
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/transparent"
+        android:src="@drawable/ic_home" />
 
-        <Button
-            android:id="@+id/personal_info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Informations personnelles"
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            android:background="@color/black"
-            android:layout_marginBottom="4dp"/>
-
-        <Button
-            android:id="@+id/my_activities"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Mes activités"
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            android:background="@color/black"
-            android:layout_marginBottom="4dp"/>
-
-        <Button
-            android:id="@+id/follow_my_progress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Suivre mon évolution"
-            android:textSize="16sp"
-            android:textColor="@color/white"
-            android:background="@color/black"
-            android:layout_marginBottom="4dp"/>
-
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

@@ -18,10 +18,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.hobbyzooapp.R;
 import com.example.hobbyzooapp.Activities.NewActivity;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 public class NewSession extends AppCompatActivity {
@@ -80,7 +83,23 @@ public class NewSession extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"Le champ Durée ne peut pas être à 0!",Toast.LENGTH_LONG).show();
                 }
                 else{
-                    Toast.makeText(getApplicationContext(),"name:"+activityName+", time:"+timePicker.getHour()+ ", date:"+datePicker.getDayOfMonth(),Toast.LENGTH_LONG).show();;
+                    DatabaseReference databaseReference = FirebaseAuth.getInstance().getReference();
+
+                    DatabaseReference newChildRef = databaseReference.push();
+                    String session_id = newChildRef.getKey();
+                    HashMap<Object, String> hashMap = new HashMap<>();
+                    int minute_duration = timePicker.getMinute() + timePicker.getHour() *60;
+
+                    hashMap.put("session_id", session_id);
+                    hashMap.put("session_duration", String.valueOf(minute_duration));
+                    hashMap.put("session_picture", "");
+                    hashMap.put("session_comment", "");
+                    hashMap.put("activity_id", (String) activitySelector.getSelectedItem()); //todo recup id
+
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+                    DatabaseReference reference = database.getReference("Session");
+                    reference.child(session_id).setValue(hashMap);
                 }
             }
         });

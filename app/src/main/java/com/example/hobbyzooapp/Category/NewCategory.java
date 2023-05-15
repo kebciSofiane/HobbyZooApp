@@ -1,5 +1,6 @@
 package com.example.hobbyzooapp.Category;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Build;
@@ -17,6 +18,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hobbyzooapp.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
 
 
 public class NewCategory extends AppCompatActivity {
@@ -32,6 +39,7 @@ public class NewCategory extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
 
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +79,7 @@ public class NewCategory extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 EditText text = findViewById(R.id.categoryName);
+                FirebaseUser user = firebaseAuth.getCurrentUser();
                 String colorHex = "#";
                 colorHex += Integer.toHexString(red);
                 colorHex += Integer.toHexString(green);
@@ -82,8 +91,25 @@ public class NewCategory extends AppCompatActivity {
                 }
                 else if (colorRGB == 0) {
                     Toast.makeText(getApplicationContext(),"Il faut choisir une couleur!",Toast.LENGTH_LONG).show();
-                } else {
-                    Toast.makeText(getApplicationContext(),"name: "+ name+", color: "+ colorHex,Toast.LENGTH_LONG).show();
+                } else if(user == null){
+
+                }else {
+                    DatabaseReference databaseReference = FirebaseAuth.getInstance().getReference();
+
+                    DatabaseReference newChildRef = databaseReference.push();
+                    String category_id = newChildRef.getKey();
+                    HashMap<Object, String> hashMap = new HashMap<>();
+
+
+                    hashMap.put("category_id", category_id);
+                    hashMap.put("category_name", name);
+                    hashMap.put("category_color", colorHex);
+                    hashMap.put("user_id", user.getUid());
+
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+                    DatabaseReference reference = database.getReference("Category");
+                    reference.child(category_id).setValue(hashMap);
                 }
             }
         });

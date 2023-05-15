@@ -26,6 +26,7 @@
     <string name="activity_name_">Activity name :</string>
     <string name="category_">Category :</string>
     <string name="pet_choice_">Choose a pet :</string>
+    <string name="weekly_goal_">Weekly goal :</string>
 
     <!-- New session -->
     <string name="new_session">New Session</string>

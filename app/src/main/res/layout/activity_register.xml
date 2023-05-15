@@ -27,11 +27,20 @@
         android:layout_below="@+id/register_title"
         android:src="@drawable/ic_addphoto" />
 
+    <Button
+        android:id="@+id/select_image_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/photoIV"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="Select Image" />
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/pseudoTIL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/photoIV"
+        android:layout_below="@+id/select_image_btn"
         android:padding="10dp">
 
         <EditText

@@ -1,17 +1,14 @@
 package com.example.hobbyzooapp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Base64;
 import android.util.Patterns;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,27 +22,15 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.karumi.dexter.Dexter;
-import com.karumi.dexter.PermissionToken;
-import com.karumi.dexter.listener.PermissionDeniedResponse;
-import com.karumi.dexter.listener.PermissionGrantedResponse;
-import com.karumi.dexter.listener.PermissionRequest;
-import com.karumi.dexter.listener.single.PermissionListener;
-import com.squareup.picasso.Picasso;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 
 
@@ -54,36 +39,20 @@ public class RegisterActivity extends AppCompatActivity  {
     EditText emailEt, passwordEt, pseudoET;
     Button registerBtn;
     TextView haveAccountTv;
-    ImageView photoIV;
+
+// photo
+    ImageView profileIv;
 
     ProgressDialog progressDialog;
     private FirebaseAuth auth;
+    //photo
+    private FirebaseStorage storage;
+    private StorageReference storageReference;
+    private DatabaseReference databaseReference;
+    private Uri imageUri;
 
-
-    private static final int CAMERA_REQUEST_CODE = 200;
-    private static final int STORAGE_REQUEST_CODE = 300;
-    private static final int PICK_IMAGE_REQUEST = 100;
-    private static final int PICK_IMAGE_CAMERA_REQUEST = 400;
-
-    private Uri mImageUri;
-    String storagePath="Users_Profile_Cover_Imgs/";
-
-
-    // Get a reference to the Firebase Storage
-    FirebaseStorage storage = FirebaseStorage.getInstance();
-
-    // Create a storage reference
-    StorageReference storageRef = storage.getReference();
-
-    // Create a reference to the file you want to upload
-    Uri file = Uri.fromFile(new File("path/to/file"));
-
-    // Create a reference to the location where you want to save the file in Firebase Storage
-    StorageReference fileRef = storageRef.child("images/profile.jpg");
-
-// Upload the file to Firebase Storage
-    DatabaseReference databaseReference;
-    FirebaseUser user;
+    private static final int PICK_IMAGE = 1;
+//
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,40 +71,36 @@ public class RegisterActivity extends AppCompatActivity  {
         registerBtn = findViewById(R.id.register_btn);
         haveAccountTv = findViewById(R.id.have_accountTv);
         pseudoET =  findViewById(R.id.pseudoET);
-        photoIV = findViewById(R.id.photoIV);
-
-
+        profileIv = findViewById(R.id.profile_image);//photo
 
         auth =FirebaseAuth.getInstance();
 
-
-
+//photo
+        storage = FirebaseStorage.getInstance();
+        storageReference = storage.getReference();
+        databaseReference = FirebaseDatabase.getInstance().getReference();
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Registering User...");
 
 
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
 
-
-
-
-
-
-
-        photoIV.setOnClickListener(new View.OnClickListener() {
+        profileIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Ouvrir la galerie de photos
-                Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, 1);
+                Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                galleryIntent.setType("image/*");
+                startActivityForResult(galleryIntent, PICK_IMAGE);
             }
         });
+
+//
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String email = emailEt.getText().toString().trim();
                 String password = passwordEt.getText().toString().trim();
                 String pseudo = pseudoET.getText().toString().trim();
+
                 if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
                     emailEt.setError("Invalid email address");
                     emailEt.setFocusable(true);
@@ -145,15 +110,16 @@ public class RegisterActivity extends AppCompatActivity  {
                     passwordEt.setFocusable(true);
                 }
                 else{
-                    registerUser(email, password,pseudo);
+                    // Ajout de la photo
+                    if(imageUri == null) {
+                        Toast.makeText(RegisterActivity.this, "Please select an image", Toast.LENGTH_SHORT).show();
+                    } else {
+                        registerUser(email, password, pseudo, imageUri);
+                    }
                 }
-
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST);
             }
         });
+
 
         haveAccountTv.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -165,7 +131,7 @@ public class RegisterActivity extends AppCompatActivity  {
     }
 
 
-    private void registerUser(String email, String password, String pseudo) {
+    private void registerUser(String email, String password, String pseudo, Uri imageUri) {
         progressDialog.show();
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -183,42 +149,48 @@ public class RegisterActivity extends AppCompatActivity  {
                             //get user pseudo from the pseudoET field
                             String pseudo = pseudoET.getText().toString().trim();
 
-                            //when user is registered, store user info in firebase realtime database
-                            HashMap<Object, String> hashMap = new HashMap<>();
-                            hashMap.put("email", email);
-                            hashMap.put("uid", uid);
-                            hashMap.put("pseudo", pseudo);
+                            //upload user image to firebase storage
+                            StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("users/" + uid + "/profile.jpg");
 
-                            // Convert image to base64 string
-                            String imageString = "";
-                            if (mImageUri != null) {
-                                try {
-                                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), mImageUri);
-                                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                                    bitmap.compress(Bitmap.CompressFormat.JPEG, 50, byteArrayOutputStream);
-                                    byte[] imageBytes = byteArrayOutputStream.toByteArray();
-                                    imageString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
+                            storageRef.putFile(imageUri)
+                                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                        @Override
+                                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                            //when image is uploaded successfully, get the url and store user info in firebase realtime database
+                                            storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                @Override
+                                                public void onSuccess(Uri uri) {
+                                                    String imageUrl = uri.toString();
+                                                    HashMap<Object, String> hashMap = new HashMap<>();
+                                                    hashMap.put("email", email);
+                                                    hashMap.put("uid", uid);
+                                                    hashMap.put("pseudo", pseudo);
+                                                    hashMap.put("image", imageUrl);
 
-                            hashMap.put("image", imageString);
+                                                    FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                                    DatabaseReference reference = database.getReference("Users");
+                                                    reference.child(uid).setValue(hashMap);
 
-                            DatabaseReference reference = database.getReference("Users");
-                            reference.child(uid).setValue(hashMap);
-
-                            Toast.makeText(RegisterActivity.this, "Registered...\n" + user.getEmail(), Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(RegisterActivity.this, HomeActivity.class));
-                            finish();
+                                                    Toast.makeText(RegisterActivity.this, "Registered...\n" + user.getEmail(), Toast.LENGTH_SHORT).show();
+                                                    startActivity(new Intent(RegisterActivity.this, HomeActivity.class ));
+                                                    finish();
+                                                }
+                                            });
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            progressDialog.dismiss();
+                                            Toast.makeText(RegisterActivity.this, "Failed to upload image. " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
                         } else {
                             // If sign in fails, display a message to the user.
                             progressDialog.dismiss();
                             Toast.makeText(RegisterActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                         }
-
                     }
                 }).addOnFailureListener(new OnFailureListener() {
                     @Override
@@ -227,8 +199,50 @@ public class RegisterActivity extends AppCompatActivity  {
                         Toast.makeText(RegisterActivity.this,""+e.getMessage(),Toast.LENGTH_SHORT).show();
                     }
                 });
-
     }
+
+    //photo
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            imageUri = data.getData();
+            profileIv.setImageURI(imageUri);
+
+            uploadImageToFirebase();
+        }
+    }
+
+    private void uploadImageToFirebase() {
+        progressDialog.setMessage("Uploading image...");
+        progressDialog.show();
+
+        StorageReference profileRef = storageReference.child("users/" + auth.getCurrentUser().getUid() + "/profile.jpg");
+        profileRef.putFile(imageUri)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                progressDialog.dismiss();
+                                String imageUrl = uri.toString();
+                                databaseReference.child("Users").child(auth.getCurrentUser().getUid()).child("image").setValue(imageUrl);
+                                Toast.makeText(RegisterActivity.this, "Image uploaded successfully", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        progressDialog.dismiss();
+                        Toast.makeText(RegisterActivity.this, "Failed to upload image", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+//
+
 
 
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -239,15 +253,4 @@ public class RegisterActivity extends AppCompatActivity  {
 
         return super.onOptionsItemSelected(item);
     }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            mImageUri = data.getData();
-            photoIV.setImageURI(mImageUri);
-        }
-    }
-
-
 }

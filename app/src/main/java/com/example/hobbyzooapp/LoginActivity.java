@@ -1,7 +1,6 @@
 package com.example.hobbyzooapp;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
@@ -47,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
     Button loginBtn;
     SignInButton googleLoginBtn;
 
-    private FirebaseAuth auth;
+    private FirebaseAuth firebaseAuth;
 
 
     ProgressDialog progressDialog;
@@ -73,7 +72,7 @@ public class LoginActivity extends AppCompatActivity {
 
         googleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        auth = FirebaseAuth.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
 
         emailET = findViewById(R.id.emailEt);
         passwordEt = findViewById(R.id.passwordEt);
@@ -166,7 +165,7 @@ public class LoginActivity extends AppCompatActivity {
     private void beginRecovery(String email) {
         progressDialog.setMessage("Sending email ...");
         progressDialog.show();
-        auth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+        firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 progressDialog.dismiss();
@@ -189,13 +188,13 @@ public class LoginActivity extends AppCompatActivity {
     private void loginUser(String email, String pswrd) {
         progressDialog.setMessage("Logging In ...");
         progressDialog.show();
-        auth.signInWithEmailAndPassword(email, pswrd)
+        firebaseAuth.signInWithEmailAndPassword(email, pswrd)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             progressDialog.dismiss();
-                            FirebaseUser user = auth.getCurrentUser();
+                            FirebaseUser user = firebaseAuth.getCurrentUser();
                             startActivity(new Intent(LoginActivity.this, HomeActivity.class));
                             finish();
                         } else {
@@ -239,14 +238,14 @@ public class LoginActivity extends AppCompatActivity {
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
-        auth.signInWithCredential(credential)
+        firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
 
-                            FirebaseUser user = auth.getCurrentUser();
+                            FirebaseUser user = firebaseAuth.getCurrentUser();
 
                             //get user uid and email from auth
                             String email = user.getEmail();

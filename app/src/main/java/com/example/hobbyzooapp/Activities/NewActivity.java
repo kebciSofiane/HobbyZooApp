@@ -16,6 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.hobbyzooapp.Category.NewCategory;
 import com.example.hobbyzooapp.ListAnimals;
 import com.example.hobbyzooapp.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,11 +24,13 @@ import java.util.List;
 public class NewActivity extends AppCompatActivity {
 
     String name, animalName;
+    FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_activity);
+        firebaseAuth = FirebaseAuth.getInstance();
 
         Button validationButton = findViewById(R.id.validationButton);
         ImageView animalImage = findViewById(R.id.animalImage);

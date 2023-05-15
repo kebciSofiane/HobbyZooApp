@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hobbyzooapp.R;
 import com.example.hobbyzooapp.Activities.NewActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.sql.Time;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class NewSession extends AppCompatActivity {
     String activityName;
     Time time;
     Date date;
+    FirebaseAuth firebaseAuth;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -34,6 +36,7 @@ public class NewSession extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_session);
+        firebaseAuth = FirebaseAuth.getInstance();
 
         DatePicker datePicker = findViewById(R.id.datePicker);
         TimePicker timePicker=(TimePicker)findViewById(R.id.timePicker);

@@ -16,6 +16,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hobbyzooapp.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 
 public class NewCategory extends AppCompatActivity {
@@ -28,12 +29,14 @@ public class NewCategory extends AppCompatActivity {
     TextView mColorValues;
     View displayColors;
     Bitmap bitmap;
+    FirebaseAuth firebaseAuth;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_category);
+        firebaseAuth = FirebaseAuth.getInstance();
 
         Button validationButton = findViewById(R.id.validationButton);
         imgView = findViewById(R.id.colorPickers);

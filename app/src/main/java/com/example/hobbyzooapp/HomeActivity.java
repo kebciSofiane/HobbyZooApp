@@ -42,7 +42,6 @@ public class HomeActivity extends AppCompatActivity {
 
 
 
-
     ImageButton calendarBtn, runBtn, profileBtn;
 
     ImageView imageView1;
@@ -71,6 +70,9 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+
         next = findViewById(R.id.scrollAnimals);
 
 
@@ -114,7 +116,7 @@ public class HomeActivity extends AppCompatActivity {
         profileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this,ProfileActivity.class));
+                startActivity(new Intent(HomeActivity.this,MyActivities.class));
 
             }
         });
@@ -193,6 +195,7 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
+
     }
 
     @Override
@@ -224,6 +227,9 @@ public class HomeActivity extends AppCompatActivity {
         linearLayout4 = findViewById(R.id.linearLayoutHomePageAnimal4);
         linearLayout5 = findViewById(R.id.linearLayoutHomePageAnimal5);
 
+
+        //FirebaseUser user = firebaseAuth.getCurrentUser();
+        //user.getUid()
         textView1.setText("Dessin");
         textView2.setText("Muscu");
         textView3.setText("Dance");

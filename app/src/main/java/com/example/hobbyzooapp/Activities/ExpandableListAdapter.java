@@ -1,6 +1,7 @@
 package com.example.hobbyzooapp.Activities;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.shapes.Shape;
 import android.view.LayoutInflater;
@@ -104,6 +105,8 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                 .findViewById(R.id.text);
         listTitleTextView.setTypeface(null, Typeface.BOLD);
         listTitleTextView.setText(listTitle);
+       // int backgroundColor =Color.parseColor(expandableListDetail.get(listTitle).getColor());
+        //listTitleTextView.setBackgroundColor(backgroundColor);
         return convertView;
     }
 

@@ -24,4 +24,11 @@ public class Category {
     }
     public String getName() {return name;}
 
+    public String getId() {
+        return id;
+    }
+
+    public String getColor() {
+        return color;
+    }
 }

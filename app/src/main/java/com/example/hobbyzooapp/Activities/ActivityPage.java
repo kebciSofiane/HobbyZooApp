@@ -112,8 +112,6 @@ public class ActivityPage extends AppCompatActivity {
 
 
 
-
-
                 } else {
                     // L'activité n'existe pas dans la base de données
                 }

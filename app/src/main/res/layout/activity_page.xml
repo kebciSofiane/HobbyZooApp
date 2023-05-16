@@ -17,8 +17,8 @@
             android:id="@+id/headerLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/radius_background"
             android:layout_centerHorizontal="true"
+            android:background="@drawable/radius_background"
             android:gravity="center">
 
             <ImageView
@@ -39,24 +39,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/default_pet_name"
-                    android:textSize="25sp"
-                    android:textColor="@color/title_page" />
+                    android:textColor="@color/title_page"
+                    android:textSize="25sp" />
 
                 <EditText
                     android:id="@+id/activityPagePetNameEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
                     android:textColor="@color/black"
-                    android:visibility="gone"/>
+                    android:textSize="15sp"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/activityPageActivityName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/default_activity_name"
-                    android:textSize="20sp"
-                    android:textColor="@color/title_page" />
+                    android:textColor="@color/title_page"
+                    android:textSize="20sp" />
 
             </LinearLayout>
 
@@ -66,10 +66,10 @@
             android:id="@+id/activityPageEditPetNameButton"
             android:layout_width="30sp"
             android:layout_height="30sp"
-            android:background="@drawable/edit_pic"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="25dp"
             android:layout_marginEnd="30dp"
+            android:background="@drawable/edit_pic"
             android:visibility="visible" />
 
         <Button
@@ -167,7 +167,44 @@
                     android:orientation="vertical"
                     android:padding="20sp" />
 
+                <EditText
+                    android:id="@+id/addToTodoListText"
+                    android:layout_width="251dp"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/validateToTodoListButton"
+                    android:layout_marginStart="31dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_toEndOf="@+id/todoRecyclerView"
+                    android:hint="Add a element"
+                    android:visibility="gone"/>
+
+                <Button
+                    android:id="@+id/addToTodoListButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/todoRecyclerView"
+                    android:layout_alignStart="@+id/todoRecyclerView"
+                    android:layout_marginStart="180dp"
+                    android:layout_marginBottom="-140dp"
+                    android:text="ADD"
+                    android:visibility="visible" />
+
+                <Button
+                    android:id="@+id/validateToTodoListButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@+id/todoRecyclerView"
+                    android:layout_alignStart="@+id/todoRecyclerView"
+                    android:layout_marginStart="180dp"
+                    android:layout_marginBottom="-140dp"
+                    android:text="VALIDATE"
+                    android:visibility="gone" />
+
+
+
+
             </RelativeLayout>
+
 
 
         </ScrollView>

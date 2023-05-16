@@ -78,7 +78,7 @@ public class NewActivity extends AppCompatActivity {
                 EditText textAnimal = findViewById(R.id.animalName);
                 animalName = textAnimal.getText().toString();
                 if(name.trim().isEmpty() || animalName.trim().isEmpty()){
-                    Toast.makeText(getApplicationContext(),"Le champ nom ne peut pas être vide!",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"Field can't be empty!",Toast.LENGTH_LONG).show();
                 }
                 else{
 

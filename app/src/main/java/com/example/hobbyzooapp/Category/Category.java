@@ -6,16 +6,16 @@ import com.example.hobbyzooapp.Activities.Activity;
 import java.util.ArrayList;
 
 public class Category {
-    private int id;
+    private String id;
     private String name;
-    private Color color;
+    private String color;
     private ArrayList<Activity> activities;
 
     public ArrayList<Activity> getActivities() {
         return activities;
     }
 
-    public Category(int id, String name, Color color, ArrayList<Activity> activities) {
+    public Category(String id, String name, String color, ArrayList<Activity> activities) {
         this.id = id;
         this.name = name;
         this.color = color;

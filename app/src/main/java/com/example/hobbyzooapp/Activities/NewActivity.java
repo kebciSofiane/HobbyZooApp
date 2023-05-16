@@ -27,6 +27,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class NewActivity extends AppCompatActivity {
 
@@ -55,7 +56,9 @@ public class NewActivity extends AppCompatActivity {
         });
 
         categorySelector = findViewById(R.id.categoryName);
-        setCategorySelector();
+        List<String> categories = setCategorySelector();
+        ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, categories);
+        categorySelector.setAdapter(adapter);
 
         categorySelector.setOnItemSelectedListener(
                 new AdapterView.OnItemSelectedListener() {
@@ -66,7 +69,6 @@ public class NewActivity extends AppCompatActivity {
                             Intent intent = new Intent().setClass(getApplicationContext(), NewCategory.class);
                             startActivity(intent);
                         }
-                        System.out.println(item.toString());
 
                     }
                     public void onNothingSelected(AdapterView<?> parent) {
@@ -122,7 +124,7 @@ public class NewActivity extends AppCompatActivity {
                     hashMap.put("activity_pet", "@drawable/sheep"); //todo faire input
                     hashMap.put("weekly_goal", String.valueOf(weekly_goal.getText()));
                     hashMap.put("spent_time", "0");
-                    hashMap.put("category_id", category_id[0]); //todo recup id
+                    hashMap.put("category_id", category_id[0]);
                     hashMap.put("user_id", user.getUid());
 
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -134,18 +136,20 @@ public class NewActivity extends AppCompatActivity {
         });
     }
 
-    void setCategorySelector(){
+    List<String> setCategorySelector(){
         List<String> categories = new ArrayList<>();
         DatabaseReference databaseReferenceChild = FirebaseDatabase.getInstance().getReference().child("Category");
 
         databaseReferenceChild.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                String user_id = user.getUid();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String user_id = snapshot.child("user_id").getValue(String.class);
-                    if(user_id == user.getUid())
+                    String user_id_cat = snapshot.child("user_id").getValue(String.class);
+                    if(user_id.equals(user_id_cat))
                        categories.add(snapshot.child("category_name").getValue(String.class));
                 }
+                categories.add("New Category");
             }
 
             @Override
@@ -153,10 +157,7 @@ public class NewActivity extends AppCompatActivity {
                 // Gérez l'erreur en cas d'annulation de la requête
             }
         });
-
-        categories.add("New Category");
-        ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, categories);
-        categorySelector.setAdapter(adapter);
+        return categories;
     }
 
 

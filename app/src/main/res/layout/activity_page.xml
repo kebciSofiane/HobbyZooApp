@@ -17,17 +17,16 @@
             android:id="@+id/headerLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/radius_background"
             android:layout_centerHorizontal="true"
+            android:background="@drawable/radius_background"
             android:gravity="center">
 
             <ImageView
                 android:id="@+id/activityPagePetPic"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="20sp"
-                android:paddingTop="20sp"
-                android:paddingRight="20sp" />
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:scaleType="centerCrop"
+                />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -39,24 +38,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/default_pet_name"
-                    android:textSize="25sp"
-                    android:textColor="@color/title_page" />
+                    android:textColor="@color/title_page"
+                    android:textSize="25sp" />
 
                 <EditText
                     android:id="@+id/activityPagePetNameEdit"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="15sp"
                     android:textColor="@color/black"
-                    android:visibility="gone"/>
+                    android:textSize="15sp"
+                    android:visibility="gone" />
 
                 <TextView
                     android:id="@+id/activityPageActivityName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/default_activity_name"
-                    android:textSize="20sp"
-                    android:textColor="@color/title_page" />
+                    android:textColor="@color/title_page"
+                    android:textSize="20sp" />
 
             </LinearLayout>
 

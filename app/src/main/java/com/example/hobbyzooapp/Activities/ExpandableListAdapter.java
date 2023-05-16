@@ -10,6 +10,7 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.hobbyzooapp.Category.Category;
 import com.example.hobbyzooapp.R;
 
 
@@ -23,10 +24,10 @@ import java.util.List;
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private Context context;
     private List<String> expandableListTitle;
-    private HashMap<String, List<Activity>> expandableListDetail;
+    private HashMap<String, Category> expandableListDetail;
 
     public ExpandableListAdapter(Context context, List<String> expandableListTitle,
-                                 HashMap<String, List<Activity>> expandableListDetail) {
+                                 HashMap<String, Category> expandableListDetail) {
         this.context = context;
         this.expandableListTitle = expandableListTitle;
         this.expandableListDetail = expandableListDetail;
@@ -34,7 +35,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public Object getChild(int listPosition, int expandedListPosition) {
-        return this.expandableListDetail.get(this.expandableListTitle.get(listPosition))
+        return this.expandableListDetail.get(this.expandableListTitle.get(listPosition)).getActivities()
                 .get(expandedListPosition);
     }
 
@@ -58,7 +59,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
 
         TextView petNameView = convertView.findViewById(R.id.pet_name);
-        petNameView.setText(activity.getName());
+        petNameView.setText(activity.getPetName());
 
         ImageView activityIconView = convertView.findViewById(R.id.activity_icon);
         String resourceName = activity.getMnemonic()+"_icon";
@@ -71,7 +72,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int listPosition) {
-        return this.expandableListDetail.get(this.expandableListTitle.get(listPosition))
+        return this.expandableListDetail.get(this.expandableListTitle.get(listPosition)).getActivities()
                 .size();
     }
 

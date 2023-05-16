@@ -3,6 +3,7 @@ package com.example.hobbyzooapp.Activities;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +23,11 @@ import com.example.hobbyzooapp.R;
 import com.example.hobbyzooapp.TodoTask;
 import com.example.hobbyzooapp.Sessions.ListSessionsAdapter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +38,7 @@ public class ActivityPage extends AppCompatActivity {
     TextView petName;
     Button editNamePetButton;
     EditText editTextPetName;
-    Button validatePetNAme;
+    Button validatePetName;
     Button showMoreButton;
     Button showLessButton;
     RecyclerView recyclerView;
@@ -42,26 +49,106 @@ public class ActivityPage extends AppCompatActivity {
     private List<TodoTask> todoList = new ArrayList<>();
     Boolean allSessions = false;
     FirebaseAuth firebaseAuth;
+    TextView activityNameDisplay;
+
+    String activityName ;
+    String activityPetName ;
+    String activityPet ;
+    String weeklyGoal;
+    String spentTime;
+    String category_id;
+    LinearLayout header;
 
 
 
 
+    public void getActivityData(String activity_id){
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference referenceActivty = database.getReference("Activity");
+
+
+
+        referenceActivty.child(activity_id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // Récupérez les informations de l'activité
+                     activityName = dataSnapshot.child("activity_name").getValue(String.class);
+                     activityPetName = dataSnapshot.child("activity_pet_name").getValue(String.class);
+                     activityPet = dataSnapshot.child("activity_pet").getValue(String.class);
+                     weeklyGoal = dataSnapshot.child("weekly_goal").getValue(String.class);
+                     spentTime = dataSnapshot.child("spent_time").getValue(String.class);
+                     category_id = dataSnapshot.child("category_id").getValue(String.class);
+
+                    petName.setText(activityPetName);
+                    String resourceName = activityPet+"_icon";
+                    int resId = ActivityPage.this.getResources().getIdentifier(resourceName,"drawable",ActivityPage.this.getPackageName());
+                    petPic.setImageResource(resId);
+                    activityNameDisplay.setText(activityName);
+
+
+
+                    DatabaseReference referenceCategory = database.getReference("Category");
+
+                    referenceCategory.child(category_id).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                String category_color = dataSnapshot.child("category_color").getValue(String.class);
+                                int color = Color.parseColor(category_color);
+                                header.setBackgroundColor(color);
+
+
+                            } else {
+                                // L'activité n'existe pas dans la base de données
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            // Gérez les erreurs de la récupération des données
+                        }
+                    });
+
+
+
+
+
+                } else {
+                    // L'activité n'existe pas dans la base de données
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Gérez les erreurs de la récupération des données
+            }
+        });
+
+    }
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page);
+        Intent intent = getIntent();
+        String activity_id = intent.getStringExtra("activity_id");
+
+        petPic =findViewById(R.id.activityPagePetPic);
+        petName = findViewById(R.id.activityPagePetName);
+        activityNameDisplay =findViewById(R.id.activityPageActivityName);
+        header = findViewById(R.id.headerLayout);
+
+        getActivityData(activity_id);
+
         firebaseAuth = FirebaseAuth.getInstance();
         items.addAll(List.of("5 juin à 13h00 - 15 min","7 juin à 13h00 - 15 min","13 juin à 13h00 - 15 min",
                 "5 juin à 13h00 - 15 min","5 juin à 13h00 - 15 min","5 juin à 13h00 - 15 min",
                 "5 juin à 13h00 - 15 min","7 juin à 13h00 - 15 min","16 juillet à 13h00 - 15 min",
                 "5 juin à 13h00 - 15 min","5 juin à 13h00 - 15 min","5 juin à 13h00 - 15 min"));
 
-        petPic =findViewById(R.id.activityPagePetPic);
-        petName = findViewById(R.id.activityPagePetName);
-        petName.setText("Coco");
-        petPic.setImageResource(R.drawable.koa);
+
         showMoreButton=findViewById(R.id.activityPageShowMoreButton);
         showLessButton = findViewById(R.id.activityPageShowLessButton);
         editNamePetButton=findViewById(R.id.activityPageEditPetNameButton);
@@ -99,15 +186,15 @@ public class ActivityPage extends AppCompatActivity {
         filters[0] = new InputFilter.LengthFilter(10);
         editTextPetName.setFilters(filters);
 
-        validatePetNAme = findViewById(R.id.activityPagecheckPetNameButton);
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.koa);
+        validatePetName = findViewById(R.id.activityPagecheckPetNameButton);
+        //Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.koa);
         /*
         int newWidth = (int) (bitmap.getWidth() * (70 / 100.0));
         int newHeight = (int) (bitmap.getHeight() * (70 / 100.0));
         Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, false);
         petPic.setScaleType(ImageView.ScaleType.CENTER_CROP);*/
 
-        petPic.setImageBitmap(bitmap);
+       // petPic.setImageBitmap(bitmap);
 
         editNamePetButton.setOnClickListener(new View.OnClickListener() {
 
@@ -116,7 +203,7 @@ public class ActivityPage extends AppCompatActivity {
                 editTextPetName.setText(petName.getText());
                 editTextPetName.setVisibility(View.VISIBLE);
                 editNamePetButton.setVisibility(View.GONE);
-                validatePetNAme.setVisibility(View.VISIBLE);
+                validatePetName.setVisibility(View.VISIBLE);
                 petName.setVisibility(View.GONE);
             }
         });
@@ -159,7 +246,7 @@ public class ActivityPage extends AppCompatActivity {
             }
         });
 
-        validatePetNAme.setOnClickListener(new View.OnClickListener() {
+        validatePetName.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -167,7 +254,7 @@ public class ActivityPage extends AppCompatActivity {
                 String newPetName = String.valueOf(editTextPetName.getText());;
                 petName.setText(newPetName);
                 editNamePetButton.setVisibility(View.VISIBLE);
-                validatePetNAme.setVisibility(View.GONE);
+                validatePetName.setVisibility(View.GONE);
                 petName.setVisibility(View.VISIBLE);
             }
         });

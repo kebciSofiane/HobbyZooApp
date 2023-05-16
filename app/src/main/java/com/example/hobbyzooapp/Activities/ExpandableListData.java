@@ -1,33 +1,83 @@
 package com.example.hobbyzooapp.Activities;
 
+import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
+
 import com.example.hobbyzooapp.Category.Category;
+import com.example.hobbyzooapp.HomeActivity;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+
+
 public class ExpandableListData {
-    public static HashMap<String, List<Activity>> getData() {
-        HashMap<String, List<Activity>> expandableListDetail = new HashMap<String, List<Activity>>();
 
 
-        ArrayList<Activity> activities = new ArrayList<>();
-        activities.add(new Activity("Dessin", "Biquette", 10, "sheep"));
-        activities.add(new Activity("poetry", "Coco", 10, "koala"));
-        activities.add(new Activity("poetry", "Coco", 10, "koala"));
-
-        ArrayList<Activity> activities2 = new ArrayList<>();
-        activities2.add(new Activity("Dessin", "Biquette", 10, "sheep"));
-
-        ArrayList<Activity> activities3 = new ArrayList<>();
-        activities3.add(new Activity("Dessin", "Biquette", 10, "sheep"));
-        activities3.add(new Activity("poetry", "Coco", 10, "koala"));
+    public static HashMap<String, Category>  getActivities(ActivitiesCallBack callback) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference reference = database.getReference("Category");
+        HashMap<String, Category> expandableListDetail = new HashMap<>();
 
 
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String category_id = snapshot.child("category_id").getValue(String.class);
+                    String category_color = snapshot.child("category_color").getValue(String.class);
+                    String category_name = snapshot.child("category_name").getValue(String.class);
+                    String user_id = snapshot.child("user_id").getValue(String.class);
 
-        expandableListDetail.put("Sport",activities);
-        expandableListDetail.put("Cooking", activities2);
-        expandableListDetail.put("Art", activities3);
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference reference = database.getReference("Activity");
+
+
+                    reference.orderByChild("category_id").equalTo(category_id).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            ArrayList<Activity> activities = new ArrayList<>();
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                //String activityId = snapshot.getKey();
+                                String activity_id = snapshot.child("activity_id").getValue(String.class);
+                                String activity_pet_name = snapshot.child("activity_pet_name").getValue(String.class);
+                                String activity_pet = snapshot.child("activity_pet").getValue(String.class);
+                                String weekly_goal = snapshot.child("weekly_goal").getValue(String.class);
+                                String spent_time = snapshot.child("spent_time").getValue(String.class);
+                                String activity_name = snapshot.child("activity_name").getValue(String.class);
+                                String user_id = snapshot.child("user_id").getValue(String.class);
+                                activities.add(new Activity(activity_id,activity_name, activity_pet_name, activity_pet));
+
+
+                                expandableListDetail.put(category_name, new Category(category_id,category_name,category_color, activities));
+                                if (expandableListDetail.size() == dataSnapshot.getChildrenCount()) {
+                                    callback.onActivitiesLoaded(expandableListDetail);
+                                }
+
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Log.w("TAG", "Erreur lors de la récupération des données", databaseError.toException());
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("TAG", "Erreur lors de la récupération des données", databaseError.toException());
+            }
+        });
 
         return expandableListDetail;
     }

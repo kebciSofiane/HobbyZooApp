@@ -91,7 +91,6 @@
         android:layout_below="@+id/passwordTIL"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="37dp"
-        android:backgroundTint="@color/brown_btn"
         android:text="@string/register" />
 
     <TextView

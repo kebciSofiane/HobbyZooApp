@@ -3,12 +3,12 @@
     <style name="Theme.HobbyZooApp" parent="Theme.MaterialComponents.NoActionBar">
         <!-- Primary brand color. -->
 
-        <item name="colorPrimary">#02BA3F</item>
+        <item name="colorPrimary">#DD9A4D</item>
         <item name="colorPrimaryVariant">#8E0101</item>
         <item name="colorOnPrimary">#181818</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">#4299F5</item>
-        <item name="colorSecondaryVariant">#4558C5</item>
+        <item name="colorSecondary">#FFEB3B</item>
+        <item name="colorSecondaryVariant">#CDDC39</item>
         <item name="colorOnSecondary">#CCCBC0</item>
 
         <!-- Status bar color. -->

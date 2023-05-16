@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.view.View;
@@ -80,7 +81,7 @@ public class ProfileActivity extends AppCompatActivity {
             });
         }
 
-        String imageUrl = "https://firebasestorage.googleapis.com/v0/b/hobbyzoo-de1e5.appspot.com/o/users%2F0itwJp7fxERvueCFileao9an7D62%2Fprofile.jpg?alt=media&token=8ea4e6de-ff82-402f-bbce-7b8f3e0cd548";
+        String imageUrl = user.getPhotoUrl().getPath();
 
         ImageView profileImageView = findViewById(R.id.profile_image);
         Glide.with(this)

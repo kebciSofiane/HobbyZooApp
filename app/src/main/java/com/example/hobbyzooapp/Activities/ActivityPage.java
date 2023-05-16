@@ -23,8 +23,12 @@ import com.example.hobbyzooapp.R;
 import com.example.hobbyzooapp.TodoTask;
 import com.example.hobbyzooapp.Sessions.ListSessionsAdapter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ActivityPage extends AppCompatActivity {
@@ -46,7 +50,7 @@ public class ActivityPage extends AppCompatActivity {
     Button addToTodoListButton;
     EditText addToTodoListText;
     Button validateToTodoListButton;
-    FirebaseAuth firebaseAuth;
+    private FirebaseAuth firebaseAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +83,9 @@ public class ActivityPage extends AppCompatActivity {
         adapter = new ListSessionsAdapter(items);
         recyclerView.setAdapter(adapter);
 
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        String activityId = "actID"; //todo recuperer id activity
+
         todoList.add(new TodoTask("Manger", Boolean.FALSE));
         todoList.add(new TodoTask("Dormir", Boolean.TRUE));
         todoList.add(new TodoTask("Voyager", Boolean.TRUE));
@@ -97,13 +104,28 @@ public class ActivityPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //todo ajout dans todolist
-                /*String newElement = String.valueOf(addToTodoListText.getText());
-                Toast.makeText(getApplicationContext(), newElement, Toast.LENGTH_LONG); //test toast
-                if(addToTodoListText.getText().toString().trim().isEmpty()){
-                    Toast.makeText(ActivityPage.this, "Nothing writen!", Toast.LENGTH_LONG); //message si vide
+                String newElement = String.valueOf(addToTodoListText.getText());
+                if(newElement.trim().isEmpty()){
+                    Toast.makeText(ActivityPage.this, "Nothing written!", Toast.LENGTH_LONG).show();
                 }else{
-                    Toast.makeText(ActivityPage.this, addToTodoListText.getText().toString(), Toast.LENGTH_LONG); //test toast
-                    todoList.add(new TodoTask(addToTodoListText.getText().toString(), Boolean.FALSE)); //ajout a la todolist
+                    todoList.add(new TodoTask(newElement, Boolean.FALSE)); //ajout a la todolist
+                }
+                //todo si marche alors avec bdd :
+                /*String newElement = String.valueOf(addToTodoListText.getText());
+                if(newElement.trim().isEmpty()){
+                    Toast.makeText(ActivityPage.this, "Nothing written!", Toast.LENGTH_LONG);
+                }else{
+                    todoList.add(new TodoTask(newElement, Boolean.FALSE));
+
+                    HashMap<Object, String> hashMap = new HashMap<>();
+                    String taskId = activityId+newElement; //todo choix arbitraire
+                    hashMap.put("taskId", taskId);
+                    hashMap.put("taskName", newElement);
+                    hashMap.put("taskStatus", "Boolean.FALSE");
+                    hashMap.put("activityId", activityId);
+                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                    DatabaseReference reference = database.getReference("Users");
+                    reference.child(taskId).setValue(hashMap);
                 }*/
                 addToTodoListButton.setVisibility(View.VISIBLE);
                 addToTodoListText.setVisibility(View.GONE);

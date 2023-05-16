@@ -86,33 +86,65 @@ public class ProfileActivity extends AppCompatActivity {
             });
         }
 //////////////////////////////////////////////////////////////// image//
+//
+//// Ajoutez cette ligne après avoir récupéré la référence de l'utilisateur
+//        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid());
+//
+//// Écoutez les données une seule fois pour récupérer le nom du fichier image
+//        userRef.child("image").addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                if (snapshot.exists()) {
+//                    String imageFileName = snapshot.getValue(String.class);
+//
+//                    // Utilisez le nom du fichier image pour charger l'image depuis Firebase Storage
+//                    StorageReference imageRef = storageReference.child(imageFileName);
+//
+//                    // Continuer avec le code pour charger l'image avec Glide
+//                    imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                        @Override
+//                        public void onSuccess(Uri uri) {
+//                            String imageUrl = uri.toString();
+//
+//                            Glide.with(ProfileActivity.this)
+//                                    .load(imageUrl)
+//                                    .placeholder(R.drawable.ic_profile) // Image temporaire de substitution
+//                                    .error(R.drawable.ic_error) // Image à afficher en cas d'échec de chargement
+//                                    .into(profileImageView);
+//                        }
+//                    }).addOnFailureListener(new OnFailureListener() {
+//                        @Override
+//                        public void onFailure(@NonNull Exception e) {
+//                            // Gérez les échecs de téléchargement d'image
+//                        }
+//                    });
+//
+//                } else {
+//                    // Le nom du fichier image n'existe pas dans la base de données
+//                    // Gérez cette situation en conséquence
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                // Gérez les erreurs de lecture de données
+//            }
+//        });
 
-// Ajoutez cette ligne après avoir récupéré la référence de l'utilisateur
-        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(user.getUid());
 
-// Écoutez les données une seule fois pour récupérer le nom du fichier image
-        userRef.child("imageFileName").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    String imageFileName = snapshot.getValue(String.class);
+        String userId = user.getUid();
+        StorageReference profileRef = storageReference.child("users/" + userId + "profile.jpg");
 
-                    // Utilisez le nom du fichier image pour charger l'image depuis Firebase Storage
-                    StorageReference imageRef = storageReference.child(imageFileName);
+        Glide.with(ProfileActivity.this)
+                .load(profileRef)
+                .placeholder(R.drawable.ic_profile) // Image de substitution en cas de chargement ou d'erreur
+                .error(R.drawable.ic_error) // Image à afficher en cas d'erreur de chargement
+                .into(profileImageView);
 
-                    // Continuer avec le code pour charger l'image avec Glide
-                    // ...
-                } else {
-                    // Le nom du fichier image n'existe pas dans la base de données
-                    // Gérez cette situation en conséquence
-                }
-            }
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                // Gérez les erreurs de lecture de données
-            }
-        });
+
+
+
 
 
 ///////////////////////////////////////////////////////////////////////////

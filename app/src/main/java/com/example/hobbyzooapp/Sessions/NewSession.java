@@ -83,7 +83,7 @@ public class NewSession extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"Le champ Durée ne peut pas être à 0!",Toast.LENGTH_LONG).show();
                 }
                 else{
-                    DatabaseReference databaseReference = FirebaseAuth.getInstance().getReference();
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
                     DatabaseReference newChildRef = databaseReference.push();
                     String session_id = newChildRef.getKey();

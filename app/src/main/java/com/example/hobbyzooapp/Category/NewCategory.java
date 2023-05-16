@@ -94,7 +94,7 @@ public class NewCategory extends AppCompatActivity {
                 } else if(user == null){
 
                 }else {
-                    DatabaseReference databaseReference = FirebaseAuth.getInstance().getReference();
+                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
                     DatabaseReference newChildRef = databaseReference.push();
                     String category_id = newChildRef.getKey();

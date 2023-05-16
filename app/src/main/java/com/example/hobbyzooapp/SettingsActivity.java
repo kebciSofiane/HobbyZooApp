@@ -1,4 +1,4 @@
-package com.example.hobbyzooapp.Sessions;
+package com.example.hobbyzooapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 

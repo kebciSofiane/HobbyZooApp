@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -166,6 +167,14 @@ public class RegisterActivity extends AppCompatActivity  {
 
                                                     DatabaseReference reference = database.getReference("Users");
                                                     reference.child(uid).setValue(hashMap);
+                                                    // ajout
+                                                    // Afficher l'image dans le profil
+                                                    Glide.with(RegisterActivity.this)
+                                                            .load(imageUrl)
+                                                            .placeholder(R.drawable.ic_profile) // Image de remplacement temporaire
+                                                            .error(R.drawable.ic_error) // Image d'erreur en cas de chargement échoué
+                                                            .into(profileIv);
+
 
                                                     Toast.makeText(RegisterActivity.this, "Registered...\n" + user.getEmail(), Toast.LENGTH_SHORT).show();
                                                     startActivity(new Intent(RegisterActivity.this, HomeActivity.class ));

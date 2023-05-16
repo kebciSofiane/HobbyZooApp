@@ -24,6 +24,7 @@ import com.example.hobbyzooapp.TodoTask;
 import com.example.hobbyzooapp.Sessions.ListSessionsAdapter;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -50,13 +51,17 @@ public class ActivityPage extends AppCompatActivity {
     Button addToTodoListButton;
     EditText addToTodoListText;
     Button validateToTodoListButton;
-    private FirebaseAuth firebaseAuth;
+    FirebaseAuth firebaseAuth;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
+    FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page);
         firebaseAuth = FirebaseAuth.getInstance();
+
         items.addAll(List.of("5 juin à 13h00 - 15 min","7 juin à 13h00 - 15 min","13 juin à 13h00 - 15 min",
                 "5 juin à 13h00 - 15 min","5 juin à 13h00 - 15 min","5 juin à 13h00 - 15 min",
                 "5 juin à 13h00 - 15 min","7 juin à 13h00 - 15 min","16 juillet à 13h00 - 15 min",
@@ -82,13 +87,35 @@ public class ActivityPage extends AppCompatActivity {
 
         adapter = new ListSessionsAdapter(items);
         recyclerView.setAdapter(adapter);
+        user = firebaseAuth.getCurrentUser();
 
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        String activityId = "actID"; //todo recuperer id activity
+        //todo base de donnees
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("Tasks");
+        String thisActivityId = "actID"; //todo recuperer id activity de cette activite
 
-        todoList.add(new TodoTask("Manger", Boolean.FALSE));
+        databaseReference.addValueEventListener(new ValueEventListener(){ //todo
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    String activityId = snapshot.child("activityId").getValue(String.class);
+                    String taskName  = snapshot.child("taskName").getValue(String.class);
+                    String taskStatus = snapshot.child("taskStatus").getValue(String.class);
+                    if (activityId==thisActivityId){
+                        if (taskStatus=="FALSE"){
+                            todoList.add(new TodoTask(taskName, Boolean.FALSE));
+                        }else{
+                            todoList.add(new TodoTask(taskName, Boolean.TRUE));
+                        }
+                    }
+                }
+            }
+        });
+
+        //todo creation a la main a effacer
+        /*todoList.add(new TodoTask("Manger", Boolean.FALSE));
         todoList.add(new TodoTask("Dormir", Boolean.TRUE));
-        todoList.add(new TodoTask("Voyager", Boolean.TRUE));
+        todoList.add(new TodoTask("Voyager", Boolean.TRUE));*/
 
         addToTodoListButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,31 +130,26 @@ public class ActivityPage extends AppCompatActivity {
         validateToTodoListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //todo ajout dans todolist
                 String newElement = String.valueOf(addToTodoListText.getText());
                 if(newElement.trim().isEmpty()){
                     Toast.makeText(ActivityPage.this, "Nothing written!", Toast.LENGTH_LONG).show();
                 }else{
-                    todoList.add(new TodoTask(newElement, Boolean.FALSE)); //ajout a la todolist
-                }
-                //todo si marche alors avec bdd :
-                /*String newElement = String.valueOf(addToTodoListText.getText());
-                if(newElement.trim().isEmpty()){
-                    Toast.makeText(ActivityPage.this, "Nothing written!", Toast.LENGTH_LONG);
-                }else{
                     todoList.add(new TodoTask(newElement, Boolean.FALSE));
 
-                    HashMap<Object, String> hashMap = new HashMap<>();
-                    String taskId = activityId+newElement; //todo choix arbitraire
-                    hashMap.put("taskId", taskId);
-                    hashMap.put("taskName", newElement);
-                    hashMap.put("taskStatus", "Boolean.FALSE");
-                    hashMap.put("activityId", activityId);
+                    //todo base de donnees
+                    HashMap<String, String> tasks = new HashMap<>();
+                    String taskId = thisActivityId+newElement; //todo choix arbitraire
+                    tasks.put("taskId", taskId);
+                    tasks.put("taskName", newElement);
+                    tasks.put("taskStatus", "FALSE");
+                    tasks.put("activityId", thisActivityId);
+
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    DatabaseReference reference = database.getReference("Users");
-                    reference.child(taskId).setValue(hashMap);
-                }*/
+                    DatabaseReference reference = database.getReference("Tasks");
+                    reference.child(taskId).setValue(tasks);
+                }
                 addToTodoListButton.setVisibility(View.VISIBLE);
+                addToTodoListText.setText("");
                 addToTodoListText.setVisibility(View.GONE);
                 validateToTodoListButton.setVisibility(View.GONE);
             }

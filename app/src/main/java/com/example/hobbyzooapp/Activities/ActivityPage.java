@@ -92,12 +92,23 @@ public class ActivityPage extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
         user = firebaseAuth.getCurrentUser();
 
-        //todo base de donnees
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("Tasks");
         String thisActivityId = "actID"; //todo recuperer id activity de cette activite
 
-        databaseReference.addValueEventListener(new ValueEventListener(){ //todo
+        DatabaseReference newChildRef = databaseReference.push();
+        String taskId = newChildRef.getKey();
+        String cat = taskId;
+        HashMap<String, String> tasks = new HashMap<>();
+        tasks.put("taskId", taskId);
+        tasks.put("taskName", "Jouer");
+        tasks.put("taskStatus", "FALSE");
+        tasks.put("activityId", thisActivityId);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference reference = database.getReference("Tasks");
+        reference.child(taskId).setValue(tasks);
+
+        databaseReference.addValueEventListener(new ValueEventListener(){
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
@@ -113,17 +124,10 @@ public class ActivityPage extends AppCompatActivity {
                     }
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
-
-        //todo creation a la main a effacer
-        /*todoList.add(new TodoTask("Manger", Boolean.FALSE));
-        todoList.add(new TodoTask("Dormir", Boolean.TRUE));
-        todoList.add(new TodoTask("Voyager", Boolean.TRUE));*/
 
         addToTodoListButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -144,8 +148,6 @@ public class ActivityPage extends AppCompatActivity {
                 }else{
                     todoList.add(new TodoTask(newElement, Boolean.FALSE));
 
-                    //todo base de donnees
-                    HashMap<String, String> tasks = new HashMap<>();
                     String taskId = thisActivityId+newElement; //todo choix arbitraire
                     tasks.put("taskId", taskId);
                     tasks.put("taskName", newElement);
@@ -165,7 +167,7 @@ public class ActivityPage extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.todoRecyclerView);
         TodoAdapter adapterTodoList = new TodoAdapter(todoList);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, todoList.size(), GridLayoutManager.HORIZONTAL, false));
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 5, GridLayoutManager.HORIZONTAL, false));
         recyclerView.setAdapter(adapterTodoList);
 
         editTextPetName = findViewById(R.id.activityPagePetNameEdit);
@@ -247,8 +249,9 @@ public class ActivityPage extends AppCompatActivity {
 
     private void changeManager() {
         GridLayoutManager layoutManager;
+        int spanCount = Math.max(1, todoList.size());
         if (allSessions)
-            layoutManager = new GridLayoutManager(this, 5, GridLayoutManager.HORIZONTAL, false);
+            layoutManager = new GridLayoutManager(this, spanCount, GridLayoutManager.HORIZONTAL, false);
         else
             layoutManager = new GridLayoutManager(this, 2, GridLayoutManager.HORIZONTAL, false);
 

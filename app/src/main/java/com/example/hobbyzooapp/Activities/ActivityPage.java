@@ -5,12 +5,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.InputFilter;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -41,12 +43,10 @@ public class ActivityPage extends AppCompatActivity {
     ListSessionsAdapter adapter;
     private List<TodoTask> todoList = new ArrayList<>();
     Boolean allSessions = false;
+    Button addToTodoListButton;
+    EditText addToTodoListText;
+    Button validateToTodoListButton;
     FirebaseAuth firebaseAuth;
-
-
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,41 +58,63 @@ public class ActivityPage extends AppCompatActivity {
                 "5 juin à 13h00 - 15 min","7 juin à 13h00 - 15 min","16 juillet à 13h00 - 15 min",
                 "5 juin à 13h00 - 15 min","5 juin à 13h00 - 15 min","5 juin à 13h00 - 15 min"));
 
-        petPic =findViewById(R.id.activityPagePetPic);
+        petPic = findViewById(R.id.activityPagePetPic);
         petName = findViewById(R.id.activityPagePetName);
         petName.setText("Coco");
         petPic.setImageResource(R.drawable.koa);
-        showMoreButton=findViewById(R.id.activityPageShowMoreButton);
+        showMoreButton = findViewById(R.id.activityPageShowMoreButton);
         showLessButton = findViewById(R.id.activityPageShowLessButton);
-        editNamePetButton=findViewById(R.id.activityPageEditPetNameButton);
-        goalsText =findViewById(R.id.activityPageGoalsText);
+        editNamePetButton = findViewById(R.id.activityPageEditPetNameButton);
+        goalsText = findViewById(R.id.activityPageGoalsText);
         homeButton = findViewById(R.id.homeButton);
         goalsText.setText("Goal: 2h/5h");
-        recyclerView=findViewById(R.id.activityPageRecyclerView);
+        recyclerView = findViewById(R.id.activityPageRecyclerView);
         GridLayoutManager layoutManager;
+        addToTodoListButton = findViewById(R.id.addToTodoListButton);
+        validateToTodoListButton = findViewById(R.id.validateToTodoListButton);
+        addToTodoListText = findViewById(R.id.addToTodoListText);
 
         changeManager();
 
         adapter = new ListSessionsAdapter(items);
         recyclerView.setAdapter(adapter);
 
-
         todoList.add(new TodoTask("Manger", Boolean.FALSE));
         todoList.add(new TodoTask("Dormir", Boolean.TRUE));
         todoList.add(new TodoTask("Voyager", Boolean.TRUE));
 
+        addToTodoListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                adapter.notifyDataSetChanged();
+                addToTodoListButton.setVisibility(View.GONE);
+                addToTodoListText.setVisibility(View.VISIBLE);
+                validateToTodoListButton.setVisibility(View.VISIBLE);
+            }
+        });
+
+        validateToTodoListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //todo ajout dans todolist
+                /*String newElement = String.valueOf(addToTodoListText.getText());
+                Toast.makeText(getApplicationContext(), newElement, Toast.LENGTH_LONG); //test toast
+                if(addToTodoListText.getText().toString().trim().isEmpty()){
+                    Toast.makeText(ActivityPage.this, "Nothing writen!", Toast.LENGTH_LONG); //message si vide
+                }else{
+                    Toast.makeText(ActivityPage.this, addToTodoListText.getText().toString(), Toast.LENGTH_LONG); //test toast
+                    todoList.add(new TodoTask(addToTodoListText.getText().toString(), Boolean.FALSE)); //ajout a la todolist
+                }*/
+                addToTodoListButton.setVisibility(View.VISIBLE);
+                addToTodoListText.setVisibility(View.GONE);
+                validateToTodoListButton.setVisibility(View.GONE);
+            }
+        });
 
         RecyclerView recyclerView = findViewById(R.id.todoRecyclerView);
         TodoAdapter adapterTodoList = new TodoAdapter(todoList);
         recyclerView.setLayoutManager(new GridLayoutManager(this, todoList.size(), GridLayoutManager.HORIZONTAL, false));
         recyclerView.setAdapter(adapterTodoList);
-
-
-
-
-
-
-
 
         editTextPetName = findViewById(R.id.activityPagePetNameEdit);
         InputFilter[] filters = new InputFilter[1];
@@ -154,8 +176,6 @@ public class ActivityPage extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
                 showMoreButton.setVisibility(View.VISIBLE);
                 showLessButton.setVisibility(View.GONE);
-
-
             }
         });
 
@@ -171,9 +191,6 @@ public class ActivityPage extends AppCompatActivity {
                 petName.setVisibility(View.VISIBLE);
             }
         });
-
-
-
     }
 
     private void changeManager() {
@@ -185,7 +202,6 @@ public class ActivityPage extends AppCompatActivity {
 
         recyclerView.setLayoutManager(layoutManager);
     }
-
 
     public void openMainActivity(){
         Intent intent = new Intent(this, HomeActivity.class);

@@ -9,46 +9,39 @@
     tools:context=".RegisterActivity">
 
 
-    <ImageView
-        android:id="@+id/image_icon5"
-        android:layout_width="391dp"
-        android:layout_height="273dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="-51dp"
-        android:layout_marginEnd="20dp"
-        android:src="@drawable/hobby_zoo_app"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.35" />
+    <TextView
+        android:id="@+id/register_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/register"
+        android:textAlignment="center"
+        android:textColor="@color/title_page"
+        android:textStyle="bold"
+        android:layout_marginTop="30dp"
+        android:textSize="25sp" />
 
     <ImageView
         android:id="@+id/photoIV"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="200dp"
-        android:background="@drawable/ic_add_a_photo" />
+        android:layout_below="@+id/register_title"
+        android:background="@drawable/ic_profile" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/pseudoTIL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/photoIV"
-        android:layout_marginTop="7dp"
         android:padding="10dp">
-
 
         <EditText
             android:id="@+id/pseudoET"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:hint="@string/username"
-            android:inputType="textPersonName" />
+            android:hint="@string/pseudo"
+            android:inputType="textPersonName"
+            android:backgroundTint="@color/blue"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -56,7 +49,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/pseudoTIL"
-        android:layout_marginTop="3dp"
         android:padding="10dp">
 
         <EditText
@@ -67,12 +59,12 @@
             android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/passwordTIL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/emailTIL"
-        android:layout_marginTop="1dp"
         android:padding="10dp"
         app:passwordToggleEnabled="true">
 
@@ -86,12 +78,11 @@
 
     <Button
         android:id="@+id/register_btn"
+        style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/passwordTIL"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="37dp"
-        android:backgroundTint="@color/brown_btn"
         android:text="@string/register" />
 
     <TextView
@@ -99,7 +90,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/register_btn"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="30dp"
         android:text="@string/already_have_account_login"
         android:textAlignment="center"
         android:textColor="@color/black" />

@@ -11,16 +11,19 @@
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_play.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_profile.xml" value="0.171" />
+        <entry key="app/src/main/res/layout-v21/activity_register.xml" value="0.31979166666666664" />
         <entry key="app/src/main/res/layout/activity_calendar.xml" value="0.3463541666666667" />
         <entry key="app/src/main/res/layout/activity_end_session.xml" value="0.17552083333333332" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_list_animals.xml" value="0.25905797101449274" />
-        <entry key="app/src/main/res/layout/activity_login.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_new_category.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_profile.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/activity_register.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/activity_registrationorconnexion.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_register.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_registrationorconnexion.xml" value="0.31979166666666664" />
         <entry key="app/src/main/res/layout/activity_run_session.xml" value="0.2916666666666667" />
+        <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.31979166666666664" />
         <entry key="app/src/main/res/layout/connexion.xml" value="0.16818642350557245" />
         <entry key="app/src/main/res/layout/fragment_calendar.xml" value="0.2653061224489796" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1" />

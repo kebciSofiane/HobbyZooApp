@@ -18,6 +18,9 @@
         android:theme="@style/Theme.HobbyZooApp"
         tools:targetApi="31">
         <activity
+            android:name=".SettingsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ProfileActivity"
             android:exported="false" />
         <activity
@@ -66,15 +69,15 @@
         </activity>
         <activity
             android:name=".Sessions.NewSession"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".Category.NewCategory"
             android:exported="true"
-            android:parentActivityName=".Activities.NewActivity"></activity>
+            android:parentActivityName=".Activities.NewActivity" />
         <activity
             android:name=".Activities.NewActivity"
             android:exported="true"
-            android:parentActivityName=".Sessions.NewSession"></activity>
+            android:parentActivityName=".Sessions.NewSession" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -85,6 +88,10 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

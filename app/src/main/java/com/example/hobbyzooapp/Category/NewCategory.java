@@ -78,10 +78,10 @@ public class NewCategory extends AppCompatActivity {
 
                 name = text.getText().toString();
                 if(name.trim().isEmpty()){
-                    Toast.makeText(getApplicationContext(),"Le champ nom ne peut pas être vide!",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"Field can't be empty!",Toast.LENGTH_LONG).show();
                 }
                 else if (colorRGB == 0) {
-                    Toast.makeText(getApplicationContext(),"Il faut choisir une couleur!",Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(),"A color must be chosen!",Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getApplicationContext(),"name: "+ name+", color: "+ colorHex,Toast.LENGTH_LONG).show();
                 }

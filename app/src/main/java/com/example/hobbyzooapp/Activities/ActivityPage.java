@@ -98,12 +98,13 @@ public class ActivityPage extends AppCompatActivity {
 
         DatabaseReference newChildRef = databaseReference.push();
         String taskId = newChildRef.getKey();
-        String cat = taskId;
+        //String cat = taskId; //todo
         HashMap<String, String> tasks = new HashMap<>();
         tasks.put("taskId", taskId);
-        tasks.put("taskName", "Jouer");
+        tasks.put("taskName", "FirstElement");
         tasks.put("taskStatus", "FALSE");
         tasks.put("activityId", thisActivityId);
+        todoList.add(new TodoTask("FirstElement", Boolean.FALSE));
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("Tasks");
         reference.child(taskId).setValue(tasks);
@@ -148,7 +149,7 @@ public class ActivityPage extends AppCompatActivity {
                 }else{
                     todoList.add(new TodoTask(newElement, Boolean.FALSE));
 
-                    String taskId = thisActivityId+newElement; //todo choix arbitraire
+                    String taskId = newChildRef.getKey();
                     tasks.put("taskId", taskId);
                     tasks.put("taskName", newElement);
                     tasks.put("taskStatus", "FALSE");
@@ -167,7 +168,8 @@ public class ActivityPage extends AppCompatActivity {
 
         RecyclerView recyclerView = findViewById(R.id.todoRecyclerView);
         TodoAdapter adapterTodoList = new TodoAdapter(todoList);
-        recyclerView.setLayoutManager(new GridLayoutManager(this, 5, GridLayoutManager.HORIZONTAL, false));
+        int spanCount = Math.max(1, todoList.size());
+        recyclerView.setLayoutManager(new GridLayoutManager(this, spanCount, GridLayoutManager.HORIZONTAL, false));
         recyclerView.setAdapter(adapterTodoList);
 
         editTextPetName = findViewById(R.id.activityPagePetNameEdit);

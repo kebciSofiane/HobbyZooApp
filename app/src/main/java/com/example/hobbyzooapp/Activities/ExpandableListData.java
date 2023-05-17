@@ -6,6 +6,8 @@ import android.widget.Toast;
 
 import com.example.hobbyzooapp.Category.Category;
 import com.example.hobbyzooapp.HomeActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,9 +27,10 @@ public class ExpandableListData {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("Category");
         HashMap<String, Category> expandableListDetail = new HashMap<>();
-
-
-        reference.addValueEventListener(new ValueEventListener() {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        String uid = user.getUid();
+        reference.orderByChild("user_id").equalTo(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -38,7 +41,6 @@ public class ExpandableListData {
 
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference reference = database.getReference("Activity");
-
 
                     reference.orderByChild("category_id").equalTo(category_id).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override

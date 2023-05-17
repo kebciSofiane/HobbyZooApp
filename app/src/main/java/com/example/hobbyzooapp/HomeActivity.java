@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,12 +21,17 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.hobbyzooapp.Activities.Activity;
 import com.example.hobbyzooapp.Activities.ActivityPage;
-import com.example.hobbyzooapp.Activities.MyActivities;
 import com.example.hobbyzooapp.Calendar.CalendarActivity;
 import com.example.hobbyzooapp.Sessions.RunSession;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -62,6 +68,48 @@ public class HomeActivity extends AppCompatActivity {
     LinearLayout linearLayout4 ;
     LinearLayout linearLayout5 ;
 
+    ArrayList<Integer> imageList = new ArrayList<>();
+    ArrayList<String> activities_name_List = new ArrayList<>();
+
+
+
+
+
+    public  void getActivities(){
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        String email = user.getEmail();
+        String uid = user.getUid();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        DatabaseReference referenceActivity = database.getReference("Activity");
+        referenceActivity.orderByChild("user_id").equalTo(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String activity_id = snapshot.child("activity_id").getValue(String.class);
+                    String activity_pet = snapshot.child("activity_pet").getValue(String.class);
+                    String activity_name = snapshot.child("activity_name").getValue(String.class);
+
+                    String resourceName = activity_pet+"_full_icon";
+                    int resId = HomeActivity.this.getResources().getIdentifier(resourceName,"drawable",HomeActivity.this.getPackageName());
+                    imageList.add(resId);
+                    activities_name_List.add(activity_name);
+
+                    showAnimals(imageList);
+
+
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("TAG", "Erreur lors de la récupération des données", databaseError.toException());
+            }
+        });
+
+    }
+
 
 
 
@@ -72,26 +120,31 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         firebaseAuth = FirebaseAuth.getInstance();
-
         next = findViewById(R.id.scrollAnimals);
+        getActivities();
 
 
-        ArrayList<Integer> imageList = new ArrayList<>();
-        imageList.add(R.drawable.lion_full_icon);
-        imageList.add(R.drawable.koala_full_icon);
-        //imageList.add(R.drawable.singe);
-        imageList.add(R.drawable.cat_full_icon);
-        imageList.add(R.drawable.chick_full_icon);
-        imageList.add(R.drawable.beaver_full_icon);
-        imageList.add(R.drawable.giraffe_full_icon);
-        imageList.add(R.drawable.rabbit_full_icon);
-        imageList.add(R.drawable.tl_full_icon);
-        imageList.add(R.drawable.tiger_full_icon);
-        imageList.add(R.drawable.sheep_full_icon);
+        imageView1 = findViewById(R.id.imageView1);
+        imageView2 = findViewById(R.id.imageView2);
+        imageView3 = findViewById(R.id.imageView3);
+        imageView4 = findViewById(R.id.imageView4);
+        imageView5 = findViewById(R.id.imageView5);
+
+        textView1 = findViewById(R.id.homePageAnimalText1);
+        textView2 = findViewById(R.id.homePageAnimalText2);
+        textView3 = findViewById(R.id.homePageAnimalText3);
+        textView4 = findViewById(R.id.homePageAnimalText4);
+        textView5 = findViewById(R.id.homePageAnimalText5);
+
+        linearLayout1 = findViewById(R.id.linearLayoutHomePageAnimal1);
+        linearLayout2 = findViewById(R.id.linearLayoutHomePageAnimal2);
+        linearLayout3 = findViewById(R.id.linearLayoutHomePageAnimal3);
+        linearLayout4 = findViewById(R.id.linearLayoutHomePageAnimal4);
+        linearLayout5 = findViewById(R.id.linearLayoutHomePageAnimal5);
 
 
 
-        showAnimals(imageList);
+
 
 
 
@@ -211,42 +264,34 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void showAnimals(ArrayList<Integer> imageList){
-        imageView1 = findViewById(R.id.imageView1);
-        imageView2 = findViewById(R.id.imageView2);
-        imageView3 = findViewById(R.id.imageView3);
-        imageView4 = findViewById(R.id.imageView4);
-        imageView5 = findViewById(R.id.imageView5);
 
-        textView1 = findViewById(R.id.homePageAnimalText1);
-        textView2 = findViewById(R.id.homePageAnimalText2);
-        textView3 = findViewById(R.id.homePageAnimalText3);
-        textView4 = findViewById(R.id.homePageAnimalText4);
-        textView5 = findViewById(R.id.homePageAnimalText5);
+        Random random = new Random();
 
-        linearLayout1 = findViewById(R.id.linearLayoutHomePageAnimal1);
-        linearLayout2 = findViewById(R.id.linearLayoutHomePageAnimal2);
-        linearLayout3 = findViewById(R.id.linearLayoutHomePageAnimal3);
-        linearLayout4 = findViewById(R.id.linearLayoutHomePageAnimal4);
-        linearLayout5 = findViewById(R.id.linearLayoutHomePageAnimal5);
 
 
         //FirebaseUser user = firebaseAuth.getCurrentUser();
         //user.getUid()
-        textView1.setText("Dessin");
-        textView2.setText("Muscu");
-        textView3.setText("Dance");
-        textView4.setText("DIY");
-        textView5.setText("Yoga");
+        ArrayList<TextView> textViewList= new ArrayList<>();
+        ArrayList<ImageView> imageViewList= new ArrayList<>();
 
+        textViewList.add(textView1);
+        textViewList.add(textView2);
+        textViewList.add(textView3);
+        textViewList.add(textView4);
+        textViewList.add(textView5);
 
-Random random = new Random();
+        imageViewList.add(imageView1);
+        imageViewList.add(imageView2);
+        imageViewList.add(imageView3);
+        imageViewList.add(imageView4);
+        imageViewList.add(imageView5);
 
+        if (imageList.size()<=5)
+            for (int i=0; i<imageList.size();i++){
+               imageViewList.get(i).setImageResource(imageList.get(i));
+               textViewList.get(i).setText(activities_name_List.get(i));
+            }
 
-        imageView1.setImageResource(imageList.get(random.nextInt(imageList.size()-1)));
-        imageView2.setImageResource(imageList.get(random.nextInt(imageList.size()-1)));
-        imageView3.setImageResource(imageList.get(random.nextInt(imageList.size()-1)));
-        imageView4.setImageResource(imageList.get(random.nextInt(imageList.size()-1)));
-        imageView5.setImageResource(imageList.get(random.nextInt(imageList.size()-1)));
 
 
 

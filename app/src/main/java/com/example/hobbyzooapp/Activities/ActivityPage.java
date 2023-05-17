@@ -64,11 +64,11 @@ public class ActivityPage extends AppCompatActivity {
 
     public void getActivityData(String activity_id){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference referenceActivty = database.getReference("Activity");
+        DatabaseReference referenceActivity = database.getReference("Activity");
 
 
 
-        referenceActivty.child(activity_id).addListenerForSingleValueEvent(new ValueEventListener() {
+        referenceActivity.child(activity_id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {

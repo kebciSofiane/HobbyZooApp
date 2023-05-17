@@ -101,10 +101,15 @@ public class ProfileActivity extends AppCompatActivity {
 
                         String image = snapshot.child("image").getValue(String.class);
                         if (image != null) {
-                            Picasso.get().load(image).into(profileImageView);
+                            Glide.with(ProfileActivity.this)
+                                    .load(image)
+                                    .into(profileImageView);
                         } else {
-                            Picasso.get().load(R.drawable.ic_profile).into(profileImageView);
+                            Glide.with(ProfileActivity.this)
+                                    .load(R.drawable.ic_profile)
+                                    .into(profileImageView);
                         }
+
                     }
 
                 }

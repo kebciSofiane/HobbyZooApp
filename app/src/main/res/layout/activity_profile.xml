@@ -102,8 +102,7 @@
         android:layout_marginBottom="20dp"
         android:backgroundTint="@color/transparent"
         android:src="@drawable/ic_settings"
-
-        android:tint="@color/blue" />
+        app:tint="@color/blue" />
 
     <ImageButton
         android:id="@+id/home_button"

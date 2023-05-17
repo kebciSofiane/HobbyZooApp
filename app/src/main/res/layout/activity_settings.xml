@@ -6,9 +6,63 @@
     android:layout_height="match_parent"
     android:background="@color/app_background"
     tools:context=".SettingsActivity">
-    <ImageView
+
+    <TextView
+        android:id="@+id/settings_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="48dp"
+        android:layout_marginEnd="16dp"
+        android:gravity="center"
+        android:text="Settings"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/cat"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:layout_editor_absoluteX="-16dp"
+        tools:layout_editor_absoluteY="250dp">
+
+        <Button
+            android:id="@+id/follow_my_progress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:backgroundTint="@color/blue"
+            android:text="My evolution"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/my_activities"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:backgroundTint="@color/blue"
+            android:text="My activities"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/personal_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:backgroundTint="@color/blue"
+            android:text="Personal information"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

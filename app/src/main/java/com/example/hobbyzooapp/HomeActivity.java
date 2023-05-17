@@ -47,6 +47,8 @@ public class HomeActivity extends AppCompatActivity {
     Button next;
     private int currentIndex=0;
     private int currentIndex2=0;
+    private int currentIndex3=0;
+
 
 
 
@@ -74,6 +76,9 @@ public class HomeActivity extends AppCompatActivity {
 
     ArrayList<Integer> imageList = new ArrayList<>();
     ArrayList<String> activities_name_List = new ArrayList<>();
+    ArrayList<String> activities_id_List = new ArrayList<>();
+
+
 
 
     String uid;
@@ -101,6 +106,7 @@ public class HomeActivity extends AppCompatActivity {
                     int resId = HomeActivity.this.getResources().getIdentifier(resourceName,"drawable",HomeActivity.this.getPackageName());
                     imageList.add(resId);
                     activities_name_List.add(activity_name);
+                    activities_id_List.add(activity_id);
 
                 }
 
@@ -192,29 +198,34 @@ public class HomeActivity extends AppCompatActivity {
         linearLayout1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               startActivity(new Intent(HomeActivity.this, ActivityPage.class));
+                Intent intent=new Intent(HomeActivity.this, ActivityPage.class);
+                intent.putExtra("activity_id",(String) v.getTag());
+                startActivity(intent);
             }
         });
 
         linearLayout2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this, ActivityPage.class));
-
+                Intent intent=new Intent(HomeActivity.this, ActivityPage.class);
+                intent.putExtra("activity_id",(String) v.getTag());
+                startActivity(intent);
             }
         });
 
         linearLayout3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this,ActivityPage.class));
-            }
+                Intent intent=new Intent(HomeActivity.this, ActivityPage.class);
+                intent.putExtra("activity_id",(String) v.getTag());
+                startActivity(intent);            }
         });
 
         linearLayout4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent =new Intent(HomeActivity.this,ActivityPage.class);
+                Intent intent=new Intent(HomeActivity.this, ActivityPage.class);
+                intent.putExtra("activity_id",(String) v.getTag());
                 startActivity(intent);
             }
         });
@@ -222,8 +233,9 @@ public class HomeActivity extends AppCompatActivity {
         linearLayout5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this,ActivityPage.class));
-
+                Intent intent=new Intent(HomeActivity.this, ActivityPage.class);
+                intent.putExtra("activity_id",(String) v.getTag());
+                startActivity(intent);
             }
         });
 
@@ -274,10 +286,6 @@ public class HomeActivity extends AppCompatActivity {
             intElements.add(imageList.get(currentIndex));
             currentIndex++;
         }
-        if (intElements.size()==5)
-            next.setVisibility(View.VISIBLE);
-        else
-            next.setVisibility(View.GONE);
 
         return intElements;
     }
@@ -285,9 +293,30 @@ public class HomeActivity extends AppCompatActivity {
     public List<String> showNextActivityNames(int batchSize) {
         List<String> intElements = new ArrayList<>();
 
+
         while (currentIndex2 < activities_name_List.size() && intElements.size() < batchSize) {
             intElements.add(activities_name_List.get(currentIndex2));
             currentIndex2++;
+        }
+
+        return intElements;
+    }
+
+    public List<String> showNextActivityId(int batchSize) {
+        List<String> intElements = new ArrayList<>();
+
+        while (currentIndex3 < activities_id_List.size() && intElements.size() < batchSize) {
+            intElements.add(activities_id_List.get(currentIndex3));
+            currentIndex3++;
+        }
+
+        if (intElements.size()==5)
+            next.setVisibility(View.VISIBLE);
+    else
+        {
+            currentIndex=0;
+            currentIndex3=0;
+            currentIndex2=0;
         }
 
         return intElements;
@@ -330,11 +359,14 @@ public class HomeActivity extends AppCompatActivity {
         int batchSize = 5;
         List<Integer> batchElements = showNextPics(batchSize);
         List<String> activities_names = showNextActivityNames(batchSize);
+        List<String> activities_id = showNextActivityId(batchSize);
+
 
         for (int i = 0; i < batchElements.size(); i++) {
                 imageViewList.get(i).setImageResource(batchElements.get(i));
                 textViewList.get(i).setText(activities_names.get(i));
                 linearLayoutList.get(i).setVisibility(View.VISIBLE);
+                linearLayoutList.get(i).setTag(activities_id.get(i));
             }
 
 

@@ -1,0 +1,59 @@
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class AffichageParLots {
+    private List<String> elements;
+    private int currentIndex;
+
+    public AffichageParLots(List<String> elements) {
+        this.elements = elements;
+        this.currentIndex = 0;
+    }
+
+    public List<String> afficherProchainsElements(int batchSize) {
+        List<String> batchElements = new ArrayList<>();
+
+        while (currentIndex < elements.size() && batchElements.size() < batchSize) {
+            batchElements.add(elements.get(currentIndex));
+            currentIndex++;
+        }
+
+        return batchElements;
+    }
+
+    public static void main(String[] args) {
+        List<String> elements = new ArrayList<>();
+        // Ajoutez vos éléments à la liste
+        elements.add("Élément 1");
+        elements.add("Élément 2");
+        elements.add("Élément 3");
+        elements.add("Élément 4");
+        elements.add("Élément 5");
+        elements.add("Élément 6");
+        elements.add("Élément 7");
+        elements.add("Élément 8");
+        elements.add("Élément 9");
+        elements.add("Élément 10");
+
+        AffichageParLots affichageParLots = new AffichageParLots(elements);
+
+        int batchSize = 5;
+        List<String> batchElements = affichageParLots.afficherProchainsElements(batchSize);
+        while (!batchElements.isEmpty()) {
+            // Affichez les éléments du lot
+            for (String element : batchElements) {
+                System.out.println(element);
+            }
+
+            // Demandez à l'utilisateur s'il veut afficher plus d'éléments
+            System.out.println("Afficher plus d'éléments ? (Oui/Non)");
+            // Ici, vous pouvez lire la réponse de l'utilisateur depuis la console ou une autre source
+
+            // Si la réponse est "Oui", affichez le prochain lot d'éléments
+            // Sinon, arrêtez la boucle
+
+            batchElements = affichageParLots.afficherProchainsElements(batchSize);
+        }
+    }
+}

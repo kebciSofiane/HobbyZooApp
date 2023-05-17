@@ -14,6 +14,7 @@
         android:background="@drawable/arrow_right"
         android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"
+        android:visibility="gone"
 
         />
     <RelativeLayout

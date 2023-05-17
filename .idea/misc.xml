@@ -11,6 +11,7 @@
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_play.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_profile.xml" value="0.171" />
+        <entry key="app/src/main/res/drawable/rounded_button.xml" value="0.1" />
         <entry key="app/src/main/res/layout-v21/activity_register.xml" value="0.31979166666666664" />
         <entry key="app/src/main/res/layout/activity_calendar.xml" value="0.3463541666666667" />
         <entry key="app/src/main/res/layout/activity_end_session.xml" value="0.17552083333333332" />
@@ -24,7 +25,7 @@
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_registrationorconnexion.xml" value="0.31979166666666664" />
         <entry key="app/src/main/res/layout/activity_run_session.xml" value="0.2916666666666667" />
-        <entry key="app/src/main/res/layout/activity_settings.xml" value="0.3463541666666667" />
+        <entry key="app/src/main/res/layout/activity_settings.xml" value="0.2689295039164491" />
         <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.31979166666666664" />
         <entry key="app/src/main/res/layout/connexion.xml" value="0.16818642350557245" />
         <entry key="app/src/main/res/layout/fragment_calendar.xml" value="0.2653061224489796" />

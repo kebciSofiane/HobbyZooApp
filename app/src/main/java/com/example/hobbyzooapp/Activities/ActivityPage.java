@@ -45,6 +45,7 @@ public class ActivityPage extends AppCompatActivity {
     Button showMoreButton;
     Button showLessButton;
     RecyclerView recyclerView;
+    RecyclerView recyclerViewTodoList;
     ImageButton homeButton;
     TextView goalsText;
     List<String> items = new ArrayList<>();
@@ -81,6 +82,7 @@ public class ActivityPage extends AppCompatActivity {
         homeButton = findViewById(R.id.homeButton);
         goalsText.setText("Goal: 2h/5h");
         recyclerView = findViewById(R.id.activityPageRecyclerView);
+        recyclerViewTodoList = findViewById(R.id.todoRecyclerView);
         GridLayoutManager layoutManager;
         addToTodoListButton = findViewById(R.id.addToTodoListButton);
         validateToTodoListButton = findViewById(R.id.validateToTodoListButton);
@@ -96,34 +98,25 @@ public class ActivityPage extends AppCompatActivity {
         databaseReference = firebaseDatabase.getReference("Tasks");
         String thisActivityId = "actID"; //todo recuperer id activity de cette activite
 
-        DatabaseReference newChildRef = databaseReference.push();
-        String taskId = newChildRef.getKey();
-        //String cat = taskId; //todo
         HashMap<String, String> tasks = new HashMap<>();
-        tasks.put("taskId", taskId);
-        tasks.put("taskName", "FirstElement");
-        tasks.put("taskStatus", "FALSE");
-        tasks.put("activityId", thisActivityId);
-        todoList.add(new TodoTask("FirstElement", Boolean.FALSE));
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference reference = database.getReference("Tasks");
-        reference.child(taskId).setValue(tasks);
+        TodoAdapter adapterTodoList = new TodoAdapter(todoList);
+        recyclerViewTodoList.setLayoutManager(new GridLayoutManager(this, 5, GridLayoutManager.HORIZONTAL, false));
+        recyclerViewTodoList.setAdapter(adapterTodoList);
 
         databaseReference.addValueEventListener(new ValueEventListener(){
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                todoList.clear();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     String activityId = snapshot.child("activityId").getValue(String.class);
                     String taskName  = snapshot.child("taskName").getValue(String.class);
                     String taskStatus = snapshot.child("taskStatus").getValue(String.class);
                     if (activityId.equals(thisActivityId)){
-                        if (taskStatus.equals("FALSE")){
-                            todoList.add(new TodoTask(taskName, Boolean.FALSE));
-                        }else{
-                            todoList.add(new TodoTask(taskName, Boolean.TRUE));
-                        }
+                        boolean boolTaskStatus = Boolean.parseBoolean(taskStatus);
+                        todoList.add(new TodoTask(taskName, boolTaskStatus));
                     }
                 }
+                adapterTodoList.notifyDataSetChanged();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -148,7 +141,7 @@ public class ActivityPage extends AppCompatActivity {
                     Toast.makeText(ActivityPage.this, "Nothing written!", Toast.LENGTH_LONG).show();
                 }else{
                     todoList.add(new TodoTask(newElement, Boolean.FALSE));
-
+                    DatabaseReference newChildRef = databaseReference.push();
                     String taskId = newChildRef.getKey();
                     tasks.put("taskId", taskId);
                     tasks.put("taskName", newElement);
@@ -158,6 +151,7 @@ public class ActivityPage extends AppCompatActivity {
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference reference = database.getReference("Tasks");
                     reference.child(taskId).setValue(tasks);
+                    adapterTodoList.notifyDataSetChanged();
                 }
                 addToTodoListButton.setVisibility(View.VISIBLE);
                 addToTodoListText.setText("");
@@ -165,12 +159,6 @@ public class ActivityPage extends AppCompatActivity {
                 validateToTodoListButton.setVisibility(View.GONE);
             }
         });
-
-        RecyclerView recyclerView = findViewById(R.id.todoRecyclerView);
-        TodoAdapter adapterTodoList = new TodoAdapter(todoList);
-        int spanCount = Math.max(1, todoList.size());
-        recyclerView.setLayoutManager(new GridLayoutManager(this, spanCount, GridLayoutManager.HORIZONTAL, false));
-        recyclerView.setAdapter(adapterTodoList);
 
         editTextPetName = findViewById(R.id.activityPagePetNameEdit);
         InputFilter[] filters = new InputFilter[1];
@@ -247,13 +235,25 @@ public class ActivityPage extends AppCompatActivity {
                 petName.setVisibility(View.VISIBLE);
             }
         });
+
+        adapterTodoList.setOnCheckedChangeListener(new TodoAdapter.OnCheckedChangeListener() { //todo
+            @Override
+            public void onCheckedChanged(int position, boolean isChecked) {
+                // Le code ici sera exécuté chaque fois que l'utilisateur cochera ou décochera une case
+                // Vous pouvez utiliser la position pour identifier la tâche spécifique dans la liste
+                // et utiliser isChecked pour obtenir l'état de cochage actuel
+
+                // Exemple : afficher l'état de cochage dans la console
+                System.out.println("Tâche à la position " + position + " cochée : " + isChecked);
+            }
+        });
+
     }
 
     private void changeManager() {
         GridLayoutManager layoutManager;
-        int spanCount = Math.max(1, todoList.size());
         if (allSessions)
-            layoutManager = new GridLayoutManager(this, spanCount, GridLayoutManager.HORIZONTAL, false);
+            layoutManager = new GridLayoutManager(this, 5, GridLayoutManager.HORIZONTAL, false);
         else
             layoutManager = new GridLayoutManager(this, 2, GridLayoutManager.HORIZONTAL, false);
 

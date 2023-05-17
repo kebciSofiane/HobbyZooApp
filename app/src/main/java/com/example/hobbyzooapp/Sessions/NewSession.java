@@ -150,11 +150,7 @@ public class NewSession extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String user_id_cat = snapshot.child("user_id").getValue(String.class);
                     if(user_id.equals(user_id_cat))
-                        if (firstActivity == null){
-                            activities.add(snapshot.child("activity_name").getValue(String.class));
-                        }
-                        else
-                            activities.add(snapshot.child("activity_name").getValue(String.class));
+                        activities.add(snapshot.child("activity_name").getValue(String.class));
                 }
                 activities.add("New Activity");
             }

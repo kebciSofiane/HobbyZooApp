@@ -41,6 +41,8 @@ public class NewActivity extends AppCompatActivity {
     String firstCategory = null;
     TimePicker weeklyGoal;
     String category_id;
+    Button validationButton;
+    ImageView animalImage;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -48,18 +50,7 @@ public class NewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_activity);
-        firebaseAuth = FirebaseAuth.getInstance();
-        categorySelector = findViewById(R.id.categoryName);
-        weeklyGoal = findViewById(R.id.weeklyGoal);
-        weeklyGoal.setIs24HourView(true);
-        weeklyGoal.setHour(0);
-        weeklyGoal.setMinute(0);
-
-        user = firebaseAuth.getCurrentUser();
-
-        Button validationButton = findViewById(R.id.validationButton);
-        ImageView animalImage = findViewById(R.id.animalImage);
-
+        initialision();
         animalImage.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -156,6 +147,19 @@ public class NewActivity extends AppCompatActivity {
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    void initialision(){
+        firebaseAuth = FirebaseAuth.getInstance();
+        categorySelector = findViewById(R.id.categoryName);
+        weeklyGoal = findViewById(R.id.weeklyGoal);
+        weeklyGoal.setIs24HourView(true);
+        weeklyGoal.setHour(0);
+        weeklyGoal.setMinute(0);
+        user = firebaseAuth.getCurrentUser();
+        validationButton = findViewById(R.id.validationButton);
+        animalImage = findViewById(R.id.animalImage);
+    }
+
     List<String> setCategories(){
         List<String> categories = new ArrayList<>();
         DatabaseReference databaseReferenceChild = FirebaseDatabase.getInstance().getReference().child("Category");
@@ -167,11 +171,9 @@ public class NewActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String user_id_cat = snapshot.child("user_id").getValue(String.class);
                     if(user_id.equals(user_id_cat))
-                        if (firstCategory == null){
-                            categories.add(snapshot.child("category_name").getValue(String.class));
-                        }
-                    else
-                       categories.add(snapshot.child("category_name").getValue(String.class));
+                        categories.add(snapshot.child("category_name").getValue(String.class));
+
+
                 }
                 categories.add("New Category");
             }

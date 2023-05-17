@@ -51,7 +51,7 @@ public class RunSession extends AppCompatActivity {
         stopButton = findViewById(R.id.stopButton);
         resumeButton=findViewById(R.id.resumeButton);
         petPicture = findViewById(R.id.petPicture);
-        petPicture.setImageResource(R.drawable.koa);
+        petPicture.setImageResource(R.drawable.koala_full_icon);
         validateButton = findViewById(R.id.validateButton);
         addTimeButton = findViewById(R.id.addTimeButton);
 

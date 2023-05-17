@@ -77,16 +77,18 @@ public class HomeActivity extends AppCompatActivity {
 
 
         ArrayList<Integer> imageList = new ArrayList<>();
-        imageList.add(R.drawable.lion);
-        imageList.add(R.drawable.koa);
+        imageList.add(R.drawable.lion_full_icon);
+        imageList.add(R.drawable.koala_full_icon);
         //imageList.add(R.drawable.singe);
-        imageList.add(R.drawable.cat);
-        imageList.add(R.drawable.chick);
-        imageList.add(R.drawable.beaver);
-        imageList.add(R.drawable.cow);
-        imageList.add(R.drawable.rabbit);
-        imageList.add(R.drawable.tl);
-        imageList.add(R.drawable.tiger);
+        imageList.add(R.drawable.cat_full_icon);
+        imageList.add(R.drawable.chick_full_icon);
+        imageList.add(R.drawable.beaver_full_icon);
+        imageList.add(R.drawable.giraffe_full_icon);
+        imageList.add(R.drawable.rabbit_full_icon);
+        imageList.add(R.drawable.tl_full_icon);
+        imageList.add(R.drawable.tiger_full_icon);
+        imageList.add(R.drawable.sheep_full_icon);
+
 
 
         showAnimals(imageList);

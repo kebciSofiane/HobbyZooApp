@@ -13,7 +13,7 @@
         android:layout_marginTop="30dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/sheep" />
+        app:srcCompat="@drawable/sheep_icon" />
 
     <ImageView
         android:id="@+id/animal2"
@@ -23,5 +23,5 @@
         android:layout_marginTop="30dp"
         app:layout_constraintStart_toEndOf="@+id/animal1"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/chick" />
+        app:srcCompat="@drawable/check_icon" />
 </androidx.constraintlayout.widget.ConstraintLayout>

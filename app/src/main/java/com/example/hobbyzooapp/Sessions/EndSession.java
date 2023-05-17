@@ -64,7 +64,7 @@ public class EndSession extends AppCompatActivity {
         setContentView(R.layout.activity_end_session);
         firebaseAuth = FirebaseAuth.getInstance();
         petPic = findViewById(R.id.petPicture);
-        petPic.setImageResource(R.drawable.koa);
+        petPic.setImageResource(R.drawable.koala_icon);
         takeApic=findViewById(R.id.takeAPic);
         takenImage =findViewById(R.id.takenImage);
         commentField =findViewById(R.id.commentText);
@@ -184,7 +184,7 @@ public class EndSession extends AppCompatActivity {
         Bitmap image = BitmapFactory.decodeFile(photoPath);
         takenImage.setImageBitmap(image);
         takenImage.setVisibility(View.VISIBLE);
-        petPic.setImageResource(R.drawable.koa);
+        petPic.setImageResource(R.drawable.koala_icon);
     }
 
     @Override

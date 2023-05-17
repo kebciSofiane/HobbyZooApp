@@ -1,6 +1,7 @@
 package com.example.hobbyzooapp.Activities;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -9,11 +10,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hobbyzooapp.Category.NewCategory;
+import com.example.hobbyzooapp.HomeActivity;
 import com.example.hobbyzooapp.ListAnimals;
 import com.example.hobbyzooapp.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,8 +30,11 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+
+import kotlin.collections.ArrayDeque;
 
 public class NewActivity extends AppCompatActivity {
 
@@ -35,12 +42,23 @@ public class NewActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     Spinner categorySelector;
     FirebaseUser user;
+    String firstCategory = null;
+    TimePicker weeklyGoal;
+    String category_id;
 
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_activity);
         firebaseAuth = FirebaseAuth.getInstance();
+        categorySelector = findViewById(R.id.categoryName);
+        weeklyGoal = findViewById(R.id.weeklyGoal);
+        weeklyGoal.setIs24HourView(true);
+        weeklyGoal.setHour(0);
+        weeklyGoal.setMinute(0);
+
         user = firebaseAuth.getCurrentUser();
 
         Button validationButton = findViewById(R.id.validationButton);
@@ -55,20 +73,49 @@ public class NewActivity extends AppCompatActivity {
             }
         });
 
-        categorySelector = findViewById(R.id.categoryName);
-        List<String> categories = setCategorySelector();
-        ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, categories);
+        List<String> categories =setCategorySelector();
+        categories.add(firstCategory);
+        //categories.remove(categories.size()-1);
+
+        ArrayAdapter adapter = new ArrayAdapter(NewActivity.this, android.R.layout.simple_list_item_1, categories);
         categorySelector.setAdapter(adapter);
 
         categorySelector.setOnItemSelectedListener(
                 new AdapterView.OnItemSelectedListener() {
                     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 
-                        Object item = parent.getItemAtPosition(pos);
                         if(parent.getItemAtPosition(pos) == "New Category"){
                             Intent intent = new Intent().setClass(getApplicationContext(), NewCategory.class);
                             startActivity(intent);
                         }
+                        final String[] category_id_select = new String[1];
+                        String user_id = user.getUid();
+                        DatabaseReference databaseReferenceChild = FirebaseDatabase.getInstance().getReference().child("Category");
+                        String category_name_selected = (String) categorySelector.getSelectedItem();
+                        databaseReferenceChild.orderByChild("user_id").equalTo(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
+
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                    String user_id_verificate = snapshot.child("user_id").getValue(String.class);
+                                    String category_name = snapshot.child("category_name").getValue(String.class);
+                                    System.out.println(user_id + "      :      " + user_id_verificate);
+                                    System.out.println(category_name + "      :      " + category_name_selected);
+                                    if(user_id.equals(user_id_verificate) && category_name.equals(category_name_selected)){
+                                        String category_id_verificate = snapshot.child("category_id").getValue(String.class);
+                                        category_id_select[0] = category_id_verificate;
+                                    }
+                                    category_id = category_id_select[0];
+
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                // Gérez l'erreur en cas d'annulation de la requête
+                            }
+                        });
+                        categorySelector.setSelection(pos);
 
                     }
                     public void onNothingSelected(AdapterView<?> parent) {
@@ -81,37 +128,15 @@ public class NewActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 EditText text = findViewById(R.id.activityName);
-                EditText weekly_goal = findViewById(R.id.weeklyGoal);
                 name = text.getText().toString();
                 EditText textAnimal = findViewById(R.id.animalName);
                 animalName = textAnimal.getText().toString();
 
-                if(name.trim().isEmpty() || animalName.trim().isEmpty()){
-                    Toast.makeText(getApplicationContext(),"Le champ nom ne peut pas être vide!",Toast.LENGTH_LONG).show();
+                if(name.trim().isEmpty() || animalName.trim().isEmpty() || (weeklyGoal.getMinute() ==0 && weeklyGoal.getHour() == 0 ) || categorySelector.getSelectedItem() == null){
+                    Toast.makeText(getApplicationContext(),"Field can't be empty!",Toast.LENGTH_LONG).show();
                 }
                 else {
-                    final String[] category_id = new String[1];
-
-                    DatabaseReference databaseReferenceChild = FirebaseDatabase.getInstance().getReference().child("Category");
-
-                    databaseReferenceChild.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                String user_id = snapshot.child("user_id").getValue(String.class);
-                                String category_name = snapshot.child("category_name").getValue(String.class);
-                                if(user_id == user.getUid() && category_name == (String) categorySelector.getSelectedItem())
-                                    category_id[0] = snapshot.child("category_id").getValue(String.class);
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                            // Gérez l'erreur en cas d'annulation de la requête
-                        }
-                    });
-
-
+                    String user_id = user.getUid();
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
                     DatabaseReference newChildRef = databaseReference.push();
@@ -122,15 +147,17 @@ public class NewActivity extends AppCompatActivity {
                     hashMap.put("activity_name",name);
                     hashMap.put("activity_pet_name", animalName);
                     hashMap.put("activity_pet", "@drawable/sheep"); //todo faire input
-                    hashMap.put("weekly_goal", String.valueOf(weekly_goal.getText()));
+                    hashMap.put("weekly_goal", String.valueOf(weeklyGoal.getHour()*60+weeklyGoal.getMinute()));
                     hashMap.put("spent_time", "0");
-                    hashMap.put("category_id", category_id[0]);
-                    hashMap.put("user_id", user.getUid());
+                    hashMap.put("category_id", category_id);
+                    hashMap.put("user_id", user_id);
 
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
 
                     DatabaseReference reference = database.getReference("Activity");
                     reference.child(activity_id).setValue(hashMap);
+                    Intent intent = new Intent().setClass(getApplicationContext(), HomeActivity.class);
+                    startActivity(intent);
                 }
             }
         });
@@ -147,6 +174,10 @@ public class NewActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String user_id_cat = snapshot.child("user_id").getValue(String.class);
                     if(user_id.equals(user_id_cat))
+                        if (firstCategory == null){
+                            categories.add(snapshot.child("category_name").getValue(String.class));
+                        }
+                    else
                        categories.add(snapshot.child("category_name").getValue(String.class));
                 }
                 categories.add("New Category");

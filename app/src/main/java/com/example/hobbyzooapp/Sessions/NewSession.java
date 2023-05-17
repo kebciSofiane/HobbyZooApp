@@ -15,6 +15,7 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.hobbyzooapp.HomeActivity;
 import com.example.hobbyzooapp.R;
 import com.example.hobbyzooapp.Activities.NewActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -42,7 +43,7 @@ public class NewSession extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         DatePicker datePicker = findViewById(R.id.datePicker);
-        TimePicker timePicker=(TimePicker)findViewById(R.id.timePicker);
+        TimePicker timePicker= findViewById(R.id.timePicker);
         timePicker.setIs24HourView(true);
         timePicker.setHour(0);
         timePicker.setMinute(0);
@@ -100,6 +101,8 @@ public class NewSession extends AppCompatActivity {
 
                     DatabaseReference reference = database.getReference("Session");
                     reference.child(session_id).setValue(hashMap);
+                    Intent intent = new Intent().setClass(getApplicationContext(), HomeActivity.class);
+                    startActivity(intent);
                 }
             }
         });

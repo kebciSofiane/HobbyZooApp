@@ -30,11 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Objects;
-
-import kotlin.collections.ArrayDeque;
 
 public class NewActivity extends AppCompatActivity {
 
@@ -73,9 +69,8 @@ public class NewActivity extends AppCompatActivity {
             }
         });
 
-        List<String> categories =setCategorySelector();
+        List<String> categories = setCategories();
         categories.add(firstCategory);
-        //categories.remove(categories.size()-1);
 
         ArrayAdapter adapter = new ArrayAdapter(NewActivity.this, android.R.layout.simple_list_item_1, categories);
         categorySelector.setAdapter(adapter);
@@ -97,13 +92,11 @@ public class NewActivity extends AppCompatActivity {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                    String user_id_verificate = snapshot.child("user_id").getValue(String.class);
+                                    String user_id_verify = snapshot.child("user_id").getValue(String.class);
                                     String category_name = snapshot.child("category_name").getValue(String.class);
-                                    System.out.println(user_id + "      :      " + user_id_verificate);
-                                    System.out.println(category_name + "      :      " + category_name_selected);
-                                    if(user_id.equals(user_id_verificate) && category_name.equals(category_name_selected)){
-                                        String category_id_verificate = snapshot.child("category_id").getValue(String.class);
-                                        category_id_select[0] = category_id_verificate;
+                                    if(user_id.equals(user_id_verify) && category_name.equals(category_name_selected)){
+                                        String category_id_verify = snapshot.child("category_id").getValue(String.class);
+                                        category_id_select[0] = category_id_verify;
                                     }
                                     category_id = category_id_select[0];
 
@@ -163,7 +156,7 @@ public class NewActivity extends AppCompatActivity {
         });
     }
 
-    List<String> setCategorySelector(){
+    List<String> setCategories(){
         List<String> categories = new ArrayList<>();
         DatabaseReference databaseReferenceChild = FirebaseDatabase.getInstance().getReference().child("Category");
 

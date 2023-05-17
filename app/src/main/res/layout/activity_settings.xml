@@ -49,10 +49,10 @@
         android:padding="16dp"
         app:layout_constraintBottom_toTopOf="@+id/logoutBtn"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintHorizontal_bias="0.275"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="0.742">
+        app:layout_constraintVertical_bias="0.444">
 
         <Button
             android:id="@+id/notificationsBtn"
@@ -69,62 +69,74 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:background="@drawable/rounded_button"
             android:backgroundTint="@color/lightbrown"
             android:text="Terms Of Service"
             android:textColor="@color/black"
-            android:textSize="16sp"
-            android:background="@drawable/rounded_button"
-            />
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/rateBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:background="@drawable/rounded_button"
             android:backgroundTint="@color/lightbrown"
             android:text="Rate HobbyZoo"
             android:textColor="@color/black"
-            android:textSize="16sp"
-            android:background="@drawable/rounded_button" />
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/helpBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:background="@drawable/rounded_button"
             android:backgroundTint="@color/lightbrown"
             android:text="Help"
             android:textColor="@color/black"
-            android:textSize="16sp"
-            android:background="@drawable/rounded_button" />
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/aboutBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
+            android:background="@drawable/rounded_button"
             android:backgroundTint="@color/lightbrown"
             android:text="About"
             android:textColor="@color/black"
-            android:textSize="16sp"
-            android:background="@drawable/rounded_button" />
+            android:textSize="16sp" />
 
 
     </LinearLayout>
 
-    <Button
-    android:id="@+id/logoutBtn"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:text="Log out"
-    android:textColor="@color/black"
-    android:textSize="16sp"
-    android:layout_marginStart="50dp"
-    android:layout_marginEnd="50dp"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    android:background="@drawable/rounded_button"
-        />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/logoutBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/rounded_button"
+        android:text="Log out"
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/version"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="V 1.0"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/aboutBtn" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

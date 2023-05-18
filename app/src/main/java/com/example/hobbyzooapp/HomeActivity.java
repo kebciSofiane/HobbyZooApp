@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.BoringLayout;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
@@ -45,6 +46,8 @@ public class HomeActivity extends AppCompatActivity {
     ImageView fenceImage;
 
     Button next;
+    Button previous;
+
     private int currentIndex=0;
     private int currentIndex2=0;
     private int currentIndex3=0;
@@ -86,6 +89,8 @@ public class HomeActivity extends AppCompatActivity {
 
     int startIndex=0;
 
+    Boolean toRight;
+
 
     public  void getActivities(){
         FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -109,7 +114,7 @@ public class HomeActivity extends AppCompatActivity {
                     activities_id_List.add(activity_id);
 
                 }
-
+                toRight=true;
                 showAnimals();
 
             }
@@ -132,7 +137,9 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        next = findViewById(R.id.scrollAnimals);
+        next = findViewById(R.id.scrollAnimalsRight);
+        previous = findViewById(R.id.scrollAnimalsLeft);
+
         getActivities();
 
         imageView1 = findViewById(R.id.imageView1);
@@ -190,6 +197,15 @@ public class HomeActivity extends AppCompatActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                toRight=true;
+                showAnimals();
+            }
+        });
+
+        previous.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toRight=false;
                 showAnimals();
             }
         });
@@ -279,25 +295,70 @@ public class HomeActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public List<Integer> showNextPics(int batchSize) {
-        List<Integer> intElements = new ArrayList<>();
+    public List<Integer> showNextActivities(int batchSize) {
+        List<Integer> intElements ;
 
-        while (currentIndex < imageList.size() && intElements.size() < batchSize) {
-            intElements.add(imageList.get(currentIndex));
-            currentIndex++;
+        int startIndex = currentIndex;
+        int endIndex = startIndex + batchSize;
+
+        if (endIndex > imageList.size()) {
+            endIndex = imageList.size();
+            currentIndex = 0;
         }
+
+        intElements = imageList.subList(startIndex, endIndex);
+        currentIndex = endIndex;
+
+        return intElements;
+    }
+    public List<Integer> showPreviousActivities(int batchSize) {
+            List<Integer> intElements ;
+
+        int endIndex = currentIndex;
+        int startIndex = endIndex - batchSize;
+
+        if (startIndex < 0) {
+            startIndex = 0;
+            currentIndex = imageList.size() - 1;
+        }
+
+        intElements = imageList.subList(startIndex, endIndex);
+        currentIndex = startIndex;
 
         return intElements;
     }
 
+
     public List<String> showNextActivityNames(int batchSize) {
+        List<String> intElements ;
+
+        int startIndex = currentIndex2;
+        int endIndex = startIndex + batchSize;
+
+            if (endIndex > activities_name_List.size()) {
+            endIndex = activities_name_List.size();
+            currentIndex2 = 0;
+        }
+
+        intElements = activities_name_List.subList(startIndex, endIndex);
+        currentIndex2 = endIndex;
+
+        return intElements;
+    }
+
+    public List<String> showPreviousActivityNames(int batchSize) {
         List<String> intElements = new ArrayList<>();
 
+        int endIndex = currentIndex2;
+        int startIndex = endIndex - batchSize;
 
-        while (currentIndex2 < activities_name_List.size() && intElements.size() < batchSize) {
-            intElements.add(activities_name_List.get(currentIndex2));
-            currentIndex2++;
+        if (startIndex < 0) {
+            startIndex = 0;
+            currentIndex2 = activities_name_List.size() - 1;
         }
+
+        intElements = activities_name_List.subList(startIndex, endIndex);
+        currentIndex2 = startIndex;
 
         return intElements;
     }
@@ -305,22 +366,37 @@ public class HomeActivity extends AppCompatActivity {
     public List<String> showNextActivityId(int batchSize) {
         List<String> intElements = new ArrayList<>();
 
-        while (currentIndex3 < activities_id_List.size() && intElements.size() < batchSize) {
-            intElements.add(activities_id_List.get(currentIndex3));
-            currentIndex3++;
+        int startIndex = currentIndex3;
+        int endIndex = startIndex + batchSize;
+
+        if (endIndex > activities_id_List.size()) {
+            endIndex = activities_id_List.size();
+            currentIndex3 = 0;
         }
 
-        if (intElements.size()==5)
-            next.setVisibility(View.VISIBLE);
-    else
-        {
-            currentIndex=0;
-            currentIndex3=0;
-            currentIndex2=0;
-        }
+        intElements = activities_id_List.subList(startIndex, endIndex);
+        currentIndex3 = endIndex;
 
         return intElements;
     }
+
+    public List<String> showPreviousActivityId(int batchSize) {
+        List<String> intElements = new ArrayList<>();
+
+        int endIndex = currentIndex3;
+        int startIndex = endIndex - batchSize;
+
+        if (startIndex < 0) {
+            startIndex = 0;
+            currentIndex3 = activities_id_List.size() - 1;
+        }
+
+        intElements = activities_id_List.subList(startIndex, endIndex);
+        currentIndex3 = startIndex;
+
+        return intElements;
+    }
+
 
     private void showAnimals() {
 
@@ -357,9 +433,18 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         int batchSize = 5;
-        List<Integer> batchElements = showNextPics(batchSize);
-        List<String> activities_names = showNextActivityNames(batchSize);
-        List<String> activities_id = showNextActivityId(batchSize);
+        List<Integer> batchElements;
+        List<String> activities_names ;
+        List<String> activities_id ;
+        if (toRight){
+             batchElements = showNextActivities(batchSize);
+            activities_names = showNextActivityNames(batchSize);
+            activities_id = showNextActivityId(batchSize);
+        }else {
+            batchElements = showPreviousActivities(batchSize);
+            activities_names = showPreviousActivityNames(batchSize);
+            activities_id = showPreviousActivityId(batchSize);
+        }
 
 
         for (int i = 0; i < batchElements.size(); i++) {
@@ -368,6 +453,9 @@ public class HomeActivity extends AppCompatActivity {
                 linearLayoutList.get(i).setVisibility(View.VISIBLE);
                 linearLayoutList.get(i).setTag(activities_id.get(i));
             }
+
+
+
 
 
         // Obtenir le gestionnaire de fenêtres

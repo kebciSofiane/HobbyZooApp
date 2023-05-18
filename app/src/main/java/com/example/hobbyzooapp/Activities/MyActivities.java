@@ -79,13 +79,6 @@ public class MyActivities extends AppCompatActivity {
         reference= database.getReference("Category");
         reference.child(category_id).setValue(category);
 
-
-
-
-
-
-
-
          databaseReference = FirebaseDatabase.getInstance().getReference();
          newChildRef = databaseReference.push();
         String activity_id = newChildRef.getKey();
@@ -113,7 +106,7 @@ public class MyActivities extends AppCompatActivity {
         activity.put("activity_id", activity_id);
         activity.put("activity_pet_name","Coco");
         activity.put("activity_pet", "tl");
-        activity.put("activity_name", "life");
+        activity.put("activity_name", "business");
         activity.put("weekly_goal", "3");
         activity.put("spent_time", "2");
         activity.put("user_id", uid);
@@ -133,7 +126,7 @@ public class MyActivities extends AppCompatActivity {
         activity.put("activity_pet", "rabbit");
         activity.put("weekly_goal", "3");
         activity.put("spent_time", "2");
-        activity.put("activity_name", "eat");
+        activity.put("activity_name", "crying");
         activity.put("user_id", uid);
         activity.put("category_id", cat);
 

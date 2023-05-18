@@ -10,11 +10,21 @@
     <Button
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:id="@+id/scrollAnimals"
+        android:id="@+id/scrollAnimalsRight"
         android:background="@drawable/arrow_right"
         android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"
-        android:visibility="gone"
+        android:visibility="visible"
+
+        />
+    <Button
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/scrollAnimalsLeft"
+        android:background="@drawable/arrow_left"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:visibility="visible"
 
         />
     <RelativeLayout

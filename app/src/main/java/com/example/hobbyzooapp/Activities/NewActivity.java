@@ -1,5 +1,6 @@
 package com.example.hobbyzooapp.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
@@ -35,6 +37,8 @@ public class NewActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     Spinner categorySelector;
     FirebaseUser user;
+    List<String> animals;
+    int posAnimals;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,16 +46,19 @@ public class NewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_activity);
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
-
         Button validationButton = findViewById(R.id.validationButton);
         ImageView animalImage = findViewById(R.id.animalImage);
+        Button scrollAnimalsRight = findViewById(R.id.scrollAnimalsRight);
+        setAnimals();
 
-        animalImage.setOnClickListener(new View.OnClickListener() {
-
+        scrollAnimalsRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent().setClass(getApplicationContext(), ListAnimals.class);
-                startActivity(intent);
+                if(posAnimals < animals.size()-1)
+                    posAnimals++;
+                else
+                    posAnimals = 0;
+                animalImage.setImageResource(Integer.parseInt("@drawable/"+animals.get(posAnimals)));
             }
         });
 
@@ -134,6 +141,12 @@ public class NewActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void setAnimals() {
+        posAnimals = 0;
+        animals = new ArrayList<>(Arrays.asList("sheep", "cat", "chick", "giraffe", "cow", "koa", "lion", "rabbit", "tiger", "tl"));
+
     }
 
     List<String> setCategorySelector(){

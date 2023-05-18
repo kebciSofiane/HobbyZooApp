@@ -2,6 +2,8 @@ package com.example.hobbyzooapp.Activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hobbyzooapp.Category.NewCategory;
@@ -39,6 +42,7 @@ public class NewActivity extends AppCompatActivity {
     FirebaseUser user;
     List<String> animals;
     int posAnimals;
+    ImageView animalImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +51,7 @@ public class NewActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
         Button validationButton = findViewById(R.id.validationButton);
-        ImageView animalImage = findViewById(R.id.animalImage);
+        animalImage = findViewById(R.id.animalImage);
         Button scrollAnimalsRight = findViewById(R.id.scrollAnimalsRight);
         setAnimals();
 
@@ -58,7 +62,10 @@ public class NewActivity extends AppCompatActivity {
                     posAnimals++;
                 else
                     posAnimals = 0;
-                animalImage.setImageResource(Integer.parseInt("@drawable/"+animals.get(posAnimals)));
+                int animalId = getResources().getIdentifier(animals.get(posAnimals), "drawable", getPackageName());
+                animalImage.setImageResource(animalId);
+                animalImage.invalidate();
+
             }
         });
 
@@ -155,7 +162,7 @@ public class NewActivity extends AppCompatActivity {
 
         databaseReferenceChild.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String user_id = user.getUid();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String user_id_cat = snapshot.child("user_id").getValue(String.class);
@@ -166,7 +173,7 @@ public class NewActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Gérez l'erreur en cas d'annulation de la requête
             }
         });

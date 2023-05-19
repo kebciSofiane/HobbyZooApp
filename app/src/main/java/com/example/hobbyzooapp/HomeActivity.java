@@ -21,7 +21,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.hobbyzooapp.Activities.ActivityPage;
-import com.example.hobbyzooapp.Activities.MyActivities;
 import com.example.hobbyzooapp.Calendar.CalendarActivity;
 import com.example.hobbyzooapp.Sessions.RunSession;
 import com.google.firebase.auth.FirebaseAuth;
@@ -73,7 +72,7 @@ public class HomeActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        next = findViewById(R.id.scrollAnimals);
+        next = findViewById(R.id.scrollAnimalsRight);
 
 
         ArrayList<Integer> imageList = new ArrayList<>();

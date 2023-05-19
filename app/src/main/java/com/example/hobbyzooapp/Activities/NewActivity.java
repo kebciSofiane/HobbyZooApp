@@ -43,6 +43,9 @@ public class NewActivity extends AppCompatActivity {
     String category_id;
     Button validationButton;
     ImageView animalImage;
+    List<String> animals;
+    int posAnimals;
+    ImageView animalImage;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -53,10 +56,24 @@ public class NewActivity extends AppCompatActivity {
         initialision();
         animalImage.setOnClickListener(new View.OnClickListener() {
 
+        firebaseAuth = FirebaseAuth.getInstance();
+        user = firebaseAuth.getCurrentUser();
+        Button validationButton = findViewById(R.id.validationButton);
+        animalImage = findViewById(R.id.animalImage);
+        Button scrollAnimalsRight = findViewById(R.id.scrollAnimalsRight);
+        setAnimals();
+
+        scrollAnimalsRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent().setClass(getApplicationContext(), ListAnimals.class);
-                startActivity(intent);
+                if(posAnimals < animals.size()-1)
+                    posAnimals++;
+                else
+                    posAnimals = 0;
+                int animalId = getResources().getIdentifier(animals.get(posAnimals), "drawable", getPackageName());
+                animalImage.setImageResource(animalId);
+                animalImage.invalidate();
+
             }
         });
 
@@ -112,6 +129,7 @@ public class NewActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 EditText text = findViewById(R.id.activityName);
+                EditText weekly_goal = findViewById(R.id.weeklyGoal);
                 name = text.getText().toString();
                 EditText textAnimal = findViewById(R.id.animalName);
                 animalName = textAnimal.getText().toString();
@@ -131,17 +149,15 @@ public class NewActivity extends AppCompatActivity {
                     hashMap.put("activity_name",name);
                     hashMap.put("activity_pet_name", animalName);
                     hashMap.put("activity_pet", "@drawable/sheep"); //todo faire input
-                    hashMap.put("weekly_goal", String.valueOf(weeklyGoal.getHour()*60+weeklyGoal.getMinute()));
+                    hashMap.put("weekly_goal", String.valueOf(weekly_goal.getText()));
                     hashMap.put("spent_time", "0");
-                    hashMap.put("category_id", category_id);
-                    hashMap.put("user_id", user_id);
+                    hashMap.put("category_id", category_id[0]);
+                    hashMap.put("user_id", user.getUid());
 
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
 
                     DatabaseReference reference = database.getReference("Activity");
                     reference.child(activity_id).setValue(hashMap);
-                    Intent intent = new Intent().setClass(getApplicationContext(), HomeActivity.class);
-                    startActivity(intent);
                 }
             }
         });
@@ -161,12 +177,19 @@ public class NewActivity extends AppCompatActivity {
     }
 
     List<String> setCategories(){
+    private void setAnimals() {
+        posAnimals = 0;
+        animals = new ArrayList<>(Arrays.asList("sheep", "cat", "chick", "giraffe", "cow", "koa", "lion", "rabbit", "tiger", "tl"));
+
+    }
+
+    List<String> setCategorySelector(){
         List<String> categories = new ArrayList<>();
         DatabaseReference databaseReferenceChild = FirebaseDatabase.getInstance().getReference().child("Category");
 
         databaseReferenceChild.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String user_id = user.getUid();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String user_id_cat = snapshot.child("user_id").getValue(String.class);
@@ -179,7 +202,7 @@ public class NewActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 // Gérez l'erreur en cas d'annulation de la requête
             }
         });

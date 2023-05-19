@@ -3,6 +3,39 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="app/src/main/res/drawable-anydpi/ic_calendar.xml" value="0.171" />
+        <entry key="app/src/main/res/drawable-anydpi/ic_home.xml" value="0.2055" />
+        <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_calendar.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_home.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_play.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_profile.xml" value="0.171" />
+        <entry key="app/src/main/res/drawable/rounded_button.xml" value="0.1" />
+        <entry key="app/src/main/res/layout-v21/activity_register.xml" value="0.31979166666666664" />
+        <entry key="app/src/main/res/layout/activity_calendar.xml" value="0.3463541666666667" />
+        <entry key="app/src/main/res/layout/activity_end_session.xml" value="0.17552083333333332" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_list_animals.xml" value="0.25905797101449274" />
+        <entry key="app/src/main/res/layout/activity_login.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_my_activities.xml" value="0.3307291666666667" />
+        <entry key="app/src/main/res/layout/activity_new_category.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_register.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_registrationorconnexion.xml" value="0.31979166666666664" />
+        <entry key="app/src/main/res/layout/activity_run_session.xml" value="0.2916666666666667" />
+        <entry key="app/src/main/res/layout/activity_settings.xml" value="0.29775280898876405" />
+        <entry key="app/src/main/res/layout/activity_splash_screen.xml" value="0.31979166666666664" />
+        <entry key="app/src/main/res/layout/connexion.xml" value="0.16818642350557245" />
+        <entry key="app/src/main/res/layout/fragment_calendar.xml" value="0.2653061224489796" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.2259963768115942" />
+        <entry key="app/src/main/res/layout/fragment_runsession.xml" value="0.2565789473684211" />
+        <entry key="app/src/main/res/layout/registration.xml" value="0.18" />
+        <entry key="app/src/main/res/layout/registrationorconnexion.xml" value="0.1" />
+        <entry key="app/src/main/res/menu/menu_main.xml" value="0.3458333333333333" />
+        <entry key="app/src/main/res/menu/menu_nav.xml" value="0.1" />
         <entry key="app/src/main/res/drawable-v24/radius_background.xml" value="0.1825" />
         <entry key="app/src/main/res/drawable/border.xml" value="0.2965" />
         <entry key="app/src/main/res/drawable/radius_background.xml" value="0.1825" />
@@ -29,6 +62,7 @@
       </map>
     </option>
   </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>

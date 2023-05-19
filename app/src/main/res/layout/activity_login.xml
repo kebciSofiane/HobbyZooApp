@@ -9,15 +9,17 @@
     tools:context=".LoginActivity">
 
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="@string/login"
-        android:textAlignment="center"
-        android:textColor="@color/title_page"
-        android:textSize="25sp"
-        android:textStyle="bold" />
+    <ImageView
+        android:id="@+id/image_icon3"
+        android:layout_width="283dp"
+        android:layout_height="303dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/hobby_zoo_app"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.35" />
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -32,6 +34,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/app_name"
+            android:backgroundTint="@color/dark_gray"
+            android:textColorHint="@color/teal_200"
             android:inputType="textEmailAddress" />
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -56,48 +60,44 @@
             android:layout_height="match_parent" />
     </com.google.android.material.textfield.TextInputLayout>
 
-
     <Button
         android:id="@+id/login_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/passwordTIL"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
         android:text="@string/login" />
 
-
-
-<!--  recover password-->
     <TextView
         android:id="@+id/recoverPassTv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
+        android:layout_below="@+id/login_btn"
+        android:layout_marginTop="16dp"
         android:text="@string/forgot_password_"
-        android:textColor="@color/sub_tilte"
-        android:layout_below="@+id/login_btn"/>
+        android:textAlignment="center"
+        android:textColor="@color/sub_tilte" />
 
-
-    <!--    sign in with google-->
     <com.google.android.gms.common.SignInButton
         android:id="@+id/googleLoginBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/recoverPassTv"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/recoverPassTv">
+        android:layout_marginTop="24dp">
 
     </com.google.android.gms.common.SignInButton>
-
 
     <TextView
         android:id="@+id/notHaveAccountTv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/do_not_have_account_"
-        android:textAlignment="center"
         android:layout_alignParentBottom="true"
         android:layout_marginTop="30dp"
-        android:textColor="@color/black"
-        android:layout_marginBottom="20dp"/>
+        android:layout_marginBottom="18dp"
+        android:text="@string/do_not_have_account_"
+        android:textAlignment="center"
+        android:textColor="@color/black" />
 
-</RelativeLayout>
+    z</RelativeLayout>

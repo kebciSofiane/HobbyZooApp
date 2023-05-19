@@ -65,10 +65,10 @@
             android:id="@+id/activityPageEditPetNameButton"
             android:layout_width="30sp"
             android:layout_height="30sp"
-            android:background="@drawable/edit_pic"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="25dp"
             android:layout_marginEnd="30dp"
+            android:background="@drawable/edit_pic"
             android:visibility="visible" />
 
         <Button
@@ -97,6 +97,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/myNextSessionstext">
+
 
                     <LinearLayout
                         android:id="@+id/activityPageLinearLayoutNextSessions"
@@ -156,17 +157,62 @@
                     android:textColor="@color/sub_tilte"
                     android:textSize="25sp" />
 
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/todoRecyclerView"
+                <LinearLayout
+                    android:id="@+id/activityPageLinearLayoutTodoList"
+                    android:layout_width="250sp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/activityPageGoalsText"
+                    android:orientation="horizontal">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/todoRecyclerView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/activityPageGoalsText"
+                        android:layout_marginLeft="30sp"
+                        android:background="@drawable/border"
+                        android:orientation="vertical"
+                        android:padding="20sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/activityPageLinearLayoutTextAndValidateNewElementTodoList"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/activityPageGoalsText"
-                    android:layout_marginLeft="30sp"
-                    android:background="@drawable/border"
-                    android:orientation="vertical"
-                    android:padding="20sp" />
+                    android:layout_below="@+id/activityPageGoalsText"
+                    android:layout_marginStart="0dp"
+                    android:layout_marginTop="50dp"
+                    android:layout_toEndOf="@+id/activityPageLinearLayoutTodoList"
+                    android:orientation="vertical">
+
+
+                    <EditText
+                        android:id="@+id/addToTodoListText"
+                        android:layout_width="150dp"
+                        android:layout_height="35dp"
+                        android:hint="Add a element"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/validateToTodoListButton"
+                        android:layout_width="110sp"
+                        android:layout_height="50sp"
+                        android:text="VALIDATE"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/addToTodoListButton"
+                        android:layout_width="110sp"
+                        android:layout_height="50sp"
+                        android:text="ADD"
+                        android:visibility="visible" />
+
+                </LinearLayout>
+
 
             </RelativeLayout>
+
 
 
         </ScrollView>

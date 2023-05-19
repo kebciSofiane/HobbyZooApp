@@ -3,7 +3,7 @@
     <style name="Theme.HobbyZooApp" parent="Theme.MaterialComponents.NoActionBar">
         <!-- Primary brand color. -->
 
-        <item name="colorPrimary">#DD9A4D</item>
+        <item name="colorPrimary">#F6C783</item>
         <item name="colorPrimaryVariant">#8E0101</item>
         <item name="colorOnPrimary">#181818</item>
         <!-- Secondary brand color. -->

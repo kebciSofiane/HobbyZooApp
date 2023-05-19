@@ -62,7 +62,8 @@
             android:background="@drawable/rounded_button"
             android:text="Notifications"
             android:textColor="@android:color/black"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            app:backgroundTint="@color/lightbrown" />
 
         <Button
             android:id="@+id/termsBtn"
@@ -70,10 +71,11 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:background="@drawable/rounded_button"
-            android:backgroundTint="@color/lightbrown"
+
             android:text="Terms Of Service"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            app:backgroundTint="@color/lightbrown"/>
 
         <Button
             android:id="@+id/rateBtn"
@@ -81,10 +83,11 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:background="@drawable/rounded_button"
-            android:backgroundTint="@color/lightbrown"
+
             android:text="Rate HobbyZoo"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            app:backgroundTint="@color/lightbrown"/>
 
         <Button
             android:id="@+id/helpBtn"
@@ -92,10 +95,10 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:background="@drawable/rounded_button"
-            android:backgroundTint="@color/lightbrown"
             android:text="Help"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            app:backgroundTint="@color/lightbrown"/>
 
         <Button
             android:id="@+id/aboutBtn"
@@ -103,10 +106,10 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:background="@drawable/rounded_button"
-            android:backgroundTint="@color/lightbrown"
             android:text="About"
             android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            app:backgroundTint="@color/lightbrown"/>
 
         <TextView
             android:id="@+id/textView11"
@@ -134,7 +137,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

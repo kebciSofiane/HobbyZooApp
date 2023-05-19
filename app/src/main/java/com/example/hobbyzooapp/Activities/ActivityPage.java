@@ -180,7 +180,7 @@ public class ActivityPage extends AppCompatActivity {
 
         database = FirebaseDatabase.getInstance();
         DatabaseReference databaseReference = database.getReference("Tasks");
-        String thisActivityId = "actID"; //todo recuperer id activity de cette activite
+        String thisActivityId = activity_id;
 
         HashMap<String, String> tasks = new HashMap<>();
         TodoAdapter adapterTodoList = new TodoAdapter(todoList);

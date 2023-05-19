@@ -18,6 +18,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hobbyzooapp.Category.NewCategory;
+import com.example.hobbyzooapp.HomeActivity;
 import com.example.hobbyzooapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -137,6 +138,7 @@ public class NewActivity extends AppCompatActivity {
                     hashMap.put("activity_pet", animals.get(posAnimals));
                     hashMap.put("weekly_goal", String.valueOf(weeklyGoal.getHour()*60 + weeklyGoal.getMinute()));
                     hashMap.put("spent_time", "0");
+                    hashMap.put("feeling", "");
                     hashMap.put("category_id", category_id);
                     hashMap.put("user_id", user.getUid());
 
@@ -144,6 +146,8 @@ public class NewActivity extends AppCompatActivity {
 
                     DatabaseReference reference = database.getReference("Activity");
                     reference.child(activity_id).setValue(hashMap);
+                    Intent intent = new Intent().setClass(getApplicationContext(), HomeActivity.class);
+                    startActivity(intent);
                 }
             }
         });

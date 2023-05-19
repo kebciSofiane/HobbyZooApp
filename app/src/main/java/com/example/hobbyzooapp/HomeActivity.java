@@ -72,7 +72,7 @@ public class HomeActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        next = findViewById(R.id.scrollAnimalsRight);
+        next = findViewById(R.id.scrollAnimals);
 
 
         ArrayList<Integer> imageList = new ArrayList<>();

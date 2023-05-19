@@ -48,6 +48,7 @@ public class MyDailySessions extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 openMainActivity();
+                finish();
             }
         });
 

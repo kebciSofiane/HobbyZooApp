@@ -37,7 +37,6 @@ public class NewSession extends AppCompatActivity {
     Date date;
     Time time;
     FirebaseAuth firebaseAuth;
-    String firstActivity;
     String activity_id;
     FirebaseUser user;
 
@@ -58,7 +57,7 @@ public class NewSession extends AppCompatActivity {
 
         Spinner activitySelector = findViewById(R.id.activityName);
         List<String> activities = setActivities();
-        activities.add(firstActivity);
+        activities.add("");
 
         ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, activities);
         activitySelector.setAdapter(adapter);

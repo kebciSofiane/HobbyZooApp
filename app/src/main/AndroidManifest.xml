@@ -66,15 +66,15 @@
         </activity>
         <activity
             android:name=".Sessions.NewSession"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".Category.NewCategory"
-            android:exported="true"
-            android:parentActivityName=".Activities.NewActivity" />
+            android:exported="false"/>
         <activity
             android:name=".Activities.NewActivity"
-            android:exported="true"
-            android:parentActivityName=".Sessions.NewSession" />
+            android:exported="true">
+
+        </activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"

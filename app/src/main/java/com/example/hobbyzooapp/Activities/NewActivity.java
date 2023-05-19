@@ -39,7 +39,6 @@ public class NewActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     Spinner categorySelector;
     FirebaseUser user;
-    String firstCategory = null;
     TimePicker weeklyGoal;
     String category_id;
     Button validationButton;
@@ -62,15 +61,15 @@ public class NewActivity extends AppCompatActivity {
                     posAnimals++;
                 else
                     posAnimals = 0;
-                int animalId = getResources().getIdentifier(animals.get(posAnimals), "drawable", getPackageName());
+                int animalId = getResources().getIdentifier(animals.get(posAnimals)+"_full_icon", "drawable", getPackageName());
                 animalImage.setImageResource(animalId);
                 animalImage.invalidate();
             }
         });
 
         List<String> categories = setCategories();
-        categories.add(firstCategory);
-        ArrayAdapter adapter = new ArrayAdapter(NewActivity.this, android.R.layout.simple_list_item_1, categories);
+        categories.add("");
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(NewActivity.this, android.R.layout.simple_list_item_1, categories);
         categorySelector.setAdapter(adapter);
         categorySelector.setOnItemSelectedListener(
                 new AdapterView.OnItemSelectedListener() {
@@ -175,8 +174,7 @@ public class NewActivity extends AppCompatActivity {
 
     private void setAnimals() {
         posAnimals = 0;
-        animals = new ArrayList<>(Arrays.asList("sheep", "cat", "chick", "giraffe", "cow", "koa", "lion", "rabbit", "tiger", "tl"));
-
+        animals = new ArrayList<>(Arrays.asList("sheep", "cat", "chick", "giraffe", "koala", "lion", "rabbit", "tiger", "tl"));
     }
 
     List<String> setCategories(){

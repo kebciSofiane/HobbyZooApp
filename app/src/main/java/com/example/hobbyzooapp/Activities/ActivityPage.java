@@ -68,12 +68,12 @@ public class ActivityPage extends AppCompatActivity {
     String category_id;
     LinearLayout header;
 
-
-
+    FirebaseDatabase database;
+    DatabaseReference referenceActivity;
 
     public void getActivityData(String activity_id){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference referenceActivity = database.getReference("Activity");
+         database = FirebaseDatabase.getInstance();
+         referenceActivity = database.getReference("Activity");
 
 
 
@@ -141,7 +141,6 @@ public class ActivityPage extends AppCompatActivity {
         setContentView(R.layout.activity_page);
         Intent intent = getIntent();
         String activity_id = intent.getStringExtra("activity_id");
-
         petPic =findViewById(R.id.activityPagePetPic);
         petName = findViewById(R.id.activityPagePetName);
         activityNameDisplay =findViewById(R.id.activityPageActivityName);
@@ -159,7 +158,7 @@ public class ActivityPage extends AppCompatActivity {
         petPic = findViewById(R.id.activityPagePetPic);
         petName = findViewById(R.id.activityPagePetName);
         petName.setText("Coco");
-        petPic.setImageResource(R.drawable.koa);
+        petPic.setImageResource(R.drawable.koala_icon);
         showMoreButton = findViewById(R.id.activityPageShowMoreButton);
         showLessButton = findViewById(R.id.activityPageShowLessButton);
         editNamePetButton = findViewById(R.id.activityPageEditPetNameButton);
@@ -177,10 +176,10 @@ public class ActivityPage extends AppCompatActivity {
 
         adapter = new ListSessionsAdapter(items);
         recyclerView.setAdapter(adapter);
-        user = firebaseAuth.getCurrentUser();
+        FirebaseUser user = firebaseAuth.getCurrentUser();
 
-        firebaseDatabase = FirebaseDatabase.getInstance();
-        databaseReference = firebaseDatabase.getReference("Tasks");
+        database = FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference = database.getReference("Tasks");
         String thisActivityId = "actID"; //todo recuperer id activity de cette activite
 
         HashMap<String, String> tasks = new HashMap<>();
@@ -321,18 +320,18 @@ public class ActivityPage extends AppCompatActivity {
             }
         });
 
-        adapterTodoList.setOnCheckedChangeListener(new TodoAdapter.OnCheckedChangeListener() { //todo
-            @Override
-            public void onCheckedChanged(int position, boolean isChecked) {
-                // Le code ici sera exécuté chaque fois que l'utilisateur cochera ou décochera une case
-                // Vous pouvez utiliser la position pour identifier la tâche spécifique dans la liste
-                // et utiliser isChecked pour obtenir l'état de cochage actuel
-
-                // Exemple : afficher l'état de cochage dans la console
-                System.out.println("Tâche à la position " + position + " cochée : " + isChecked);
-            }
-        });
-
+//        adapterTodoList.setOnCheckedChangeListener(new TodoAdapter.OnCheckedChangeListener() { //todo
+//            @Override
+//            public void onCheckedChanged(int position, boolean isChecked) {
+//                // Le code ici sera exécuté chaque fois que l'utilisateur cochera ou décochera une case
+//                // Vous pouvez utiliser la position pour identifier la tâche spécifique dans la liste
+//                // et utiliser isChecked pour obtenir l'état de cochage actuel
+//
+//                // Exemple : afficher l'état de cochage dans la console
+//                System.out.println("Tâche à la position " + position + " cochée : " + isChecked);
+//            }
+//        });
+//
     }
 
     private void changeManager() {

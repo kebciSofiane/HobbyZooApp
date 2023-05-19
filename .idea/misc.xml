@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
@@ -5,6 +6,7 @@
         <entry key="app/src/main/res/drawable-v24/radius_background.xml" value="0.1825" />
         <entry key="app/src/main/res/drawable/border.xml" value="0.2965" />
         <entry key="app/src/main/res/drawable/radius_background.xml" value="0.1825" />
+        <entry key="app/src/main/res/layout/activity_calendar.xml" value="0.16843971631205673" />
         <entry key="app/src/main/res/layout/activity_calendar_sessions.xml" value="0.3463541666666667" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2545289855072464" />
@@ -12,8 +14,7 @@
         <entry key="app/src/main/res/layout/activity_my_activity.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_my_daily_sessions.xml" value="0.3463541666666667" />
         <entry key="app/src/main/res/layout/activity_my_sessions_test.xml" value="0.3463541666666667" />
-        <entry key="app/src/main/res/layout/activity_new_activity.xml" value="0.22" />
-        <entry key="app/src/main/res/layout/activity_new_session.xml" value="0.175" />
+        <entry key="app/src/main/res/layout/activity_new_activity.xml" value="0.16843971631205673" />
         <entry key="app/src/main/res/layout/activity_page.xml" value="0.24682971014492755" />
         <entry key="app/src/main/res/layout/activity_registrationorconnexion.xml" value="0.2545289855072464" />
         <entry key="app/src/main/res/layout/adapter_activity_list.xml" value="0.2545289855072464" />
@@ -28,7 +29,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

@@ -37,7 +37,6 @@ public class ExpandableListData {
                     String category_id = snapshot.child("category_id").getValue(String.class);
                     String category_color = snapshot.child("category_color").getValue(String.class);
                     String category_name = snapshot.child("category_name").getValue(String.class);
-                    String user_id = snapshot.child("user_id").getValue(String.class);
 
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference reference = database.getReference("Activity");

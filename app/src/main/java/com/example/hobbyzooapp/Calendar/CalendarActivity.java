@@ -133,7 +133,8 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
 
     public void openMainActivity(){
         Intent intent = new Intent(this, HomeActivity.class);
-        startActivity(intent);}
+        startActivity(intent);
+        finish();}
 
 
     public void weeklyAction()

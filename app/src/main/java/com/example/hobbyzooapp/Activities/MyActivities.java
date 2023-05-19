@@ -152,6 +152,7 @@ public class MyActivities extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openMainActivity();
+                finish();
             }
         });
 

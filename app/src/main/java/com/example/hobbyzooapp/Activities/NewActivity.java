@@ -13,12 +13,11 @@ import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hobbyzooapp.Category.NewCategory;
-import com.example.hobbyzooapp.HomeActivity;
-import com.example.hobbyzooapp.ListAnimals;
 import com.example.hobbyzooapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,6 +28,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -45,7 +45,6 @@ public class NewActivity extends AppCompatActivity {
     ImageView animalImage;
     List<String> animals;
     int posAnimals;
-    ImageView animalImage;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -54,15 +53,7 @@ public class NewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_activity);
         initialision();
-        animalImage.setOnClickListener(new View.OnClickListener() {
-
-        firebaseAuth = FirebaseAuth.getInstance();
-        user = firebaseAuth.getCurrentUser();
-        Button validationButton = findViewById(R.id.validationButton);
-        animalImage = findViewById(R.id.animalImage);
         Button scrollAnimalsRight = findViewById(R.id.scrollAnimalsRight);
-        setAnimals();
-
         scrollAnimalsRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,16 +64,13 @@ public class NewActivity extends AppCompatActivity {
                 int animalId = getResources().getIdentifier(animals.get(posAnimals), "drawable", getPackageName());
                 animalImage.setImageResource(animalId);
                 animalImage.invalidate();
-
             }
         });
 
         List<String> categories = setCategories();
         categories.add(firstCategory);
-
         ArrayAdapter adapter = new ArrayAdapter(NewActivity.this, android.R.layout.simple_list_item_1, categories);
         categorySelector.setAdapter(adapter);
-
         categorySelector.setOnItemSelectedListener(
                 new AdapterView.OnItemSelectedListener() {
                     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
@@ -129,16 +117,14 @@ public class NewActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 EditText text = findViewById(R.id.activityName);
-                EditText weekly_goal = findViewById(R.id.weeklyGoal);
-                name = text.getText().toString();
                 EditText textAnimal = findViewById(R.id.animalName);
+                name = text.getText().toString();
                 animalName = textAnimal.getText().toString();
 
                 if(name.trim().isEmpty() || animalName.trim().isEmpty() || (weeklyGoal.getMinute() ==0 && weeklyGoal.getHour() == 0 ) || categorySelector.getSelectedItem() == null){
                     Toast.makeText(getApplicationContext(),"Field can't be empty!",Toast.LENGTH_LONG).show();
                 }
                 else {
-                    String user_id = user.getUid();
                     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
                     DatabaseReference newChildRef = databaseReference.push();
@@ -148,10 +134,10 @@ public class NewActivity extends AppCompatActivity {
                     hashMap.put("activity_id", activity_id);
                     hashMap.put("activity_name",name);
                     hashMap.put("activity_pet_name", animalName);
-                    hashMap.put("activity_pet", "@drawable/sheep"); //todo faire input
-                    hashMap.put("weekly_goal", String.valueOf(weekly_goal.getText()));
+                    hashMap.put("activity_pet", animals.get(posAnimals));
+                    hashMap.put("weekly_goal", String.valueOf(weeklyGoal.getHour()*60 + weeklyGoal.getMinute()));
                     hashMap.put("spent_time", "0");
-                    hashMap.put("category_id", category_id[0]);
+                    hashMap.put("category_id", category_id);
                     hashMap.put("user_id", user.getUid());
 
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -163,27 +149,33 @@ public class NewActivity extends AppCompatActivity {
         });
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
+
+
     void initialision(){
         firebaseAuth = FirebaseAuth.getInstance();
         categorySelector = findViewById(R.id.categoryName);
         weeklyGoal = findViewById(R.id.weeklyGoal);
         weeklyGoal.setIs24HourView(true);
-        weeklyGoal.setHour(0);
-        weeklyGoal.setMinute(0);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            weeklyGoal.setHour(0);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            weeklyGoal.setMinute(0);
+        }
         user = firebaseAuth.getCurrentUser();
         validationButton = findViewById(R.id.validationButton);
         animalImage = findViewById(R.id.animalImage);
+        setAnimals();
     }
 
-    List<String> setCategories(){
+
     private void setAnimals() {
         posAnimals = 0;
         animals = new ArrayList<>(Arrays.asList("sheep", "cat", "chick", "giraffe", "cow", "koa", "lion", "rabbit", "tiger", "tl"));
 
     }
 
-    List<String> setCategorySelector(){
+    List<String> setCategories(){
         List<String> categories = new ArrayList<>();
         DatabaseReference databaseReferenceChild = FirebaseDatabase.getInstance().getReference().child("Category");
 
@@ -208,7 +200,5 @@ public class NewActivity extends AppCompatActivity {
         });
         return categories;
     }
-
-
-
 }
+

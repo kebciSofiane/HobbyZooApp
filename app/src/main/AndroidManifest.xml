@@ -70,19 +70,13 @@
         <activity
             android:name=".Sessions.NewSession"
             android:exported="false" />
-            android:exported="true" />
         <activity
             android:name=".Category.NewCategory"
             android:exported="false"/>
-            android:exported="true"
-            android:parentActivityName=".Activities.NewActivity" />
         <activity
             android:name=".Activities.NewActivity"
             android:exported="true">
-
         </activity>
-            android:exported="true"
-            android:parentActivityName=".Sessions.NewSession" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

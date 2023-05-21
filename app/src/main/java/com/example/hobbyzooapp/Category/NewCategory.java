@@ -14,23 +14,29 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.hobbyzooapp.Activities.NewActivity;
 import com.example.hobbyzooapp.HomeActivity;
 import com.example.hobbyzooapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 public class NewCategory extends AppCompatActivity {
 
-    String name;
+    String name, user_id, colorHex;
     int colorRGB = 0;
     Color color;
     int red, blue, green;
@@ -81,42 +87,59 @@ public class NewCategory extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 EditText text = findViewById(R.id.categoryName);
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                String colorHex = "#";
-                colorHex += Integer.toHexString(red);
-                colorHex += Integer.toHexString(green);
-                colorHex += Integer.toHexString(blue);
-
                 name = text.getText().toString();
-                if(name.trim().isEmpty()){
-                    Toast.makeText(getApplicationContext(),"Le champ nom ne peut pas être vide!",Toast.LENGTH_LONG).show();
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                user_id = user.getUid();
+                colorHex = "#" + Integer.toHexString(red) + Integer.toHexString(green) + Integer.toHexString(blue);
+                if(name.trim().isEmpty() || colorRGB == 0){
+                    Toast.makeText(getApplicationContext(),"Field can't be empty!!",Toast.LENGTH_LONG).show();
                 }
-                else if (colorRGB == 0) {
-                    Toast.makeText(getApplicationContext(),"Il faut choisir une couleur!",Toast.LENGTH_LONG).show();
-                } else if(user == null){
+                else {
+                    List<String> categories = new ArrayList<>();
+                    DatabaseReference databaseReferenceChild = FirebaseDatabase.getInstance().getReference().child("Category");
+                    databaseReferenceChild.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String testUser_id = user.getUid();
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                String userId = snapshot.child("user_id").getValue(String.class);
+                                String activityName = snapshot.child("category_name").getValue(String.class);
+                                if(userId.equals(testUser_id) && activityName.equals(name))
+                                    categories.add(name);
+                            }
+                            if(categories.size() == 0){
+                                addDBCategory();
+                                Intent intent = new Intent().setClass(getApplicationContext(), NewActivity.class);
+                                startActivity(intent);
+                            }
+                            else{
+                                Toast.makeText(getApplicationContext(),"This Category already exists!",Toast.LENGTH_LONG).show();
+                            }
+                        }
 
-                }else {
-                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-
-                    DatabaseReference newChildRef = databaseReference.push();
-                    String category_id = newChildRef.getKey();
-                    HashMap<Object, String> hashMap = new HashMap<>();
-
-
-                    hashMap.put("category_id", category_id);
-                    hashMap.put("category_name", name);
-                    hashMap.put("category_color", colorHex);
-                    hashMap.put("user_id", user.getUid());
-
-                    FirebaseDatabase database = FirebaseDatabase.getInstance();
-
-                    DatabaseReference reference = database.getReference("Category");
-                    reference.child(category_id).setValue(hashMap);
-                    Intent intent = new Intent().setClass(getApplicationContext(), HomeActivity.class);
-                    startActivity(intent);
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            // Gérez l'erreur en cas d'annulation de la requête
+                        }
+                    });
                 }
             }
         });
 
+    }
+
+    private void addDBCategory(){
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference newChildRef = databaseReference.push();
+        String category_id = newChildRef.getKey();
+        HashMap<Object, String> hashMap = new HashMap<>();
+        hashMap.put("category_id", category_id);
+        hashMap.put("category_name", name);
+        hashMap.put("category_color", colorHex);
+        hashMap.put("user_id", user_id);
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference reference = database.getReference("Category");
+        reference.child(category_id).setValue(hashMap);
     }
 }

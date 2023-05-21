@@ -134,8 +134,6 @@ public class NewActivity extends AppCompatActivity {
                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                 String userId = snapshot.child("user_id").getValue(String.class);
                                 String nameActivity = snapshot.child("activity_name").getValue(String.class);
-                                System.out.println(userId + " ID :   " + testUser_id);
-                                System.out.println(nameActivity + " name :   " + activity_name);
                                 if(userId.equals(testUser_id) && nameActivity.equals(activity_name))
                                     activities.add(activity_name);
                             }
@@ -204,38 +202,6 @@ public class NewActivity extends AppCompatActivity {
                 DatabaseReference reference = database.getReference("Activity");
                 reference.child(activity_id).setValue(hashMap);
     }
-    private Runnable isNameInBDActivity(String testName){
-        List<String> activities = new ArrayList<>();
-        Runnable event1 = new Runnable() {
-            @Override
-            public void run() {
-                DatabaseReference databaseReferenceChild = FirebaseDatabase.getInstance().getReference().child("Activity");
-                databaseReferenceChild.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        String testUser_id = user.getUid();
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            String userId = snapshot.child("user_id").getValue(String.class);
-                            String nameActivity = snapshot.child("activity_name").getValue(String.class);
-                            System.out.println(userId + " ID :   " + testUser_id);
-                            System.out.println(nameActivity + " name :   " + testName);
-                            if(userId.equals(testUser_id) && nameActivity.equals(testName))
-                                activities.add(testName);
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-                        // Gérez l'erreur en cas d'annulation de la requête
-                    }
-                });
-            }
-        };
-
-        System.out.println("Value Testing :   " + activities.size());
-        return event1;
-    }
-
 
     private void setAnimals() {
         posAnimals = 0;

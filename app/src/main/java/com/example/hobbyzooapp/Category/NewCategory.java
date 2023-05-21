@@ -41,10 +41,10 @@ public class NewCategory extends AppCompatActivity {
     Color color;
     int red, blue, green;
     ImageView imgView;
-    TextView mColorValues;
     View displayColors;
     Bitmap bitmap;
     FirebaseAuth firebaseAuth;
+    Button validationButton;
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -52,17 +52,9 @@ public class NewCategory extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_category);
-        firebaseAuth = FirebaseAuth.getInstance();
-
-        Button validationButton = findViewById(R.id.validationButton);
-        imgView = findViewById(R.id.colorPickers);
-        displayColors = findViewById(R.id.displayColors);
-
-        imgView.setDrawingCacheEnabled(true);
-        imgView.buildDrawingCache(true);
+        initialisation();
 
         imgView.setOnTouchListener(new View.OnTouchListener() {
-
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE){
@@ -75,7 +67,7 @@ public class NewCategory extends AppCompatActivity {
 
                     displayColors.setBackgroundColor(Color.rgb(red,green,blue));
                     colorRGB = Color.rgb(red,green,blue);
-
+                    colorHex = "#" + Integer.toHexString(red) + Integer.toHexString(green) + Integer.toHexString(blue);
                 }
                 return true;
             }
@@ -88,9 +80,6 @@ public class NewCategory extends AppCompatActivity {
             public void onClick(View view) {
                 EditText text = findViewById(R.id.categoryName);
                 name = text.getText().toString();
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                user_id = user.getUid();
-                colorHex = "#" + Integer.toHexString(red) + Integer.toHexString(green) + Integer.toHexString(blue);
                 if(name.trim().isEmpty() || colorRGB == 0){
                     Toast.makeText(getApplicationContext(),"Field can't be empty!!",Toast.LENGTH_LONG).show();
                 }
@@ -100,17 +89,17 @@ public class NewCategory extends AppCompatActivity {
                     databaseReferenceChild.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            String testUser_id = user.getUid();
                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                 String userId = snapshot.child("user_id").getValue(String.class);
                                 String activityName = snapshot.child("category_name").getValue(String.class);
-                                if(userId.equals(testUser_id) && activityName.equals(name))
+                                if(userId.equals(user_id) && activityName.equals(name))
                                     categories.add(name);
                             }
                             if(categories.size() == 0){
                                 addDBCategory();
                                 Intent intent = new Intent().setClass(getApplicationContext(), NewActivity.class);
                                 startActivity(intent);
+                                finish();
                             }
                             else{
                                 Toast.makeText(getApplicationContext(),"This Category already exists!",Toast.LENGTH_LONG).show();
@@ -126,6 +115,17 @@ public class NewCategory extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void initialisation() {
+        firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        user_id = user.getUid();
+        validationButton = findViewById(R.id.validationButton);
+        imgView = findViewById(R.id.colorPickers);
+        displayColors = findViewById(R.id.displayColors);
+        imgView.setDrawingCacheEnabled(true);
+        imgView.buildDrawingCache(true);
     }
 
     private void addDBCategory(){

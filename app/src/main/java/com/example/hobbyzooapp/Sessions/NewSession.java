@@ -132,6 +132,7 @@ public class NewSession extends AppCompatActivity {
                     reference.child(session_id).setValue(hashMap);
                     Intent intent = new Intent().setClass(getApplicationContext(), HomeActivity.class);
                     startActivity(intent);
+                    finish();
                 }
             }
         });

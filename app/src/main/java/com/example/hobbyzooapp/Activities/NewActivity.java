@@ -130,17 +130,17 @@ public class NewActivity extends AppCompatActivity {
                     databaseReferenceChild.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            String testUser_id = user.getUid();
                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                 String userId = snapshot.child("user_id").getValue(String.class);
                                 String nameActivity = snapshot.child("activity_name").getValue(String.class);
-                                if(userId.equals(testUser_id) && nameActivity.equals(activity_name))
+                                if(userId.equals(user.getUid()) && nameActivity.equals(activity_name))
                                     activities.add(activity_name);
                             }
                             if(activities.size() == 0){
                                 addBDActivity();
                                 Intent intent = new Intent().setClass(getApplicationContext(), HomeActivity.class);
                                 startActivity(intent);
+                                finish();
                             }
                             else{
                                 Toast.makeText(getApplicationContext(),"This Activity already exists!",Toast.LENGTH_LONG).show();

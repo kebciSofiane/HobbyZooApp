@@ -141,6 +141,13 @@ public class ProfileActivity extends AppCompatActivity {
                 validate.setVisibility(View.VISIBLE);
                 usernameTextView.setVisibility(View.GONE);
                 editProfileTextView.setVisibility(View.GONE);
+
+                // Remplir le champ d'édition avec le nom d'utilisateur actuel
+                String currentUsername = usernameTextView.getText().toString().trim();
+                usernameEdit.setText(currentUsername);
+
+                // Supprimer l'URI de l'image sélectionnée pour conserver l'ancienne image
+                imageUri = null;
             }
         });
 
@@ -157,12 +164,27 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String newUsername = usernameEdit.getText().toString().trim();
-                if (newUsername.isEmpty()) {
-                    Toast.makeText(ProfileActivity.this, "Please enter a username", Toast.LENGTH_SHORT).show();
-                } else if (imageUri == null) {
-                    Toast.makeText(ProfileActivity.this, "Please select an image", Toast.LENGTH_SHORT).show();
-                } else {
+
+                // Vérifier si le nom d'utilisateur a été modifié
+                boolean isUsernameChanged = !newUsername.isEmpty() && !newUsername.equals(usernameTextView.getText().toString().trim());
+
+                if (isUsernameChanged && imageUri == null) {
+                    // Si seul le nom d'utilisateur a été modifié, mais aucune nouvelle image n'a été sélectionnée
+                    updateUserProfile(newUsername, null);
+                } else if (!isUsernameChanged && imageUri != null) {
+                    // Si seule la nouvelle image a été sélectionnée, mais le nom d'utilisateur n'a pas été modifié
+                    updateUserProfile(null, imageUri);
+                } else if (isUsernameChanged && imageUri != null) {
+                    // Si à la fois le nom d'utilisateur et la nouvelle image ont été modifiés
                     updateUserProfile(newUsername, imageUri);
+                } else {
+                    // Si ni le nom d'utilisateur ni la nouvelle image n'ont été modifiés
+                    // Cacher les éléments d'édition du profil sans effectuer de mise à jour
+                    usernameEdit.setVisibility(View.GONE);
+                    addPhoto.setVisibility(View.GONE);
+                    validate.setVisibility(View.GONE);
+                    usernameTextView.setVisibility(View.VISIBLE);
+                    editProfileTextView.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -171,55 +193,69 @@ public class ProfileActivity extends AppCompatActivity {
     private void updateUserProfile(String newUsername, Uri imageUri) {
         DatabaseReference userRef = databaseReference.child(userId);
 
-        // Mettre à jour le nom d'utilisateur
-        userRef.child("pseudo").setValue(newUsername);
+        // Mettre à jour le nom d'utilisateur si une nouvelle valeur est fournie
+        if (newUsername != null && !newUsername.isEmpty()) {
+            userRef.child("pseudo").setValue(newUsername);
+            usernameTextView.setText(newUsername); // Mettre à jour le TextView usernameTextView immédiatement
+        }
 
-        // Enregistrer la nouvelle image de profil dans Firebase Storage
-        String imageFileName = userId + ".jpg";
-        StorageReference imageRef = storageReference.child("profile_images").child(imageFileName);
+        // Mettre à jour l'image de profil si une nouvelle URI est fournie
+        if (imageUri != null) {
+            // Enregistrer la nouvelle image de profil dans Firebase Storage
+            String imageFileName = userId + ".jpg";
+            StorageReference imageRef = storageReference.child("profile_images").child(imageFileName);
 
-        ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Uploading image...");
-        progressDialog.setCancelable(false);
-        progressDialog.show();
+            ProgressDialog progressDialog = new ProgressDialog(this);
+            progressDialog.setMessage("Uploading image...");
+            progressDialog.setCancelable(false);
+            progressDialog.show();
 
-        imageRef.putFile(imageUri)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        // Obtenir l'URL de téléchargement de l'image
-                        imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                // Mettre à jour l'URL de l'image de profil
-                                userRef.child("image").setValue(uri.toString());
+            imageRef.putFile(imageUri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            // Obtenir l'URL de téléchargement de l'image
+                            imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    // Mettre à jour l'URL de l'image de profil
+                                    userRef.child("image").setValue(uri.toString());
 
-                                progressDialog.dismiss();
-                                Toast.makeText(ProfileActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
+                                    progressDialog.dismiss();
+                                    Toast.makeText(ProfileActivity.this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
 
-                                // Recharger l'image de profil mise à jour
-                                Glide.with(ProfileActivity.this)
-                                        .load(uri)
-                                        .into(profileImageView);
+                                    // Recharger l'image de profil mise à jour
+                                    Glide.with(ProfileActivity.this)
+                                            .load(uri)
+                                            .into(profileImageView);
 
-                                // Cacher les éléments d'édition du profil après validation
-                                usernameEdit.setVisibility(View.GONE);
-                                addPhoto.setVisibility(View.GONE);
-                                validate.setVisibility(View.GONE);
-                                usernameTextView.setVisibility(View.VISIBLE);
-                                editProfileTextView.setVisibility(View.VISIBLE);
-                            }
-                        });
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();
-                        Toast.makeText(ProfileActivity.this, "Failed to upload image", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                                    // Cacher les éléments d'édition du profil après validation
+                                    usernameEdit.setVisibility(View.GONE);
+                                    addPhoto.setVisibility(View.GONE);
+                                    validate.setVisibility(View.GONE);
+                                    usernameTextView.setVisibility(View.VISIBLE);
+                                    editProfileTextView.setVisibility(View.VISIBLE);
+                                }
+                            });
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                            Toast.makeText(ProfileActivity.this, "Failed to upload image", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        } else {
+            // Cacher les éléments d'édition du profil sans effectuer de mise à jour
+            usernameEdit.setVisibility(View.GONE);
+            addPhoto.setVisibility(View.GONE);
+            validate.setVisibility(View.GONE);
+            usernameTextView.setVisibility(View.VISIBLE);
+            editProfileTextView.setVisibility(View.VISIBLE);
+        }
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

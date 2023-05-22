@@ -102,13 +102,15 @@ public class MyDailySessions extends AppCompatActivity {
                     @Override
                     public void onItemClick(int position) {
                         new AlertDialog.Builder(MyDailySessions.this)
-                                .setTitle("Vous avez selectionné une session de " + adapter.getItem(position).getName() + " de " + adapter.getItem(position).getTime())
+                                .setTitle(adapter.getItem(position).getActivityName() + " de " + adapter.getItem(position).getTime())
                                 .setMessage("Voulez-vous commencer cette session ?")
                                 .setNegativeButton(android.R.string.no, null)
                                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface arg0, int arg1) {
-                                        openRunSession();
-                                    }
+                                        Intent intent = new Intent(MyDailySessions.this, RunSession.class);
+                                        intent.putExtra("activity_id", adapter.getItem(position).getActivityId());
+                                        intent.putExtra("session_id", adapter.getItem(position).getSessionId());
+                                        startActivity(intent);                                    }
                                 }).create().show();
                     }
                 });
@@ -144,8 +146,7 @@ public class MyDailySessions extends AppCompatActivity {
     }
 
     public void openRunSession() {
-        Intent intent = new Intent(this, RunSession.class);
-        startActivity(intent);
+
 
     }
 

@@ -15,9 +15,16 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.example.hobbyzooapp.Activities.ActivityPage;
 import com.example.hobbyzooapp.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.sql.Time;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -36,7 +43,10 @@ public class RunSession extends AppCompatActivity {
     Button validateButton;
     Button addTimeButton;
     FirebaseAuth firebaseAuth;
-
+    String activity_id;
+    String session_id;
+    String activityPet;
+    String session_duration;
 
 
     @SuppressLint("MissingInflatedId")
@@ -46,18 +56,66 @@ public class RunSession extends AppCompatActivity {
         setContentView(R.layout.activity_run_session);
         firebaseAuth = FirebaseAuth.getInstance();
 
+        Intent intent = getIntent();
+        activity_id = intent.getStringExtra("activity_id");
+        session_id = intent.getStringExtra("session_id");
+
+
+
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        DatabaseReference referenceActivity = database.getReference("Activity");
+        referenceActivity.child(activity_id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    activityPet = dataSnapshot.child("activity_pet").getValue(String.class);
+                    petPicture = findViewById(R.id.petPicture);
+                    String resourceName = activityPet+"_full_icon";
+                    int resId = RunSession.this.getResources().getIdentifier(resourceName,"drawable",RunSession.this.getPackageName());
+                    petPicture.setImageResource(resId);
+                } else {
+                    // L'activité n'existe pas dans la base de données
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Une erreur s'est produite lors de la récupération des données
+            }
+        });
+
+        DatabaseReference referenceSession = database.getReference("Session");
+        referenceSession.child(session_id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    session_duration = dataSnapshot.child("session_duration").getValue(String.class);
+                    countDownTime = (long) Integer.parseInt(session_duration) *60*1000;
+                    startCountdown();
+
+
+                } else {
+                    // L'activité n'existe pas dans la base de données
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Une erreur s'est produite lors de la récupération des données
+            }
+        });
+
+
         countdownTextView = findViewById(R.id.countdownTextView);
         pauseButton = findViewById(R.id.pauseButton);
         stopButton = findViewById(R.id.stopButton);
         resumeButton=findViewById(R.id.resumeButton);
-        petPicture = findViewById(R.id.petPicture);
-        petPicture.setImageResource(R.drawable.koala_full_icon);
+
         validateButton = findViewById(R.id.validateButton);
         addTimeButton = findViewById(R.id.addTimeButton);
 
 
 
-        startCountdown();
 
         pauseButton.setOnClickListener(new View.OnClickListener() {
             @Override

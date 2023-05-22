@@ -24,6 +24,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class MyDailySessions extends AppCompatActivity {
 
@@ -32,6 +34,9 @@ public class MyDailySessions extends AppCompatActivity {
     private ImageButton calendarButton;
     private View sessionButton;
     FirebaseAuth firebaseAuth;
+    public static LocalDate localDate = null;
+
+
 
     public ArrayList<Session> sessionList;
 
@@ -76,7 +81,8 @@ public class MyDailySessions extends AppCompatActivity {
 
 
         GridView sessionListView = findViewById(R.id.session_list_view);
-        LocalDate localDate = CalendarUtils.selectedDate;
+        //LocalDate localDate = CalendarUtils.selectedDate;
+
         MyDailySessionsAdapter adapter = new MyDailySessionsAdapter(this,sessionList,localDate);
 
         TextView dateSession = findViewById(R.id.dateSession);

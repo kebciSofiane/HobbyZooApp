@@ -31,6 +31,17 @@
             android:textSize="@dimen/title_size"
             android:textStyle="bold" />
 
+        <Button
+            android:id="@+id/editCategory"
+            android:layout_width="30sp"
+            android:layout_height="30sp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/edit_pic"
+            android:visibility="visible" />
+
     </RelativeLayout>
 
     <ExpandableListView

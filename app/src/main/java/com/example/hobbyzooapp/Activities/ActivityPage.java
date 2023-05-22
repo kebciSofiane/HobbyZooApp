@@ -95,7 +95,12 @@ public class ActivityPage extends AppCompatActivity {
                     int resId = ActivityPage.this.getResources().getIdentifier(resourceName,"drawable",ActivityPage.this.getPackageName());
                     petPic.setImageResource(resId);
                     activityNameDisplay.setText(activityName);
-                    goalsText.setText("Goal: "+spentTime+"/"+weeklyGoal);
+                    int weeklyHours = Integer.parseInt(weeklyGoal) / 60;
+                    int weeklyMinutes = Integer.parseInt(weeklyGoal) % 60;
+
+                    int weeklySpentHours = Integer.parseInt(spentTime) / 60;
+                    int weeklySpentMinutes = Integer.parseInt(spentTime) % 60;
+                    goalsText.setText("Weekly Goal: "+weeklySpentHours+"h"+weeklySpentMinutes+"/"+weeklyHours+"h"+weeklyMinutes);
 
 
                     DatabaseReference referenceCategory = database.getReference("Category");

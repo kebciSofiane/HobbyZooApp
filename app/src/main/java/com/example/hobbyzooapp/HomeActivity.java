@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.example.hobbyzooapp.Activities.ActivityPage;
 import com.example.hobbyzooapp.Calendar.CalendarActivity;
+import com.example.hobbyzooapp.Sessions.MyDailySessions;
 import com.example.hobbyzooapp.Sessions.RunSession;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -33,6 +34,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -180,9 +182,12 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
         runBtn.setOnClickListener(new View.OnClickListener() {
+
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this, RunSession.class));
+                MyDailySessions.localDate= LocalDate.now();
+                startActivity(new Intent(HomeActivity.this, MyDailySessions.class));
 
             }
         });

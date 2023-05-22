@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hobbyzooapp.Category.Category;
@@ -39,6 +40,7 @@ public class MyActivities extends AppCompatActivity {
     List<String> expandableListTitle;
     HashMap<String, Category> expandableListDetail;
     String clickedActivityID;
+    Button editCategoryButton;
 
     private FirebaseAuth firebaseAuth;
 
@@ -61,6 +63,8 @@ public class MyActivities extends AppCompatActivity {
         });
 
         addActivityButton = findViewById(R.id.add_activity_button);
+        editCategoryButton= findViewById(R.id.editCategory);
+
         addActivityButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -83,14 +87,18 @@ public class MyActivities extends AppCompatActivity {
 
         expandableListView = (ExpandableListView) findViewById(R.id.expandableListView);
         expandableListDetail = ExpandableListData.getActivities(callback);
-        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
 
+        expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
 
             @Override
             public boolean onChildClick(ExpandableListView parent, View v,
                                         int groupPosition, int childPosition, long id) {
                 Category category = expandableListDetail.get(expandableListTitle.get(groupPosition));
                 clickedActivityID = category.getActivities().get(childPosition).getActivity_id();
+
+
+
+
                 Intent intent = new Intent(MyActivities.this, ActivityPage.class);
                 //Toast.makeText(getApplicationContext(), clickedActivityID, Toast.LENGTH_SHORT).show();
 

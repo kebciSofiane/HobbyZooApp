@@ -97,8 +97,6 @@ public class MyActivities extends AppCompatActivity {
                 clickedActivityID = category.getActivities().get(childPosition).getActivity_id();
 
 
-
-
                 Intent intent = new Intent(MyActivities.this, ActivityPage.class);
                 //Toast.makeText(getApplicationContext(), clickedActivityID, Toast.LENGTH_SHORT).show();
 

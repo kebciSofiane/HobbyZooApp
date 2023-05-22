@@ -1,16 +1,28 @@
 package com.example.hobbyzooapp.Calendar;
+import com.example.hobbyzooapp.OnItemClickListener;
 import com.example.hobbyzooapp.R;
+import com.example.hobbyzooapp.Sessions.MyDailySessions;
 import com.example.hobbyzooapp.Sessions.Session;
 import com.example.hobbyzooapp.Sessions.MyDailySessionsAdapter;
+import com.example.hobbyzooapp.Sessions.SessionsCallback;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.GridView;
 import android.widget.TextView;
@@ -28,7 +40,7 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
     private RecyclerView calendarRecyclerView;
     private GridView eventListView;
     FirebaseAuth firebaseAuth;
-
+    MyDailySessionsAdapter adapter;
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -39,16 +51,23 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
         initWidgets();
         setWeekView();
 
-        ArrayList<Session> sessionList = new ArrayList<>();
-
-        sessionList.add(new Session("Dessin", new Time(0, 1, 10), 10, 10,2023));
-        sessionList.add(new Session("Bougie",new Time(0,2,0),15,5,2023));
-
 
         GridView eventListView = findViewById(R.id.eventListView);
         LocalDate localDate = CalendarUtils.selectedDate;
-        MyDailySessionsAdapter adapter = new MyDailySessionsAdapter(this,sessionList,localDate);
-        eventListView.setAdapter(adapter);
+
+
+        ArrayList<Session> sessions;
+
+        SessionsCallback callback = new SessionsCallback() {
+            @Override
+            public void onSessionsLoaded(ArrayList<Session> mySessions) {
+                adapter = new MyDailySessionsAdapter(WeekViewActivity.this, mySessions, localDate);
+                eventListView.setAdapter(adapter);
+            }
+        };
+        sessions= getSessions(callback);
+
+
 
     }
 
@@ -95,6 +114,52 @@ public class WeekViewActivity extends AppCompatActivity implements CalendarAdapt
         setWeekView();
 
     }
+    private ArrayList<Session> getSessions(SessionsCallback callback) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference reference = database.getReference("Session");
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        String uid = user.getUid();
+        ArrayList<Session> mySessions = new ArrayList<>();
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String session_id = snapshot.child("session_id").getValue(String.class);
+                    String session_duration = snapshot.child("session_duration").getValue(String.class);
+                    String activity_id = snapshot.child("activity_id").getValue(String.class);
 
+                    DatabaseReference referenceActivity = database.getReference("Activity");
+
+                    referenceActivity.child(activity_id).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                String activityName = dataSnapshot.child("activity_name").getValue(String.class);
+                                int hourDuration = Integer.parseInt(session_duration)/60;
+                                int minutesDuration = Integer.parseInt(session_duration)%60;
+
+                                mySessions.add(new Session(session_id,activity_id,activityName,new Time(hourDuration,minutesDuration,0),22,5,2023));
+                                callback.onSessionsLoaded(mySessions);
+                            } else {
+                                // L'activité n'existe pas dans la base de données
+                            }
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            // Une erreur s'est produite lors de la récupération des données
+                        }
+                    });
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("TAG", "Erreur lors de la récupération des données", databaseError.toException());
+            }
+        });
+        return mySessions;
+    }
 
 }

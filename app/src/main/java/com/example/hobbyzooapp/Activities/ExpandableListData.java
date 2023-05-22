@@ -52,7 +52,6 @@ public class ExpandableListData {
                                 String activity_pet = snapshot.child("activity_pet").getValue(String.class);
                                 String activity_name = snapshot.child("activity_name").getValue(String.class);
                                 activities.add(new Activity(activity_id,activity_name, activity_pet_name, activity_pet));
-
                                 expandableListDetail.put(category_name, new Category(category_id,category_name,category_color, activities));
                                 callback.onActivitiesLoaded(expandableListDetail);
 

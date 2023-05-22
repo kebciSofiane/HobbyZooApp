@@ -50,17 +50,12 @@ public class ExpandableListData {
                                 String activity_id = snapshot.child("activity_id").getValue(String.class);
                                 String activity_pet_name = snapshot.child("activity_pet_name").getValue(String.class);
                                 String activity_pet = snapshot.child("activity_pet").getValue(String.class);
-                                String weekly_goal = snapshot.child("weekly_goal").getValue(String.class);
-                                String spent_time = snapshot.child("spent_time").getValue(String.class);
                                 String activity_name = snapshot.child("activity_name").getValue(String.class);
-                                String user_id = snapshot.child("user_id").getValue(String.class);
                                 activities.add(new Activity(activity_id,activity_name, activity_pet_name, activity_pet));
 
-
                                 expandableListDetail.put(category_name, new Category(category_id,category_name,category_color, activities));
-                                if (expandableListDetail.size() == dataSnapshot.getChildrenCount()) {
-                                    callback.onActivitiesLoaded(expandableListDetail);
-                                }
+                                callback.onActivitiesLoaded(expandableListDetail);
+
 
                             }
 

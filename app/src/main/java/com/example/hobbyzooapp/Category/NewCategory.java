@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.hobbyzooapp.Activities.NewActivity;
 import com.example.hobbyzooapp.HomeActivity;
 import com.example.hobbyzooapp.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -112,7 +113,7 @@ public class NewCategory extends AppCompatActivity {
 
                     DatabaseReference reference = database.getReference("Category");
                     reference.child(category_id).setValue(hashMap);
-                    Intent intent = new Intent().setClass(getApplicationContext(), HomeActivity.class);
+                    Intent intent = new Intent().setClass(getApplicationContext(), NewActivity.class);
                     startActivity(intent);
                 }
             }

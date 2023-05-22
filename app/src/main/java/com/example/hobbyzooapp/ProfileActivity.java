@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,11 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.model.GlideUrl;
-import com.bumptech.glide.load.model.LazyHeaders;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.hobbyzooapp.Activities.MyActivities;
-import com.firebase.ui.storage.images.FirebaseImageLoader;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,8 +32,6 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.squareup.picasso.Picasso;
-
 
 public class ProfileActivity extends AppCompatActivity {
     private TextView usernameTextView;
@@ -55,12 +50,9 @@ public class ProfileActivity extends AppCompatActivity {
     private FirebaseStorage storage;
     private StorageReference storageReference;
     private DatabaseReference databaseReference;
-    private String pseudo;
-    private Uri imageUri;
     private String userId;
     private static final int PICK_IMAGE = 1;
-
-
+    private Uri imageUri;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,8 +61,8 @@ public class ProfileActivity extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
-        FirebaseUser user = firebaseAuth.getCurrentUser();
 
+        FirebaseUser user = firebaseAuth.getCurrentUser();
 
         usernameTextView = findViewById(R.id.profile_username);
         profileImageView = findViewById(R.id.profile_image);
@@ -86,13 +78,14 @@ public class ProfileActivity extends AppCompatActivity {
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Users");
         userId = user.getUid();
+
         if (user != null) {
             DatabaseReference reference = databaseReference.child(userId);
             reference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists()) {
-                        pseudo = snapshot.child("pseudo").getValue(String.class);
+                        String pseudo = snapshot.child("pseudo").getValue(String.class);
                         if (pseudo != null) {
                             usernameTextView.setText(pseudo);
                             usernameEdit.setText(pseudo); // Afficher le pseudo dans le champ d'édition
@@ -108,7 +101,6 @@ public class ProfileActivity extends AppCompatActivity {
                                     .load(R.drawable.ic_profile)
                                     .into(profileImageView);
                         }
-
                     }
                 }
 
@@ -116,39 +108,8 @@ public class ProfileActivity extends AppCompatActivity {
                 public void onCancelled(@NonNull DatabaseError error) {
                     // Handle data reading errors
                 }
-
             });
-            Query query = databaseReference.orderByChild("email").equalTo(user.getEmail());
-            reference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@androidx.annotation.NonNull DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
-                        String pseudo = snapshot.child("pseudo").getValue(String.class);
-                        if (pseudo != null) {
-                            usernameTextView.setText(pseudo);
-                        }
-
-                        String image = snapshot.child("image").getValue(String.class);
-                        if (image != null) {
-                            Glide.with(ProfileActivity.this)
-                                    .load(image)
-                                    .into(profileImageView);
-                        } else {
-                            Glide.with(ProfileActivity.this)
-                                    .load(R.drawable.ic_profile)
-                                    .into(profileImageView);
-                        }
-
-                    }
-
-                }
-
-                @Override
-                public void onCancelled(@androidx.annotation.NonNull DatabaseError error) {
-
-                }
-            });        }
-
+        }
 
         myActivitiesButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,13 +118,11 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ProfileActivity.this, HomeActivity.class));
                 finish();
-
             }
         });
 
@@ -171,13 +130,10 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ProfileActivity.this, SettingsActivity.class));
-
             }
         });
 
-
         editProfileTextView.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 usernameEdit.setVisibility(View.VISIBLE);
@@ -185,16 +141,8 @@ public class ProfileActivity extends AppCompatActivity {
                 validate.setVisibility(View.VISIBLE);
                 usernameTextView.setVisibility(View.GONE);
                 editProfileTextView.setVisibility(View.GONE);
-
             }
         });
-//photo
-        storage = FirebaseStorage.getInstance();
-        storageReference = storage.getReference();
-        databaseReference = FirebaseDatabase.getInstance().getReference();
-
-
-
 
         addPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -205,25 +153,22 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-
-
         validate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String newUsername = usernameEdit.getText().toString().trim();
-                if (imageUri == null) {
+                if (newUsername.isEmpty()) {
+                    Toast.makeText(ProfileActivity.this, "Please enter a username", Toast.LENGTH_SHORT).show();
+                } else if (imageUri == null) {
                     Toast.makeText(ProfileActivity.this, "Please select an image", Toast.LENGTH_SHORT).show();
                 } else {
-                    validate(newUsername, imageUri);
+                    updateUserProfile(newUsername, imageUri);
                 }
             }
         });
-
-
-//
     }
 
-    private void validate(String newUsername, Uri imageUri) {
+    private void updateUserProfile(String newUsername, Uri imageUri) {
         DatabaseReference userRef = databaseReference.child(userId);
 
         // Mettre à jour le nom d'utilisateur
@@ -275,6 +220,7 @@ public class ProfileActivity extends AppCompatActivity {
                     }
                 });
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -285,8 +231,4 @@ public class ProfileActivity extends AppCompatActivity {
             profileImageView.setImageURI(imageUri);
         }
     }
-
-
-
-
 }

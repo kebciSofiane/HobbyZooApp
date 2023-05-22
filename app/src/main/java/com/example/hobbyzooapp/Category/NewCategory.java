@@ -47,7 +47,7 @@ public class NewCategory extends AppCompatActivity {
     View displayColors;
     Bitmap bitmap;
     FirebaseAuth firebaseAuth;
-    Button validationButton;
+    ImageView validationButton, returnButton;
     String regexPattern = "^[a-zA-Z0-9 ]+$";
     Pattern pattern;
 
@@ -88,6 +88,13 @@ public class NewCategory extends AppCompatActivity {
                 }
 
                 return true;
+            }
+        });
+
+        returnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
             }
         });
 
@@ -155,6 +162,7 @@ public class NewCategory extends AppCompatActivity {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         user_id = user.getUid();
         validationButton = findViewById(R.id.validationButton);
+        returnButton = findViewById(R.id.returnButton);
         colorPicker = findViewById(R.id.colorPickers);
         displayColors = findViewById(R.id.displayColors);
         colorPicker.setDrawingCacheEnabled(true);

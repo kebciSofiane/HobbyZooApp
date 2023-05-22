@@ -43,8 +43,7 @@ public class NewActivity extends AppCompatActivity {
     Spinner categorySelector;
     FirebaseUser user;
     TimePicker weeklyGoal;
-    Button validationButton;
-    ImageView animalImage;
+    ImageView animalImage, validationButton, returnButton;
     List<String> animals, categories;
     int posAnimals;
     String regexPattern = "^[a-zA-Z0-9 ]+$";
@@ -134,7 +133,12 @@ public class NewActivity extends AppCompatActivity {
                     }
                 });
 
-
+        returnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         validationButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -211,6 +215,7 @@ public class NewActivity extends AppCompatActivity {
         }
         user = firebaseAuth.getCurrentUser();
         validationButton = findViewById(R.id.validationButton);
+        returnButton = findViewById(R.id.returnButton);
         animalImage = findViewById(R.id.animalImage);
         setAnimals();
         pattern = Pattern.compile(regexPattern);

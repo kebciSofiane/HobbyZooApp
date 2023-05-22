@@ -8,6 +8,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -41,6 +42,7 @@ public class NewSession extends AppCompatActivity {
     String activity_id;
     FirebaseUser user;
     Spinner activitySelector;
+    ImageView validationButton, returnButton;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -96,9 +98,13 @@ public class NewSession extends AppCompatActivity {
                 });//todo penser verif si les espaces fonctionne dans les noms
 
 
+        returnButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
-
-        Button validationButton = findViewById(R.id.validationButton);
         validationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -143,6 +149,8 @@ public class NewSession extends AppCompatActivity {
             timePicker.setMinute(0);
         }
         activitySelector = findViewById(R.id.activityName);
+        validationButton = findViewById(R.id.validationButton);
+        returnButton = findViewById(R.id.returnButton);
     }
 
     private void addDBSession(){

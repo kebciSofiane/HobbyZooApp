@@ -33,6 +33,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
 public class RegisterActivity extends AppCompatActivity  {
@@ -51,6 +53,8 @@ public class RegisterActivity extends AppCompatActivity  {
     private StorageReference storageReference;
     private DatabaseReference databaseReference;
     private Uri imageUri;
+    private String regexPattern = "^[a-zA-Z0-9]+$";
+    private Pattern pattern;
 
     private static final int PICK_IMAGE = 1;
     //
@@ -60,8 +64,7 @@ public class RegisterActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_register);
 
 
-
-
+        pattern = Pattern.compile(regexPattern);
         emailEt = findViewById(R.id.emailEt);
         passwordEt = findViewById(R.id.passwordEt);
         registerBtn = findViewById(R.id.register_btn);
@@ -96,6 +99,7 @@ public class RegisterActivity extends AppCompatActivity  {
                 String email = emailEt.getText().toString().trim();
                 String password = passwordEt.getText().toString().trim();
                 String pseudo = pseudoET.getText().toString().trim();
+                Matcher matcherPseudo = pattern.matcher(pseudo);
 
                 if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
                     emailEt.setError("Invalid email address");
@@ -104,6 +108,9 @@ public class RegisterActivity extends AppCompatActivity  {
                 else if(password.length()<8){
                     passwordEt.setError("password must have at least 8 characters");
                     passwordEt.setFocusable(true);
+                }
+                else if(!matcherPseudo.matches()){
+                    Toast.makeText(getApplicationContext(),"pseudo can't have special characters!",Toast.LENGTH_LONG).show();
                 }
                 else{
                     // Ajout de la photo

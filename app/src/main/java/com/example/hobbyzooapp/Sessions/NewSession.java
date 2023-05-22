@@ -27,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.sql.Time;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -34,11 +35,12 @@ import java.util.List;
 
 public class NewSession extends AppCompatActivity {
     String activityName;
-    Date date;
-    Time time;
+    DatePicker datePicker;
+    TimePicker timePicker;
     FirebaseAuth firebaseAuth;
     String activity_id;
     FirebaseUser user;
+    Spinner activitySelector;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -46,16 +48,7 @@ public class NewSession extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_session);
-        firebaseAuth = FirebaseAuth.getInstance();
-        user = firebaseAuth.getCurrentUser();
-
-        DatePicker datePicker = findViewById(R.id.datePicker);
-        TimePicker timePicker= findViewById(R.id.timePicker);
-        timePicker.setIs24HourView(true);
-        timePicker.setHour(0);
-        timePicker.setMinute(0);
-
-        Spinner activitySelector = findViewById(R.id.activityName);
+        initialisation();
         List<String> activities = setActivities();
         activities.add("");
 
@@ -104,39 +97,70 @@ public class NewSession extends AppCompatActivity {
 
 
 
+
         Button validationButton = findViewById(R.id.validationButton);
         validationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 activityName = (String) activitySelector.getSelectedItem();
+                Date dateCourante = new Date();
+
                 if(activityName.trim().isEmpty() || (timePicker.getHour() == 0 && timePicker.getMinute() == 0) || activitySelector.getSelectedItem() == null){
                     Toast.makeText(getApplicationContext(),"Field can't be empty!",Toast.LENGTH_LONG).show();
                 }
+                else if(dateCourante.getYear() > datePicker.getYear() || (dateCourante.getYear() == datePicker.getYear() && dateCourante.getMonth() > datePicker.getMonth()) || (dateCourante.getYear() == datePicker.getYear() && dateCourante.getMonth() == datePicker.getMonth() && dateCourante.getDay() > datePicker.getDayOfMonth())){
+                    Toast.makeText(getApplicationContext(),"The date can't be earlier!",Toast.LENGTH_LONG).show();
+                }
                 else{
-                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-
-                    DatabaseReference newChildRef = databaseReference.push();
-                    String session_id = newChildRef.getKey();
-                    HashMap<Object, String> hashMap = new HashMap<>();
-                    int minute_duration = timePicker.getMinute() + timePicker.getHour() *60;
-
-                    hashMap.put("session_id", session_id);
-                    hashMap.put("session_duration", String.valueOf(minute_duration));
-                    hashMap.put("session_picture", "");
-                    hashMap.put("session_comment", "");
-                    hashMap.put("activity_id", activity_id);
-
-                    FirebaseDatabase database = FirebaseDatabase.getInstance();
-
-                    DatabaseReference reference = database.getReference("Session");
-                    reference.child(session_id).setValue(hashMap);
+                    addDBSession();
                     Intent intent = new Intent().setClass(getApplicationContext(), HomeActivity.class);
                     startActivity(intent);
                     finish();
                 }
             }
+
         });
 
+    }
+
+    private void initialisation(){
+        firebaseAuth = FirebaseAuth.getInstance();
+        user = firebaseAuth.getCurrentUser();
+        datePicker = findViewById(R.id.datePicker);
+        timePicker = findViewById(R.id.timePicker);
+        timePicker.setIs24HourView(true);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            timePicker.setHour(0);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            timePicker.setMinute(0);
+        }
+        activitySelector = findViewById(R.id.activityName);
+    }
+
+    private void addDBSession(){
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference newChildRef = databaseReference.push();
+        String session_id = newChildRef.getKey();
+        HashMap<Object, String> hashMap = new HashMap<>();
+        int minute_duration = 0;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            minute_duration = timePicker.getMinute() + timePicker.getHour() *60;
+        }
+
+        hashMap.put("session_id", session_id);
+        hashMap.put("session_duration", String.valueOf(minute_duration));
+        hashMap.put("session_day", String.valueOf(datePicker.getDayOfMonth()));
+        hashMap.put("session_month", String.valueOf(datePicker.getMonth()));
+        hashMap.put("session_year", String.valueOf(datePicker.getYear()));
+        hashMap.put("session_picture", "");
+        hashMap.put("session_comment", "");
+        hashMap.put("activity_id", activity_id);
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        DatabaseReference reference = database.getReference("Session");
+        reference.child(session_id).setValue(hashMap);
     }
 
     List<String> setActivities(){

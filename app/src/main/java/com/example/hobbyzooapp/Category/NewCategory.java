@@ -32,19 +32,24 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 public class NewCategory extends AppCompatActivity {
 
     String name, user_id, colorHex;
     int colorRGB = 0;
-    Color color;
     int red, blue, green;
-    ImageView imgView;
+    CircleImageView colorPicker;
     View displayColors;
     Bitmap bitmap;
     FirebaseAuth firebaseAuth;
     Button validationButton;
+    String regexPattern = "^[a-zA-Z0-9]+$+' '";
+    Pattern pattern;
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -54,21 +59,34 @@ public class NewCategory extends AppCompatActivity {
         setContentView(R.layout.activity_new_category);
         initialisation();
 
-        imgView.setOnTouchListener(new View.OnTouchListener() {
+        colorPicker.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE){
-                    bitmap = imgView.getDrawingCache();
-                    int pixels = bitmap.getPixel((int)event.getX(), (int)event.getY());
+                    float x = event.getX();
+                    float y = event.getY();
 
-                    red = Color.red(pixels);
-                    blue = Color.blue(pixels);
-                    green = Color.green(pixels);
+                    float centerX = colorPicker.getWidth() / 2f;
+                    float centerY = colorPicker.getHeight() / 2f;
+                    float radius = colorPicker.getWidth() / 2f;
 
-                    displayColors.setBackgroundColor(Color.rgb(red,green,blue));
-                    colorRGB = Color.rgb(red,green,blue);
-                    colorHex = "#" + Integer.toHexString(red) + Integer.toHexString(green) + Integer.toHexString(blue);
+                    if (Math.pow(x - centerX, 2) + Math.pow(y - centerY, 2) <= Math.pow(radius, 2)) {
+                        colorPicker.setDrawingCacheEnabled(true);
+                        colorPicker.buildDrawingCache(true);
+                        bitmap = colorPicker.getDrawingCache();
+
+                        int pixels = bitmap.getPixel((int) x, (int) y);
+
+                        red = Color.red(pixels);
+                        blue = Color.blue(pixels);
+                        green = Color.green(pixels);
+
+                        displayColors.setBackgroundColor(Color.rgb(red, green, blue));
+                        colorRGB = Color.rgb(red, green, blue);
+                        colorHex = "#" + Integer.toHexString(red) + Integer.toHexString(green) + Integer.toHexString(blue);
+                    }
                 }
+
                 return true;
             }
         });
@@ -80,9 +98,14 @@ public class NewCategory extends AppCompatActivity {
             public void onClick(View view) {
                 EditText text = findViewById(R.id.categoryName);
                 name = text.getText().toString();
+                Matcher matcherCategoryName = pattern.matcher(name);
                 if(name.trim().isEmpty() || colorRGB == 0){
                     Toast.makeText(getApplicationContext(),"Field can't be empty!!",Toast.LENGTH_LONG).show();
                 }
+                else if(!matcherCategoryName.matches()){
+                    Toast.makeText(getApplicationContext(),"Name fields can't have special characters!",Toast.LENGTH_LONG).show();
+                }
+
                 else {
                     List<String> categories = new ArrayList<>();
                     DatabaseReference databaseReferenceChild = FirebaseDatabase.getInstance().getReference().child("Category");
@@ -122,10 +145,11 @@ public class NewCategory extends AppCompatActivity {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         user_id = user.getUid();
         validationButton = findViewById(R.id.validationButton);
-        imgView = findViewById(R.id.colorPickers);
+        colorPicker = findViewById(R.id.colorPickers);
         displayColors = findViewById(R.id.displayColors);
-        imgView.setDrawingCacheEnabled(true);
-        imgView.buildDrawingCache(true);
+        colorPicker.setDrawingCacheEnabled(true);
+        colorPicker.buildDrawingCache(true);
+        pattern = Pattern.compile(regexPattern);
     }
 
     private void addDBCategory(){

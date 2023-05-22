@@ -1,5 +1,6 @@
 package com.example.hobbyzooapp.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,6 +33,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class NewActivity extends AppCompatActivity {
 
@@ -45,6 +48,8 @@ public class NewActivity extends AppCompatActivity {
     ImageView animalImage;
     List<String> animals;
     int posAnimals;
+    String regexPattern = "^[a-zA-Z0-9]+$+' '";
+    Pattern pattern;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -54,6 +59,7 @@ public class NewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_new_activity);
         initialisation();
         Button scrollAnimalsRight = findViewById(R.id.scrollAnimalsRight);
+        @SuppressLint({"MissingInflatedId", "LocalSuppress"}) Button scrollAnimalsLeft = findViewById(R.id.scrollAnimalsLeft);
         scrollAnimalsRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -61,6 +67,19 @@ public class NewActivity extends AppCompatActivity {
                     posAnimals++;
                 else
                     posAnimals = 0;
+                int animalId = getResources().getIdentifier(animals.get(posAnimals)+"_full_icon", "drawable", getPackageName());
+                animalImage.setImageResource(animalId);
+                animalImage.invalidate();
+            }
+        });
+
+        scrollAnimalsLeft.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(posAnimals > 0)
+                    posAnimals--;
+                else
+                    posAnimals = animals.size()-1;
                 int animalId = getResources().getIdentifier(animals.get(posAnimals)+"_full_icon", "drawable", getPackageName());
                 animalImage.setImageResource(animalId);
                 animalImage.invalidate();
@@ -119,9 +138,14 @@ public class NewActivity extends AppCompatActivity {
                 EditText textAnimal = findViewById(R.id.animalName);
                 activity_name = text.getText().toString();
                 animalName = textAnimal.getText().toString();
+                Matcher matcherActivityName = pattern.matcher(activity_name);
+                Matcher matcherAnimalName = pattern.matcher(animalName);
 
                 if(activity_name.trim().isEmpty() || animalName.trim().isEmpty() || (weeklyGoal.getMinute() ==0 && weeklyGoal.getHour() == 0 ) || categorySelector.getSelectedItem() == null){
                     Toast.makeText(getApplicationContext(),"Field can't be empty!",Toast.LENGTH_LONG).show();
+                }
+                else if(!matcherAnimalName.matches() || !matcherActivityName.matches()){
+                    Toast.makeText(getApplicationContext(),"Name fields can't have special characters!",Toast.LENGTH_LONG).show();
                 }
                 else {
                     List<String> activities = new ArrayList<>();
@@ -176,6 +200,7 @@ public class NewActivity extends AppCompatActivity {
         validationButton = findViewById(R.id.validationButton);
         animalImage = findViewById(R.id.animalImage);
         setAnimals();
+        pattern = Pattern.compile(regexPattern);
     }
 
     private void addBDActivity(){
@@ -198,9 +223,9 @@ public class NewActivity extends AppCompatActivity {
             hashMap.put("category_id", category_id);
             hashMap.put("user_id", user.getUid());
 
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference reference = database.getReference("Activity");
-                reference.child(activity_id).setValue(hashMap);
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference reference = database.getReference("Activity");
+            reference.child(activity_id).setValue(hashMap);
     }
 
     private void setAnimals() {

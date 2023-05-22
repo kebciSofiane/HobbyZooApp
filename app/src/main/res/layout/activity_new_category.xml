@@ -11,10 +11,10 @@
         android:id="@+id/categoryName"
         android:layout_width="match_parent"
         android:layout_height="60dp"
-        android:layout_marginTop="20dp"
         android:layout_marginStart="15dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="15dp"
-        android:background="@color/inputColor"
+        android:background="@color/brown_btn"
         android:hint=""
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
@@ -25,8 +25,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="60dp"
         android:text="@string/category_name_"
-        android:textSize="23sp"
         android:textColor="@color/sub_tilte"
+        android:textSize="23sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,8 +38,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:text="@string/category_color_"
-        android:textSize="23sp"
         android:textColor="@color/sub_tilte"
+        android:textSize="23sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
@@ -72,35 +72,33 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <LinearLayout
-        android:layout_width="287dp"
-        android:layout_height="279dp"
-        android:layout_marginTop="32dp"
-        android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/validationButton"
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/colorPickers"
+        android:layout_width="228dp"
+        android:layout_height="237dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:paddingBottom="20dp"
+        android:src="@drawable/color_picker"
+        app:civ_border_color="@color/black"
+        app:civ_border_overlay="true"
+        app:civ_border_width="1dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView6"
-        app:layout_constraintVertical_bias="0.0"
-        tools:context=".Category.NewCategory">
+        app:layout_constraintTop_toBottomOf="@+id/textView6" />
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/colorPickers"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:paddingBottom="20dp"
-            android:src="@drawable/color_picker" />
-
-        <View
-            android:id="@+id/displayColors"
-            android:layout_width="60dp"
-            android:layout_height="32dp"
-            android:layout_gravity="center" />
-
-
-    </LinearLayout>
+    <View
+        android:id="@+id/displayColors"
+        android:layout_width="60dp"
+        android:layout_height="32dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/colorPickers" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

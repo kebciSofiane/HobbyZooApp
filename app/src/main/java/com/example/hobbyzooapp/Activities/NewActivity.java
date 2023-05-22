@@ -38,18 +38,18 @@ import java.util.regex.Pattern;
 
 public class NewActivity extends AppCompatActivity {
 
-    String activity_name, animalName;
+    String activity_name, animalName, category_id;
     FirebaseAuth firebaseAuth;
     Spinner categorySelector;
     FirebaseUser user;
     TimePicker weeklyGoal;
-    String category_id;
     Button validationButton;
     ImageView animalImage;
-    List<String> animals;
+    List<String> animals, categories;
     int posAnimals;
     String regexPattern = "^[a-zA-Z0-9 ]+$";
     Pattern pattern;
+    EditText editActivityName, editPetName;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -58,6 +58,7 @@ public class NewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_activity);
         initialisation();
+        intentInitialisation();
         Button scrollAnimalsRight = findViewById(R.id.scrollAnimalsRight);
         @SuppressLint({"MissingInflatedId", "LocalSuppress"}) Button scrollAnimalsLeft = findViewById(R.id.scrollAnimalsLeft);
         scrollAnimalsRight.setOnClickListener(new View.OnClickListener() {
@@ -86,7 +87,7 @@ public class NewActivity extends AppCompatActivity {
             }
         });
 
-        List<String> categories = setCategories();
+        categories = setCategories();
         categories.add("");
         ArrayAdapter<String> adapter = new ArrayAdapter<>(NewActivity.this, android.R.layout.simple_list_item_1, categories);
         categorySelector.setAdapter(adapter);
@@ -96,7 +97,11 @@ public class NewActivity extends AppCompatActivity {
 
                         if(parent.getItemAtPosition(pos) == "New Category"){
                             Intent intent = new Intent().setClass(getApplicationContext(), NewCategory.class);
+                            intent.putExtra("activity_name", editActivityName.getText());
+                            intent.putExtra("animal_name", editPetName.getText());
+                            intent.putExtra("pos_animal", posAnimals);
                             startActivity(intent);
+                            finish();
                         }
                         final String[] category_id_select = new String[1];
                         String user_id = user.getUid();
@@ -134,10 +139,8 @@ public class NewActivity extends AppCompatActivity {
         validationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                EditText text = findViewById(R.id.activityName);
-                EditText textAnimal = findViewById(R.id.animalName);
-                activity_name = text.getText().toString();
-                animalName = textAnimal.getText().toString();
+                activity_name = editActivityName.getText().toString();
+                animalName = editPetName.getText().toString();
                 Matcher matcherActivityName = pattern.matcher(activity_name);
                 Matcher matcherAnimalName = pattern.matcher(animalName);
 
@@ -183,6 +186,16 @@ public class NewActivity extends AppCompatActivity {
         });
     }
 
+    private void intentInitialisation() {
+        Intent intentCategory = getIntent();
+        if(intentCategory.hasExtra(activity_name)){
+            editActivityName.setText(intentCategory.getStringExtra("activity_name"));
+            editPetName.setText(intentCategory.getStringExtra("animal_name"));
+            categorySelector.setSelection(categories.size()-2);
+            posAnimals = Integer.parseInt(intentCategory.getStringExtra("pos_animal"));
+        }
+
+    }
 
 
     void initialisation(){
@@ -201,6 +214,10 @@ public class NewActivity extends AppCompatActivity {
         animalImage = findViewById(R.id.animalImage);
         setAnimals();
         pattern = Pattern.compile(regexPattern);
+        editActivityName = findViewById(R.id.activityName);
+        editPetName = findViewById(R.id.animalName);
+        categories = setCategories();
+        categories.add("");
     }
 
     private void addBDActivity(){

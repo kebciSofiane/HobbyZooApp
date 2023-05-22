@@ -120,8 +120,7 @@ public class NewCategory extends AppCompatActivity {
                             }
                             if(categories.size() == 0){
                                 addDBCategory();
-                                Intent intent = new Intent().setClass(getApplicationContext(), NewActivity.class);
-                                startActivity(intent);
+                                setIntentCategory();
                                 finish();
                             }
                             else{
@@ -139,6 +138,17 @@ public class NewCategory extends AppCompatActivity {
         });
 
     }
+
+    private void setIntentCategory() {
+        Intent intent = new Intent().setClass(getApplicationContext(), NewActivity.class);
+        Intent intentActivity = getIntent();
+        intent.putExtra("activity_name", intentActivity.getStringExtra("activity_name"));
+        intent.putExtra("animal_name", intentActivity.getStringExtra("animal_name"));
+        intent.putExtra("pos_animal", intentActivity.getStringExtra("pos_animal"));
+        intent.putExtra("category_name", intentActivity.getStringExtra(name));
+        startActivity(intent);
+    }
+
 
     private void initialisation() {
         firebaseAuth = FirebaseAuth.getInstance();

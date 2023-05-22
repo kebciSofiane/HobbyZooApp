@@ -6,11 +6,15 @@
     android:layout_margin="10dp" >
 
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/session"
         android:layout_margin="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+        android:padding="10dp"
+        android:layout_width="150dp"
+        android:layout_height="100dp"
+        android:background="@drawable/session_border"
+        android:orientation="vertical"
+        >
 
         <TextView
             android:id="@+id/session_name"
@@ -18,7 +22,10 @@
             android:layout_height="wrap_content"
             android:textSize="20sp"
             android:textColor="@color/light_green"
-            android:text="@string/default_activity_name" />
+            android:text="@string/default_activity_name"
+            android:layout_gravity="center"
+
+         />
 
         <TextView
             android:id="@+id/session_time"
@@ -27,8 +34,9 @@
             android:textSize="15sp"
             android:textColor="@color/light_green"
             android:text="@string/default_activity_time"
-            android:layout_below="@+id/session_name"/>
-    </RelativeLayout>
+            android:layout_gravity="center"
+            />
+    </LinearLayout>
 
 
 

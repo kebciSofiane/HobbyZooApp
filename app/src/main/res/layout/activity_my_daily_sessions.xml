@@ -57,13 +57,15 @@
         android:layout_above="@+id/add_session_button"
         android:layout_below="@+id/header"
         android:layout_margin="20dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true">
 
         <GridView
             android:id="@+id/session_list_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:numColumns="2" />
+            android:numColumns="2"
+            />
     </LinearLayout>
 
     <ImageButton

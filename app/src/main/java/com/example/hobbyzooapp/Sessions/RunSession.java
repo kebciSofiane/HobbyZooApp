@@ -33,7 +33,7 @@ public class RunSession extends AppCompatActivity {
 
     private long countDownTime = 5000;
     private long timeLeftInMillis = countDownTime;
-    public static long  totalSessionTime=0;
+    long totalSessionTime=0;
     TextView countdownTextView;
     CountDownTimer countDownTimer;
     Button stopButton;
@@ -227,6 +227,9 @@ public class RunSession extends AppCompatActivity {
     }
     private void endSession(){
         Intent intent = new Intent(RunSession.this, EndSession.class);
+        intent.putExtra("activity_id",activity_id);
+        intent.putExtra("session_id",session_id);
+        intent.putExtra("spent_time", totalSessionTime);
         startActivity(intent);
     }
 

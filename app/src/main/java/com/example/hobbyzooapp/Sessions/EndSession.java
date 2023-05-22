@@ -29,6 +29,11 @@ import android.widget.Toast;
 
 import com.example.hobbyzooapp.Activities.ActivityPage;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.io.File;
 import java.io.IOException;
@@ -56,12 +61,26 @@ public class EndSession extends AppCompatActivity {
     private String photoPath =null;
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     FirebaseAuth firebaseAuth;
+    Intent intent = getIntent();
+    String activity_id ;
+    String session_id ;
+    String activityPet;
+    String session_duration;
+    String spent_time;
+    long totalSessionTime;
+
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_session);
+
+        Intent intent = getIntent();
+        activity_id = intent.getStringExtra("activity_id");
+        session_id = intent.getStringExtra("session_id");
+        totalSessionTime = intent.getLongExtra("spent_time",0);
+
         firebaseAuth = FirebaseAuth.getInstance();
         petPic = findViewById(R.id.petPicture);
         petPic.setImageResource(R.drawable.koala_icon);
@@ -76,7 +95,66 @@ public class EndSession extends AppCompatActivity {
         modifyPicButton=findViewById(R.id.ModifyPicButton);
         modifyCommentButton = findViewById(R.id.ModifyCommentButton);
 
-        updateSessionCount();
+
+
+
+
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+        DatabaseReference referenceActivity = database.getReference("Activity");
+        referenceActivity.child(activity_id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    activityPet = dataSnapshot.child("activity_pet").getValue(String.class);
+                    spent_time = dataSnapshot.child("spent_time").getValue(String.class);
+                    String resourceName = activityPet+"_icon";
+                    int resId = EndSession.this.getResources().getIdentifier(resourceName,"drawable",EndSession.this.getPackageName());
+                    petPic.setImageResource(resId);
+
+                    long newSPentTime= Integer.parseInt(spent_time)+(totalSessionTime/ (1000 * 60));
+                    DatabaseReference activitiesRef = FirebaseDatabase.getInstance().getReference("Activity");
+                    DatabaseReference activityRef = activitiesRef.child(activity_id);
+                    activityRef.child("spent_time").setValue(String.valueOf(newSPentTime), new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                            if (databaseError == null) {
+                                System.out.println("Activité modifiée avec succès !");
+                            } else {
+                                System.err.println("Erreur lors de la modification de l'activité : " + databaseError.getMessage());
+                            }
+                        }
+                    });
+                } else {
+                    // L'activité n'existe pas dans la base de données
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Une erreur s'est produite lors de la récupération des données
+            }
+        });
+
+        DatabaseReference referenceSession = database.getReference("Session");
+        referenceSession.child(session_id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    session_duration = dataSnapshot.child("session_duration").getValue(String.class);
+                    updateSessionCount();
+                } else {
+                    // L'activité n'existe pas dans la base de données
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Une erreur s'est produite lors de la récupération des données
+            }
+        });
+
+
+
 
         InputFilter[] filters = new InputFilter[1];
         filters[0] = new InputFilter.LengthFilter(100);
@@ -224,10 +302,12 @@ public class EndSession extends AppCompatActivity {
 
 
     public  void updateSessionCount(){
-        long totalSessionTime = RunSession.totalSessionTime;
         long hours = TimeUnit.MILLISECONDS.toHours(totalSessionTime);
         long minutes = TimeUnit.MILLISECONDS.toMinutes(totalSessionTime - TimeUnit.HOURS.toMillis(hours));
-        sessionCount.setText(hours+"h:"+minutes+"mn/10h:30mn");
+        int hourDuration = Integer.parseInt(session_duration)/60;
+        int minutesDuration = Integer.parseInt(session_duration)%60;
+        sessionCount.setText(hours+"h"+minutes+"/"+ hourDuration+"h"+minutesDuration);
+
     }
 
 
@@ -246,6 +326,7 @@ public class EndSession extends AppCompatActivity {
 
     private void endSession(){
         Intent intent = new Intent(EndSession.this, ActivityPage.class);
+        intent.putExtra("activity_id",activity_id);
         startActivity(intent);
     }
 

@@ -125,8 +125,6 @@ public class RegisterActivity extends AppCompatActivity  {
             }
         });
     }
-
-
     private void registerUser(String email, String password, String pseudo, Uri imageUri) {
         progressDialog.show();
         auth.createUserWithEmailAndPassword(email, password)
@@ -134,25 +132,17 @@ public class RegisterActivity extends AppCompatActivity  {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // Sign in success, dismiss dialog and start register activity
-                            progressDialog.dismiss();
                             FirebaseUser user = auth.getCurrentUser();
-
-                            //get user uid and email from auth
                             String email = user.getEmail();
                             String uid = user.getUid();
-
-                            //get user pseudo from the pseudoET field
                             String pseudo = pseudoET.getText().toString().trim();
 
-                            //upload user image to firebase storage
                             StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("users/" + uid + "/profile.jpg");
 
                             storageRef.putFile(imageUri)
                                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                         @Override
                                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                            //when image is uploaded successfully, get the url and store user info in firebase realtime database
                                             storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                                 @Override
                                                 public void onSuccess(Uri uri) {
@@ -164,20 +154,19 @@ public class RegisterActivity extends AppCompatActivity  {
                                                     hashMap.put("image", imageUrl);
 
                                                     FirebaseDatabase database = FirebaseDatabase.getInstance();
-
                                                     DatabaseReference reference = database.getReference("Users");
                                                     reference.child(uid).setValue(hashMap);
-                                                    // ajout
-                                                    // Afficher l'image dans le profil
+
+                                                    progressDialog.dismiss();
+
                                                     Glide.with(RegisterActivity.this)
                                                             .load(imageUrl)
-                                                            .placeholder(R.drawable.ic_profile) // Image de remplacement temporaire
-                                                            .error(R.drawable.ic_error) // Image d'erreur en cas de chargement échoué
+                                                            .placeholder(R.drawable.ic_profile)
+                                                            .error(R.drawable.ic_error)
                                                             .into(profileIv);
 
-
                                                     Toast.makeText(RegisterActivity.this, "Registered...\n" + user.getEmail(), Toast.LENGTH_SHORT).show();
-                                                    startActivity(new Intent(RegisterActivity.this, HomeActivity.class ));
+                                                    startActivity(new Intent(RegisterActivity.this, HomeActivity.class));
                                                     finish();
                                                 }
                                             });
@@ -191,7 +180,6 @@ public class RegisterActivity extends AppCompatActivity  {
                                         }
                                     });
                         } else {
-                            // If sign in fails, display a message to the user.
                             progressDialog.dismiss();
                             Toast.makeText(RegisterActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                         }
@@ -200,10 +188,12 @@ public class RegisterActivity extends AppCompatActivity  {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         progressDialog.dismiss();
-                        Toast.makeText(RegisterActivity.this,""+e.getMessage(),Toast.LENGTH_SHORT).show();
+                        Toast.makeText(RegisterActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
     }
+
+
 
     //photo
     @Override
@@ -221,30 +211,34 @@ public class RegisterActivity extends AppCompatActivity  {
         progressDialog.setMessage("Uploading image...");
         progressDialog.show();
 
-        StorageReference profileRef = storageReference.child("users/" + auth.getCurrentUser().getUid() + "/profile.jpg");
-        profileRef.putFile(imageUri)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                            @Override
-                            public void onSuccess(Uri uri) {
-                                progressDialog.dismiss();
-                                String imageUrl = uri.toString();
-                                databaseReference.child("Users").child(auth.getCurrentUser().getUid()).child("image").setValue(imageUrl);
-                                Toast.makeText(RegisterActivity.this, "Image uploaded successfully", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        progressDialog.dismiss();
-                        Toast.makeText(RegisterActivity.this, "Failed to upload image", Toast.LENGTH_SHORT).show();
-                    }
-                });
+        FirebaseUser user = auth.getCurrentUser();
+        if (user != null) {
+            StorageReference profileRef = storageReference.child("users/" + user.getUid() + "/profile.jpg");
+            profileRef.putFile(imageUri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    progressDialog.dismiss();
+                                    String imageUrl = uri.toString();
+                                    databaseReference.child("Users").child(user.getUid()).child("image").setValue(imageUrl);
+                                    Toast.makeText(RegisterActivity.this, "Image uploaded successfully", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            progressDialog.dismiss();
+                            Toast.makeText(RegisterActivity.this, "Failed to upload image", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
     }
+
 //
 
 

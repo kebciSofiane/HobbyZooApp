@@ -48,7 +48,7 @@ public class NewActivity extends AppCompatActivity {
     ImageView animalImage;
     List<String> animals;
     int posAnimals;
-    String regexPattern = "^[a-zA-Z0-9]+$+' '";
+    String regexPattern = "^[a-zA-Z0-9 ]+$";
     Pattern pattern;
 
 
@@ -212,8 +212,8 @@ public class NewActivity extends AppCompatActivity {
             HashMap<Object, String> hashMap = new HashMap<>();
 
             hashMap.put("activity_id", activity_id);
-            hashMap.put("activity_name",activity_name);
-            hashMap.put("activity_pet_name", animalName);
+            hashMap.put("activity_name", activity_name.replace(" ", ","));
+            hashMap.put("activity_pet_name", animalName.replace(" ", ","));
             hashMap.put("activity_pet", animals.get(posAnimals));
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                 hashMap.put("weekly_goal", String.valueOf(weeklyGoal.getHour()*60 + weeklyGoal.getMinute()));
@@ -244,7 +244,7 @@ public class NewActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String user_id_cat = snapshot.child("user_id").getValue(String.class);
                     if(user_id.equals(user_id_cat))
-                        categories.add(snapshot.child("category_name").getValue(String.class));
+                        categories.add(snapshot.child("category_name").getValue(String.class).replace(",", " "));
                 }
                 categories.add("New Category");
             }

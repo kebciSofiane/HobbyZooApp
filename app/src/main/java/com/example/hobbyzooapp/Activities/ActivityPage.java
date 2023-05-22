@@ -82,8 +82,8 @@ public class ActivityPage extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     // Récupérez les informations de l'activité
-                     activityName = dataSnapshot.child("activity_name").getValue(String.class);
-                     activityPetName = dataSnapshot.child("activity_pet_name").getValue(String.class);
+                     activityName = dataSnapshot.child("activity_name").getValue(String.class).replace(",", " ");
+                     activityPetName = dataSnapshot.child("activity_pet_name").getValue(String.class).replace(",", " ");
                      activityPet = dataSnapshot.child("activity_pet").getValue(String.class);
                      weeklyGoal = dataSnapshot.child("weekly_goal").getValue(String.class);
                      spentTime = dataSnapshot.child("spent_time").getValue(String.class);

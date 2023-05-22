@@ -93,7 +93,7 @@ public class NewSession extends AppCompatActivity {
                     }
                     public void onNothingSelected(AdapterView<?> parent) {
                     }
-                });
+                });//todo penser verif si les espaces fonctionne dans les noms
 
 
 
@@ -103,19 +103,26 @@ public class NewSession extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 activityName = (String) activitySelector.getSelectedItem();
-                Date dateCourante = new Date();
-
+                LocalDate dateCourante = null;
+                int selectedYear = datePicker.getYear();
+                int selectedMonth = datePicker.getMonth() + 1;
+                int selectedDay = datePicker.getDayOfMonth();
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    dateCourante = LocalDate.now();
+                }
                 if(activityName.trim().isEmpty() || (timePicker.getHour() == 0 && timePicker.getMinute() == 0) || activitySelector.getSelectedItem() == null){
                     Toast.makeText(getApplicationContext(),"Field can't be empty!",Toast.LENGTH_LONG).show();
                 }
-                else if(dateCourante.getYear() > datePicker.getYear() || (dateCourante.getYear() == datePicker.getYear() && dateCourante.getMonth() > datePicker.getMonth()) || (dateCourante.getYear() == datePicker.getYear() && dateCourante.getMonth() == datePicker.getMonth() && dateCourante.getDay() > datePicker.getDayOfMonth())){
-                    Toast.makeText(getApplicationContext(),"The date can't be earlier!",Toast.LENGTH_LONG).show();
-                }
-                else{
-                    addDBSession();
-                    Intent intent = new Intent().setClass(getApplicationContext(), HomeActivity.class);
-                    startActivity(intent);
-                    finish();
+                else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    if (dateCourante.isAfter(LocalDate.of(selectedYear, selectedMonth, selectedDay))) {
+                        Toast.makeText(getApplicationContext(),"The date can't be earlier!",Toast.LENGTH_LONG).show();
+                    }
+                    else{
+                        addDBSession();
+                        Intent intent = new Intent().setClass(getApplicationContext(), HomeActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
                 }
             }
 
@@ -151,11 +158,12 @@ public class NewSession extends AppCompatActivity {
         hashMap.put("session_id", session_id);
         hashMap.put("session_duration", String.valueOf(minute_duration));
         hashMap.put("session_day", String.valueOf(datePicker.getDayOfMonth()));
-        hashMap.put("session_month", String.valueOf(datePicker.getMonth()));
+        hashMap.put("session_month", String.valueOf(datePicker.getMonth()+1));
         hashMap.put("session_year", String.valueOf(datePicker.getYear()));
         hashMap.put("session_picture", "");
         hashMap.put("session_comment", "");
         hashMap.put("activity_id", activity_id);
+        hashMap.put("user_id", user.getUid());
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
 
@@ -174,7 +182,7 @@ public class NewSession extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String user_id_cat = snapshot.child("user_id").getValue(String.class);
                     if(user_id.equals(user_id_cat))
-                        activities.add(snapshot.child("activity_name").getValue(String.class));
+                        activities.add(snapshot.child("activity_name").getValue(String.class).replace(",", " "));
                 }
                 activities.add("New Activity");
             }

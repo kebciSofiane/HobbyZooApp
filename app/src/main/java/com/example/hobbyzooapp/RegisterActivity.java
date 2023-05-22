@@ -53,7 +53,7 @@ public class RegisterActivity extends AppCompatActivity  {
     private StorageReference storageReference;
     private DatabaseReference databaseReference;
     private Uri imageUri;
-    private String regexPattern = "^[a-zA-Z0-9]+$";
+    private String regexPattern = "^[a-zA-Z0-9 ]+$";
     private Pattern pattern;
 
     private static final int PICK_IMAGE = 1;
@@ -167,7 +167,7 @@ public class RegisterActivity extends AppCompatActivity  {
                                                     HashMap<Object, String> hashMap = new HashMap<>();
                                                     hashMap.put("email", email);
                                                     hashMap.put("uid", uid);
-                                                    hashMap.put("pseudo", pseudo);
+                                                    hashMap.put("pseudo", pseudo.replace(" ", ","));
                                                     hashMap.put("image", imageUrl);
 
                                                     FirebaseDatabase database = FirebaseDatabase.getInstance();

@@ -48,7 +48,7 @@ public class NewCategory extends AppCompatActivity {
     Bitmap bitmap;
     FirebaseAuth firebaseAuth;
     Button validationButton;
-    String regexPattern = "^[a-zA-Z0-9]+$+' '";
+    String regexPattern = "^[a-zA-Z0-9 ]+$";
     Pattern pattern;
 
 
@@ -158,7 +158,7 @@ public class NewCategory extends AppCompatActivity {
         String category_id = newChildRef.getKey();
         HashMap<Object, String> hashMap = new HashMap<>();
         hashMap.put("category_id", category_id);
-        hashMap.put("category_name", name);
+        hashMap.put("category_name", name.replace(" ", ","));
         hashMap.put("category_color", colorHex);
         hashMap.put("user_id", user_id);
 

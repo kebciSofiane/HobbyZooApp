@@ -76,7 +76,7 @@ public class ProfileActivity extends AppCompatActivity {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if (snapshot.exists()) {
-                        String pseudo = snapshot.child("pseudo").getValue(String.class);
+                        String pseudo = snapshot.child("pseudo").getValue(String.class).replace(",", " ");
                         if (pseudo != null) {
                             usernameTextView.setText(pseudo);
                         }

@@ -43,7 +43,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/profile_username"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="58dp"
                 android:text="Edit profile"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
@@ -55,9 +55,9 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
-                android:adjustViewBounds="true"
-                android:scaleType="centerInside"
                 android:src="@drawable/ic_animal" />
+
+
 
         </RelativeLayout>
 
@@ -78,7 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:backgroundTint="@color/purple_200"
+                android:backgroundTint="@color/blue"
                 android:text="My evolution"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
@@ -89,7 +89,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:backgroundTint="@color/purple_200"
+                android:backgroundTint="@color/blue"
                 android:text="My activities"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
@@ -100,7 +100,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:backgroundTint="@color/purple_200"
+                android:backgroundTint="@color/blue"
                 android:text="Personal information"
                 android:textColor="@color/white"
                 android:textSize="16sp" />
@@ -111,7 +111,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:backgroundTint="@color/purple_200"
+                android:backgroundTint="@color/blue"
                 android:text="Settings"
                 android:textColor="@color/white"
                 android:textSize="16sp" />

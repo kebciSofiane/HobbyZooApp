@@ -23,8 +23,11 @@
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_my_activities.xml" value="0.3307291666666667" />
+        <entry key="app/src/main/res/layout/activity_new_activity.xml" value="0.3463541666666667" />
         <entry key="app/src/main/res/layout/activity_new_category.xml" value="0.2953125" />
-        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/activity_new_session.xml" value="0.3463541666666667" />
+        <entry key="app/src/main/res/layout/activity_page.xml" value="0.3463541666666667" />
+        <entry key="app/src/main/res/layout/activity_profile.xml" value="0.22" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_registrationorconnexion.xml" value="0.31979166666666664" />
         <entry key="app/src/main/res/layout/activity_run_session.xml" value="0.2916666666666667" />

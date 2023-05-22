@@ -41,8 +41,8 @@ public class ProfileActivity extends AppCompatActivity {
     private Button personalInfoButton;
     private Button myActivitiesButton;
     private Button followMyProgressButton;
-    private ImageButton homeButton;
-    private ImageButton settingsButton;
+    private ImageButton backButton;
+    private Button settingsButton;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseStorage storage;
@@ -66,7 +66,7 @@ public class ProfileActivity extends AppCompatActivity {
         personalInfoButton = findViewById(R.id.personal_info);
         myActivitiesButton = findViewById(R.id.my_activities);
         followMyProgressButton = findViewById(R.id.follow_my_progress);
-        homeButton = findViewById(R.id.home_button);
+        backButton = findViewById(R.id.backButton);
         settingsButton = findViewById(R.id.settings_button);
         databaseReference = FirebaseDatabase.getInstance().getReference("Users");
 
@@ -129,7 +129,7 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
 
-        homeButton.setOnClickListener(new View.OnClickListener() {
+        backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ProfileActivity.this, HomeActivity.class));

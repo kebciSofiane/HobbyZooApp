@@ -57,6 +57,14 @@
                     android:textColor="@color/title_page"
                     android:textSize="20sp" />
 
+                <EditText
+                    android:id="@+id/activityPageActivityNameEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:visibility="gone" />
+
             </LinearLayout>
 
         </LinearLayout>

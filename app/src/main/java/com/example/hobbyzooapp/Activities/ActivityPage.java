@@ -43,6 +43,7 @@ public class ActivityPage extends AppCompatActivity {
     TextView petName;
     Button editNamePetButton;
     EditText editTextPetName;
+    EditText editTextActivityName;
     Button validatePetName;
     Button showMoreButton;
     Button showLessButton;
@@ -94,7 +95,7 @@ public class ActivityPage extends AppCompatActivity {
                     int resId = ActivityPage.this.getResources().getIdentifier(resourceName,"drawable",ActivityPage.this.getPackageName());
                     petPic.setImageResource(resId);
                     activityNameDisplay.setText(activityName);
-
+                    goalsText.setText("Goal: "+spentTime+"/"+weeklyGoal);
 
 
                     DatabaseReference referenceCategory = database.getReference("Category");
@@ -145,6 +146,11 @@ public class ActivityPage extends AppCompatActivity {
         petName = findViewById(R.id.activityPagePetName);
         activityNameDisplay =findViewById(R.id.activityPageActivityName);
         header = findViewById(R.id.headerLayout);
+        goalsText = findViewById(R.id.activityPageGoalsText);
+        editNamePetButton = findViewById(R.id.activityPageEditPetNameButton);
+        editTextActivityName=findViewById(R.id.activityPageActivityNameEdit);
+
+
 
         getActivityData(activity_id);
 
@@ -157,14 +163,10 @@ public class ActivityPage extends AppCompatActivity {
 
         petPic = findViewById(R.id.activityPagePetPic);
         petName = findViewById(R.id.activityPagePetName);
-        petName.setText("Coco");
         petPic.setImageResource(R.drawable.koala_icon);
         showMoreButton = findViewById(R.id.activityPageShowMoreButton);
         showLessButton = findViewById(R.id.activityPageShowLessButton);
-        editNamePetButton = findViewById(R.id.activityPageEditPetNameButton);
-        goalsText = findViewById(R.id.activityPageGoalsText);
         homeButton = findViewById(R.id.homeButton);
-        goalsText.setText("Goal: 2h/5h");
         recyclerView = findViewById(R.id.activityPageRecyclerView);
         recyclerViewTodoList = findViewById(R.id.todoRecyclerView);
         GridLayoutManager layoutManager;
@@ -264,10 +266,13 @@ public class ActivityPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 editTextPetName.setText(petName.getText());
+                editTextActivityName.setText(activityNameDisplay.getText());
                 editTextPetName.setVisibility(View.VISIBLE);
+                editTextActivityName.setVisibility(View.VISIBLE);
                 editNamePetButton.setVisibility(View.GONE);
                 validatePetName.setVisibility(View.VISIBLE);
                 petName.setVisibility(View.GONE);
+                activityNameDisplay.setVisibility(View.GONE);
             }
         });
 
@@ -312,11 +317,39 @@ public class ActivityPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 editTextPetName.setVisibility(View.GONE);
+                editTextActivityName.setVisibility(View.GONE);
                 String newPetName = String.valueOf(editTextPetName.getText());;
+                String newActivityName = String.valueOf(editTextActivityName.getText());;
                 petName.setText(newPetName);
+                activityNameDisplay.setText(newActivityName);
                 editNamePetButton.setVisibility(View.VISIBLE);
                 validatePetName.setVisibility(View.GONE);
                 petName.setVisibility(View.VISIBLE);
+                activityNameDisplay.setVisibility(View.VISIBLE);
+
+                DatabaseReference activitiesRef = FirebaseDatabase.getInstance().getReference("Activity");
+                DatabaseReference activityRef = activitiesRef.child(activity_id);
+                activityRef.child("activity_pet_name").setValue(newPetName, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                        if (databaseError == null) {
+                            System.out.println("Activité modifiée avec succès !");
+                        } else {
+                            System.err.println("Erreur lors de la modification de l'activité : " + databaseError.getMessage());
+                        }
+                    }
+                });
+
+                activityRef.child("activity_name").setValue(newActivityName, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                        if (databaseError == null) {
+                            System.out.println("Activité modifiée avec succès !");
+                        } else {
+                            System.err.println("Erreur lors de la modification de l'activité : " + databaseError.getMessage());
+                        }
+                    }
+                });
             }
         });
 

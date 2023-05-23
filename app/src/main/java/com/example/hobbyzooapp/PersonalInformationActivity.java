@@ -1,6 +1,7 @@
 package com.example.hobbyzooapp;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,6 +12,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
@@ -19,14 +22,13 @@ import com.google.firebase.auth.FirebaseUser;
 public class PersonalInformationActivity extends AppCompatActivity {
 
     private TextView emailTv;
-    private LinearLayout passwordLayout;
+    private TextView passwordTv;
     private EditText passwordEt;
     private ImageView validateButton;
     private Button changePasswordBtn;
     private Button unregisterBtn;
 
-    private EditText newPasswordEt;
-    private EditText currentPasswordEt;
+
 
     private FirebaseAuth auth;
     private boolean isEditMode = false;
@@ -36,19 +38,18 @@ public class PersonalInformationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal_information);
 
-        FirebaseAuth auth = FirebaseAuth.getInstance();
+         auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
 
 
 
         emailTv = findViewById(R.id.emailTv);
-        passwordLayout = findViewById(R.id.passwordLayout);
-        passwordEt = findViewById(R.id.passwordEt);
+
+        passwordTv = findViewById(R.id.passwordTv);
         validateButton = findViewById(R.id.validateButton);
         changePasswordBtn = findViewById(R.id.changePasswordBtn);
         unregisterBtn = findViewById(R.id.unregisterBtn);
-        newPasswordEt = findViewById(R.id.passwordEt);
-        currentPasswordEt = findViewById(R.id.passwordEt);
+
         if (user != null) {
             String email = user.getEmail();
             emailTv.setText(email);
@@ -59,6 +60,7 @@ public class PersonalInformationActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (isEditMode) {
+
                     // Save password changes
                     changePassword();
                 } else {
@@ -80,46 +82,45 @@ public class PersonalInformationActivity extends AppCompatActivity {
     private void enterEditMode() {
         isEditMode = true;
 
+        passwordTv.setVisibility(View.GONE);
         // Show EditText for password
-        passwordEt.setVisibility(View.VISIBLE);
-        passwordEt.setText("");
+
+
 
         // Show validation button
         validateButton.setVisibility(View.VISIBLE);
 
         // Change button text
-        changePasswordBtn.setText("Save");
+        changePasswordBtn.setText("Send");
     }
 
     private void changePassword() {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser user = auth.getCurrentUser();
         if (user != null) {
             String email = user.getEmail();
-            String currentPassword = currentPasswordEt.getText().toString().trim();
-            String newPassword = newPasswordEt.getText().toString().trim();
+            String currentPassword = passwordTv.getText().toString().trim();
 
-            // Vérifier l'authentification de l'utilisateur avant de mettre à jour le mot de passe
-            AuthCredential credential = EmailAuthProvider.getCredential(email, currentPassword);
-            user.reauthenticate(credential)
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            user.updatePassword(newPassword)
-                                    .addOnCompleteListener(updateTask -> {
-                                        if (updateTask.isSuccessful()) {
-                                            Toast.makeText(PersonalInformationActivity.this, "Password updated successfully", Toast.LENGTH_SHORT).show();
-                                            currentPasswordEt.setText("");
-                                            newPasswordEt.setText("");
-                                            exitEditMode();
-                                        } else {
-                                            Toast.makeText(PersonalInformationActivity.this, "Failed to update password", Toast.LENGTH_SHORT).show();
-                                        }
-                                    });
-                        } else {
-                            Toast.makeText(PersonalInformationActivity.this, "Authentication failed. Please enter your current password correctly.", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+            sendPasswordResetEmail(user);
         }
     }
+
+    private void sendPasswordResetEmail(FirebaseUser user) {
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        String email = user.getEmail();
+        auth.sendPasswordResetEmail(email)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(PersonalInformationActivity.this, "Password reset email sent successfully", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(PersonalInformationActivity.this, "Failed to send password reset email", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+
+
+
 
     private void exitEditMode() {
         isEditMode = false;

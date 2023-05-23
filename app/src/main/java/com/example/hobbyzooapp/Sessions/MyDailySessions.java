@@ -3,6 +3,7 @@ package com.example.hobbyzooapp.Sessions;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -33,11 +35,11 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 
 public class MyDailySessions extends AppCompatActivity {
@@ -86,9 +88,6 @@ public class MyDailySessions extends AppCompatActivity {
         });
 
         sessionButton = findViewById(R.id.session);
-        //sessionList.add(new Session("Dessin", new Time(0, 1, 10), 10, 10, 2023));
-        //sessionList.add(new Session("Bougie", new Time(0, 2, 0), 15, 5, 2023));
-
 
         GridView sessionListView = findViewById(R.id.session_list_view);
         //LocalDate localDate = CalendarUtils.selectedDate;
@@ -117,7 +116,7 @@ public class MyDailySessions extends AppCompatActivity {
                 sessionListView.setAdapter(adapter);
             }
         };
-        sessions= getSessions(callback);
+        getSessions(callback);
 
 
 
@@ -157,17 +156,23 @@ public class MyDailySessions extends AppCompatActivity {
      FirebaseUser user = firebaseAuth.getCurrentUser();
      String uid = user.getUid();
      ArrayList<Session> mySessions = new ArrayList<>();
-     reference.addListenerForSingleValueEvent(new ValueEventListener() {
+     reference.orderByChild("user_id").equalTo(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+
          @Override
          public void onDataChange(DataSnapshot dataSnapshot) {
              for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                  String session_id = snapshot.child("session_id").getValue(String.class);
                  String session_duration = snapshot.child("session_duration").getValue(String.class);
                  String activity_id = snapshot.child("activity_id").getValue(String.class);
+                 String session_day = snapshot.child("session_day").getValue(String.class);
+                 String session_month = snapshot.child("session_month").getValue(String.class);
+                 String session_year = snapshot.child("session_year").getValue(String.class);
+
 
                  DatabaseReference referenceActivity = database.getReference("Activity");
 
                  referenceActivity.child(activity_id).addListenerForSingleValueEvent(new ValueEventListener() {
+                     @RequiresApi(api = Build.VERSION_CODES.O)
                      @Override
                      public void onDataChange(DataSnapshot dataSnapshot) {
                          if (dataSnapshot.exists()) {
@@ -175,7 +180,11 @@ public class MyDailySessions extends AppCompatActivity {
                              int hourDuration = Integer.parseInt(session_duration)/60;
                              int minutesDuration = Integer.parseInt(session_duration)%60;
 
-                             mySessions.add(new Session(session_id,activity_id,activityName,new Time(hourDuration,minutesDuration,0),22,5,2023));
+                                         mySessions.add(new Session(session_id,
+                                                 activity_id,
+                                                 activityName,
+                                                 new Time(hourDuration,minutesDuration,0),
+                                                 Integer.parseInt(session_day),Integer.parseInt(session_month),Integer.parseInt(session_year)));
                              callback.onSessionsLoaded(mySessions);
                          } else {
                              // L'activité n'existe pas dans la base de données

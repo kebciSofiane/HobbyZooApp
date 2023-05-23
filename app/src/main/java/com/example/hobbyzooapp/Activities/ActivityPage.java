@@ -4,9 +4,11 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,12 +19,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hobbyzooapp.HomeActivity;
 import com.example.hobbyzooapp.R;
+import com.example.hobbyzooapp.Sessions.OnSessionListRetrievedListener;
+import com.example.hobbyzooapp.Sessions.Session;
 import com.example.hobbyzooapp.TodoTask;
 import com.example.hobbyzooapp.Sessions.ListSessionsAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,6 +38,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -75,8 +81,6 @@ public class ActivityPage extends AppCompatActivity {
     public void getActivityData(String activity_id){
          database = FirebaseDatabase.getInstance();
          referenceActivity = database.getReference("Activity");
-
-
 
         referenceActivity.child(activity_id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -140,6 +144,37 @@ public class ActivityPage extends AppCompatActivity {
 
     }
 
+    private ArrayList<String> getSessionList(String activity_id, OnSessionListRetrievedListener listener){
+        DatabaseReference reference = database.getReference("Session");
+        ArrayList<String> mySessions = new ArrayList<>();
+        reference.orderByChild("activity_id").equalTo(activity_id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String session_id = snapshot.child("session_id").getValue(String.class);
+                    String session_duration = snapshot.child("session_duration").getValue(String.class);
+                    String activity_id = snapshot.child("activity_id").getValue(String.class);
+                    String session_day = snapshot.child("session_day").getValue(String.class);
+                    String session_month = snapshot.child("session_month").getValue(String.class);
+                    String session_year = snapshot.child("session_year").getValue(String.class);
+                    int hourDuration = Integer.parseInt(session_duration)/60;
+                    int minutesDuration = Integer.parseInt(session_duration)%60;
+                    String session = session_day+"/"+session_month+"/"+session_year+" for "+hourDuration+"h:"+minutesDuration;
+                    mySessions.add(session);
+                }
+                listener.onSessionListRetrieved(mySessions);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("TAG", "Erreur lors de la récupération des données", databaseError.toException());
+            }
+        });
+
+        return  mySessions;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,11 +195,15 @@ public class ActivityPage extends AppCompatActivity {
         getActivityData(activity_id);
 
         firebaseAuth = FirebaseAuth.getInstance();
+        getSessionList(activity_id, new OnSessionListRetrievedListener() {
+            @Override
+            public void onSessionListRetrieved(ArrayList<String> sessionList) {
+                adapter = new ListSessionsAdapter(sessionList);
+                recyclerView.setAdapter(adapter);
 
-        items.addAll(List.of("5 juin à 13h00 - 15 min","7 juin à 13h00 - 15 min","13 juin à 13h00 - 15 min",
-                "5 juin à 13h00 - 15 min","5 juin à 13h00 - 15 min","5 juin à 13h00 - 15 min",
-                "5 juin à 13h00 - 15 min","7 juin à 13h00 - 15 min","16 juillet à 13h00 - 15 min",
-                "5 juin à 13h00 - 15 min","5 juin à 13h00 - 15 min","5 juin à 13h00 - 15 min"));
+            }
+        });
+
 
         petPic = findViewById(R.id.activityPagePetPic);
         petName = findViewById(R.id.activityPagePetName);
@@ -174,15 +213,14 @@ public class ActivityPage extends AppCompatActivity {
         homeButton = findViewById(R.id.homeButton);
         recyclerView = findViewById(R.id.activityPageRecyclerView);
         recyclerViewTodoList = findViewById(R.id.todoRecyclerView);
-        GridLayoutManager layoutManager;
         addToTodoListButton = findViewById(R.id.addToTodoListButton);
         validateToTodoListButton = findViewById(R.id.validateToTodoListButton);
         addToTodoListText = findViewById(R.id.addToTodoListText);
 
         changeManager();
 
-        adapter = new ListSessionsAdapter(items);
-        recyclerView.setAdapter(adapter);
+
+
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
         database = FirebaseDatabase.getInstance();

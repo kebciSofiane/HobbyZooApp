@@ -99,15 +99,11 @@ public class RegisterActivity extends AppCompatActivity {
                     passwordEt.setError("password must have at least 8 characters");
                     passwordEt.setFocusable(true);
                 } else {
-                    // Ajout de la photo
-                    if (imageUri == null) {
-                        Toast.makeText(RegisterActivity.this, "Please select an image", Toast.LENGTH_SHORT).show();
-                    } else {
-                        registerUser(email, password, pseudo, imageUri);
-                    }
+                    registerUser(email, password, pseudo, imageUri);
                 }
             }
         });
+
 
         haveAccountTv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,48 +132,74 @@ public class RegisterActivity extends AppCompatActivity {
                                             String uid = user.getUid();
                                             String pseudo = pseudoET.getText().toString().trim();
 
-                                            StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("users/" + uid + "/profile.jpg");
+                                            if (imageUri == null) {
+                                                // Pas d'image sélectionnée
+                                                HashMap<String, Object> userMap = new HashMap<>();
+                                                userMap.put("email", email);
+                                                userMap.put("uid", uid);
+                                                userMap.put("pseudo", pseudo);
+                                                userMap.put("emailVerified", false);
 
-                                            storageRef.putFile(imageUri)
-                                                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                                                        @Override
-                                                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                                            storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                                                @Override
-                                                                public void onSuccess(Uri uri) {
-                                                                    String imageUrl = uri.toString();
-                                                                    HashMap<String, Object> userMap = new HashMap<>();
-                                                                    userMap.put("email", email);
-                                                                    userMap.put("uid", uid);
-                                                                    userMap.put("pseudo", pseudo);
-                                                                    userMap.put("image", imageUrl);
-                                                                    userMap.put("emailVerified", false);
+                                                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+                                                reference.child(uid).setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if (task.isSuccessful()) {
+                                                            Toast.makeText(RegisterActivity.this, "Registered...\nA verification email has been sent to " + email, Toast.LENGTH_LONG).show();
+                                                            // Déconnecter l'utilisateur après l'enregistrement
+                                                            FirebaseAuth.getInstance().signOut();
+                                                            startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                                                            finish();
+                                                        } else {
+                                                            Toast.makeText(RegisterActivity.this, "Failed to register. Please try again.", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+                                                });
+                                            } else {
+                                                // Image sélectionnée
+                                                StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("users/" + uid + "/profile.jpg");
 
-                                                                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
-                                                                    reference.child(uid).setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                        @Override
-                                                                        public void onComplete(@NonNull Task<Void> task) {
-                                                                            if (task.isSuccessful()) {
-                                                                                Toast.makeText(RegisterActivity.this, "Registered...\nA verification email has been sent to " + email, Toast.LENGTH_LONG).show();
-                                                                                // Déconnecter l'utilisateur après l'enregistrement
-                                                                                FirebaseAuth.getInstance().signOut();
-                                                                                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
-                                                                                finish();
-                                                                            } else {
-                                                                                Toast.makeText(RegisterActivity.this, "Failed to register. Please try again.", Toast.LENGTH_SHORT).show();
+                                                storageRef.putFile(imageUri)
+                                                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                                            @Override
+                                                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                                                storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                                    @Override
+                                                                    public void onSuccess(Uri uri) {
+                                                                        String imageUrl = uri.toString();
+                                                                        HashMap<String, Object> userMap = new HashMap<>();
+                                                                        userMap.put("email", email);
+                                                                        userMap.put("uid", uid);
+                                                                        userMap.put("pseudo", pseudo);
+                                                                        userMap.put("image", imageUrl);
+                                                                        userMap.put("emailVerified", false);
+
+                                                                        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
+                                                                        reference.child(uid).setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                            @Override
+                                                                            public void onComplete(@NonNull Task<Void> task) {
+                                                                                if (task.isSuccessful()) {
+                                                                                    Toast.makeText(RegisterActivity.this, "Registered...\nA verification email has been sent to " + email, Toast.LENGTH_LONG).show();
+                                                                                    // Déconnecter l'utilisateur après l'enregistrement
+                                                                                    FirebaseAuth.getInstance().signOut();
+                                                                                    startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                                                                                    finish();
+                                                                                } else {
+                                                                                    Toast.makeText(RegisterActivity.this, "Failed to register. Please try again.", Toast.LENGTH_SHORT).show();
+                                                                                }
                                                                             }
-                                                                        }
-                                                                    });
-                                                                }
-                                                            });
-                                                        }
-                                                    })
-                                                    .addOnFailureListener(new OnFailureListener() {
-                                                        @Override
-                                                        public void onFailure(@NonNull Exception e) {
-                                                            Toast.makeText(RegisterActivity.this, "Failed to upload image. " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                                                        }
-                                                    });
+                                                                        });
+                                                                    }
+                                                                });
+                                                            }
+                                                        })
+                                                        .addOnFailureListener(new OnFailureListener() {
+                                                            @Override
+                                                            public void onFailure(@NonNull Exception e) {
+                                                                Toast.makeText(RegisterActivity.this, "Failed to upload image. " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                            }
+                                                        });
+                                            }
                                         } else {
                                             Toast.makeText(RegisterActivity.this, "Failed to send verification email.", Toast.LENGTH_SHORT).show();
                                         }

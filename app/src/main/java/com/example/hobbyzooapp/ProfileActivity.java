@@ -98,7 +98,7 @@ public class ProfileActivity extends AppCompatActivity {
                                     .into(profileImageView);
                         } else {
                             Glide.with(ProfileActivity.this)
-                                    .load(R.drawable.ic_profile)
+                                    .load(R.drawable.ic_animal)
                                     .into(profileImageView);
                         }
                     }

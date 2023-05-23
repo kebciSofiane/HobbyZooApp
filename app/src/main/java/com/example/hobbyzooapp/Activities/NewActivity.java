@@ -148,7 +148,7 @@ public class NewActivity extends AppCompatActivity {
                 Matcher matcherActivityName = pattern.matcher(activity_name);
                 Matcher matcherAnimalName = pattern.matcher(animalName);
 
-                if(activity_name.trim().isEmpty() || animalName.trim().isEmpty() || (weeklyGoal.getMinute() ==0 && weeklyGoal.getHour() == 0 ) || categorySelector.getSelectedItem() == null){
+                if(activity_name.trim().isEmpty() || activity_name == null|| animalName.trim().isEmpty() || (weeklyGoal.getMinute() ==0 && weeklyGoal.getHour() == 0 ) || categorySelector.getSelectedItem() == null){
                     Toast.makeText(getApplicationContext(),"Field can't be empty!",Toast.LENGTH_LONG).show();
                 }
                 else if(!matcherAnimalName.matches() || !matcherActivityName.matches()){
@@ -163,7 +163,7 @@ public class NewActivity extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                 String userId = snapshot.child("user_id").getValue(String.class);
-                                String nameActivity = snapshot.child("activity_name").getValue(String.class);
+                                String nameActivity = snapshot.child("activity_name").getValue(String.class).replace(",", " ");
                                 if(userId.equals(user.getUid()) && nameActivity.equals(activity_name))
                                     activities.add(activity_name);
                             }

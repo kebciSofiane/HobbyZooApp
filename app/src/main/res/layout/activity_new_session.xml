@@ -70,25 +70,38 @@
             app:layout_constraintTop_toBottomOf="@+id/timePicker"
             tools:ignore="MissingConstraints" />
 
-        <Button
+
+        <ImageView
             android:id="@+id/validationButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="88dp"
+            android:layout_height="66dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
-            android:text="@string/validate"
-            app:backgroundTint="@color/valid"
+            android:layout_marginEnd="75dp"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/circle_check_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/returnButton"
             app:layout_constraintTop_toBottomOf="@+id/datePicker" />
+
+        <ImageView
+            android:id="@+id/returnButton"
+            android:layout_width="88dp"
+            android:layout_height="66dp"
+            android:layout_marginStart="75dp"
+            android:layout_marginBottom="10dp"
+            android:src="@drawable/circle_red_cross_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TimePicker
             android:id="@+id/timePicker"
             android:layout_width="256dp"
             android:layout_height="158dp"
             android:layout_marginTop="24dp"
-            android:background="@color/inputColor"
+            android:background="@color/brown_btn"
 
             android:timePickerMode="spinner"
             app:layout_constraintEnd_toEndOf="parent"
@@ -103,8 +116,8 @@
             android:layout_marginTop="24dp"
             android:datePickerMode="calendar"
             android:minDate=""
-            android:background="@color/gray"
-            android:headerBackground="@color/inputColor"
+            android:background="@color/light_calendar"
+            android:headerBackground="@color/brown_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -117,7 +130,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
-            android:background="@color/inputColor"
+            android:background="@color/brown_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"

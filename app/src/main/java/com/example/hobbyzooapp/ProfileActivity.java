@@ -78,7 +78,7 @@ public class ProfileActivity extends AppCompatActivity {
                     if (snapshot.exists()) {
                         String pseudo = snapshot.child("pseudo").getValue(String.class);
                         if (pseudo != null) {
-                            usernameTextView.setText(pseudo);
+                            usernameTextView.setText(pseudo.replace(",", " "));
                         }
                     }
                 }

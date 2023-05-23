@@ -250,10 +250,12 @@ public class RegisterActivity extends AppCompatActivity {
                             profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    progressDialog.dismiss();
+                                    //progressDialog.dismiss();
                                     String imageUrl = uri.toString();
                                     databaseReference.child("Users").child(user.getUid()).child("image").setValue(imageUrl);
                                     Toast.makeText(RegisterActivity.this, "Image uploaded successfully", Toast.LENGTH_SHORT).show();
+                                    progressDialog.dismiss();
+
                                 }
                             });
                         }

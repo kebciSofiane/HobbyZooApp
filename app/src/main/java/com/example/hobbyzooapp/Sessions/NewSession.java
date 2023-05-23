@@ -182,7 +182,6 @@ public class NewSession extends AppCompatActivity {
     List<String> setActivities(){
         List<String> activities = new ArrayList<>();
         DatabaseReference databaseReferenceChild = FirebaseDatabase.getInstance().getReference().child("Activity");
-
         databaseReferenceChild.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

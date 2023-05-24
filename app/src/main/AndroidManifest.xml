@@ -18,6 +18,9 @@
         android:theme="@style/Theme.HobbyZooApp"
         tools:targetApi="31">
         <activity
+            android:name=".PersonalInformationActivity"
+            android:label="Personal Information" />
+        <activity
             android:name=".SettingsActivity"
             android:exported="false" />
         <activity
@@ -91,7 +94,6 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
-
     </application>
 
 </manifest>

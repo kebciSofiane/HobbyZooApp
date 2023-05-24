@@ -5,7 +5,11 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.BoringLayout;
@@ -42,22 +46,12 @@ import java.util.Random;
 public class HomeActivity extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
-
-    ActionBar actionBar;
-
-    ImageView fenceImage;
-
     Button next;
     Button previous;
 
     private int currentIndex=0;
     private int currentIndex2=0;
     private int currentIndex3=0;
-
-
-
-
-
 
     ImageButton calendarBtn, runBtn, profileBtn;
 
@@ -109,7 +103,7 @@ public class HomeActivity extends AppCompatActivity {
                     String activity_pet = snapshot.child("activity_pet").getValue(String.class);
                     String activity_name = snapshot.child("activity_name").getValue(String.class);
 
-                    String resourceName = activity_pet+"_full_icon";
+                    String resourceName = activity_pet+"_whole_neutral";
                     int resId = HomeActivity.this.getResources().getIdentifier(resourceName,"drawable",HomeActivity.this.getPackageName());
                     imageList.add(resId);
                     activities_name_List.add(activity_name);
@@ -138,7 +132,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-
+        weeklyEvent();
 
         firebaseAuth = FirebaseAuth.getInstance();
         next = findViewById(R.id.scrollAnimalsRight);
@@ -405,6 +399,34 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    private void weeklyEvent() {
+        // Obtenez une instance de l'AlarmManager
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        // Créez un objet Calendar et configurez-le pour le prochain lundi
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
+        calendar.set(Calendar.HOUR_OF_DAY, 15);
+        calendar.set(Calendar.MINUTE, 15);
+
+        // Vérifiez si la date programmée est déjà passée, sinon ajoutez 7 jours
+        if (calendar.getTimeInMillis() < System.currentTimeMillis()) {
+            calendar.add(Calendar.DAY_OF_YEAR, 7);
+        }
+
+        // Créez une intention pour votre BroadcastReceiver
+        Intent intent = new Intent(this, WeeklyEventReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 123, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+        // Planifiez l'alarme récurrente tous les lundis à l'heure spécifiée
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                AlarmManager.INTERVAL_DAY * 7, pendingIntent);
+    }
+
+
+
     private void showAnimals() {
 
         Random random = new Random();
@@ -571,5 +593,6 @@ public class HomeActivity extends AppCompatActivity {
             params5.topMargin = image5Y;
             linearLayout5.setLayoutParams(params5);
         }
+
 
     }

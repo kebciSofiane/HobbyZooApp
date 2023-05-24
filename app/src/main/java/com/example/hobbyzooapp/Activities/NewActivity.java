@@ -67,7 +67,7 @@ public class NewActivity extends AppCompatActivity {
                     posAnimals++;
                 else
                     posAnimals = 0;
-                int animalId = getResources().getIdentifier(animals.get(posAnimals)+"_full_icon", "drawable", getPackageName());
+                int animalId = getResources().getIdentifier(animals.get(posAnimals)+"_whole_neutral", "drawable", getPackageName());
                 animalImage.setImageResource(animalId);
                 animalImage.invalidate();
             }
@@ -80,7 +80,7 @@ public class NewActivity extends AppCompatActivity {
                     posAnimals--;
                 else
                     posAnimals = animals.size()-1;
-                int animalId = getResources().getIdentifier(animals.get(posAnimals)+"_full_icon", "drawable", getPackageName());
+                int animalId = getResources().getIdentifier(animals.get(posAnimals)+"_whole_neutral", "drawable", getPackageName());
                 animalImage.setImageResource(animalId);
                 animalImage.invalidate();
             }
@@ -252,7 +252,7 @@ public class NewActivity extends AppCompatActivity {
 
     private void setAnimals() {
         posAnimals = 0;
-        animals = new ArrayList<>(Arrays.asList("sheep", "cat", "chick", "giraffe", "koala", "lion", "rabbit", "tiger", "tl"));
+        animals = new ArrayList<>(Arrays.asList("sheep", "koala", "cat", "dog", "chick", "chicken", "giraffe", "lion", "rabbit", "tiger", "deer", "bear", "beaver", "cow", "monkey", "panda", "pig", "raccoon", "squirrel"));
     }
 
     List<String> setCategories(){

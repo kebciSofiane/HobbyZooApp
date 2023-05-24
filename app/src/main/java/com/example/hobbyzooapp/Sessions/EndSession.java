@@ -189,7 +189,7 @@ public class EndSession extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //todo ajout photo bdd
-                databaseReference.child("Session").child(firebaseAuth.getCurrentUser().getUid()).child("session_picture_file").setValue(photoPath);
+                //databaseReference.child("Session").child(firebaseAuth.getCurrentUser().getUid()).child("session_picture_file").setValue(photoPath);
                 endSession();
             }
         });

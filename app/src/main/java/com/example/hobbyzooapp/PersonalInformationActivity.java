@@ -22,9 +22,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class PersonalInformationActivity extends AppCompatActivity {
 
     private TextView emailTv;
-    private TextView passwordTv;
-    private EditText passwordEt;
-    private ImageView validateButton;
+
     private Button changePasswordBtn;
     private Button unregisterBtn;
 
@@ -45,8 +43,6 @@ public class PersonalInformationActivity extends AppCompatActivity {
 
         emailTv = findViewById(R.id.emailTv);
 
-        passwordTv = findViewById(R.id.passwordTv);
-        validateButton = findViewById(R.id.validateButton);
         changePasswordBtn = findViewById(R.id.changePasswordBtn);
         unregisterBtn = findViewById(R.id.unregisterBtn);
 
@@ -81,15 +77,6 @@ public class PersonalInformationActivity extends AppCompatActivity {
 
     private void enterEditMode() {
         isEditMode = true;
-
-        passwordTv.setVisibility(View.GONE);
-        // Show EditText for password
-
-
-
-        // Show validation button
-        validateButton.setVisibility(View.VISIBLE);
-
         // Change button text
         changePasswordBtn.setText("Send");
     }
@@ -99,8 +86,6 @@ public class PersonalInformationActivity extends AppCompatActivity {
         FirebaseUser user = auth.getCurrentUser();
         if (user != null) {
             String email = user.getEmail();
-            String currentPassword = passwordTv.getText().toString().trim();
-
             sendPasswordResetEmail(user);
         }
     }
@@ -118,22 +103,6 @@ public class PersonalInformationActivity extends AppCompatActivity {
                 });
     }
 
-
-
-
-
-    private void exitEditMode() {
-        isEditMode = false;
-
-        // Hide EditText for password
-        passwordEt.setVisibility(View.GONE);
-
-        // Hide validation button
-        validateButton.setVisibility(View.GONE);
-
-        // Change button text
-        changePasswordBtn.setText("Change Password");
-    }
 
     private void unregisterUser() {
         FirebaseAuth auth = FirebaseAuth.getInstance();

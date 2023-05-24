@@ -106,10 +106,15 @@ public class ActivityPage extends AppCompatActivity {
                     petPic.setImageResource(resId);
                     activityNameDisplay.setText(activityName);
                     int weeklyHours = Integer.parseInt(weeklyGoal) / 60;
-                    int weeklyMinutes = Integer.parseInt(weeklyGoal) % 60;
+                    String weeklyMinutes = Integer.parseInt(weeklyGoal) % 60+"";
+                    if((Integer.parseInt(weeklyGoal) % 60) < 10)
+                        weeklyMinutes = "0"+Integer.parseInt(weeklyGoal) % 60;
+
 
                     int weeklySpentHours = Integer.parseInt(spentTime) / 60;
-                    int weeklySpentMinutes = Integer.parseInt(spentTime) % 60;
+                    String weeklySpentMinutes = Integer.parseInt(spentTime) % 60+"";
+                    if((Integer.parseInt(spentTime) % 60) < 10)
+                        weeklySpentMinutes = "0"+Integer.parseInt(spentTime) % 60;
                     goalsText.setText("Weekly Goal: "+weeklySpentHours+"h"+weeklySpentMinutes+"/"+weeklyHours+"h"+weeklyMinutes);
 
 
@@ -164,8 +169,10 @@ public class ActivityPage extends AppCompatActivity {
                     String session_month = snapshot.child("session_month").getValue(String.class);
                     String session_year = snapshot.child("session_year").getValue(String.class);
                     int hourDuration = Integer.parseInt(session_duration)/60;
-                    int minutesDuration = Integer.parseInt(session_duration)%60;
-                    String session = session_day+"/"+session_month+"/"+session_year+" for "+hourDuration+"h:"+minutesDuration;
+                    String minutesDuration = Integer.parseInt(session_duration) % 60+"";
+                    if((Integer.parseInt(session_duration) % 60) < 10)
+                        minutesDuration = "0"+Integer.parseInt(session_duration) % 60;
+                    String session = session_day+"/"+session_month+"/"+session_year+" for "+hourDuration+":"+minutesDuration;
                     mySessions.add(session);
                 }
                 listener.onSessionListRetrieved(mySessions);

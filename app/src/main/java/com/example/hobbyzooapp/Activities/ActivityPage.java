@@ -411,6 +411,7 @@ public class ActivityPage extends AppCompatActivity {
 //            }
 //        });
 //
+
     }
 
     private void changeManager() {

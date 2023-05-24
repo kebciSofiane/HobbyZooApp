@@ -196,6 +196,16 @@ public class ActivityPage extends AppCompatActivity {
         });
 
     }
+    private GridLayoutManager  changeManagerToDoList() {
+        GridLayoutManager layoutManager;
+        if (todoList.size()<=5 && todoList.size()>0 )
+            layoutManager = new GridLayoutManager(this, todoList.size(), GridLayoutManager.HORIZONTAL, false);
+        else
+            layoutManager = new GridLayoutManager(this, 5, GridLayoutManager.HORIZONTAL, false);
+
+        return  layoutManager;
+    }
+
 
 
     @Override
@@ -250,7 +260,8 @@ public class ActivityPage extends AppCompatActivity {
 
         HashMap<String, String> tasks = new HashMap<>();
         TodoAdapter adapterTodoList = new TodoAdapter(todoList);
-        recyclerViewTodoList.setLayoutManager(new GridLayoutManager(this, 5, GridLayoutManager.HORIZONTAL, false));
+
+
         recyclerViewTodoList.setAdapter(adapterTodoList);
 
         databaseReference.addValueEventListener(new ValueEventListener(){
@@ -267,6 +278,12 @@ public class ActivityPage extends AppCompatActivity {
                     }
                 }
                 adapterTodoList.notifyDataSetChanged();
+                if (todoList.size()>0 && todoList.size()<=5)
+                    recyclerViewTodoList.setLayoutManager(new GridLayoutManager(ActivityPage.this, todoList.size(), GridLayoutManager.HORIZONTAL, false));
+                else if (todoList.size()==0 )
+                    recyclerViewTodoList.setLayoutManager(new GridLayoutManager(ActivityPage.this, 1, GridLayoutManager.HORIZONTAL, false));
+                else
+                    recyclerViewTodoList.setLayoutManager(new GridLayoutManager(ActivityPage.this, 5, GridLayoutManager.HORIZONTAL, false));
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -295,6 +312,7 @@ public class ActivityPage extends AppCompatActivity {
                     reference.child(taskId).setValue(tasks);
                     adapterTodoList.notifyDataSetChanged();
                 }
+                addToTodoListButton.setVisibility(View.VISIBLE);
                 addToTodoListText.setText("");
             }
         });

@@ -5,25 +5,30 @@
     android:layout_height="match_parent">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:ignore="MissingConstraints"
-        >
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        tools:ignore="MissingConstraints">
 
         <CheckBox
             android:id="@+id/taskStatusCheckbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="20sp"
-            />
+            android:paddingLeft="20sp" />
 
         <TextView
             android:id="@+id/taskNameTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:textSize="16sp" />
 
-
+        <Button
+            android:id="@+id/deleteTaskButton"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/delete_icon" />
 
     </LinearLayout>
 

@@ -104,14 +104,16 @@
 
                 <LinearLayout
                     android:id="@+id/activityPageLinearLayoutNextSessionsAndShowButton"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/myNextSessionstext">
+                    android:layout_below="@id/myNextSessionstext"
+                    android:orientation="horizontal"
+                    android:layout_marginRight="40dp">
 
 
                     <LinearLayout
                         android:id="@+id/activityPageLinearLayoutNextSessions"
-                        android:layout_width="250sp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
@@ -136,8 +138,8 @@
 
                     <Button
                         android:id="@+id/activityPageShowMoreButton"
-                        android:layout_width="30sp"
-                        android:layout_height="30sp"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/plus_icon"
                         android:visibility="visible" />
@@ -170,17 +172,19 @@
 
                 <LinearLayout
                     android:id="@+id/activityPageLinearLayoutTodoList"
-                    android:layout_width="250sp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/activityPageGoalsText"
                     android:orientation="horizontal">
 
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/todoRecyclerView"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_below="@id/activityPageGoalsText"
                         android:layout_marginLeft="30sp"
+                        android:layout_marginRight="30sp"
+
                         android:background="@drawable/border"
                         android:orientation="vertical"
                         android:padding="20sp" />
@@ -189,37 +193,39 @@
 
                 <LinearLayout
                     android:id="@+id/activityPageLinearLayoutTextAndValidateNewElementTodoList"
-                    android:layout_width="250sp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:background="@drawable/border"
-                    android:layout_marginLeft="30sp"
                     android:layout_below="@id/activityPageLinearLayoutTodoList"
+                    android:layout_marginLeft="30sp"
+                    android:layout_marginRight="30sp"
+                    android:background="@drawable/border"
+                    android:orientation="horizontal"
                     android:paddingLeft="20sp"
 
                     >
+
                     <Button
                         android:id="@+id/validateToTodoListButton"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
+                        android:layout_gravity="center"
                         android:background="@drawable/add_check_box"
-                        android:visibility="gone"
-                        android:layout_gravity="center" />
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/addToTodoListButton"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
+                        android:layout_gravity="center"
                         android:background="@drawable/add_check_box"
-                        android:visibility="visible"
-                        android:layout_gravity="center"/>
+                        android:visibility="visible" />
 
                     <EditText
                         android:id="@+id/addToTodoListText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:hint="Add a element"
-                        android:layout_gravity="center"/>
+                        android:layout_gravity="center"
+                        android:hint="Add a element" />
 
 
                 </LinearLayout>
@@ -233,16 +239,13 @@
 
         <ImageButton
             android:id="@+id/homeButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="30dp"
-            android:layout_marginBottom="30dp"
-            android:backgroundTint="@color/green_btn"
             android:scaleType="center"
-            app:srcCompat="@drawable/ic_home"
-            app:tint="@color/green_btn_text" />
+            app:srcCompat="@drawable/ic_home" />
 
     </RelativeLayout>
 

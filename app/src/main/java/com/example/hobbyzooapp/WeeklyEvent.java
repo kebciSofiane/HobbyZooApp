@@ -14,7 +14,7 @@ public class WeeklyEvent extends AppCompatActivity {
     // ...
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void scheduleWeeklyEvent() {
+    public void scheduleWeeklyEvent() {
         // Créer une intention pour le récepteur de diffusion (BroadcastReceiver)
         Intent intent = new Intent(this, WeeklyEventReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
@@ -25,9 +25,9 @@ public class WeeklyEvent extends AppCompatActivity {
         // Définir l'heure de début de l'événement hebdomadaire
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        calendar.set(Calendar.HOUR_OF_DAY, 0);
-        calendar.set(Calendar.MINUTE, 1);
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
+        calendar.set(Calendar.HOUR_OF_DAY, 13);
+        calendar.set(Calendar.MINUTE, 16);
 
         // Planifier l'événement hebdomadaire
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),

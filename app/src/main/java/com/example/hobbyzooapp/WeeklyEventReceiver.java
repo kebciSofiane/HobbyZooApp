@@ -28,7 +28,6 @@ public class WeeklyEventReceiver extends BroadcastReceiver {
                     DatabaseReference elementRef = tableRef.child(activity_id);
                     Map<String, Object> updates = new HashMap<>();
                     updates.put("spent_time", "0");
-
                     elementRef.updateChildren(updates);
                 }
             }

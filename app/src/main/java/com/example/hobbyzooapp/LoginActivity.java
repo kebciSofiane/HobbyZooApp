@@ -193,10 +193,16 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            progressDialog.dismiss();
                             FirebaseUser user = firebaseAuth.getCurrentUser();
-                            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
-                            finish();
+                            if (user != null && user.isEmailVerified()) {
+                                progressDialog.dismiss();
+                                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                                finish();
+                            } else {
+                                progressDialog.dismiss();
+                                Toast.makeText(LoginActivity.this, "Please verify your email before logging in.", Toast.LENGTH_SHORT).show();
+                                firebaseAuth.signOut();
+                            }
                         } else {
                             progressDialog.dismiss();
                             // If sign in fails, display a message to the user.
@@ -210,8 +216,8 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
-
     }
+
 
     @Override
     public boolean onSupportNavigateUp() {

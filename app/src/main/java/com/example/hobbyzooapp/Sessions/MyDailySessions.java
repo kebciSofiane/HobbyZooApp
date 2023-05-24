@@ -49,7 +49,8 @@ public class MyDailySessions extends AppCompatActivity {
     private ImageButton calendarButton;
     private View sessionButton;
     FirebaseAuth firebaseAuth;
-    public static LocalDate localDate = null;
+    public LocalDate localDate = CalendarUtils.selectedDate;
+
     MyDailySessionsAdapter adapter;
 
 
@@ -121,6 +122,7 @@ public class MyDailySessions extends AppCompatActivity {
 
 
         TextView dateSession = findViewById(R.id.dateSession);
+
         String date = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             date = localDate.getDayOfMonth() + "/" + localDate.getMonth().getValue() + "/" + localDate.getYear();

@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.example.hobbyzooapp.Activities.ActivityPage;
 import com.example.hobbyzooapp.Calendar.CalendarActivity;
+import com.example.hobbyzooapp.Calendar.CalendarUtils;
 import com.example.hobbyzooapp.Sessions.MyDailySessions;
 import com.example.hobbyzooapp.Sessions.RunSession;
 import com.google.firebase.auth.FirebaseAuth;
@@ -47,6 +48,7 @@ public class HomeActivity extends AppCompatActivity {
 
     ImageView fenceImage;
 
+    LocalDate localDate = CalendarUtils.selectedDate;
     Button next;
     Button previous;
 
@@ -188,7 +190,7 @@ public class HomeActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
-                MyDailySessions.localDate= LocalDate.now();
+                localDate= LocalDate.now();
                 startActivity(new Intent(HomeActivity.this, MyDailySessions.class));
 
             }

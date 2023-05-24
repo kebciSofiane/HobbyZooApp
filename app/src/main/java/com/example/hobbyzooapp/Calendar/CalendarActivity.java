@@ -114,7 +114,6 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
         if(date != null)
         {
             CalendarUtils.selectedDate = date;
-            MyDailySessions.localDate=date;
             openTodaySessions();
         }
     }

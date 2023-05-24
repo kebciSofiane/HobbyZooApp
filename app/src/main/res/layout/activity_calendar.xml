@@ -11,18 +11,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-    <Button
-        android:layout_width="wrap_content"
-        android:id="@+id/weekly_view"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Weekly details"
-        android:background="@null"
-        android:textStyle="bold"
-        android:backgroundTint="@color/green_btn"
-        android:textColor="@color/green_btn_text"
-        android:textSize="20sp"/>
-
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -152,8 +140,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginStart="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="30dp"
         android:layout_marginBottom="30dp"
         android:background="@color/transparent"
         android:text="@string/back_back"
@@ -176,16 +164,17 @@
 
     <ImageButton
         android:id="@+id/home_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
+        android:layout_width="58dp"
+        android:layout_height="62dp"
+        android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="30dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
         android:layout_marginBottom="30dp"
+        android:background="#00FFFFFF"
         android:scaleType="center"
         app:srcCompat="@drawable/ic_home"
-        android:backgroundTint="@color/green_btn"
-        app:tint="@color/green_btn_text" />
+        app:tint="@color/green_btn" />
 
 
 

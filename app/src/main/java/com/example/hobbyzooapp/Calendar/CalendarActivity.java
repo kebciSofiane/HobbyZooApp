@@ -28,7 +28,6 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
 {
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
-    private Button weeklyViewButton;
     private Button todaySessionButton;
     private Button todayMonthButton;
     private ImageButton homeButton;
@@ -48,13 +47,6 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
         setMonthView();
 
 
-        weeklyViewButton = findViewById(R.id.weekly_view);
-        weeklyViewButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                weeklyAction();
-            }
-        });
 
         todaySessionButton = findViewById(R.id.today_session);
         todaySessionButton.setOnClickListener(new View.OnClickListener() {
@@ -138,10 +130,6 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
         finish();}
 
 
-    public void weeklyAction()
-    {
-        startActivity(new Intent(this, WeekViewActivity.class));
-    }
 }
 
 

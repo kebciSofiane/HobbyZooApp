@@ -167,6 +167,7 @@
                     android:textColor="@color/sub_tilte"
                     android:textSize="25sp" />
 
+
                 <LinearLayout
                     android:id="@+id/activityPageLinearLayoutTodoList"
                     android:layout_width="250sp"
@@ -177,7 +178,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/todoRecyclerView"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="match_parent"
                         android:layout_below="@id/activityPageGoalsText"
                         android:layout_marginLeft="30sp"
                         android:background="@drawable/border"
@@ -188,35 +189,38 @@
 
                 <LinearLayout
                     android:id="@+id/activityPageLinearLayoutTextAndValidateNewElementTodoList"
-                    android:layout_width="wrap_content"
+                    android:layout_width="250sp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/activityPageGoalsText"
-                    android:layout_marginStart="0dp"
-                    android:layout_marginTop="50dp"
-                    android:layout_toEndOf="@+id/activityPageLinearLayoutTodoList"
-                    android:orientation="vertical">
+                    android:orientation="horizontal"
+                    android:background="@drawable/border"
+                    android:layout_marginLeft="30sp"
+                    android:layout_below="@id/activityPageLinearLayoutTodoList"
+                    android:paddingLeft="20sp"
 
-
-                    <EditText
-                        android:id="@+id/addToTodoListText"
-                        android:layout_width="150dp"
-                        android:layout_height="35dp"
-                        android:hint="Add a element"
-                        android:visibility="gone" />
-
+                    >
                     <Button
                         android:id="@+id/validateToTodoListButton"
-                        android:layout_width="110sp"
-                        android:layout_height="50sp"
-                        android:text="VALIDATE"
-                        android:visibility="gone" />
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/add_check_box"
+                        android:visibility="gone"
+                        android:layout_gravity="center" />
 
                     <Button
                         android:id="@+id/addToTodoListButton"
-                        android:layout_width="110sp"
-                        android:layout_height="50sp"
-                        android:text="ADD"
-                        android:visibility="visible" />
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:background="@drawable/add_check_box"
+                        android:visibility="visible"
+                        android:layout_gravity="center"/>
+
+                    <EditText
+                        android:id="@+id/addToTodoListText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="Add a element"
+                        android:layout_gravity="center"/>
+
 
                 </LinearLayout>
 

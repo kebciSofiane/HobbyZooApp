@@ -11,6 +11,8 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -65,7 +67,6 @@ public class ActivityPage extends AppCompatActivity {
     Boolean allSessions = false;
     Button addToTodoListButton;
     EditText addToTodoListText;
-    Button validateToTodoListButton;
     FirebaseAuth firebaseAuth;
     TextView activityNameDisplay;
 
@@ -178,6 +179,25 @@ public class ActivityPage extends AppCompatActivity {
     }
 
 
+
+    private void updateDBTasks(String statue, String taskName){
+        DatabaseReference tasksRef = FirebaseDatabase.getInstance().getReference("Tasks");
+        DatabaseReference taskRef = tasksRef.child(taskName);
+        System.out.println(taskName);
+        taskRef.child("taskStatus").setValue(statue, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                if (databaseError == null) {
+                    System.out.println("Tasks modified ! ");
+                } else {
+                    System.err.println("Error : " + databaseError.getMessage());
+                }
+            }
+        });
+
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -191,7 +211,6 @@ public class ActivityPage extends AppCompatActivity {
         goalsText = findViewById(R.id.activityPageGoalsText);
         editNamePetButton = findViewById(R.id.activityPageEditPetNameButton);
         editTextActivityName=findViewById(R.id.activityPageActivityNameEdit);
-
 
 
         getActivityData(activity_id);
@@ -218,7 +237,6 @@ public class ActivityPage extends AppCompatActivity {
         recyclerView = findViewById(R.id.activityPageRecyclerView);
         recyclerViewTodoList = findViewById(R.id.todoRecyclerView);
         addToTodoListButton = findViewById(R.id.addToTodoListButton);
-        validateToTodoListButton = findViewById(R.id.validateToTodoListButton);
         addToTodoListText = findViewById(R.id.addToTodoListText);
 
 
@@ -255,17 +273,9 @@ public class ActivityPage extends AppCompatActivity {
             }
         });
 
-        addToTodoListButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                adapter.notifyDataSetChanged();
-                addToTodoListButton.setVisibility(View.GONE);
-                addToTodoListText.setVisibility(View.VISIBLE);
-                validateToTodoListButton.setVisibility(View.VISIBLE);
-            }
-        });
 
-        validateToTodoListButton.setOnClickListener(new View.OnClickListener() {
+
+        addToTodoListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String newElement = String.valueOf(addToTodoListText.getText());
@@ -285,10 +295,7 @@ public class ActivityPage extends AppCompatActivity {
                     reference.child(taskId).setValue(tasks);
                     adapterTodoList.notifyDataSetChanged();
                 }
-                addToTodoListButton.setVisibility(View.VISIBLE);
                 addToTodoListText.setText("");
-                addToTodoListText.setVisibility(View.GONE);
-                validateToTodoListButton.setVisibility(View.GONE);
             }
         });
 

@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ListSessionsAdapter extends RecyclerView.Adapter<ListSessionsAdapter.ViewHolder> {
     private List<String> items;
-    private int displayedItemCount = 2;
+    private int displayedItemCount = 3;
     private boolean isExpanded = false;
 
 

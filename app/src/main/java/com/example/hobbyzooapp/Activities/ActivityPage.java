@@ -60,6 +60,8 @@ public class ActivityPage extends AppCompatActivity {
     List<String> items = new ArrayList<>();
     ListSessionsAdapter adapter;
     private List<TodoTask> todoList = new ArrayList<>();
+    private List<String> mysessions = new ArrayList<>();
+
     Boolean allSessions = false;
     Button addToTodoListButton;
     EditText addToTodoListText;
@@ -198,8 +200,10 @@ public class ActivityPage extends AppCompatActivity {
         getSessionList(activity_id, new OnSessionListRetrievedListener() {
             @Override
             public void onSessionListRetrieved(ArrayList<String> sessionList) {
+                mysessions = sessionList;
                 adapter = new ListSessionsAdapter(sessionList);
                 recyclerView.setAdapter(adapter);
+                changeManager();
 
             }
         });
@@ -217,7 +221,6 @@ public class ActivityPage extends AppCompatActivity {
         validateToTodoListButton = findViewById(R.id.validateToTodoListButton);
         addToTodoListText = findViewById(R.id.addToTodoListText);
 
-        changeManager();
 
 
 
@@ -412,10 +415,13 @@ public class ActivityPage extends AppCompatActivity {
 
     private void changeManager() {
         GridLayoutManager layoutManager;
-        if (allSessions)
-            layoutManager = new GridLayoutManager(this, 5, GridLayoutManager.HORIZONTAL, false);
+         if (allSessions)
+             if (mysessions.size()<=5)
+                 layoutManager = new GridLayoutManager(this, mysessions.size() , GridLayoutManager.HORIZONTAL, false);
+             else
+                layoutManager = new GridLayoutManager(this, 5, GridLayoutManager.HORIZONTAL, false);
         else
-            layoutManager = new GridLayoutManager(this, 2, GridLayoutManager.HORIZONTAL, false);
+                layoutManager = new GridLayoutManager(this, 3, GridLayoutManager.HORIZONTAL, false);
 
         recyclerView.setLayoutManager(layoutManager);
     }

@@ -1,5 +1,8 @@
 package com.example.hobbyzooapp.Calendar;
 import com.example.hobbyzooapp.R;
+import com.example.hobbyzooapp.Sessions.MyDailySessions;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import android.graphics.Color;
 import android.os.Build;
@@ -13,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicMarkableReference;
 
 class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
 {
@@ -52,6 +56,11 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
             holder.dayOfMonth.setText(String.valueOf(date.getDayOfMonth()));
             if(date.equals(CalendarUtils.selectedDate))
                 holder.parentView.setBackgroundColor(Color.LTGRAY);
+            FirebaseDatabase database = FirebaseDatabase.getInstance();
+            DatabaseReference reference = database.getReference("Users");
+
+            if(MyDailySessions.noSessions ==true){holder.parentView.setBackgroundColor(Color.RED);}
+
         }
     }
 

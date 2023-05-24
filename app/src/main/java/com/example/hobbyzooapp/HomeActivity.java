@@ -44,11 +44,6 @@ public class HomeActivity extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
 
-    ActionBar actionBar;
-
-    ImageView fenceImage;
-
-    LocalDate localDate = CalendarUtils.selectedDate;
     Button next;
     Button previous;
 
@@ -190,7 +185,7 @@ public class HomeActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
-                localDate= LocalDate.now();
+                CalendarUtils.selectedDate = LocalDate.now();
                 startActivity(new Intent(HomeActivity.this, MyDailySessions.class));
 
             }

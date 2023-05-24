@@ -44,12 +44,14 @@ import java.util.HashMap;
 
 public class MyDailySessions extends AppCompatActivity {
 
+
     private ImageButton homeButton;
     private Button addSessionButton;
     private ImageButton calendarButton;
     private View sessionButton;
+    public static Boolean noSessions = true;
     FirebaseAuth firebaseAuth;
-    public LocalDate localDate = CalendarUtils.selectedDate;
+    LocalDate localDate = CalendarUtils.selectedDate;
 
     MyDailySessionsAdapter adapter;
 
@@ -206,6 +208,9 @@ public class MyDailySessions extends AppCompatActivity {
              Log.w("TAG", "Erreur lors de la récupération des données", databaseError.toException());
          }
      });
+     if (mySessions.size()> 0){ noSessions = false;}
+
+
      return mySessions;
  }
 

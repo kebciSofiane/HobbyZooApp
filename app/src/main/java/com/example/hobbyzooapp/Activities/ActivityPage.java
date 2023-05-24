@@ -26,6 +26,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hobbyzooapp.HomeActivity;
 import com.example.hobbyzooapp.R;
+import com.example.hobbyzooapp.Sessions.MyDailySessions;
+import com.example.hobbyzooapp.Sessions.NewSession;
 import com.example.hobbyzooapp.Sessions.OnSessionListRetrievedListener;
 import com.example.hobbyzooapp.Sessions.Session;
 import com.example.hobbyzooapp.TodoTask;
@@ -53,6 +55,7 @@ public class ActivityPage extends AppCompatActivity {
     Button validatePetName;
     Button showMoreButton;
     Button showLessButton;
+    Button addSessionButton;
     RecyclerView recyclerView;
     RecyclerView recyclerViewTodoList;
     ImageButton homeButton;
@@ -319,6 +322,14 @@ public class ActivityPage extends AppCompatActivity {
                 validatePetName.setVisibility(View.VISIBLE);
                 petName.setVisibility(View.GONE);
                 activityNameDisplay.setVisibility(View.GONE);
+            }
+        });
+
+        addSessionButton = findViewById(R.id.add_session_button);
+        addSessionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ActivityPage.this, NewSession.class));
             }
         });
 

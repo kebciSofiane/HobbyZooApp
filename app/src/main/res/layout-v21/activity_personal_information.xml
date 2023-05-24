@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:padding="16dp"
     android:background="@color/app_background">
 
 
@@ -13,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@color/lightbrown"
-        >
+        android:contentInsetStart="0dp">
 
         <ImageButton
             android:id="@+id/backButton3"
@@ -39,24 +40,6 @@
             android:layout_marginStart="30dp" />
     </androidx.appcompat.widget.Toolbar>
 
-    <TextView
-        android:id="@+id/usernameLabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Username:"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/black"
-        android:layout_marginTop="16dp"/>
-
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/profileImageView"
-        android:layout_width="133dp"
-        android:layout_height="136dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:src="@drawable/ic_animal"
-        android:layout_gravity="center"/>
 
     <TextView
         android:id="@+id/emailTv"
@@ -67,7 +50,14 @@
         tools:text="user@example.com" />
 
 
-
+    <TextView
+        android:id="@+id/usernameLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Username:"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/black"
+        android:layout_marginTop="16dp"/>
 
     <EditText
         android:id="@+id/usernameEdit"
@@ -83,7 +73,14 @@
         android:layout_marginTop="8dp"
         android:text="Change Username" />
 
-
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profileImageView"
+        android:layout_width="133dp"
+        android:layout_height="136dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:src="@drawable/ic_animal" />
 
     <Button
         android:id="@+id/changePhotoBtn"

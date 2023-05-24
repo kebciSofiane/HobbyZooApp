@@ -60,7 +60,6 @@ public class EndSession extends AppCompatActivity {
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     FirebaseAuth firebaseAuth;
     Intent intent = getIntent();
-    private DatabaseReference databaseReference;
     String activity_id ;
     String session_id ;
     String activityPet;
@@ -94,7 +93,8 @@ public class EndSession extends AppCompatActivity {
         modifyCommentButton = findViewById(R.id.ModifyCommentButton);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        databaseReference = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference activitiesRef = FirebaseDatabase.getInstance().getReference("Activity");
+        DatabaseReference activityRef = activitiesRef.child(activity_id);
 
         DatabaseReference referenceActivity = database.getReference("Activity");
         referenceActivity.child(activity_id).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -108,8 +108,9 @@ public class EndSession extends AppCompatActivity {
                     petPic.setImageResource(resId);
 
                     long newSPentTime = Integer.parseInt(spent_time)+(totalSessionTime/ (1000 * 60));
+                    /* todo a effacer si ca marhe de le deplacer en haut
                     DatabaseReference activitiesRef = FirebaseDatabase.getInstance().getReference("Activity");
-                    DatabaseReference activityRef = activitiesRef.child(activity_id);
+                    DatabaseReference activityRef = activitiesRef.child(activity_id);*/
                     activityRef.child("spent_time").setValue(String.valueOf(newSPentTime), new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -189,7 +190,10 @@ public class EndSession extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //todo ajout photo bdd
-                //databaseReference.child("Session").child(firebaseAuth.getCurrentUser().getUid()).child("session_picture_file").setValue(photoPath);
+                DatabaseReference sessionRef = FirebaseDatabase.getInstance().getReference().child("Session").child(session_id);
+                sessionRef.child("session_picture").setValue(photoPath);
+                sessionRef.child("session_comment").setValue();
+
                 endSession();
             }
         });

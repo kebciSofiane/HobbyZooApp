@@ -38,9 +38,12 @@ public class ListSessionsAdapter extends RecyclerView.Adapter<ListSessionsAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        String item = items.get(position);
-        // Effectuez les opérations nécessaires pour afficher l'élément dans la vue de liste (holder)
-        holder.textView.setText(item);
+        if (items.isEmpty()) {
+            holder.textView.setText("Aucune session disponible"); // Message affiché lorsque la liste est vide
+        } else {
+            String item = items.get(position);
+            holder.textView.setText(item);
+        }
     }
 
     public boolean isExpanded() {
@@ -51,14 +54,18 @@ public class ListSessionsAdapter extends RecyclerView.Adapter<ListSessionsAdapte
         isExpanded = expanded;
     }
 
+
     @Override
     public int getItemCount() {
-        if (isExpanded) {
+        if (items.isEmpty()) {
+            return 1; // Retourne 1 pour afficher le message si la liste est vide
+        } else if (isExpanded) {
             return items.size();
         } else {
             return Math.min(items.size(), displayedItemCount);
         }
     }
+
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {

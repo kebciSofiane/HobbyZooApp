@@ -166,6 +166,8 @@ public class ActivityPage extends AppCompatActivity {
                     mySessions.add(session);
                 }
                 listener.onSessionListRetrieved(mySessions);
+                if (mySessions.size()>=3) showMoreButton.setVisibility(View.VISIBLE);
+                else showMoreButton.setVisibility(View.GONE);
 
             }
 
@@ -448,7 +450,13 @@ public class ActivityPage extends AppCompatActivity {
              else
                 layoutManager = new GridLayoutManager(this, 5, GridLayoutManager.HORIZONTAL, false);
         else
-                layoutManager = new GridLayoutManager(this, 3, GridLayoutManager.HORIZONTAL, false);
+         if (mysessions.size()<=5 && mysessions.size()>0)
+             layoutManager = new GridLayoutManager(this, mysessions.size(), GridLayoutManager.HORIZONTAL, false);
+        else if (mysessions.size()==0)
+             layoutManager = new GridLayoutManager(this, 1, GridLayoutManager.HORIZONTAL, false);
+         else
+             layoutManager = new GridLayoutManager(this, 3, GridLayoutManager.HORIZONTAL, false);
+
 
         recyclerView.setLayoutManager(layoutManager);
     }

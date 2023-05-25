@@ -31,6 +31,7 @@ import com.example.hobbyzooapp.Sessions.OnSessionListRetrievedListener;
 import com.example.hobbyzooapp.Sessions.Session;
 import com.example.hobbyzooapp.TodoTask;
 import com.example.hobbyzooapp.Sessions.ListSessionsAdapter;
+import com.example.hobbyzooapp.WeeklyEvent;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;

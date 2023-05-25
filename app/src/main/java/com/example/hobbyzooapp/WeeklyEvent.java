@@ -1,68 +1,117 @@
 package com.example.hobbyzooapp;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.util.Objects;
+
 public class WeeklyEvent extends AppCompatActivity {
 
+    LocalDate nextMonday, dateMondayData;
+    FirebaseAuth firebaseAuth;
+    FirebaseDatabase database;
+    String userId;
+    int nextDayMondayUser, nextMonthMondayUser, nextYearMondayUser;
+
     @RequiresApi(api = Build.VERSION_CODES.N)
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        firebaseAuth = FirebaseAuth.getInstance();
+        userId = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
+        database = FirebaseDatabase.getInstance();
+        nextMonday = getNextMonday();
+        setNextMondayUser();
 
-        // Obtenez une instance de l'AlarmManager
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
-        calendar.set(Calendar.HOUR_OF_DAY, 14);
-        calendar.set(Calendar.MINUTE, 50);
+    }
 
-        // Vérifiez si la date programmée est déjà passée, sinon ajoutez 7 jours
-        if (calendar.getTimeInMillis() < System.currentTimeMillis()) {
-            calendar.add(Calendar.DAY_OF_YEAR, 7);
-        }
+    private void setNextMondayUser(){
+        DatabaseReference userRef = database.getReference("Users");
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    String user_id = dataSnapshot.getKey();
+                    if(userId.equals(user_id)){
+                        String nextDayMondayUserString = dataSnapshot.child("connectNextMondayDay").getValue(String.class);
+                        String nextMonthMondayUserString = dataSnapshot.child("connectNextMondayMonth").getValue(String.class);
+                        String nextYearMondayUserString = dataSnapshot.child("connectNextMondayYear").getValue(String.class);
+                        nextDayMondayUser = Integer.parseInt(nextDayMondayUserString);
+                        nextMonthMondayUser = Integer.parseInt(nextMonthMondayUserString);
+                        nextYearMondayUser = Integer.parseInt(nextYearMondayUserString);
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            dateMondayData = LocalDate.of(nextYearMondayUser, nextMonthMondayUser, nextDayMondayUser);
+                        }
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            if(nextMonday.isAfter(dateMondayData)){
+                                DatabaseReference userRef = database.getReference().child(userId);//todo demander meriem comment modif table user
+                                userRef.child("connectNextMondayDay").setValue(nextMonday.getDayOfMonth()+"");
+                                userRef.child("connectNextMondayMonth").setValue(nextMonday.getMonth().getValue());
+                                userRef.child("connectNextMondayYear").setValue(nextMonday.getYear()+"");
+                                modificationActivity();
+                            }
+                        }
+                        finish();
+                    }
+                }
 
-        // Créez une intention pour votre AlarmReceiver
-        Intent intent = new Intent(this, WeeklyEventReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+            }
 
-         // Planifiez l'alarme récurrente tous les lundis à l'heure spécifiée
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY * 7, pendingIntent);
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-        //Suppresion de l'alarme;
-        //alarmManager.cancel(pendingIntent);
-        finish();
+            }
+        });
+    }
 
+    private void modificationActivity(){
+        DatabaseReference activityRef = database.getReference("Activity");
+        activityRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String activityId = snapshot.child("activity_id").getValue(String.class);
+                    String user_id = snapshot.child("user_id").getValue(String.class);
+                    DatabaseReference elementRef = activityRef.child(activityId);
+                    if(userId.equals(user_id))
+                        elementRef.child("spent_time").setValue("0");
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Handle the error if the request is canceled
+            }
+        });
     }
 
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public void scheduleWeeklyEvent() {
-        // Créer une intention pour le récepteur de diffusion (BroadcastReceiver)
-        Intent intent = new Intent(this, WeeklyEventReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
-
-        // Obtenir une instance de l'AlarmManager
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-
-
-
-        // Planifier l'événement hebdomadaire
-        //alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-         //       AlarmManager.INTERVAL_DAY * 7, pendingIntent);
+    private LocalDate getNextMonday() {
+        LocalDate currentDate;
+        LocalDate nextMonday = null;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            currentDate = LocalDate.now();
+            nextMonday = currentDate.with(DayOfWeek.MONDAY);
+            if (currentDate.compareTo(nextMonday) > 0) {
+                nextMonday = nextMonday.plusWeeks(1);
+            }
+        }
+        return nextMonday;
     }
-
-    // ...
 }
-

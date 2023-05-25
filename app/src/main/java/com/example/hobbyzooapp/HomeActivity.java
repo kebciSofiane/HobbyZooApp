@@ -131,8 +131,7 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
-        weeklyEvent();
+        startActivity(new Intent(HomeActivity.this, WeeklyEvent.class));
 
         firebaseAuth = FirebaseAuth.getInstance();
         next = findViewById(R.id.scrollAnimalsRight);

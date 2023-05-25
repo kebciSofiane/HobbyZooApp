@@ -399,20 +399,6 @@ public class ActivityPage extends AppCompatActivity {
             }
         });
 
-//        adapterTodoList.setOnCheckedChangeListener(new TodoAdapter.OnCheckedChangeListener() { //todo
-//            @Override
-//            public void onCheckedChanged(int position, boolean isChecked) {
-//                // Le code ici sera exécuté chaque fois que l'utilisateur cochera ou décochera une case
-//                // Vous pouvez utiliser la position pour identifier la tâche spécifique dans la liste
-//                // et utiliser isChecked pour obtenir l'état de cochage actuel
-//
-//                // Exemple : afficher l'état de cochage dans la console
-//                System.out.println("Tâche à la position " + position + " cochée : " + isChecked);
-//            }
-//        });
-//
-
-
     }
 
     private void changeManager() {

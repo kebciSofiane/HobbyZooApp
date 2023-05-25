@@ -108,9 +108,6 @@ public class EndSession extends AppCompatActivity {
                     petPic.setImageResource(resId);
 
                     long newSPentTime = Integer.parseInt(spent_time)+(totalSessionTime/ (1000 * 60));
-                    /* todo a effacer si ca marhe de le deplacer en haut
-                    DatabaseReference activitiesRef = FirebaseDatabase.getInstance().getReference("Activity");
-                    DatabaseReference activityRef = activitiesRef.child(activity_id);*/
                     activityRef.child("spent_time").setValue(String.valueOf(newSPentTime), new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -189,11 +186,9 @@ public class EndSession extends AppCompatActivity {
         validateButton2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //todo ajout photo bdd
                 DatabaseReference sessionRef = FirebaseDatabase.getInstance().getReference().child("Session").child(session_id);
                 sessionRef.child("session_picture").setValue(photoPath);
-                sessionRef.child("session_comment").setValue();
-
+                sessionRef.child("session_comment").setValue(commentValidated.getText());
                 endSession();
             }
         });

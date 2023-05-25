@@ -16,112 +16,121 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="20dp">
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="30dp">
 
-        <Button
+        <ImageButton
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/back"
-            android:background="@null"
-            android:textStyle="bold"
-            android:onClick="previousMonthAction"
+            android:background="@color/transparent"
             android:backgroundTint="@color/green_btn"
-            android:textColor="@color/green_btn_text"
-            android:textSize="20sp"/>
+            android:onClick="previousMonthAction"
+            android:scaleType="fitEnd"
+            android:src="@drawable/arrow_left"
+            android:tint="@color/green_btn" />
 
         <TextView
             android:id="@+id/monthYearTV"
             android:layout_width="0dp"
-            android:layout_weight="2"
             android:layout_height="wrap_content"
+            android:layout_weight="2.5"
+            android:layout_marginBottom="5dp"
+            android:clickable="false"
+            android:fontFamily="@font/alegreya_sans_sc"
             android:text="Feb 2021"
-            android:textSize="20sp"
             android:textAlignment="center"
-            android:textColor="@color/black"/>
+            android:textColor="@color/black"
+            android:textSize="30sp" />
 
-        <Button
+        <ImageButton
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="@string/forward"
-            android:background="@null"
-            android:textStyle="bold"
-            android:onClick="nextMonthAction"
+            android:background="@color/transparent"
             android:backgroundTint="@color/green_btn"
-            android:textColor="@color/green_btn_text"
-            android:textSize="20sp"/>
+            android:onClick="nextMonthAction"
+            android:scaleType="fitStart"
+            android:src="@drawable/arrow_right"
+            android:tint="@color/green_btn" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:padding="5dp">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:fontFamily="@font/alegreya_sans_sc"
             android:text="SUN"
-            android:textColor="@color/gray"
             android:textAlignment="center"
-            android:textSize="16sp"/>
+            android:textColor="@color/gray"
+            android:textSize="16sp" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:fontFamily="@font/alegreya_sans_sc"
             android:text="MON"
-            android:textColor="@color/gray"
             android:textAlignment="center"
-            android:textSize="16sp"/>
+            android:textColor="@color/gray"
+            android:textSize="16sp" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:fontFamily="@font/alegreya_sans_sc"
             android:text="TUE"
-            android:textColor="@color/gray"
             android:textAlignment="center"
-            android:textSize="16sp"/>
+            android:textColor="@color/gray"
+            android:textSize="16sp" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:fontFamily="@font/alegreya_sans_sc"
             android:text="WED"
-            android:textColor="@color/gray"
             android:textAlignment="center"
-            android:textSize="16sp"/>
+            android:textColor="@color/gray"
+            android:textSize="16sp" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:fontFamily="@font/alegreya_sans_sc"
             android:text="THUR"
-            android:textColor="@color/gray"
             android:textAlignment="center"
-            android:textSize="16sp"/>
+            android:textColor="@color/gray"
+            android:textSize="16sp" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:fontFamily="@font/alegreya_sans_sc"
             android:text="FRI"
-            android:textColor="@color/gray"
             android:textAlignment="center"
-            android:textSize="16sp"/>
+            android:textColor="@color/gray"
+            android:textSize="16sp" />
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:fontFamily="@font/alegreya_sans_sc"
             android:text="SAT"
-            android:textColor="@color/gray"
             android:textAlignment="center"
-            android:textSize="16sp"/>
+            android:textColor="@color/gray"
+            android:textSize="16sp" />
 
 
     </LinearLayout>
@@ -130,36 +139,10 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/calendarRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="477dp" />
+        android:layout_height="477dp"
+        android:padding="5dp"/>
 
 </LinearLayout>
-
-    <Button
-        android:id="@+id/today_month"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="30dp"
-        android:background="@color/transparent"
-        android:text="@string/back_back"
-        android:textColor="@color/green_btn"
-        android:textSize="20sp"
-        android:textStyle="bold" />
-
-    <Button
-        android:id="@+id/today_session"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="30dp"
-        android:background="@color/transparent"
-        android:text="@string/today_sessions"
-        android:textColor="@color/green_btn"
-        android:textSize="15sp"
-        android:textStyle="bold" />
 
     <ImageButton
         android:id="@+id/home_button"
@@ -173,6 +156,34 @@
         android:background="#00FFFFFF"
         android:scaleType="center"
         app:srcCompat="@drawable/ic_home"
+        app:tint="@color/green_btn" />
+
+
+    <Button
+        android:id="@+id/today_session"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:background="@color/transparent"
+        android:text="@string/today_sessions"
+        android:textColor="@color/green_btn"
+        android:textSize="15sp"
+        android:textStyle="bold" />
+
+
+    <ImageButton
+        android:id="@+id/today_month"
+        android:layout_width="89dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="17dp"
+        android:layout_marginBottom="32dp"
+        android:background="@color/transparent"
+        android:scaleType="fitCenter"
+        android:src="@drawable/ic_back_now"
         app:tint="@color/green_btn" />
 
 

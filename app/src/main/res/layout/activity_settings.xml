@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/ic_arrowback"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:contentDescription="Back"
+            android:contentDescription="@string/back"
             android:layout_marginStart="8dp"
             app:tint="@color/white" />
 
@@ -30,7 +30,7 @@
             android:id="@+id/settings_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Settings"
+            android:text="@string/settings"
             android:textColor="@android:color/white"
             android:textSize="20sp"
             app:layout_constraintStart_toEndOf="@id/backButton"
@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:background="@drawable/rounded_button"
-            android:text="Notifications"
+            android:text="@string/notifications"
             android:textColor="@android:color/black"
             android:textSize="16sp"
             app:backgroundTint="@color/lightbrown" />
@@ -71,8 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:background="@drawable/rounded_button"
-
-            android:text="Terms Of Service"
+            android:text="@string/terms_of_service"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:backgroundTint="@color/lightbrown"/>
@@ -84,7 +83,7 @@
             android:layout_marginBottom="10dp"
             android:background="@drawable/rounded_button"
 
-            android:text="Rate HobbyZoo"
+            android:text="@string/rate_hobbyzoo"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:backgroundTint="@color/lightbrown"/>
@@ -95,7 +94,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:background="@drawable/rounded_button"
-            android:text="Help"
+            android:text="@string/help"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:backgroundTint="@color/lightbrown"/>
@@ -106,7 +105,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:background="@drawable/rounded_button"
-            android:text="About"
+            android:text="@string/about"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:backgroundTint="@color/lightbrown"/>
@@ -116,7 +115,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
-            android:text="V 1.0"
+            android:text="@string/version"
             android:textAlignment="center"
             android:textColor="@color/black" />
 
@@ -131,7 +130,7 @@
         android:layout_marginEnd="50dp"
         android:layout_marginBottom="24dp"
         android:background="@drawable/rounded_button"
-        android:text="Log out"
+        android:text="@string/log_out"
         android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -26,6 +26,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import android.util.Log;
+import android.widget.ImageView;
 
 
 class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
@@ -33,11 +34,14 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
     private final ArrayList<LocalDate> days;
     private final OnItemListener onItemListener;
 
+
+
     DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Session");
 
     public CalendarAdapter(ArrayList<LocalDate> days, OnItemListener onItemListener) {
         this.days = days;
         this.onItemListener = onItemListener;
+
     }
 
     @NonNull
@@ -59,16 +63,17 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
     @Override
     public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position) {
         final LocalDate date = days.get(position);
-        if(date == null)
+        holder.dayIndicator.setVisibility(View.GONE);
+        if(date == null){
             holder.dayOfMonth.setText("");
-        else
-        {
+        }
+        else {
             holder.dayOfMonth.setText(String.valueOf(date.getDayOfMonth()));
             if(date.equals(CalendarUtils.selectedDate)){
                 GradientDrawable borderDrawable = new GradientDrawable();
                 borderDrawable.setShape(GradientDrawable.RECTANGLE);
                 borderDrawable.setCornerRadius(10);
-                borderDrawable.setStroke(4, Color.BLACK);
+                borderDrawable.setStroke(4, Color.LTGRAY);
                 holder.parentView.setBackground(borderDrawable);
 
                 //holder.parentView.setBackgroundColor(Color.LTGRAY);
@@ -132,11 +137,12 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
                                 if (date.getMonth() == sessionDate.getMonth() &&
                                         date.getDayOfMonth() == sessionDate.getDayOfMonth()&&
                                         date.getYear() == sessionDate.getYear()) {
-                                    GradientDrawable backgroundDrawable = new GradientDrawable();
+                                    /*GradientDrawable backgroundDrawable = new GradientDrawable();
                                     backgroundDrawable.setShape(GradientDrawable.RECTANGLE);
                                     backgroundDrawable.setCornerRadius(10); // Définissez ici le rayon de courbure des coins (en pixels)
                                     backgroundDrawable.setColor(Color.RED);
-                                    holder.itemView.setBackground(backgroundDrawable);
+                                    holder.itemView.setBackground(backgroundDrawable);*/
+                                    holder.dayIndicator.setVisibility(View.VISIBLE);
                                 }
                             } else {
                                 // L'activité n'existe pas dans la base de données

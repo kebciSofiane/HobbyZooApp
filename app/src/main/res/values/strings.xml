@@ -20,8 +20,8 @@
     <string name="back_back"><![CDATA[<<]]></string>
     <string name="validate">Validate</string>
     <!-- A changer PEUT ETRE par un image button  -->
-    <string name="back"><![CDATA[<-]]></string>
-    <string name="forward"><![CDATA[->]]></string>
+    <string name="back_arrow"><![CDATA[<-]]></string>
+    <string name="forward_arrow"><![CDATA[->]]></string>
 
     <!-- New category -->
     <string name="new_category">New Category</string>
@@ -81,12 +81,20 @@
 
     <!-- common buttons  -->
     <string name="ok">Ok</string>
-
+    <string name="back">Back</string>
     <string name="skip">Skip</string>
-    <string name="Next">next</string>
+    <string name="Next">Next</string>
     <string name="username">Username</string>
     <string name="change_password">Change Password</string>
     <string name="unregister">Unregister</string>
+    <string name="log_out">Log out</string>
+    <string name="version">V 1.0</string>
+    <string name="about">About</string>
+    <string name="help">Help</string>
+    <string name="rate_hobbyzoo">Rate HobbyZoo</string>
+    <string name="terms_of_service">Terms Of Service</string>
+    <string name="notifications">Notifications</string>
+    <string name="settings">Settings</string>
 
 
 </resources>

@@ -19,6 +19,9 @@
 
     <color name="blue">#3F51B5</color>
 
+    <color name="evenDayColor">#FFC0CB</color>
+
+
     <color name="title_page">#F0000000</color>
     <color name="sub_tilte">#8A000000</color>
 

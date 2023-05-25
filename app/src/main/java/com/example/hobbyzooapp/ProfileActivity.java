@@ -72,6 +72,7 @@ public class ProfileActivity extends AppCompatActivity {
         usernameEdit = findViewById(R.id.username_edit);
         addPhoto = findViewById(R.id.add_photo);
         validate = findViewById(R.id.validateButton);
+        followMyProgressButton= findViewById(R.id.follow_my_progress);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Users");
         userId = user.getUid();
@@ -118,6 +119,13 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ProfileActivity.this, PersonalInformationActivity.class));
+            }
+        });
+
+        followMyProgressButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileActivity.this, MyEvolutionActivity.class));
             }
         });
 

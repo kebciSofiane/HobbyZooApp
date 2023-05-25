@@ -15,4 +15,10 @@
         <item name="android:statusBarColor" tools:targetApi="l">#00018E41</item>
         <!-- Customize your theme here. -->
     </style>
+    <style name="Theme.HobbyZooApp.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+    <style name="Theme.HobbyZooApp.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.HobbyZooApp.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

@@ -1,19 +1,28 @@
 package com.example.hobbyzooapp;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
+import android.transition.Transition;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.example.hobbyzooapp.Calendar.CalendarAdapter;
 import com.example.hobbyzooapp.Calendar.CalendarUtils;
 import com.example.hobbyzooapp.Calendar.CalendarViewHolder;
@@ -22,6 +31,9 @@ import com.example.hobbyzooapp.Sessions.MyDailySessionsAdapter;
 import com.example.hobbyzooapp.Sessions.RunSession;
 import com.example.hobbyzooapp.Sessions.Session;
 import com.example.hobbyzooapp.Sessions.SessionsCallback;
+import com.firebase.ui.storage.images.FirebaseImageLoader;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -29,6 +41,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.sql.Time;
 import java.time.LocalDate;
@@ -123,6 +137,8 @@ public class CalendarEvolutionAdapter extends RecyclerView.Adapter<CalendarViewH
                     String session_month = snapshot.child("session_month").getValue(String.class);
                     String session_year = snapshot.child("session_year").getValue(String.class);
                     String session_done = snapshot.child("session_done").getValue(String.class);
+                    String session_image = snapshot.child("session_picture").getValue(String.class);
+
 
 
                     if (session_done.equals("TRUE")) {
@@ -135,14 +151,35 @@ public class CalendarEvolutionAdapter extends RecyclerView.Adapter<CalendarViewH
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.exists()) {
                                 String activityName = dataSnapshot.child("activity_name").getValue(String.class);
-                                int hourDuration = Integer.parseInt(session_duration) / 60;
-                                int minutesDuration = Integer.parseInt(session_duration) % 60;
                                 LocalDate sessionDate = LocalDate.of(Integer.parseInt(session_year), Integer.parseInt(session_month), Integer.parseInt(session_day));
 
                                 if (date.getMonth() == sessionDate.getMonth() &&
                                         date.getDayOfMonth() == sessionDate.getDayOfMonth()&&
                                         date.getYear() == sessionDate.getYear()) {
-                                    holder.itemView.setBackgroundColor(evenDayColor);
+
+                                    FirebaseStorage storage = FirebaseStorage.getInstance();
+                                    StorageReference storageRef = storage.getReference();
+
+                                    if (!session_image.isEmpty()) {
+                                        System.out.println("session: " + session_image);
+                                        Glide.with(holder.itemView.getContext())
+                                                .load(session_image)
+                                                .into(new CustomTarget<Drawable>() {
+                                                    @Override
+                                                    public void onResourceReady(@NonNull Drawable resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Drawable> transition) {
+                                                        holder.itemView.setBackground(resource);
+
+                                                    }
+
+                                                    @Override
+                                                    public void onLoadCleared(@Nullable Drawable placeholder) {
+                                                        // Méthode facultative pour gérer le chargement annulé ou effacé
+                                                    }
+                                                });
+                                    }
+
+
+                                   // holder.itemView.setBackgroundColor(evenDayColor);
                                 }
                             } else {
                                 // L'activité n'existe pas dans la base de données

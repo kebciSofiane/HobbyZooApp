@@ -168,8 +168,6 @@
         </LinearLayout>
 
 
-
-
         <ImageButton
             android:id="@+id/home_button"
             android:layout_width="58dp"

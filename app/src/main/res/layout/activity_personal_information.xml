@@ -4,59 +4,58 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@color/app_background">
+    android:background="@color/app_background"
+    android:orientation="vertical">
 
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/lightbrown"
-        >
+        android:background="@color/lightbrown">
 
         <ImageButton
             android:id="@+id/backButton3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_arrowback"
+            android:layout_marginStart="8dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Back"
-            android:layout_marginStart="8dp"
+            android:src="@drawable/ic_arrowback"
             app:tint="@color/white" />
 
         <TextView
             android:id="@+id/settings_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
             android:text="Settings"
             android:textColor="@android:color/white"
             android:textSize="20sp"
-            app:layout_constraintStart_toEndOf="@id/backButton"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginStart="30dp" />
+            app:layout_constraintStart_toEndOf="@id/backButton"
+            app:layout_constraintTop_toTopOf="parent" />
     </androidx.appcompat.widget.Toolbar>
 
     <TextView
         android:id="@+id/usernameLabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:text="Username:"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/black"
-        android:layout_marginTop="16dp"/>
+        android:textColor="@color/black" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profileImageView"
         android:layout_width="133dp"
         android:layout_height="136dp"
         android:layout_alignParentEnd="true"
+        android:layout_gravity="center"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:src="@drawable/ic_animal"
-        android:layout_gravity="center"/>
+        android:src="@drawable/ic_animal" />
 
     <TextView
         android:id="@+id/emailTv"
@@ -67,30 +66,32 @@
         tools:text="user@example.com" />
 
 
-
-
     <EditText
         android:id="@+id/usernameEdit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="text"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/changeUsernameBtn"
+        style="@style/Widget.Material3.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Change Username" />
-
+        android:text="Change Username"
+        app:icon="@drawable/beaver_icon"
+        app:rippleColor="#BA1414" />
 
 
     <Button
         android:id="@+id/changePhotoBtn"
+        style="@style/Widget.Material3.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text="Change Photo" />
+
     <Button
         android:id="@+id/savePhotoBtn"
         android:layout_width="wrap_content"
@@ -101,6 +102,7 @@
 
     <Button
         android:id="@+id/changePasswordBtn"
+        style="@style/Widget.Material3.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -108,6 +110,7 @@
 
     <Button
         android:id="@+id/unregisterBtn"
+        style="@style/Widget.Material3.Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"

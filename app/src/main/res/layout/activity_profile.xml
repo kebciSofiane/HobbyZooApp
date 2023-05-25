@@ -119,7 +119,8 @@
                 android:backgroundTint="@color/purple_200"
                 android:text="My evolution"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                app:icon="@drawable/ic_trending" />
 
             <Button
                 android:id="@+id/my_activities"
@@ -130,7 +131,8 @@
                 android:backgroundTint="@color/purple_200"
                 android:text="My activities"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                app:icon="@drawable/ic_format_list" />
 
             <Button
                 android:id="@+id/personal_info"
@@ -141,7 +143,8 @@
                 android:backgroundTint="@color/purple_200"
                 android:text="Personal information"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                app:icon="@drawable/ic_info" />
 
             <Button
                 android:id="@+id/settings_button"
@@ -152,7 +155,8 @@
                 android:backgroundTint="@color/purple_200"
                 android:text="Settings"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                app:icon="@drawable/ic_settings" />
 
 
         </LinearLayout>

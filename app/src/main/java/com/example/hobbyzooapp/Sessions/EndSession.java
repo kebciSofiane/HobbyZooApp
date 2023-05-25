@@ -1,6 +1,7 @@
 package com.example.hobbyzooapp.Sessions;
 import com.example.hobbyzooapp.R;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -28,12 +29,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hobbyzooapp.Activities.ActivityPage;
+import com.example.hobbyzooapp.RegisterActivity;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.IOException;
@@ -66,6 +74,7 @@ public class EndSession extends AppCompatActivity {
     String session_duration;
     String spent_time;
     long totalSessionTime;
+    Uri photoUri = null;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -187,8 +196,12 @@ public class EndSession extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 DatabaseReference sessionRef = FirebaseDatabase.getInstance().getReference().child("Session").child(session_id);
-                sessionRef.child("session_picture").setValue(photoPath);
-                sessionRef.child("session_comment").setValue(commentValidated.getText());
+                uploadImageToFirebase();
+                if (commentValidated.getText().equals("")){
+                    sessionRef.child("session_comment").setValue("no comment for this photo");
+                } else {
+                    sessionRef.child("session_comment").setValue(commentValidated.getText());
+                }
                 endSession();
             }
         });
@@ -225,7 +238,7 @@ public class EndSession extends AppCompatActivity {
             File photoDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
             File photoFile = File.createTempFile(date,".jpg", photoDir);
             photoPath = photoFile.getAbsolutePath();
-            Uri photoUri = null;
+
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
                 photoUri = FileProvider.getUriForFile(EndSession.this,
                         EndSession.this.getApplicationContext().getOpPackageName()+".provider",
@@ -298,6 +311,38 @@ public class EndSession extends AppCompatActivity {
             } else {
                 Toast.makeText(this, "La permission d'enregistrement dans la galerie a été refusée", Toast.LENGTH_SHORT).show();
             }
+        }
+    }
+
+    private void uploadImageToFirebase() {
+
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user != null) {
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference storageReference = storage.getReference();
+            StorageReference profileRef = storageReference.child("sessions/" + session_id + "/picture.jpg");
+            profileRef.putFile(photoUri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    //progressDialog.dismiss();
+                                    String imageUrl = uri.toString();
+                                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                                    databaseReference.child("Session").child(session_id).child("session_picture").setValue(imageUrl);
+                                    Toast.makeText(EndSession.this, "Image uploaded successfully", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(EndSession.this, "Failed to upload image", Toast.LENGTH_SHORT).show();
+                        }
+                    });
         }
     }
 

@@ -95,7 +95,7 @@ public class NewSession extends AppCompatActivity {
                     }
                     public void onNothingSelected(AdapterView<?> parent) {
                     }
-                });//todo penser verif si les espaces fonctionne dans les noms
+                });//todo penser verif si les espaces fonctionnent dans les noms
 
 
         returnButton.setOnClickListener(new View.OnClickListener() {

@@ -125,8 +125,6 @@ public class ActivityPage extends AppCompatActivity {
                         }
                     });
 
-                    sessionCommentDisplay.setText("??");//todo
-
                 } else {
                     // L'activité n'existe pas dans la base de données
                 }
@@ -174,8 +172,10 @@ public class ActivityPage extends AppCompatActivity {
     private ArrayList<String> getLastSessionPicCom(String activity_id, OnSessionListRetrievedListener listener){
         DatabaseReference reference = database.getReference("Session");
         ArrayList<String> lastSessionData = new ArrayList<>();
-        reference.orderByChild("activity_id").equalTo(activity_id).orderByChild("session_done").equalTo("TRUE").addListenerForSingleValueEvent(new ValueEventListener() {
-            int lastDate = 0;
+        lastSessionData.add("");
+        lastSessionData.add("No previous session");
+        reference.orderByChild("activity_id").equalTo(activity_id).addListenerForSingleValueEvent(new ValueEventListener() {
+            double lastDate = 0;
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -183,12 +183,13 @@ public class ActivityPage extends AppCompatActivity {
                     String session_month = snapshot.child("session_month").getValue(String.class);
                     String session_year = snapshot.child("session_year").getValue(String.class);
                     String session_time = snapshot.child("session_time").getValue(String.class);
-                    int date = Integer.parseInt(session_year + session_month + session_day + session_time);
+                    double date = Double.parseDouble(session_year + session_month + session_day + session_time);
 
+                    String session_done = snapshot.child("session_done").getValue(String.class);
                     String session_picture = snapshot.child("session_picture").getValue(String.class);
                     String session_comment = snapshot.child("session_comment").getValue(String.class);
 
-                    if (lastDate < date) {
+                    if (lastDate < date && session_done.equals("TRUE")) {
                         lastSessionData.set(0, session_picture);
                         lastSessionData.set(1, session_comment);
                         lastDate = date;
@@ -234,18 +235,13 @@ public class ActivityPage extends AppCompatActivity {
             }
         });
 
-        /*getLastSessionPicCom(activity_id, new OnSessionListRetrievedListener() { //todo
+        getLastSessionPicCom(activity_id, new OnSessionListRetrievedListener() { //todo a finir
             @Override
             public void onSessionListRetrieved(ArrayList<String> sessionPicCom) {
                 lastSessionData = sessionPicCom;
                 sessionCommentDisplay.setText(lastSessionData.get(1));
-
-                adapter = new ListSessionsAdapter(sessionPicCom);
-                recyclerView.setAdapter(adapter);
-                changeManager();
-
             }
-        });*/
+        });
 
         petPic = findViewById(R.id.activityPagePetPic);
         petName = findViewById(R.id.activityPagePetName);

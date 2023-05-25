@@ -303,9 +303,16 @@ public class EndSession extends AppCompatActivity {
 
     private void endSession(){
         DatabaseReference sessionRef = FirebaseDatabase.getInstance().getReference().child("Session").child(session_id);
-        String time = new SimpleDateFormat("HHmm").format(new Date());
+        Date date = new Date();
+        String time = new SimpleDateFormat("HHmm").format(date);
+        String day = new SimpleDateFormat("dd").format(date);
+        String month = new SimpleDateFormat("MM").format(date);
+        String year = new SimpleDateFormat("yyyy").format(date);
         sessionRef.child("session_time").setValue(time);
         sessionRef.child("session_done").setValue("TRUE");
+        sessionRef.child("session_day").setValue(day);
+        sessionRef.child("session_month").setValue(month);
+        sessionRef.child("session_year").setValue(year);
 
         Intent intent = new Intent(EndSession.this, ActivityPage.class);
         intent.putExtra("activity_id", activity_id);

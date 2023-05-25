@@ -8,6 +8,12 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hobbyzooapp.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.List;
 
@@ -39,7 +45,7 @@ public class ListSessionsAdapter extends RecyclerView.Adapter<ListSessionsAdapte
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         if (items.isEmpty()) {
-            holder.textView.setText("Aucune session disponible"); // Message affiché lorsque la liste est vide
+            holder.textView.setText("No session planned for this activity"); // Message affiché lorsque la liste est vide
         } else {
             String item = items.get(position);
             holder.textView.setText(item);
@@ -74,6 +80,10 @@ public class ListSessionsAdapter extends RecyclerView.Adapter<ListSessionsAdapte
         public ViewHolder(View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.itemTitleTextView);
+
+
+
+
         }
     }
 }

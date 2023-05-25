@@ -103,30 +103,42 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:id="@+id/activityPageLinearLayoutNextSessionsAndShowButton"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/activityPageLinearLayoutNextSessions"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/myNextSessionstext"
-                    android:layout_marginRight="40dp"
+                    android:layout_below="@+id/myNextSessionAndshowButtons"
                     android:orientation="horizontal">
 
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/activityPageRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30sp"
+                        android:layout_marginRight="30sp"
+                        android:background="@drawable/border"
+                        android:orientation="vertical"
+                        android:padding="20sp" />
 
-                    <LinearLayout
-                        android:id="@+id/activityPageLinearLayoutNextSessions"
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/myNextSessionAndshowButtons"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical">
+
+                    <TextView
+                        android:id="@+id/myNextSessionstext"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/activityPageRecyclerView"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="30sp"
-                            android:background="@drawable/border"
-                            android:orientation="vertical"
-                            android:padding="20sp" />
-
-                    </LinearLayout>
+                        android:layout_marginStart="25sp"
+                        android:layout_marginTop="20sp"
+                        android:layout_marginBottom="10sp"
+                        android:text="@string/my_next_sessions_"
+                        android:textColor="@color/sub_tilte"
+                        android:textSize="25sp" />
 
                     <Button
                         android:id="@+id/activityPageShowLessButton"
@@ -134,34 +146,24 @@
                         android:layout_height="30sp"
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/minus_icon"
-                        android:visibility="gone" />
+                        android:visibility="gone"
+                        android:gravity="center_vertical"/>
 
                     <Button
                         android:id="@+id/activityPageShowMoreButton"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="30sp"
+                        android:layout_height="30sp"
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/plus_icon"
-                        android:visibility="visible" />
-
+                        android:visibility="gone" />
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/myNextSessionstext"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="25sp"
-                    android:layout_marginTop="20sp"
-                    android:layout_marginBottom="10sp"
-                    android:text="@string/my_next_sessions_"
-                    android:textColor="@color/sub_tilte"
-                    android:textSize="25sp" />
 
                 <TextView
                     android:id="@+id/activityPageGoalsText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/activityPageLinearLayoutNextSessionsAndShowButton"
+                    android:layout_below="@id/activityPageLinearLayoutNextSessions"
                     android:layout_marginStart="25sp"
                     android:layout_marginTop="20sp"
                     android:layout_marginBottom="10sp"
@@ -184,7 +186,6 @@
                         android:layout_below="@id/activityPageGoalsText"
                         android:layout_marginLeft="30sp"
                         android:layout_marginRight="30sp"
-
                         android:background="@drawable/border"
                         android:orientation="vertical"
                         android:padding="20sp" />

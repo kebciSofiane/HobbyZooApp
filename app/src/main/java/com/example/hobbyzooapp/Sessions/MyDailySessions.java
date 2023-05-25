@@ -17,13 +17,8 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.hobbyzooapp.Activities.ActivitiesCallBack;
-import com.example.hobbyzooapp.Activities.Activity;
-import com.example.hobbyzooapp.Activities.ExpandableListAdapter;
-import com.example.hobbyzooapp.Activities.MyActivities;
 import com.example.hobbyzooapp.Calendar.CalendarActivity;
 import com.example.hobbyzooapp.Calendar.CalendarUtils;
-import com.example.hobbyzooapp.Category.Category;
 import com.example.hobbyzooapp.HomeActivity;
 import com.example.hobbyzooapp.R;
 import com.example.hobbyzooapp.OnItemClickListener;
@@ -35,12 +30,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
 
 public class MyDailySessions extends AppCompatActivity {
 
@@ -90,7 +82,7 @@ public class MyDailySessions extends AppCompatActivity {
             }
         });
 
-        sessionButton = findViewById(R.id.session);
+        sessionButton = findViewById(R.id.itemSessionList);
 
         GridView sessionListView = findViewById(R.id.session_list_view);
 

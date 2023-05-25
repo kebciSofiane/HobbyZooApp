@@ -120,8 +120,6 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
                     String session_done = snapshot.child("session_done").getValue(String.class);
 
 
-
-
                     DatabaseReference referenceActivity = database.getReference("Activity");
 
                     referenceActivity.child(activity_id).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -137,13 +135,18 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
                                 if (date.getMonth() == sessionDate.getMonth() &&
                                         date.getDayOfMonth() == sessionDate.getDayOfMonth()&&
                                         date.getYear() == sessionDate.getYear()) {
-                                    /*GradientDrawable backgroundDrawable = new GradientDrawable();
-                                    backgroundDrawable.setShape(GradientDrawable.RECTANGLE);
-                                    backgroundDrawable.setCornerRadius(10); // Définissez ici le rayon de courbure des coins (en pixels)
-                                    backgroundDrawable.setColor(Color.RED);
-                                    holder.itemView.setBackground(backgroundDrawable);*/
-                                    holder.dayIndicator.setVisibility(View.VISIBLE);
-                                }
+                                    // session pas fait case en rouge
+                                    /*if (session_done.equals("FALSE")) {
+                                        GradientDrawable backgroundDrawable = new GradientDrawable();
+                                        backgroundDrawable.setShape(GradientDrawable.RECTANGLE);
+                                        backgroundDrawable.setCornerRadius(10); // Définissez ici le rayon de courbure des coins (en pixels)
+                                        backgroundDrawable.setColor(Color.RED);
+                                        holder.itemView.setBackground(backgroundDrawable);}
+                                        */
+                                    //session fait point gris
+                                    //if (session_done.equals("TRUE")) {
+                                        holder.dayIndicator.setVisibility(View.VISIBLE);}
+                                //}
                             } else {
                                 // L'activité n'existe pas dans la base de données
                             }

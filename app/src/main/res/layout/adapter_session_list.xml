@@ -8,13 +8,13 @@
 
 
     <LinearLayout
-        android:id="@+id/session"
-        android:layout_width="177dp"
-        android:layout_height="100dp"
+        android:id="@+id/itemSessionList"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:background="@drawable/session_border"
         android:orientation="vertical"
-        android:padding="10dp">
+        android:padding="15dp">
 
         <TextView
             android:id="@+id/session_name"
@@ -23,10 +23,7 @@
             android:layout_gravity="center"
             android:text="@string/default_activity_name"
             android:textColor="@color/black"
-            android:textSize="20sp"
-
-
-            />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/session_time"

@@ -32,7 +32,7 @@ public class MyDailySessionsAdapter extends BaseAdapter{
     public MyDailySessionsAdapter(Context context, List<Session> sessionList, LocalDate localDate){
         this.context = context;
         this.sessionList = sessionList;
-        System.out.println(sessionList.size());
+
         this.inflater = LayoutInflater.from(context);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             this.day = localDate.getDayOfMonth();
@@ -78,7 +78,6 @@ public class MyDailySessionsAdapter extends BaseAdapter{
         Session currentSession = getItem(i);
         String sessionName = currentSession.getActivityName();
         String sessionTime = currentSession.getTime().toString();
-        System.out.println(sessionTime);
 
         TextView sessionNameView = view.findViewById(R.id.session_name);
         sessionNameView.setText(sessionName);

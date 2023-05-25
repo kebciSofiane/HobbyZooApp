@@ -56,7 +56,7 @@ public class EndSession extends AppCompatActivity {
     TextView sessionCount;
     Button modifyPicButton;
     Button modifyCommentButton;
-    private String photoPath = null;
+    private String photoPath = "";
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     FirebaseAuth firebaseAuth;
     Intent intent = getIntent();
@@ -189,9 +189,6 @@ public class EndSession extends AppCompatActivity {
                 DatabaseReference sessionRef = FirebaseDatabase.getInstance().getReference().child("Session").child(session_id);
                 sessionRef.child("session_picture").setValue(photoPath);
                 sessionRef.child("session_comment").setValue(commentValidated.getText());
-                String time = new SimpleDateFormat("HHmm").format(new Date());
-                sessionRef.child("session_time").setValue(time);
-                sessionRef.child("session_done").setValue("TRUE");
                 endSession();
             }
         });
@@ -305,6 +302,11 @@ public class EndSession extends AppCompatActivity {
     }
 
     private void endSession(){
+        DatabaseReference sessionRef = FirebaseDatabase.getInstance().getReference().child("Session").child(session_id);
+        String time = new SimpleDateFormat("HHmm").format(new Date());
+        sessionRef.child("session_time").setValue(time);
+        sessionRef.child("session_done").setValue("TRUE");
+
         Intent intent = new Intent(EndSession.this, ActivityPage.class);
         intent.putExtra("activity_id", activity_id);
         startActivity(intent);

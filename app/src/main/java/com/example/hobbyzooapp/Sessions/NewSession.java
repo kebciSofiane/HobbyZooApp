@@ -164,10 +164,12 @@ public class NewSession extends AppCompatActivity {
         }
 
         hashMap.put("session_id", session_id);
-        hashMap.put("session_duration", String.valueOf(minute_duration));
         hashMap.put("session_day", String.valueOf(datePicker.getDayOfMonth()));
         hashMap.put("session_month", String.valueOf(datePicker.getMonth()+1));
         hashMap.put("session_year", String.valueOf(datePicker.getYear()));
+        hashMap.put("session_duration", String.valueOf(minute_duration));
+        hashMap.put("session_time", "");
+        hashMap.put("session_done", "FALSE");
         hashMap.put("session_picture", "");
         hashMap.put("session_comment", "");
         hashMap.put("activity_id", activity_id);

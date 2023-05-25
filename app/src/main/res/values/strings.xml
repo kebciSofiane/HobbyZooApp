@@ -2,11 +2,18 @@
     <string name="app_name">HobbyZooApp</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <!-- Default values of list (adapter) -->
+
+    <!-- Default values of lists (adapter) -->
     <string name="default_pet_name">Pet Name</string>
     <string name="default_activity_name">Activity Name</string>
     <string name="default_activity_time">Activity Time</string>
     <string name="default_session_date">Sessions date</string>
+
+    <string name="first_animal">1stAnimal</string>
+    <string name="second_animal">2ndAnimal</string>
+    <string name="third_animal">3rdAnimal</string>
+    <string name="fourth_animal">4thAnimal</string>
+    <string name="fifth_animal">5thAnimal</string>
 
     <!-- A changer par un image button  -->
     <string name="add_new">+</string>
@@ -35,6 +42,7 @@
     <string name="date_">Date :</string>
 
     <!-- My activities  -->
+    <string name="my_activities">My activities</string>
     <string name="my_next_sessions_">My next sessions :</string>
     <string name="goal_">Goal :</string>
 
@@ -77,10 +85,8 @@
     <string name="skip">Skip</string>
     <string name="Next">next</string>
     <string name="username">Username</string>
-    <string name="first_animal">1stAnimal</string>
-    <string name="second_animal">2ndAnimal</string>
-    <string name="third_animal">3rdAnimal</string>
-    <string name="fourth_animal">4thAnimal</string>
-    <string name="fifth_animal">5thAnimal</string>
+    <string name="change_password">Change Password</string>
+    <string name="unregister">Unregister</string>
+
 
 </resources>

@@ -16,20 +16,18 @@
         android:textColor="@color/black"
         tools:text="user@example.com" />
 
-
-
     <Button
         android:id="@+id/changePasswordBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Change Password" />
+        android:text="@string/change_password" />
 
     <Button
         android:id="@+id/unregisterBtn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Unregister" />
+        android:text="@string/unregister" />
 
 </LinearLayout>

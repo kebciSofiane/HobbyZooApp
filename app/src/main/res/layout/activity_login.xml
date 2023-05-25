@@ -34,23 +34,22 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:hint="@string/app_name"
-            android:backgroundTint="@color/dark_gray"
+            android:background="@color/dark_gray"
             android:textColorHint="@color/teal_200"
             android:inputType="textEmailAddress" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
 
     <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/passwordTIL"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:id="@+id/passwordTIL"
         app:passwordToggleEnabled="true"
         android:layout_below="@+id/emailTIL"
-        android:padding="10dp"
-        >
-
+        android:padding="10dp">
 
         <EditText
             android:id="@+id/passwordEt"
@@ -58,6 +57,7 @@
             android:hint="@string/password"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -85,9 +85,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/recoverPassTv"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="24dp">
-
-    </com.google.android.gms.common.SignInButton>
+        android:layout_marginTop="24dp"/>
 
     <TextView
         android:id="@+id/notHaveAccountTv"
@@ -100,4 +98,4 @@
         android:textAlignment="center"
         android:textColor="@color/black" />
 
-    z</RelativeLayout>
+</RelativeLayout>

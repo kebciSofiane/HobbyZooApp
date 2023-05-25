@@ -1,8 +1,14 @@
 package com.example.hobbyzooapp.Calendar;
 import com.example.hobbyzooapp.R;
 import com.example.hobbyzooapp.Sessions.MyDailySessions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.CollectionReference;
 
 import android.graphics.Color;
 import android.os.Build;
@@ -23,8 +29,9 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
     private final ArrayList<LocalDate> days;
     private final OnItemListener onItemListener;
 
-    public CalendarAdapter(ArrayList<LocalDate> days, OnItemListener onItemListener)
-    {
+    DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Session");
+
+    public CalendarAdapter(ArrayList<LocalDate> days, OnItemListener onItemListener) {
         this.days = days;
         this.onItemListener = onItemListener;
     }
@@ -46,8 +53,7 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position)
-    {
+    public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position) {
         final LocalDate date = days.get(position);
         if(date == null)
             holder.dayOfMonth.setText("");
@@ -57,21 +63,83 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
             if(date.equals(CalendarUtils.selectedDate))
                 holder.parentView.setBackgroundColor(Color.LTGRAY);
             FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference reference = database.getReference("Users");
 
-            if(MyDailySessions.noSessions ==true){holder.parentView.setBackgroundColor(Color.RED);}
 
+///////////////////////////////////////////////
+           searchSession(date.getDayOfMonth(), date.getMonthValue(), date.getYear(), new SessionExistsCallback() {
+                @Override
+                public void onSessionExists(boolean sessionExists) {
+                    // Utilisez la valeur de sessionExists ici
+                    if (sessionExists) {
+                        holder.parentView.setBackgroundColor(Color.RED);
+                    } else {
+
+                    }
+
+                }
+
+           });
         }
     }
 
+
+    public void searchSession(int jour, int mois, int annee, SessionExistsCallback callback) {
+        Query dayQuery = databaseRef.orderByChild("session_day").equalTo(jour);
+        Query monthQuery = databaseRef.orderByChild("session_month").equalTo(mois);
+        Query yearQuery = databaseRef.orderByChild("session_year").equalTo(annee);
+
+        dayQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    monthQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                yearQuery.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        boolean sessionExists = dataSnapshot.exists();
+                                        callback.onSessionExists(sessionExists);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                        callback.onSessionExists(false);
+                                    }
+                                });
+                            } else {
+                                callback.onSessionExists(false);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            callback.onSessionExists(false);
+                        }
+                    });
+                } else {
+                    callback.onSessionExists(false);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                callback.onSessionExists(false);
+            }
+        });
+    }
+
+
+
+    /////////////////////////
+
     @Override
-    public int getItemCount()
-    {
+    public int getItemCount() {
         return days.size();
     }
 
-    public interface  OnItemListener
-    {
+    public interface  OnItemListener {
         void onItemClick(int position, LocalDate date);
     }
 }

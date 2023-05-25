@@ -102,7 +102,6 @@
             android:layout_height="158dp"
             android:layout_marginTop="24dp"
             android:background="@color/brown_btn"
-
             android:timePickerMode="spinner"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
@@ -136,6 +135,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView2" />/>
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 </ScrollView>

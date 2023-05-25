@@ -189,6 +189,9 @@ public class EndSession extends AppCompatActivity {
                 DatabaseReference sessionRef = FirebaseDatabase.getInstance().getReference().child("Session").child(session_id);
                 sessionRef.child("session_picture").setValue(photoPath);
                 sessionRef.child("session_comment").setValue(commentValidated.getText());
+                String time = new SimpleDateFormat("HHmm").format(new Date());
+                sessionRef.child("session_time").setValue(time);
+                sessionRef.child("session_done").setValue("TRUE");
                 endSession();
             }
         });
@@ -223,7 +226,7 @@ public class EndSession extends AppCompatActivity {
         if (intent.resolveActivity(getPackageManager())!=null){
             String date = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             File photoDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-            File photoFile = File.createTempFile("Session of "+date,".jpg",photoDir);
+            File photoFile = File.createTempFile(date,".jpg", photoDir);
             photoPath = photoFile.getAbsolutePath();
             Uri photoUri = null;
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
@@ -303,7 +306,7 @@ public class EndSession extends AppCompatActivity {
 
     private void endSession(){
         Intent intent = new Intent(EndSession.this, ActivityPage.class);
-        intent.putExtra("activity_id",activity_id);
+        intent.putExtra("activity_id", activity_id);
         startActivity(intent);
     }
 }

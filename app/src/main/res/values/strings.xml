@@ -77,5 +77,6 @@
     <string name="skip">Skip</string>
     <string name="Next">next</string>
     <string name="username">Username</string>
+    <string name="logo" />
 
 </resources>

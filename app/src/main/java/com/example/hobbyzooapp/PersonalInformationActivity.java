@@ -33,17 +33,14 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.text.BreakIterator;
+
 public class PersonalInformationActivity extends AppCompatActivity {
 
     private TextView emailTv;
-    private TextView usernameLabel;
-    private EditText usernameEdit;
-    private ImageView profileImageView;
-    private Button changeUsernameBtn;
-    private Button changePhotoBtn;
+
     private Button changePasswordBtn;
     private Button unregisterBtn;
-    private Button savePhotoBtn;
     private ImageButton backButton;
 
     private FirebaseAuth firebaseAuth;
@@ -68,11 +65,6 @@ public class PersonalInformationActivity extends AppCompatActivity {
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
         emailTv = findViewById(R.id.emailTv);
-        usernameLabel = findViewById(R.id.usernameLabel);
-        usernameEdit = findViewById(R.id.usernameEdit);
-        profileImageView = findViewById(R.id.profileImageView);
-        changeUsernameBtn = findViewById(R.id.changeUsernameBtn);
-        changePhotoBtn = findViewById(R.id.changePhotoBtn);
         changePasswordBtn = findViewById(R.id.changePasswordBtn);
         unregisterBtn = findViewById(R.id.unregisterBtn);
         backButton = findViewById(R.id.backButton3);
@@ -80,53 +72,8 @@ public class PersonalInformationActivity extends AppCompatActivity {
 
         if (user != null) {
             emailTv.setText(user.getEmail());
-
-            DatabaseReference reference = databaseReference.child(user.getUid());
-            reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
-                        String username = snapshot.child("pseudo").getValue(String.class);
-                        if (username != null) {
-                            usernameLabel.setText(username);
-                            usernameEdit.setText(username);
-                        }
-
-                        String image = snapshot.child("image").getValue(String.class);
-                        if (image != null) {
-                            Glide.with(PersonalInformationActivity.this)
-                                    .load(image)
-                                    .into(profileImageView);
-                        }
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    // Handle data reading errors
-                }
-            });
         }
 
-        changeUsernameBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isEditMode) {
-                    saveUsernameChanges();
-                } else {
-                    enterEditMode();
-                }
-            }
-        });
-
-        changePhotoBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent galleryIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                galleryIntent.setType("image/*");
-                startActivityForResult(galleryIntent, PICK_IMAGE);
-            }
-        });
 
         changePasswordBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -145,15 +92,7 @@ public class PersonalInformationActivity extends AppCompatActivity {
                 showConfirmationDialog();
             }
         });
-        savePhotoBtn = findViewById(R.id.savePhotoBtn);
-        savePhotoBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (imageUri != null) {
-                    updateProfileImage(imageUri);
-                }
-            }
-        });
+
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,17 +122,12 @@ public class PersonalInformationActivity extends AppCompatActivity {
 
     private void enterEditMode() {
         isEditMode = true;
-        changeUsernameBtn.setText("Save");
-        usernameLabel.setVisibility(View.GONE);
-        usernameEdit.setVisibility(View.VISIBLE);
-        usernameEdit.requestFocus();
+
     }
 
     private void exitEditMode() {
         isEditMode = false;
-        changeUsernameBtn.setText("Edit");
-        usernameLabel.setVisibility(View.VISIBLE);
-        usernameEdit.setVisibility(View.GONE);
+
 
     }
 
@@ -240,97 +174,95 @@ public class PersonalInformationActivity extends AppCompatActivity {
         }
     }
 
-    private void saveUsernameChanges() {
-        String newUsername = usernameEdit.getText().toString().trim();
-        FirebaseUser user = firebaseAuth.getCurrentUser();
+//    private void saveUsernameChanges() {
+//        String newUsername = usernameEdit.getText().toString().trim();
+//        FirebaseUser user = firebaseAuth.getCurrentUser();
+//
+//        if (user != null) {
+//            DatabaseReference reference = databaseReference.child(user.getUid());
+//            reference.child("pseudo").setValue(newUsername)
+//                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                        @Override
+//                        public void onSuccess(Void aVoid) {
+//                            exitEditMode();
+//                            Toast.makeText(PersonalInformationActivity.this, "Username updated successfully", Toast.LENGTH_SHORT).show();
+//
+//                            // Mettre à jour le TextView du nom d'utilisateur (usernameLabel)
+//                            usernameLabel.setText(newUsername);
+//
+//                            // Pass the updated username back to ProfileActivity
+//                            Intent intent = new Intent();
+//                            intent.putExtra("newUsername", newUsername);
+//                            setResult(RESULT_OK, intent);
+//                        }
+//                    })
+//                    .addOnFailureListener(new OnFailureListener() {
+//                        @Override
+//                        public void onFailure(@NonNull Exception e) {
+//                            Toast.makeText(PersonalInformationActivity.this, "Failed to update username", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//        }
+//        Intent intent = new Intent();
+//        intent.putExtra("newUsername", newUsername);
+//        intent.putExtra("newImageUri", imageUri != null ? imageUri.toString() : null);
+//        setResult(RESULT_OK, intent);
+//    }
 
-        if (user != null) {
-            DatabaseReference reference = databaseReference.child(user.getUid());
-            reference.child("pseudo").setValue(newUsername)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            exitEditMode();
-                            Toast.makeText(PersonalInformationActivity.this, "Username updated successfully", Toast.LENGTH_SHORT).show();
-
-                            // Mettre à jour le TextView du nom d'utilisateur (usernameLabel)
-                            usernameLabel.setText(newUsername);
-
-                            // Pass the updated username back to ProfileActivity
-                            Intent intent = new Intent();
-                            intent.putExtra("newUsername", newUsername);
-                            setResult(RESULT_OK, intent);
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(PersonalInformationActivity.this, "Failed to update username", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
-        Intent intent = new Intent();
-        intent.putExtra("newUsername", newUsername);
-        intent.putExtra("newImageUri", imageUri != null ? imageUri.toString() : null);
-        setResult(RESULT_OK, intent);
-
-        finish();
-    }
-
-    private void updateProfileImage(Uri imageUri) {
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-
-        if (user != null) {
-            StorageReference imageRef = storageReference.child("profile_images").child(user.getUid() + ".jpg");
-
-            ProgressDialog progressDialog = new ProgressDialog(this);
-            progressDialog.setMessage("Uploading image...");
-            progressDialog.setCancelable(false);
-            progressDialog.show();
-
-            imageRef.putFile(imageUri)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    DatabaseReference reference = databaseReference.child(user.getUid());
-                                    reference.child("image").setValue(uri.toString())
-                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                @Override
-                                                public void onSuccess(Void aVoid) {
-                                                    progressDialog.dismiss();
-                                                    Toast.makeText(PersonalInformationActivity.this, "Profile image updated successfully", Toast.LENGTH_SHORT).show();
-
-                                                    // Pass the updated image URI back to ProfileActivity
-                                                    Intent intent = new Intent();
-                                                    intent.putExtra("newImageUri", uri.toString());
-                                                    setResult(RESULT_OK, intent);
-
-                                                    savePhotoBtn.setVisibility(View.GONE); // Masquer le bouton "Enregistrer"
-                                                }
-                                            })
-                                            .addOnFailureListener(new OnFailureListener() {
-                                                @Override
-                                                public void onFailure(@NonNull Exception e) {
-                                                    progressDialog.dismiss();
-                                                    Toast.makeText(PersonalInformationActivity.this, "Failed to update profile image", Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
-                                }
-                            });
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            progressDialog.dismiss();
-                            Toast.makeText(PersonalInformationActivity.this, "Failed to upload image", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-        }
-    }
+//    private void updateProfileImage(Uri imageUri) {
+//        FirebaseUser user = firebaseAuth.getCurrentUser();
+//
+//        if (user != null) {
+//            StorageReference imageRef = storageReference.child("profile_images").child(user.getUid() + ".jpg");
+//
+//            ProgressDialog progressDialog = new ProgressDialog(this);
+//            progressDialog.setMessage("Uploading image...");
+//            progressDialog.setCancelable(false);
+//            progressDialog.show();
+//
+//            imageRef.putFile(imageUri)
+//                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+//                        @Override
+//                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+//                            imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+//                                @Override
+//                                public void onSuccess(Uri uri) {
+//                                    DatabaseReference reference = databaseReference.child(user.getUid());
+//                                    reference.child("image").setValue(uri.toString())
+//                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                                @Override
+//                                                public void onSuccess(Void aVoid) {
+//                                                    progressDialog.dismiss();
+//                                                    Toast.makeText(PersonalInformationActivity.this, "Profile image updated successfully", Toast.LENGTH_SHORT).show();
+//
+//                                                    // Pass the updated image URI back to ProfileActivity
+//                                                    Intent intent = new Intent();
+//                                                    intent.putExtra("newImageUri", uri.toString());
+//                                                    setResult(RESULT_OK, intent);
+//
+//                                                    savePhotoBtn.setVisibility(View.GONE); // Masquer le bouton "Enregistrer"
+//                                                }
+//                                            })
+//                                            .addOnFailureListener(new OnFailureListener() {
+//                                                @Override
+//                                                public void onFailure(@NonNull Exception e) {
+//                                                    progressDialog.dismiss();
+//                                                    Toast.makeText(PersonalInformationActivity.this, "Failed to update profile image", Toast.LENGTH_SHORT).show();
+//                                                }
+//                                            });
+//                                }
+//                            });
+//                        }
+//                    })
+//                    .addOnFailureListener(new OnFailureListener() {
+//                        @Override
+//                        public void onFailure(@NonNull Exception e) {
+//                            progressDialog.dismiss();
+//                            Toast.makeText(PersonalInformationActivity.this, "Failed to upload image", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
+//        }
+//    }
 
 
 
@@ -340,33 +272,9 @@ public class PersonalInformationActivity extends AppCompatActivity {
 
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
             imageUri = data.getData();
-            profileImageView.setImageURI(imageUri);
-            savePhotoBtn.setVisibility(View.VISIBLE); // Afficher le bouton "Enregistrer"
         }
     }
-    @Override
-    public void onBackPressed() {
-        String newUsername = usernameEdit.getText().toString().trim();
 
-        if (isEditMode) {
-            if (!newUsername.isEmpty() && !newUsername.equals(usernameLabel.getText().toString())) {
-                exitEditMode();
-                usernameLabel.setText(newUsername);
-
-                // Passer les données modifiées en tant qu'extra à travers l'intent de retour
-                Intent intent = new Intent();
-                intent.putExtra("newUsername", newUsername);
-                intent.putExtra("newImageUri", imageUri != null ? imageUri.toString() : null);
-                setResult(RESULT_OK, intent);
-            } else {
-                setResult(RESULT_CANCELED);
-            }
-        } else {
-            setResult(RESULT_CANCELED);
-        }
-
-        super.onBackPressed();
-    }
 
 
 }

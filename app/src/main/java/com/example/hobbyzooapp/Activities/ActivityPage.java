@@ -1,5 +1,6 @@
 package com.example.hobbyzooapp.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -62,7 +63,7 @@ public class ActivityPage extends AppCompatActivity {
     List<String> items = new ArrayList<>();
     ListSessionsAdapter adapter;
     private List<TodoTask> todoList = new ArrayList<>();
-    private List<String> mysessions = new ArrayList<>();
+    private List<Session> mysessions = new ArrayList<>();
 
     Boolean allSessions = false;
     Button addToTodoListButton;
@@ -86,6 +87,7 @@ public class ActivityPage extends AppCompatActivity {
          referenceActivity = database.getReference("Activity");
 
         referenceActivity.child(activity_id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
@@ -107,7 +109,9 @@ public class ActivityPage extends AppCompatActivity {
 
                     int weeklySpentHours = Integer.parseInt(spentTime) / 60;
                     int weeklySpentMinutes = Integer.parseInt(spentTime) % 60;
-                    goalsText.setText("Weekly Goal: "+weeklySpentHours+"h"+weeklySpentMinutes+"/"+weeklyHours+"h"+weeklyMinutes);
+                    goalsText.setText(new Time(weeklySpentHours,weeklySpentMinutes,0)+
+                            "/"+
+                            new Time(weeklyHours,weeklyMinutes,0));
 
 
                     DatabaseReference referenceCategory = database.getReference("Category");
@@ -147,35 +151,62 @@ public class ActivityPage extends AppCompatActivity {
 
     }
 
-    private ArrayList<String> getSessionList(String activity_id, OnSessionListRetrievedListener listener){
+    private ArrayList<Session> getSessionList(String activity_id, OnSessionListRetrievedListener listener){
         DatabaseReference reference = database.getReference("Session");
-        ArrayList<String> mySessions = new ArrayList<>();
-        reference.orderByChild("activity_id").equalTo(activity_id).addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference activityReference = database.getReference("Activity");
+
+        ArrayList<Session> mySessions = new ArrayList<>();
+
+
+
+        activityReference.child(activity_id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String session_id = snapshot.child("session_id").getValue(String.class);
-                    String session_duration = snapshot.child("session_duration").getValue(String.class);
-                    String activity_id = snapshot.child("activity_id").getValue(String.class);
-                    String session_day = snapshot.child("session_day").getValue(String.class);
-                    String session_month = snapshot.child("session_month").getValue(String.class);
-                    String session_year = snapshot.child("session_year").getValue(String.class);
-                    int hourDuration = Integer.parseInt(session_duration)/60;
-                    int minutesDuration = Integer.parseInt(session_duration)%60;
-                    String session = session_day+"/"+session_month+"/"+session_year+" for "+hourDuration+"h:"+minutesDuration;
-                    mySessions.add(session);
-                }
-                listener.onSessionListRetrieved(mySessions);
-                if (mySessions.size()>=3) showMoreButton.setVisibility(View.VISIBLE);
-                else showMoreButton.setVisibility(View.GONE);
+                if (dataSnapshot.exists()) {
+                    String activity_name = dataSnapshot.child("activity_name").getValue(String.class);
+                    reference.orderByChild("activity_id").equalTo(activity_id).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                String session_id = snapshot.child("session_id").getValue(String.class);
+                                String session_duration = snapshot.child("session_duration").getValue(String.class);
+                                String activity_id = snapshot.child("activity_id").getValue(String.class);
+                                String session_day = snapshot.child("session_day").getValue(String.class);
+                                String session_month = snapshot.child("session_month").getValue(String.class);
+                                String session_year = snapshot.child("session_year").getValue(String.class);
+                                int hourDuration = Integer.parseInt(session_duration)/60;
+                                int minutesDuration = Integer.parseInt(session_duration)%60;
 
+                                mySessions.add(new Session(session_id,activity_id,activity_name,
+                                        new Time(hourDuration,minutesDuration,0),
+                                        Integer.parseInt(session_day),
+                                        Integer.parseInt(session_month),
+                                        Integer.parseInt(session_year)));
+                            }
+                            listener.onSessionListRetrieved(mySessions);
+                            if (mySessions.size()>=3) showMoreButton.setVisibility(View.VISIBLE);
+                            else showMoreButton.setVisibility(View.GONE);
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Log.w("TAG", "Erreur lors de la récupération des données", databaseError.toException());
+                        }
+                    });
+                }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.w("TAG", "Erreur lors de la récupération des données", databaseError.toException());
             }
         });
+
+
+
+
+
+
 
         return  mySessions;
     }
@@ -230,7 +261,7 @@ public class ActivityPage extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         getSessionList(activity_id, new OnSessionListRetrievedListener() {
             @Override
-            public void onSessionListRetrieved(ArrayList<String> sessionList) {
+            public void onSessionListRetrieved(ArrayList<Session> sessionList) {
                 mysessions = sessionList;
                 adapter = new ListSessionsAdapter(sessionList);
                 recyclerView.setAdapter(adapter);

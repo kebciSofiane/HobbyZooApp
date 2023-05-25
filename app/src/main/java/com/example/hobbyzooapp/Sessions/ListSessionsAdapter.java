@@ -1,5 +1,6 @@
 package com.example.hobbyzooapp.Sessions;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.List;
 
 public class ListSessionsAdapter extends RecyclerView.Adapter<ListSessionsAdapter.ViewHolder> {
-    private List<String> items;
+    private List<Session> items;
     private int displayedItemCount = 3;
     private boolean isExpanded = false;
 
@@ -27,11 +28,11 @@ public class ListSessionsAdapter extends RecyclerView.Adapter<ListSessionsAdapte
         this.displayedItemCount = displayedItemCount;
     }
 
-    public ListSessionsAdapter(List<String> items) {
+    public ListSessionsAdapter(List<Session> items) {
         this.items = items;
     }
 
-    public void setItems(List<String> items) {
+    public void setItems(List<Session> items) {
         this.items = items;
     }
 
@@ -42,14 +43,16 @@ public class ListSessionsAdapter extends RecyclerView.Adapter<ListSessionsAdapte
         return new ViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         if (items.isEmpty()) {
             holder.textView.setText("No session planned for this activity"); // Message affiché lorsque la liste est vide
         } else {
-            String item = items.get(position);
-            holder.textView.setText(item);
+            Session item = items.get(position);
+            holder.textView.setText(item.getDay()+"-"+item.getMonth()+"-"+item.getYear()+" for "+item.getTime());
         }
+
     }
 
     public boolean isExpanded() {
@@ -80,8 +83,6 @@ public class ListSessionsAdapter extends RecyclerView.Adapter<ListSessionsAdapte
         public ViewHolder(View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.itemTitleTextView);
-
-
 
 
         }

@@ -158,18 +158,29 @@
                         android:visibility="gone" />
                 </LinearLayout>
 
+                <TextView
+                    android:id="@+id/activityPageGoalsTextDisplay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/activityPageLinearLayoutNextSessions"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginStart="25sp"
+                    android:layout_marginTop="20sp"
+                    android:text="@string/weeklyGoal"
+                    android:textColor="@color/sub_tilte"
+                    android:textSize="25sp" />
 
                 <TextView
                     android:id="@+id/activityPageGoalsText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/activityPageLinearLayoutNextSessions"
-                    android:layout_marginStart="25sp"
-                    android:layout_marginTop="20sp"
-                    android:layout_marginBottom="10sp"
-                    android:text="@string/goal_"
+                    android:layout_below="@id/activityPageGoalsTextDisplay"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/WeeklyGoal"
+                    android:layout_centerHorizontal="true"
                     android:textColor="@color/sub_tilte"
                     android:textSize="25sp" />
+
 
 
                 <LinearLayout

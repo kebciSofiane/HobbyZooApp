@@ -85,14 +85,14 @@ public class ActivityPage extends AppCompatActivity {
 
     public void getActivityData(String activity_id){
          database = FirebaseDatabase.getInstance();
-         referenceActivity = database.getReference("Activity");
+         referenceActivity = database.getReference().child("Activity");
 
         referenceActivity.child(activity_id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     // Récupérez les informations de l'activité
-                     activityId = dataSnapshot.child("activity_id").getValue(String.class);
+                     activityId = activity_id;
                      activityName = dataSnapshot.child("activity_name").getValue(String.class).replace(",", " ");
                      activityPetName = dataSnapshot.child("activity_pet_name").getValue(String.class).replace(",", " ");
                      activityPet = dataSnapshot.child("activity_pet").getValue(String.class);
@@ -346,16 +346,15 @@ public class ActivityPage extends AppCompatActivity {
         deleteActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                referenceActivity.child(activity_id).removeValue();
                 DatabaseReference databaseReferenceTasks = database.getReference().child("Tasks");
                 databaseReferenceTasks.addListenerForSingleValueEvent(new ValueEventListener() {
 
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            String activity_id = snapshot.child("activity_id").getValue(String.class);
+                            String activity_id_task = snapshot.child("activity_id").getValue(String.class);
                             String task_id = snapshot.child("task_id").getValue(String.class);
-                            if(activity_id.equals(activityId)){
+                            if(activity_id_task.equals(activityId)){
                                 databaseReferenceTasks.child(task_id).removeValue();
                             }
                         }
@@ -371,9 +370,9 @@ public class ActivityPage extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            String activity_id = snapshot.child("activity_id").getValue(String.class);
+                            String activity_id_session = snapshot.child("activity_id").getValue(String.class);
                             String session_id = snapshot.child("session_id").getValue(String.class);
-                            if(activity_id.equals(activityId)){
+                            if(activity_id_session.equals(activityId)){
                                 databaseReferenceSession.child(session_id).removeValue();
                             }
                         }
@@ -384,6 +383,7 @@ public class ActivityPage extends AppCompatActivity {
 
                     }
                 });
+                referenceActivity.child(activityId).removeValue();
                 finish();
             }
         });

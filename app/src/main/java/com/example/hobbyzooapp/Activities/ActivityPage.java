@@ -38,7 +38,7 @@ import java.util.List;
 
 public class ActivityPage extends AppCompatActivity {
 
-    ImageView petPic;
+    ImageView petPic, sessionLastPicture;
     TextView petName;
     Button editNamePetButton;
     EditText editTextPetName;
@@ -220,6 +220,7 @@ public class ActivityPage extends AppCompatActivity {
         editTextActivityName = findViewById(R.id.activityPageActivityNameEdit);
 
         sessionCommentDisplay = findViewById(R.id.activityPageCommentText);
+        sessionLastPicture = findViewById(R.id.activityPagePicture);
 
         getActivityData(activity_id);
 
@@ -240,6 +241,14 @@ public class ActivityPage extends AppCompatActivity {
             public void onSessionListRetrieved(ArrayList<String> sessionPicCom) {
                 lastSessionData = sessionPicCom;
                 sessionCommentDisplay.setText(lastSessionData.get(1));
+
+                String image = lastSessionData.get(0);
+
+                if (!image.equals("")) {
+                    Glide.with(ActivityPage.this)
+                            .load(image)
+                            .into(sessionLastPicture);
+                }
             }
         });
 
@@ -428,6 +437,38 @@ public class ActivityPage extends AppCompatActivity {
                 });
             }
         });
+
+        /*if (user != null) { //todo a effacer
+            DatabaseReference reference = databaseReference.child("Session");
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@android.support.annotation.NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        String pseudo = snapshot.child("pseudo").getValue(String.class);
+                        if (pseudo != null) {
+                            usernameTextView.setText(pseudo);
+                            usernameEdit.setText(pseudo); // Afficher le pseudo dans le champ d'édition
+                        }
+
+                        String image = snapshot.child("image").getValue(String.class);
+                        if (image != null) {
+                            Glide.with(ProfileActivity.this)
+                                    .load(image)
+                                    .into(profileImageView);
+                        } else {
+                            Glide.with(ProfileActivity.this)
+                                    .load(R.drawable.ic_animal)
+                                    .into(profileImageView);
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@android.support.annotation.NonNull DatabaseError error) {
+                    // Handle data reading errors
+                }
+            });
+        }*/
 
     }
 

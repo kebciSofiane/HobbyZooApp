@@ -175,12 +175,13 @@ public class MyDailySessions extends AppCompatActivity {
                              String activityName = dataSnapshot.child("activity_name").getValue(String.class);
                              int hourDuration = Integer.parseInt(session_duration)/60;
                              int minutesDuration = Integer.parseInt(session_duration)%60;
-
+                             String mnemonic = dataSnapshot.child("activity_pet").getValue(String.class);
                                          mySessions.add(new Session(session_id,
                                                  activity_id,
                                                  activityName,
                                                  new Time(hourDuration,minutesDuration,0),
-                                                 Integer.parseInt(session_day),Integer.parseInt(session_month),Integer.parseInt(session_year)));
+                                                 Integer.parseInt(session_day),Integer.parseInt(session_month),Integer.parseInt(session_year),
+                                                 mnemonic));
                              callback.onSessionsLoaded(mySessions);
                          } else {
                              // L'activité n'existe pas dans la base de données

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -85,6 +86,14 @@ public class MyDailySessionsAdapter extends BaseAdapter{
         TextView sessionTimeView = view.findViewById(R.id.session_time);
         sessionTimeView.setText(sessionTime);
 
+        String sessionPetIconRes = currentSession.getMnemonic()+"_icon";
+        int resId = context.getResources().getIdentifier(sessionPetIconRes,"drawable",context.getPackageName());
+
+        ImageView sessionPetIcon = view.findViewById(R.id.session_icon);
+        sessionPetIcon.setImageResource(resId);
+
+
+
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,6 +102,9 @@ public class MyDailySessionsAdapter extends BaseAdapter{
                 }
             }
         });
+
+
+
 
         return view;
     }

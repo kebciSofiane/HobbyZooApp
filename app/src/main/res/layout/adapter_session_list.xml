@@ -6,7 +6,6 @@
     android:layout_margin="10dp"
     android:background="@color/app_background">
 
-
     <LinearLayout
         android:id="@+id/itemSessionList"
         android:layout_width="140dp"
@@ -15,6 +14,12 @@
         android:background="@drawable/session_border"
         android:orientation="vertical"
         android:padding="15dp">
+
+        <ImageView
+            android:id="@+id/session_icon"
+            android:layout_width="105dp"
+            android:layout_height="75dp"
+            android:src="@drawable/hobby_zoo_app" />
 
         <TextView
             android:id="@+id/session_name"
@@ -33,9 +38,7 @@
             android:text="@string/default_activity_time"
             android:textColor="@color/black"
             android:textSize="15sp" />
+
     </LinearLayout>
-
-
-
 
 </LinearLayout>

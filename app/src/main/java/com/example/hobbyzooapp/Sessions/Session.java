@@ -7,9 +7,10 @@ public class Session {
     private String sessionId,activityId,activityName;
     private Time time;
     private int month, day, year;
+    String mnemonic;
 
 
-    public Session(String id, String activityId, String activityName,Time time, int day, int month , int year) {
+    public Session(String id, String activityId, String activityName,Time time, int day, int month , int year, String mnemonic) {
         this.sessionId = id;
         this.time = time;
         this.activityId=activityId;
@@ -17,6 +18,7 @@ public class Session {
         this.month = month;
         this.year = year;
         this.activityName=activityName;
+        this.mnemonic=mnemonic;
     }
 
     public String getSessionId() {
@@ -40,4 +42,5 @@ public class Session {
     public int getDay() {return day;}
 
     public int getYear() {return year;}
+    public String getMnemonic() {return mnemonic;}
 }

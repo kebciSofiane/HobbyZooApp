@@ -120,9 +120,9 @@ public class EndSession extends AppCompatActivity {
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                             if (databaseError == null) {
-                                System.out.println("Activité modifiée avec succès !");
+                                System.out.println("Activity successfully modified !");
                             } else {
-                                System.err.println("Erreur lors de la modification de l'activité : " + databaseError.getMessage());
+                                System.err.println("Error while modifying activity : " + databaseError.getMessage());
                             }
                         }
                     });
@@ -290,12 +290,12 @@ public class EndSession extends AppCompatActivity {
                     OutputStream outputStream = resolver.openOutputStream(uri);
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
                     outputStream.close();
-                    Toast.makeText(this, "La photo a été enregistrée dans la galerie", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "The photo has been saved in the gallery", Toast.LENGTH_SHORT).show();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             } else {
-                Toast.makeText(this, "Sélectionnez une photo avant de l'enregistrer", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Select a photo before saving it", Toast.LENGTH_SHORT).show();
             }
         }
     }
@@ -319,7 +319,7 @@ public class EndSession extends AppCompatActivity {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 savePhotoToGallery();
             } else {
-                Toast.makeText(this, "La permission d'enregistrement dans la galerie a été refusée", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Permission to register in the gallery has been refused", Toast.LENGTH_SHORT).show();
             }
         }
     }

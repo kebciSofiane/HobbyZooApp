@@ -1,13 +1,9 @@
 package com.example.hobbyzooapp.Activities;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.InputFilter;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -19,17 +15,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hobbyzooapp.HomeActivity;
 import com.example.hobbyzooapp.R;
-import com.example.hobbyzooapp.Sessions.MyDailySessions;
 import com.example.hobbyzooapp.Sessions.NewSession;
 import com.example.hobbyzooapp.Sessions.OnSessionListRetrievedListener;
-import com.example.hobbyzooapp.Sessions.Session;
 import com.example.hobbyzooapp.TodoTask;
 import com.example.hobbyzooapp.Sessions.ListSessionsAdapter;
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,7 +33,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,7 +47,7 @@ public class ActivityPage extends AppCompatActivity {
     Button validatePetName;
     Button showMoreButton;
     Button showLessButton;
-    Button addSessionButton;
+    ImageButton addSessionButton;
     RecyclerView recyclerView;
     RecyclerView recyclerViewTodoList;
     ImageButton homeButton;
@@ -63,7 +55,7 @@ public class ActivityPage extends AppCompatActivity {
     List<String> items = new ArrayList<>();
     ListSessionsAdapter adapter;
     private List<TodoTask> todoList = new ArrayList<>();
-    private List<String> mysessions = new ArrayList<>();
+    private List<String> mySessions = new ArrayList<>();
 
     Boolean allSessions = false;
     Button addToTodoListButton;
@@ -203,7 +195,7 @@ public class ActivityPage extends AppCompatActivity {
         getSessionList(activity_id, new OnSessionListRetrievedListener() {
             @Override
             public void onSessionListRetrieved(ArrayList<String> sessionList) {
-                mysessions = sessionList;
+                mySessions = sessionList;
                 adapter = new ListSessionsAdapter(sessionList);
                 recyclerView.setAdapter(adapter);
                 changeManager();
@@ -429,8 +421,8 @@ public class ActivityPage extends AppCompatActivity {
     private void changeManager() {
         GridLayoutManager layoutManager;
          if (allSessions)
-             if (mysessions.size()<=5)
-                 layoutManager = new GridLayoutManager(this, mysessions.size() , GridLayoutManager.HORIZONTAL, false);
+             if (mySessions.size()<=5)
+                 layoutManager = new GridLayoutManager(this, mySessions.size() , GridLayoutManager.HORIZONTAL, false);
              else
                 layoutManager = new GridLayoutManager(this, 5, GridLayoutManager.HORIZONTAL, false);
         else

@@ -135,8 +135,8 @@ public class RunSession extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 new AlertDialog.Builder(RunSession.this)
-                        .setTitle("Vous êtes sur le point de mettre fin à votre activité !")
-                        .setMessage("Voulez-vous vraiment arrêter votre activité ?")
+                        .setTitle("You are about to close your session !")
+                        .setMessage("Do you really want to stop ?")
                         .setNegativeButton(android.R.string.no, null)
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface arg0, int arg1) {
@@ -223,7 +223,7 @@ public class RunSession extends AppCompatActivity {
         long minutes = TimeUnit.MILLISECONDS.toMinutes(timeLeftInMillis - TimeUnit.HOURS.toMillis(hours));
         long seconds = TimeUnit.MILLISECONDS.toSeconds(timeLeftInMillis - TimeUnit.HOURS.toMillis(hours) - TimeUnit.MINUTES.toMillis(minutes));
         String timeRemainingFormatted = String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds);
-        countdownTextView.setText("Temps restant : " + timeRemainingFormatted);
+        countdownTextView.setText("Time left : " + timeRemainingFormatted);
     }
     private void endSession(){
         Intent intent = new Intent(RunSession.this, EndSession.class);

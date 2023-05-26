@@ -36,24 +36,21 @@ import java.util.ArrayList;
 
 public class MyDailySessions extends AppCompatActivity {
 
-
     private ImageButton homeButton;
-    private Button addSessionButton;
+    private ImageButton addSessionButton;
     private ImageButton calendarButton;
     private View sessionButton;
     public static Boolean noSessions = true;
     FirebaseAuth firebaseAuth;
     LocalDate localDate = CalendarUtils.selectedDate;
-
     MyDailySessionsAdapter adapter;
-
-
 
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_my_daily_sessions);
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -82,7 +79,7 @@ public class MyDailySessions extends AppCompatActivity {
             }
         });
 
-        sessionButton = findViewById(R.id.itemSessionList);
+       // sessionButton = findViewById(R.id.itemSessionList);
 
         GridView sessionListView = findViewById(R.id.session_list_view);
 
@@ -96,8 +93,8 @@ public class MyDailySessions extends AppCompatActivity {
                     @Override
                     public void onItemClick(int position) {
                         new AlertDialog.Builder(MyDailySessions.this)
-                                .setTitle(adapter.getItem(position).getActivityName() + " de " + adapter.getItem(position).getTime())
-                                .setMessage("Voulez-vous commencer cette session ?")
+                                .setTitle(adapter.getItem(position).getActivityName() + " - " + adapter.getItem(position).getTime())
+                                .setMessage("Do you want to start ?")
                                 .setNegativeButton(android.R.string.no, null)
                                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface arg0, int arg1) {

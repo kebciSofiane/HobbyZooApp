@@ -7,22 +7,32 @@
     android:orientation="vertical"
     android:background="@drawable/grass_sky">
 
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="-14dp"
+        android:src="@drawable/hobby_zoo_home_panel" />
+
     <Button
         android:id="@+id/scrollAnimalsRight"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:background="@drawable/arrow_right"
-        android:layout_centerVertical="true"
         android:layout_alignParentEnd="true"
-        android:visibility="visible"/>
+        android:layout_centerVertical="true"
+        android:background="@drawable/arrow_right"
+        android:visibility="visible" />
+
     <Button
         android:id="@+id/scrollAnimalsLeft"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:background="@drawable/arrow_left"
-        android:layout_centerVertical="true"
         android:layout_alignParentStart="true"
-        android:visibility="visible"/>
+        android:layout_centerVertical="true"
+        android:background="@drawable/arrow_left"
+        android:visibility="visible" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -175,8 +185,9 @@
             <ImageButton
                 android:id="@+id/calendar_btn"
                 android:layout_width="0dp"
-                android:layout_height="80dp"
+                android:layout_height="70dp"
                 android:layout_weight="1"
+                android:layout_marginRight="30dp"
                 android:scaleType="fitCenter"
                 android:background="@color/transparent"
                 app:srcCompat="@drawable/ic_calendar"
@@ -185,8 +196,9 @@
             <ImageButton
                 android:id="@+id/run_btn"
                 android:layout_width="0dp"
-                android:layout_height="120dp"
+                android:layout_height="100dp"
                 android:layout_weight="1"
+
                 android:scaleType="fitCenter"
                 android:background="@color/transparent"
                 android:visibility="visible"
@@ -197,8 +209,9 @@
             <ImageButton
                 android:id="@+id/profile_btn"
                 android:layout_width="0dp"
-                android:layout_height="80dp"
+                android:layout_height="70dp"
                 android:layout_weight="1"
+                android:layout_marginLeft="30dp"
                 android:scaleType="fitCenter"
                 android:background="@color/transparent"
                 android:cropToPadding="false"

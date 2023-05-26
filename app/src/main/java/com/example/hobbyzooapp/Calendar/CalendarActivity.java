@@ -28,7 +28,6 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
 {
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
-    private Button todaySessionButton;
     private ImageButton todayMonthButton;
     private ImageButton homeButton;
     FirebaseAuth firebaseAuth;
@@ -37,8 +36,7 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
     @SuppressLint("MissingInflatedId")
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_calendar);
         firebaseAuth = FirebaseAuth.getInstance();
@@ -46,16 +44,6 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
         CalendarUtils.selectedDate = LocalDate.now();
         setMonthView();
 
-
-
-        todaySessionButton = findViewById(R.id.today_session);
-        todaySessionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CalendarUtils.selectedDate = LocalDate.now();
-                openTodaySessions();
-            }
-        });
 
         todayMonthButton = findViewById(R.id.today_month);
         todayMonthButton.setOnClickListener(new View.OnClickListener() {

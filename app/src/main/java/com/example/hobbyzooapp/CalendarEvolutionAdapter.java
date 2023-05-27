@@ -3,7 +3,9 @@ package com.example.hobbyzooapp;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -18,6 +20,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.graphics.drawable.RoundedBitmapDrawable;
+import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -49,15 +53,15 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class CalendarEvolutionAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
+public class CalendarEvolutionAdapter extends RecyclerView.Adapter<CalendarEvolutionViewHolder> {
 
         private final ArrayList<LocalDate> days;
         private  int evenDayColor;
 
-    private final com.example.hobbyzooapp.Calendar.CalendarAdapter.OnItemListener onItemListener;
+    private final com.example.hobbyzooapp.CalendarEvolutionAdapter.OnItemListener onItemListener;
 
         public CalendarEvolutionAdapter(ArrayList<LocalDate> days,
-                                        com.example.hobbyzooapp.Calendar.CalendarAdapter.OnItemListener onItemListener,
+                                        com.example.hobbyzooapp.CalendarEvolutionAdapter.OnItemListener onItemListener,
         int evenDayColor)
         {
             this.evenDayColor =evenDayColor;
@@ -67,7 +71,7 @@ public class CalendarEvolutionAdapter extends RecyclerView.Adapter<CalendarViewH
 
         @NonNull
         @Override
-        public CalendarViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+        public CalendarEvolutionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
         {
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
             View view = inflater.inflate(R.layout.calendar_cell, parent, false);
@@ -77,24 +81,24 @@ public class CalendarEvolutionAdapter extends RecyclerView.Adapter<CalendarViewH
             else // week view
                 layoutParams.height = (int) parent.getHeight();
 
-            return new CalendarViewHolder(view, onItemListener, days);
+            return new CalendarEvolutionViewHolder(view, onItemListener, days);
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.O)
-        @Override
-        public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position)
+    @Override
+    public void onBindViewHolder(@NonNull CalendarEvolutionViewHolder holder, int position) {
+        final LocalDate date = days.get(position);
+        if(date == null)
+            holder.dayOfMonth.setText("");
+
+        else
         {
-            final LocalDate date = days.get(position);
-            if(date == null)
-                holder.dayOfMonth.setText("");
-
-            else
-            {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 holder.dayOfMonth.setText(String.valueOf(date.getDayOfMonth()));
-                if(date.equals(CalendarUtils.selectedDate))
-                    holder.parentView.setBackgroundColor(Color.LTGRAY);
+            }
+            if(date.equals(CalendarUtils.selectedDate))
+                holder.parentView.setBackgroundColor(Color.LTGRAY);
 
-                getSessions(holder,date);
+            getSessions(holder,date);
 
 
 //                if (date.getDayOfMonth() % 2 == 0) {
@@ -102,12 +106,11 @@ public class CalendarEvolutionAdapter extends RecyclerView.Adapter<CalendarViewH
 //                } else {
 //                    holder.itemView.setBackgroundColor(Color.TRANSPARENT);
 //                }
-            }
-
-
         }
+    }
 
-        @Override
+
+    @Override
         public int getItemCount()
         {
             return days.size();
@@ -118,7 +121,7 @@ public class CalendarEvolutionAdapter extends RecyclerView.Adapter<CalendarViewH
             void onItemClick(int position, LocalDate date);
         }
 
-    private void getSessions(CalendarViewHolder holder,LocalDate date) {
+    private void getSessions(CalendarEvolutionViewHolder holder,LocalDate date) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("Session");
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -167,8 +170,12 @@ public class CalendarEvolutionAdapter extends RecyclerView.Adapter<CalendarViewH
                                                 .into(new CustomTarget<Drawable>() {
                                                     @Override
                                                     public void onResourceReady(@NonNull Drawable resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Drawable> transition) {
-                                                        holder.itemView.setBackground(resource);
+                                                        BitmapDrawable bitmapDrawable = (BitmapDrawable) resource;
+                                                        Bitmap bitmap = bitmapDrawable.getBitmap();
+                                                        RoundedBitmapDrawable roundedDrawable = RoundedBitmapDrawableFactory.create(holder.itemView.getResources(), bitmap);
+                                                        roundedDrawable.setCornerRadius(20);
 
+                                                        holder.itemView.setBackground(roundedDrawable);
                                                     }
 
                                                     @Override

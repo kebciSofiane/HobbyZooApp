@@ -18,6 +18,9 @@
         android:theme="@style/Theme.HobbyZooApp"
         tools:targetApi="31">
         <activity
+            android:name=".DateMemory"
+            android:exported="false" />
+        <activity
             android:name=".MyEvolutionActivity"
             android:exported="false" />
         <activity
@@ -83,7 +86,7 @@
             android:exported="false" />
         <activity
             android:name=".Activities.NewActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

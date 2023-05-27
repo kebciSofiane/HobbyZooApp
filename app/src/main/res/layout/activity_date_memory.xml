@@ -10,6 +10,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <Button
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:id="@+id/downloadButton"
+            android:layout_margin="20dp"
+            android:background="@drawable/download_icon"
+            android:layout_alignParentEnd="true"
+            android:visibility="visible"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+
+
+            />
+
 
         <TextView
             android:id="@+id/memoryDate"

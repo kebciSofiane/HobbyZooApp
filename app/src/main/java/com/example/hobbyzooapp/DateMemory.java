@@ -1,17 +1,28 @@
 package com.example.hobbyzooapp;
 
+
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 
+import android.Manifest;
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.provider.MediaStore;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.transition.Transition;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -30,7 +41,15 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.lang.annotation.Annotation;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Target;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -41,12 +60,17 @@ import java.util.Date;
 public class DateMemory extends AppCompatActivity {
     TextView dateView;
     LocalDate date;
+
+    private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
+
     ImageView memoryImage;
 
     Button share;
     int memoriesIndex =0;
     Button rightArrow;
     Button leftArrow;
+
+    Button download;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -71,6 +95,8 @@ public class DateMemory extends AppCompatActivity {
         share = findViewById(R.id.shareButton);
         leftArrow = findViewById(R.id.scrollMemoriesLeft);
         rightArrow = findViewById(R.id.scrollMemoriesRight);
+        download = findViewById(R.id.downloadButton);
+
 
         dateView.setText(date.toString());
 
@@ -112,8 +138,35 @@ public class DateMemory extends AppCompatActivity {
 
 
 
+    private void savePhotoToGallery() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_WRITE_EXTERNAL_STORAGE);
+        } else {
+            if (memoryImage.getDrawable() != null) {
+                Bitmap bitmap = ((BitmapDrawable) memoryImage.getDrawable()).getBitmap();
 
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.Images.Media.DISPLAY_NAME, date+".jpg");
+                values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
 
+                ContentResolver resolver = getContentResolver();
+                Uri uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+                try {
+                    OutputStream outputStream = resolver.openOutputStream(uri);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                    outputStream.close();
+                    Toast.makeText(this, "La photo a été enregistrée dans la galerie", Toast.LENGTH_SHORT).show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Toast.makeText(this, "Sélectionnez une photo avant de l'enregistrer", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
 
 
 
@@ -205,6 +258,13 @@ public class DateMemory extends AppCompatActivity {
                                 .load(myMemories.get(memoriesIndex))
                                 .apply(requestOptions)
                                 .into(memoryImage);
+                    }
+                });
+
+                download.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        savePhotoToGallery();
                     }
                 });
 

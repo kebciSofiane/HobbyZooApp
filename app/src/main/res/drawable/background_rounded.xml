@@ -1,4 +1,3 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
- <!-- Remplacez #FFFFFF par la couleur souhaitée pour le fond -->
-    <corners android:radius="40dp"/> <!-- Remplacez 20dp par le rayon de courbure souhaité -->
+    <corners android:radius="1000dp"/> <!-- Remplacez 20dp par le rayon de courbure souhaité -->
 </shape>

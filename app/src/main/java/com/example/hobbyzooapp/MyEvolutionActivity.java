@@ -165,12 +165,6 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
 
 
 
-
-
-
-
-
-
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference reference = database.getReference("Session");
             FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();

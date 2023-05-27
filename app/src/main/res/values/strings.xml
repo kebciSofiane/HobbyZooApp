@@ -89,5 +89,6 @@
     <string name="my_evolution">My evolution</string>
     <string name="date_format">xx-xx-xxxx</string>
     <string name="memoryPhoto">memoryPhoto</string>
+    <string name="share">Share</string>
 
 </resources>

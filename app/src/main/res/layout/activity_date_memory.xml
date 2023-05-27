@@ -22,12 +22,51 @@
             android:layout_marginTop="20dp"
             />
 
-        <ImageView
-            android:id="@+id/memoryImage"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:id="@+id/linearLayoutMemories"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/memoryDate"
-            android:contentDescription="@string/memoryPhoto" />
+            android:orientation="horizontal"
+            >
+            <Button
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/scrollMemoriesLeft"
+                android:background="@drawable/arrow_left"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:visibility="visible"
+
+                />
+            <ImageView
+                android:id="@+id/memoryImage"
+                android:layout_width="wrap_content"
+                android:layout_height="600dp"
+                android:contentDescription="@string/memoryPhoto"
+                />
+
+            <Button
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/scrollMemoriesRight"
+                android:background="@drawable/arrow_right"
+                android:layout_centerVertical="true"
+                android:layout_alignParentEnd="true"
+                android:visibility="visible"
+
+                />
+
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/shareButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/share"
+android:layout_below="@id/linearLayoutMemories"            android:layout_centerHorizontal="true">
+
+        </Button>
 
 
 

@@ -5,6 +5,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -41,9 +42,11 @@ import java.util.List;
 import java.util.Random;
 
 public class HomeActivity extends AppCompatActivity {
+    //TODO 1 général : vérifier les boutons retour du tel de chaque activity + ajout finish() si besoin
+    //TODO 2 général : enlever tous system out + commentaires inutiles + verif indentation
 
+    //todo : panel button revien page 1 sans relancer la page ?(phone back button aussi)
     FirebaseAuth firebaseAuth;
-
     Button next;
     Button previous;
 
@@ -51,12 +54,7 @@ public class HomeActivity extends AppCompatActivity {
     private int currentIndex2=0;
     private int currentIndex3=0;
 
-
-
-
-
-
-    ImageButton calendarBtn, runBtn, profileBtn;
+    ImageButton calendarBtn, runBtn, profileBtn, panelHobbyZoo;
 
     ImageView imageView1;
     ImageView imageView2;
@@ -80,16 +78,11 @@ public class HomeActivity extends AppCompatActivity {
     ArrayList<String> activities_name_List = new ArrayList<>();
     ArrayList<String> activities_id_List = new ArrayList<>();
 
-
-
-
     String uid;
-
 
     int startIndex=0;
 
     Boolean toRight;
-
 
     public  void getActivities(){
         FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -129,6 +122,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
 
+    @SuppressLint("MissingInflatedId")
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,14 +158,24 @@ public class HomeActivity extends AppCompatActivity {
 
 
 
-
-
-
         //buttons
+
+
+        panelHobbyZoo = findViewById(R.id.panel_hobby_zoo);
 
         calendarBtn = findViewById(R.id.calendar_btn);
         runBtn = findViewById(R.id.run_btn);
         profileBtn = findViewById(R.id.profile_btn);
+
+
+        panelHobbyZoo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this, HomeActivity.class));
+                finish();
+
+            }
+        });
 
         calendarBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -258,9 +262,6 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-
     }
 
 
@@ -278,7 +279,7 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+
     }
 
 
@@ -315,6 +316,7 @@ public class HomeActivity extends AppCompatActivity {
 
         return intElements;
     }
+
     public List<Integer> showPreviousActivities(int batchSize) {
             List<Integer> intElements ;
 
@@ -331,7 +333,6 @@ public class HomeActivity extends AppCompatActivity {
 
         return intElements;
     }
-
 
     public List<String> showNextActivityNames(int batchSize) {
         List<String> intElements ;
@@ -406,13 +407,11 @@ public class HomeActivity extends AppCompatActivity {
 
         Random random = new Random();
 
-
         //FirebaseUser user = firebaseAuth.getCurrentUser();
         //user.getUid()
         ArrayList<TextView> textViewList = new ArrayList<>();
         ArrayList<ImageView> imageViewList = new ArrayList<>();
         ArrayList<LinearLayout> linearLayoutList = new ArrayList<>();
-
 
         textViewList.add(textView1);
         textViewList.add(textView2);
@@ -450,123 +449,120 @@ public class HomeActivity extends AppCompatActivity {
             activities_id = showPreviousActivityId(batchSize);
         }
 
-
         for (int i = 0; i < batchElements.size(); i++) {
                 imageViewList.get(i).setImageResource(batchElements.get(i));
                 textViewList.get(i).setText(activities_names.get(i));
                 linearLayoutList.get(i).setVisibility(View.VISIBLE);
                 linearLayoutList.get(i).setTag(activities_id.get(i));
-            }
-
-
+        }
 
 
 
         // Obtenir le gestionnaire de fenêtres
-            WindowManager windowManager = getWindowManager();
+        WindowManager windowManager = getWindowManager();
 
-            // Obtenir les métriques d'affichage
-            DisplayMetrics displayMetrics = new DisplayMetrics();
-            ((WindowManager) windowManager).getDefaultDisplay().getMetrics(displayMetrics);
+        // Obtenir les métriques d'affichage
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((WindowManager) windowManager).getDefaultDisplay().getMetrics(displayMetrics);
 
-            // Obtenir la largeur de l'écran
-            int surfaceWidth = displayMetrics.widthPixels;
+        // Obtenir la largeur de l'écran
+        int surfaceWidth = displayMetrics.widthPixels;
 
-            // Obtenir la hauteur de l'écran
-            int surfaceHeight = displayMetrics.heightPixels;
+        // Obtenir la hauteur de l'écran
+        int surfaceHeight = displayMetrics.heightPixels;
 
-            int cellHeight = surfaceHeight / 5;
-            int cellWidth = surfaceWidth / 5;
+        int cellHeight = surfaceHeight / 5;
+        int cellWidth = surfaceWidth / 5;
 
-            ArrayList<int[]> cellList = new ArrayList<>();
+        ArrayList<int[]> cellList = new ArrayList<>();
 
-            for (int i = 0; i < 5; i++)
-                for (int j = 0; j < 4; j++) {
-                    int[] val = new int[2];
-                    val[0] = i * cellWidth;
-                    val[1] = j * cellHeight;
-                    cellList.add(val);
-                }
-
-
-            System.out.println(cellList);
-
-            // Générez les coordonnées aléatoires pour chaque ImageView
-
-            int image1X = 0;
-            int image1Y = 0;
-            int val = random.nextInt(cellList.size() - 1);
-            image1X = cellList.get(val)[0];
-            image1Y = cellList.get(val)[1];
-            cellList.remove(val);
-
-            int image2X = 0;
-            int image2Y = 0;
-            val = random.nextInt(cellList.size() - 1);
-            image2X = cellList.get(val)[0];
-            image2Y = cellList.get(val)[1];
-            cellList.remove(val);
-
-            int image3X = 0;
-            int image3Y = 0;
-            val = random.nextInt(cellList.size() - 1);
-            image3X = cellList.get(val)[0];
-            image3Y = cellList.get(val)[1];
-            cellList.remove(val);
+        for (int i = 0; i < 5; i++)
+            for (int j = 0; j < 4; j++) {
+                int[] val = new int[2];
+                val[0] = i * cellWidth;
+                val[1] = j * cellHeight;
+                cellList.add(val);
+            }
 
 
-            int image4X = 0;
-            int image4Y = 0;
-            val = random.nextInt(cellList.size() - 1);
-            image4X = cellList.get(val)[0];
-            image4Y = cellList.get(val)[1];
-            cellList.remove(val);
+        System.out.println(cellList);
+
+        // Générez les coordonnées aléatoires pour chaque ImageView
+
+        int image1X = 0;
+        int image1Y = 0;
+        int val = random.nextInt(cellList.size() - 1);
+        image1X = cellList.get(val)[0];
+        image1Y = cellList.get(val)[1];
+        cellList.remove(val);
+
+        int image2X = 0;
+        int image2Y = 0;
+        val = random.nextInt(cellList.size() - 1);
+        image2X = cellList.get(val)[0];
+        image2Y = cellList.get(val)[1];
+        cellList.remove(val);
+
+        int image3X = 0;
+        int image3Y = 0;
+        val = random.nextInt(cellList.size() - 1);
+        image3X = cellList.get(val)[0];
+        image3Y = cellList.get(val)[1];
+        cellList.remove(val);
 
 
-            int image5X = 0;
-            int image5Y = 0;
-            val = random.nextInt(cellList.size() - 1);
-            image5X = cellList.get(val)[0];
-            image5Y = cellList.get(val)[1];
-            cellList.remove(val);
+        int image4X = 0;
+        int image4Y = 0;
+        val = random.nextInt(cellList.size() - 1);
+        image4X = cellList.get(val)[0];
+        image4Y = cellList.get(val)[1];
+        cellList.remove(val);
 
 
-            RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.WRAP_CONTENT,
-                    RelativeLayout.LayoutParams.WRAP_CONTENT);
-            params1.leftMargin = image1X;
+        int image5X = 0;
+        int image5Y = 0;
+        val = random.nextInt(cellList.size() - 1);
+        image5X = cellList.get(val)[0];
+        image5Y = cellList.get(val)[1];
+        cellList.remove(val);
 
 
-            params1.topMargin = image1Y;
-            linearLayout1.setLayoutParams(params1);
+        RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        params1.leftMargin = image1X;
 
-            RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.WRAP_CONTENT,
-                    RelativeLayout.LayoutParams.WRAP_CONTENT);
-            params2.leftMargin = image2X;
-            params2.topMargin = image2Y;
-            linearLayout2.setLayoutParams(params2);
 
-            RelativeLayout.LayoutParams params3 = new RelativeLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.WRAP_CONTENT,
-                    RelativeLayout.LayoutParams.WRAP_CONTENT);
-            params3.leftMargin = image3X;
-            params3.topMargin = image3Y;
-            linearLayout3.setLayoutParams(params3);
+        params1.topMargin = image1Y;
+        linearLayout1.setLayoutParams(params1);
 
-            RelativeLayout.LayoutParams params4 = new RelativeLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.WRAP_CONTENT,
-                    RelativeLayout.LayoutParams.WRAP_CONTENT);
-            params4.leftMargin = image4X;
-            params4.topMargin = image4Y;
-            linearLayout4.setLayoutParams(params4);
+        RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        params2.leftMargin = image2X;
+        params2.topMargin = image2Y;
+        linearLayout2.setLayoutParams(params2);
 
-            RelativeLayout.LayoutParams params5 = new RelativeLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.WRAP_CONTENT,
-                    RelativeLayout.LayoutParams.WRAP_CONTENT);
-            params5.leftMargin = image5X;
-            params5.topMargin = image5Y;
-            linearLayout5.setLayoutParams(params5);
-        }
+        RelativeLayout.LayoutParams params3 = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        params3.leftMargin = image3X;
+        params3.topMargin = image3Y;
+        linearLayout3.setLayoutParams(params3);
 
+        RelativeLayout.LayoutParams params4 = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        params4.leftMargin = image4X;
+        params4.topMargin = image4Y;
+        linearLayout4.setLayoutParams(params4);
+
+        RelativeLayout.LayoutParams params5 = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        params5.leftMargin = image5X;
+        params5.topMargin = image5Y;
+        linearLayout5.setLayoutParams(params5);
     }
+
+}

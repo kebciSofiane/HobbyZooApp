@@ -231,7 +231,15 @@ public class RunSession extends AppCompatActivity {
         intent.putExtra("session_id",session_id);
         intent.putExtra("spent_time", totalSessionTime);
         startActivity(intent);
+        finish();
     }
+
+
+    @Override
+    public void onBackPressed() {
+
+    }
+
 
 
 }

@@ -311,7 +311,6 @@ public class EndSession extends AppCompatActivity {
     }
 
 
-
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -328,6 +327,7 @@ public class EndSession extends AppCompatActivity {
         Intent intent = new Intent(EndSession.this, ActivityPage.class);
         intent.putExtra("activity_id",activity_id);
         startActivity(intent);
+        finish();
     }
 
 }

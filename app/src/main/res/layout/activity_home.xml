@@ -7,13 +7,17 @@
     android:orientation="vertical"
     android:background="@drawable/grass_sky">
 
-    <ImageView
+    <ImageButton
+        android:id="@+id/panel_hobby_zoo"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="-14dp"
+        android:layout_marginTop="-15dp"
+        android:padding="1dp"
+        android:background="@color/transparent"
+        android:scaleType="centerCrop"
         android:src="@drawable/hobby_zoo_home_panel" />
 
     <Button
@@ -165,7 +169,7 @@
 
     </RelativeLayout>
 
-<LinearLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -187,7 +191,7 @@
                 android:layout_width="0dp"
                 android:layout_height="70dp"
                 android:layout_weight="1"
-                android:layout_marginRight="30dp"
+                android:layout_marginStart="30dp"
                 android:scaleType="fitCenter"
                 android:background="@color/transparent"
                 app:srcCompat="@drawable/ic_calendar"
@@ -211,7 +215,7 @@
                 android:layout_width="0dp"
                 android:layout_height="70dp"
                 android:layout_weight="1"
-                android:layout_marginLeft="30dp"
+                android:layout_marginEnd="30dp"
                 android:scaleType="fitCenter"
                 android:background="@color/transparent"
                 android:cropToPadding="false"

@@ -106,7 +106,7 @@ public class HomeActivity extends AppCompatActivity {
                     String activity_pet = snapshot.child("activity_pet").getValue(String.class);
                     String activity_name = snapshot.child("activity_name").getValue(String.class);
 
-                    String resourceName = activity_pet+"_full_icon";
+                    String resourceName = activity_pet+"_whole_angry";
                     int resId = HomeActivity.this.getResources().getIdentifier(resourceName,"drawable",HomeActivity.this.getPackageName());
                     imageList.add(resId);
                     activities_name_List.add(activity_name);

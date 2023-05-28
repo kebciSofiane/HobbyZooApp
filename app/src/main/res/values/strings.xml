@@ -78,5 +78,9 @@
     <string name="Next">next</string>
     <string name="username">Username</string>
     <string name="logo" />
+    <string name="change_password">Change Password</string>
+    <string name="unregister">Unregister</string>
+    <string name="settings">Settings</string>
+    <string name="edit_profile">Edit profile</string>
 
 </resources>

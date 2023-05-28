@@ -44,7 +44,7 @@
 
             <EditText
                 android:id="@+id/username_edit"
-                android:layout_width="match_parent"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
                 android:fontFamily="serif"
@@ -58,21 +58,21 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/profile_username"
                 android:layout_marginTop="58dp"
-                android:text="Edit profile"
+                android:text="@string/edit_profile"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 
             <FrameLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="160dp">
+                android:layout_marginStart="150dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profile_image"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
                     android:layout_marginTop="16dp"
                     android:src="@drawable/ic_animal" />
 
@@ -80,7 +80,7 @@
                     android:id="@+id/add_photo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="120dp"
+                    android:layout_marginStart="120dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/ic_add_a_photo"
                     android:backgroundTint="@color/purple_200"
@@ -88,13 +88,13 @@
 
                 <Button
                     android:id="@+id/validateButton"
-                    android:layout_width="67dp"
-                    android:layout_height="64dp"
-                    android:layout_marginLeft="130dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="110dp"
                     android:layout_marginTop="140dp"
                     android:background="@drawable/check_icon"
                     android:visibility="gone"
-                    app:backgroundTint="@color/purple_200" />
+                    app:backgroundTint="@color/green" />
 
 
             </FrameLayout>

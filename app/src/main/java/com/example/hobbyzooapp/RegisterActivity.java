@@ -152,9 +152,9 @@ public class RegisterActivity extends AppCompatActivity {
                                                 userMap.put("pseudo", pseudo);
                                                 userMap.put("emailVerified", false);
                                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                                    userMap.put("connectNextMondayDay", nextMonday.getDayOfMonth()+"");
-                                                    userMap.put("connectNextMondayMonth", nextMonday.getMonth().getValue());
-                                                    userMap.put("connectNextMondayYear", nextMonday.getYear()+"");
+                                                    userMap.put("connectNextMondayDay", nextMonday.getDayOfMonth());
+                                                    userMap.put("connectNextMondayMonth",  Integer.parseInt(String.valueOf(nextMonday.getMonth().getValue())));
+                                                    userMap.put("connectNextMondayYear", nextMonday.getYear());
                                                 }
 
 
@@ -193,9 +193,9 @@ public class RegisterActivity extends AppCompatActivity {
                                                                         userMap.put("image", imageUrl);
                                                                         userMap.put("emailVerified", false);
                                                                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                                                            userMap.put("connectNextMondayDay", finalNextMonday.getDayOfMonth()+"");
-                                                                            userMap.put("connectNextMondayMonth", finalNextMonday.getMonth());
-                                                                            userMap.put("connectNextMondayYear", finalNextMonday.getYear()+"");
+                                                                            userMap.put("connectNextMondayDay", finalNextMonday.getDayOfMonth());
+                                                                            userMap.put("connectNextMondayMonth", Integer.parseInt(String.valueOf(finalNextMonday.getMonth().getValue())));
+                                                                            userMap.put("connectNextMondayYear", finalNextMonday.getYear());
                                                                         }
 
                                                                         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");

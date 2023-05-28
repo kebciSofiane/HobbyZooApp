@@ -40,6 +40,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -76,6 +77,8 @@ public class HomeActivity extends AppCompatActivity {
     ArrayList<Integer> imageList = new ArrayList<>();
     ArrayList<String> activities_name_List = new ArrayList<>();
     ArrayList<String> activities_id_List = new ArrayList<>();
+
+    public static ArrayList<String> animalsFeeling = new ArrayList<>(Arrays.asList("gone", "angry", "sad", "neutral", "happy"));
 
 
 

@@ -47,21 +47,18 @@ public class WeeklyEvent extends AppCompatActivity {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     String user_id = dataSnapshot.getKey();
                     if(userId.equals(user_id)){
-                        String nextDayMondayUserString = dataSnapshot.child("connectNextMondayDay").getValue(String.class);
-                        String nextMonthMondayUserString = dataSnapshot.child("connectNextMondayMonth").getValue(String.class);
-                        String nextYearMondayUserString = dataSnapshot.child("connectNextMondayYear").getValue(String.class);
-                        nextDayMondayUser = Integer.parseInt(nextDayMondayUserString);
-                        nextMonthMondayUser = Integer.parseInt(nextMonthMondayUserString);
-                        nextYearMondayUser = Integer.parseInt(nextYearMondayUserString);
+                        nextDayMondayUser = dataSnapshot.child("connectNextMondayDay").getValue(Integer.class);
+                        nextMonthMondayUser = dataSnapshot.child("connectNextMondayMonth").getValue(Integer.class);
+                        nextYearMondayUser = dataSnapshot.child("connectNextMondayYear").getValue(Integer.class);
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             dateMondayData = LocalDate.of(nextYearMondayUser, nextMonthMondayUser, nextDayMondayUser);
                         }
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             if(nextMonday.isAfter(dateMondayData)){
                                 DatabaseReference userRef = database.getReference().child(userId);//todo demander meriem comment modif table user
-                                userRef.child("connectNextMondayDay").setValue(nextMonday.getDayOfMonth()+"");
-                                userRef.child("connectNextMondayMonth").setValue(nextMonday.getMonth().getValue());
-                                userRef.child("connectNextMondayYear").setValue(nextMonday.getYear()+"");
+                                userRef.child("connectNextMondayDay").setValue(nextMonday.getDayOfMonth());
+                                userRef.child("connectNextMondayMonth").setValue(Integer.parseInt(String.valueOf(nextMonday.getMonth().getValue())));
+                                userRef.child("connectNextMondayYear").setValue(nextMonday.getYear());
                                 modificationActivity();
                             }
                         }
@@ -86,9 +83,18 @@ public class WeeklyEvent extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String activityId = snapshot.child("activity_id").getValue(String.class);
                     String user_id = snapshot.child("user_id").getValue(String.class);
+                    int spentTime = Integer.parseInt(Objects.requireNonNull(snapshot.child("spent_time").getValue(String.class)));
+                    int weeklyGoal = Integer.parseInt(Objects.requireNonNull(snapshot.child("weekly_goal").getValue(String.class)));
+                    int animalFeeling = Integer.parseInt(Objects.requireNonNull(snapshot.child("feeling").getValue(String.class)));
                     DatabaseReference elementRef = activityRef.child(activityId);
-                    if(userId.equals(user_id))
+                    if(userId.equals(user_id)){
                         elementRef.child("spent_time").setValue("0");
+                        if(spentTime < weeklyGoal)
+                            elementRef.child("feeling").setValue(Math.max(0, animalFeeling-1)+"");
+                        else
+                            elementRef.child("feeling").setValue(Math.min(HomeActivity.animalsFeeling.size()-1, animalFeeling+1)+"");
+
+                    }
                 }
             }
 

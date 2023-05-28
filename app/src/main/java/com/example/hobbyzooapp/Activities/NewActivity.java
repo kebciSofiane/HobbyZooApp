@@ -241,7 +241,7 @@ public class NewActivity extends AppCompatActivity {
                 hashMap.put("weekly_goal", String.valueOf(weeklyGoal.getHour()*60 + weeklyGoal.getMinute()));
             }
             hashMap.put("spent_time", "0");
-            hashMap.put("feeling", "");
+            hashMap.put("feeling", "3");
             hashMap.put("category_id", category_id);
             hashMap.put("user_id", user.getUid());
 

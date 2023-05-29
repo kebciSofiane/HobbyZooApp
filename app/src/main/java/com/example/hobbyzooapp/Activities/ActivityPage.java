@@ -110,9 +110,7 @@ public class ActivityPage extends AppCompatActivity {
                     petPic.setImageResource(resId);
                     activityNameDisplay.setText(activityName);
                     int weeklyHours = Integer.parseInt(weeklyGoal) / 60;
-                    String weeklyMinutes = Integer.parseInt(weeklyGoal) % 60+"";
-                    if((Integer.parseInt(weeklyGoal) % 60) < 10)
-                        weeklyMinutes = "0"+Integer.parseInt(weeklyGoal) % 60;
+                    int weeklyMinutes = Integer.parseInt(weeklyGoal) % 60;
 
 
                     int weeklySpentHours = Integer.parseInt(spentTime) / 60;

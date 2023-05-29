@@ -1,9 +1,9 @@
 package com.example.hobbyzooapp;
 
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hobbyzooapp.CalendarEvolutionAdapter;

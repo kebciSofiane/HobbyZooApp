@@ -167,6 +167,8 @@ public class MyDailySessions extends AppCompatActivity {
                  String session_day = snapshot.child("session_day").getValue(String.class);
                  String session_month = snapshot.child("session_month").getValue(String.class);
                  String session_year = snapshot.child("session_year").getValue(String.class);
+                 String session_image = snapshot.child("session_picture").getValue(String.class);
+
 
 
                  DatabaseReference referenceActivity = database.getReference("Activity");
@@ -184,7 +186,10 @@ public class MyDailySessions extends AppCompatActivity {
                                                  activity_id,
                                                  activityName,
                                                  new Time(hourDuration,minutesDuration,0),
-                                                 Integer.parseInt(session_day),Integer.parseInt(session_month),Integer.parseInt(session_year)));
+                                                 Integer.parseInt(session_day),Integer.parseInt(session_month),
+                                                 Integer.parseInt(session_year),
+                                                 session_image)
+                                         );
                              callback.onSessionsLoaded(mySessions);
                          } else {
                              // L'activité n'existe pas dans la base de données

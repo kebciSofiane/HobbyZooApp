@@ -22,9 +22,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.hobbyzooapp.HomeActivity;
+import com.example.hobbyzooapp.OnSessionListRetrievedListener2;
 import com.example.hobbyzooapp.R;
 import com.example.hobbyzooapp.Sessions.OnSessionListRetrievedListener;
+import com.example.hobbyzooapp.Sessions.Session;
 import com.example.hobbyzooapp.TodoTask;
 import com.example.hobbyzooapp.Sessions.ListSessionsAdapter;
 import com.example.hobbyzooapp.WeeklyEvent;
@@ -36,6 +39,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -57,7 +61,7 @@ public class ActivityPage extends AppCompatActivity {
     List<String> items = new ArrayList<>();
     ListSessionsAdapter adapter;
     private List<TodoTask> todoList = new ArrayList<>();
-    private List<String> mysessions = new ArrayList<>();
+    private List<Session> mysessions = new ArrayList<>();
     private List<String> lastSessionData = new ArrayList<>();
 
     Boolean allSessions = false;
@@ -172,6 +176,8 @@ public class ActivityPage extends AppCompatActivity {
                                 String session_day = snapshot.child("session_day").getValue(String.class);
                                 String session_month = snapshot.child("session_month").getValue(String.class);
                                 String session_year = snapshot.child("session_year").getValue(String.class);
+                                String session_image = snapshot.child("session_picture").getValue(String.class);
+
                                 int hourDuration = Integer.parseInt(session_duration)/60;
                                 int minutesDuration = Integer.parseInt(session_duration)%60;
 
@@ -179,7 +185,9 @@ public class ActivityPage extends AppCompatActivity {
                                         new Time(hourDuration,minutesDuration,0),
                                         Integer.parseInt(session_day),
                                         Integer.parseInt(session_month),
-                                        Integer.parseInt(session_year)));
+                                        Integer.parseInt(session_year),
+                                        session_image
+                                ));
                             }
                             listener.onSessionListRetrieved(mySessions);
                             if (mySessions.size()>=3) showMoreButton.setVisibility(View.VISIBLE);
@@ -209,7 +217,7 @@ public class ActivityPage extends AppCompatActivity {
         return  mySessions;
     }
 
-    private ArrayList<String> getLastSessionPicCom(String activity_id, OnSessionListRetrievedListener listener){
+    private ArrayList<String> getLastSessionPicCom(String activity_id, OnSessionListRetrievedListener2 listener){
         DatabaseReference reference = database.getReference("Session");
         ArrayList<String> lastSessionData = new ArrayList<>();
         lastSessionData.add("");
@@ -307,7 +315,7 @@ public class ActivityPage extends AppCompatActivity {
         });
 
         deleteActivityButton = findViewById(R.id.deleteActivityButton);
-        getLastSessionPicCom(activity_id, new OnSessionListRetrievedListener() { //todo a finir
+        getLastSessionPicCom(activity_id, new OnSessionListRetrievedListener2() {
             @Override
             public void onSessionListRetrieved(ArrayList<String> sessionPicCom) {
                 lastSessionData = sessionPicCom;
@@ -320,7 +328,8 @@ public class ActivityPage extends AppCompatActivity {
                             .load(image)
                             .into(sessionLastPicture);
                 }
-            }
+            } //todo a finir
+
         });
 
         petPic = findViewById(R.id.activityPagePetPic);

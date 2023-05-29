@@ -74,7 +74,7 @@ public class EndSession extends AppCompatActivity {
     String session_duration;
     String spent_time;
     long totalSessionTime;
-    Uri photoUri = null;
+    Uri photoUri;
 
     @SuppressLint("MissingInflatedId")
     @Override

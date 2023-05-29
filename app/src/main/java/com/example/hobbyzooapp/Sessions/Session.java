@@ -4,19 +4,25 @@ import java.sql.Time;
 
 public class Session {
 
-    private String sessionId,activityId,activityName;
+    private String sessionId,activityId,activityName, image;
     private Time time;
     private int month, day, year;
 
 
-    public Session(String id, String activityId, String activityName,Time time, int day, int month , int year) {
+    public Session(String id, String activityId, String activityName,Time time,
+                   int day, int month , int year, String image) {
         this.sessionId = id;
         this.time = time;
         this.activityId=activityId;
         this.day = day;
+        this.image=image;
         this.month = month;
         this.year = year;
         this.activityName=activityName;
+    }
+
+    public String getImage() {
+        return image;
     }
 
     public String getSessionId() {

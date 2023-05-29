@@ -55,7 +55,7 @@ public class WeeklyEvent extends AppCompatActivity {
                         }
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                             if(nextMonday.isAfter(dateMondayData)){
-                                DatabaseReference userRef = database.getReference().child(userId);//todo demander meriem comment modif table user
+                                DatabaseReference userRef = database.getReference("Users").child(userId);
                                 userRef.child("connectNextMondayDay").setValue(nextMonday.getDayOfMonth());
                                 userRef.child("connectNextMondayMonth").setValue(Integer.parseInt(String.valueOf(nextMonday.getMonth().getValue())));
                                 userRef.child("connectNextMondayYear").setValue(nextMonday.getYear());
@@ -114,7 +114,7 @@ public class WeeklyEvent extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             currentDate = LocalDate.now();
             nextMonday = currentDate.with(DayOfWeek.MONDAY);
-            if (currentDate.compareTo(nextMonday) > 0) {
+            if (currentDate.compareTo(nextMonday) >= 0) {
                 nextMonday = nextMonday.plusWeeks(1);
             }
         }

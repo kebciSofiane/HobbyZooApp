@@ -82,7 +82,7 @@
                     android:layout_marginTop="10dp"
                     android:background="@drawable/ic_add_a_photo"
                     android:backgroundTint="@color/purple_200"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/validateButton"

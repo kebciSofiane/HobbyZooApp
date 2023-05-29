@@ -1,6 +1,7 @@
 package com.example.hobbyzooapp.Sessions;
 import com.example.hobbyzooapp.R;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -28,12 +29,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hobbyzooapp.Activities.ActivityPage;
+import com.example.hobbyzooapp.RegisterActivity;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.IOException;
@@ -44,9 +52,7 @@ import java.util.concurrent.TimeUnit;
 
 public class EndSession extends AppCompatActivity {
 
-
-
-    private static final int RETOUR_PRENDRE_PHOTO =1;
+    private static final int RETOUR_PRENDRE_PHOTO = 1;
     ImageView petPic;
     Button takeApic;
     ImageView takenImage;
@@ -58,7 +64,7 @@ public class EndSession extends AppCompatActivity {
     TextView sessionCount;
     Button modifyPicButton;
     Button modifyCommentButton;
-    private String photoPath =null;
+    private String photoPath = "";
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     FirebaseAuth firebaseAuth;
     Intent intent = getIntent();
@@ -68,7 +74,7 @@ public class EndSession extends AppCompatActivity {
     String session_duration;
     String spent_time;
     long totalSessionTime;
-
+    Uri photoUri = null;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -84,23 +90,20 @@ public class EndSession extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         petPic = findViewById(R.id.petPicture);
         petPic.setImageResource(R.drawable.koala_icon);
-        takeApic=findViewById(R.id.takeAPic);
-        takenImage =findViewById(R.id.takenImage);
-        commentField =findViewById(R.id.commentText);
+        takeApic = findViewById(R.id.takeAPic);
+        takenImage = findViewById(R.id.takenImage);
+        commentField = findViewById(R.id.commentText);
         validateButton = findViewById(R.id.validateButton);
-        skipButton=findViewById(R.id.skipButton);
+        skipButton = findViewById(R.id.skipButton);
         commentValidated = findViewById(R.id.commentValidated);
         validateButton2 = findViewById(R.id.validateButton2);
-        sessionCount= findViewById(R.id.sessionCount);
-        modifyPicButton=findViewById(R.id.ModifyPicButton);
+        sessionCount = findViewById(R.id.sessionCount);
+        modifyPicButton = findViewById(R.id.ModifyPicButton);
         modifyCommentButton = findViewById(R.id.ModifyCommentButton);
 
-
-
-
-
-
         FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference activitiesRef = FirebaseDatabase.getInstance().getReference("Activity");
+        DatabaseReference activityRef = activitiesRef.child(activity_id);
 
         DatabaseReference referenceActivity = database.getReference("Activity");
         referenceActivity.child(activity_id).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -113,16 +116,14 @@ public class EndSession extends AppCompatActivity {
                     int resId = EndSession.this.getResources().getIdentifier(resourceName,"drawable",EndSession.this.getPackageName());
                     petPic.setImageResource(resId);
 
-                    long newSPentTime= Integer.parseInt(spent_time)+(totalSessionTime/ (1000 * 60));
-                    DatabaseReference activitiesRef = FirebaseDatabase.getInstance().getReference("Activity");
-                    DatabaseReference activityRef = activitiesRef.child(activity_id);
+                    long newSPentTime = Integer.parseInt(spent_time)+(totalSessionTime/ (1000 * 60));
                     activityRef.child("spent_time").setValue(String.valueOf(newSPentTime), new DatabaseReference.CompletionListener() {
                         @Override
                         public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                             if (databaseError == null) {
-                                System.out.println("Activité modifiée avec succès !");
+                                System.out.println("Activity modified successfully!");
                             } else {
-                                System.err.println("Erreur lors de la modification de l'activité : " + databaseError.getMessage());
+                                System.err.println("Error when activity modified: " + databaseError.getMessage());
                             }
                         }
                     });
@@ -153,9 +154,6 @@ public class EndSession extends AppCompatActivity {
             }
         });
 
-
-
-
         InputFilter[] filters = new InputFilter[1];
         filters[0] = new InputFilter.LengthFilter(100);
         commentField.setFilters(filters);
@@ -173,7 +171,6 @@ public class EndSession extends AppCompatActivity {
         });
 
         modifyCommentButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 commentField.setVisibility(View.VISIBLE);
@@ -184,10 +181,7 @@ public class EndSession extends AppCompatActivity {
             }
         });
 
-
-
         modifyPicButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 try {
@@ -199,21 +193,23 @@ public class EndSession extends AppCompatActivity {
         });
 
         validateButton2.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
+                DatabaseReference sessionRef = FirebaseDatabase.getInstance().getReference().child("Session").child(session_id);
+                uploadImageToFirebase();
+                if (commentValidated.getText().equals("")){
+                    sessionRef.child("session_comment").setValue("no comment for this photo");
+                } else {
+                    sessionRef.child("session_comment").setValue(commentValidated.getText());
+                }
                 endSession();
             }
         });
 
         skipButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
-            public void onClick(View v) {
-                endSession();
-            }
+            public void onClick(View v) { endSession(); }
         });
-
 
         validateButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -235,15 +231,14 @@ public class EndSession extends AppCompatActivity {
 
     }
 
-
     private void takePicture() throws IOException {
-        Intent intent=new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         if (intent.resolveActivity(getPackageManager())!=null){
             String date = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-            File photoDir =getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-            File photoFile= File.createTempFile("Session of "+date,".jpg",photoDir);
-            photoPath =photoFile.getAbsolutePath();
-            Uri photoUri = null;
+            File photoDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            File photoFile = File.createTempFile(date,".jpg", photoDir);
+            photoPath = photoFile.getAbsolutePath();
+
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.Q) {
                 photoUri = FileProvider.getUriForFile(EndSession.this,
                         EndSession.this.getApplicationContext().getOpPackageName()+".provider",
@@ -251,9 +246,7 @@ public class EndSession extends AppCompatActivity {
             }
             intent.putExtra(MediaStore.EXTRA_OUTPUT,photoUri);
             startActivityForResult(intent, RETOUR_PRENDRE_PHOTO);
-
         }
-
     }
 
     @Override
@@ -262,13 +255,14 @@ public class EndSession extends AppCompatActivity {
         Bitmap image = BitmapFactory.decodeFile(photoPath);
         takenImage.setImageBitmap(image);
         takenImage.setVisibility(View.VISIBLE);
-        petPic.setImageResource(R.drawable.koala_icon);
+        String resourceName = activityPet+"_icon";
+        int resId = EndSession.this.getResources().getIdentifier(resourceName,"drawable",EndSession.this.getPackageName());
+        petPic.setImageResource(resId);
     }
 
     @Override
     public void onBackPressed() {
     }
-
 
     private void savePhotoToGallery() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -300,17 +294,13 @@ public class EndSession extends AppCompatActivity {
         }
     }
 
-
     public  void updateSessionCount(){
         long hours = TimeUnit.MILLISECONDS.toHours(totalSessionTime);
         long minutes = TimeUnit.MILLISECONDS.toMinutes(totalSessionTime - TimeUnit.HOURS.toMillis(hours));
         int hourDuration = Integer.parseInt(session_duration)/60;
         int minutesDuration = Integer.parseInt(session_duration)%60;
         sessionCount.setText(hours+"h"+minutes+"/"+ hourDuration+"h"+minutesDuration);
-
     }
-
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
@@ -324,10 +314,53 @@ public class EndSession extends AppCompatActivity {
         }
     }
 
-    private void endSession(){
-        Intent intent = new Intent(EndSession.this, ActivityPage.class);
-        intent.putExtra("activity_id",activity_id);
-        startActivity(intent);
+    private void uploadImageToFirebase() {
+
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if (user != null) {
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+            StorageReference storageReference = storage.getReference();
+            StorageReference profileRef = storageReference.child("sessions/" + session_id + "/picture.jpg");
+            profileRef.putFile(photoUri)
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                        @Override
+                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                            profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                @Override
+                                public void onSuccess(Uri uri) {
+                                    //progressDialog.dismiss();
+                                    String imageUrl = uri.toString();
+                                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                                    databaseReference.child("Session").child(session_id).child("session_picture").setValue(imageUrl);
+                                    Toast.makeText(EndSession.this, "Image uploaded successfully", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(EndSession.this, "Failed to upload image", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
     }
 
+    private void endSession(){
+        DatabaseReference sessionRef = FirebaseDatabase.getInstance().getReference().child("Session").child(session_id);
+        Date date = new Date();
+        String time = new SimpleDateFormat("HHmm").format(date);
+        String day = new SimpleDateFormat("dd").format(date);
+        String month = new SimpleDateFormat("MM").format(date);
+        String year = new SimpleDateFormat("yyyy").format(date);
+        sessionRef.child("session_time").setValue(time);
+        sessionRef.child("session_done").setValue("TRUE");
+        sessionRef.child("session_day").setValue(day);
+        sessionRef.child("session_month").setValue(month);
+        sessionRef.child("session_year").setValue(year);
+
+        Intent intent = new Intent(EndSession.this, ActivityPage.class);
+        intent.putExtra("activity_id", activity_id);
+        startActivity(intent);
+    }
 }

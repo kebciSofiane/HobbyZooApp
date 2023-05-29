@@ -2,13 +2,9 @@ package com.example.hobbyzooapp.Activities;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.InputFilter;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -22,7 +18,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,7 +25,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.hobbyzooapp.HomeActivity;
 import com.example.hobbyzooapp.R;
 import com.example.hobbyzooapp.Sessions.OnSessionListRetrievedListener;
-import com.example.hobbyzooapp.Sessions.Session;
 import com.example.hobbyzooapp.TodoTask;
 import com.example.hobbyzooapp.Sessions.ListSessionsAdapter;
 import com.example.hobbyzooapp.WeeklyEvent;
@@ -42,14 +36,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class ActivityPage extends AppCompatActivity {
 
-    ImageView petPic;
+    ImageView petPic, sessionLastPicture;
     TextView petName;
     Button editNamePetButton;
     EditText editTextPetName;
@@ -64,7 +57,8 @@ public class ActivityPage extends AppCompatActivity {
     List<String> items = new ArrayList<>();
     ListSessionsAdapter adapter;
     private List<TodoTask> todoList = new ArrayList<>();
-    private List<Session> mysessions = new ArrayList<>();
+    private List<String> mysessions = new ArrayList<>();
+    private List<String> lastSessionData = new ArrayList<>();
 
     Boolean allSessions = false;
     Button addToTodoListButton;
@@ -72,7 +66,7 @@ public class ActivityPage extends AppCompatActivity {
     Button validateToTodoListButton;
     ImageButton deleteActivityButton;
     FirebaseAuth firebaseAuth;
-    TextView activityNameDisplay;
+    TextView activityNameDisplay, sessionCommentDisplay;
 
     String activityId;
     String activityName ;
@@ -141,8 +135,6 @@ public class ActivityPage extends AppCompatActivity {
                             // Gérez les erreurs de la récupération des données
                         }
                     });
-
-
 
                 } else {
                     // L'activité n'existe pas dans la base de données
@@ -217,6 +209,41 @@ public class ActivityPage extends AppCompatActivity {
         return  mySessions;
     }
 
+    private ArrayList<String> getLastSessionPicCom(String activity_id, OnSessionListRetrievedListener listener){
+        DatabaseReference reference = database.getReference("Session");
+        ArrayList<String> lastSessionData = new ArrayList<>();
+        lastSessionData.add("");
+        lastSessionData.add("No previous session");
+        reference.orderByChild("activity_id").equalTo(activity_id).addListenerForSingleValueEvent(new ValueEventListener() {
+            double lastDate = 0;
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String session_day = snapshot.child("session_day").getValue(String.class);
+                    String session_month = snapshot.child("session_month").getValue(String.class);
+                    String session_year = snapshot.child("session_year").getValue(String.class);
+                    String session_time = snapshot.child("session_time").getValue(String.class);
+                    double date = Double.parseDouble(session_year + session_month + session_day + session_time);
+
+                    String session_done = snapshot.child("session_done").getValue(String.class);
+                    String session_picture = snapshot.child("session_picture").getValue(String.class);
+                    String session_comment = snapshot.child("session_comment").getValue(String.class);
+
+                    if (lastDate < date && session_done.equals("TRUE")) {
+                        lastSessionData.set(0, session_picture);
+                        lastSessionData.set(1, session_comment);
+                        lastDate = date;
+                    }
+                }
+                listener.onSessionListRetrieved(lastSessionData);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("TAG", "Erreur lors de la récupération des données", databaseError.toException());
+            }
+        });
+        return  lastSessionData;
+    }
 
 
     private void updateDBTasks(String statue, String taskName){
@@ -261,7 +288,8 @@ public class ActivityPage extends AppCompatActivity {
         editNamePetButton = findViewById(R.id.activityPageEditPetNameButton);
         editTextActivityName = findViewById(R.id.activityPageActivityNameEdit);
 
-
+        sessionCommentDisplay = findViewById(R.id.activityPageCommentText);
+        sessionLastPicture = findViewById(R.id.activityPagePicture);
 
 
         getActivityData(activity_id);
@@ -279,6 +307,22 @@ public class ActivityPage extends AppCompatActivity {
         });
 
         deleteActivityButton = findViewById(R.id.deleteActivityButton);
+        getLastSessionPicCom(activity_id, new OnSessionListRetrievedListener() { //todo a finir
+            @Override
+            public void onSessionListRetrieved(ArrayList<String> sessionPicCom) {
+                lastSessionData = sessionPicCom;
+                sessionCommentDisplay.setText(lastSessionData.get(1));
+
+                String image = lastSessionData.get(0);
+
+                if (!image.equals("")) {
+                    Glide.with(ActivityPage.this)
+                            .load(image)
+                            .into(sessionLastPicture);
+                }
+            }
+        });
+
         petPic = findViewById(R.id.activityPagePetPic);
         petName = findViewById(R.id.activityPagePetName);
         petPic.setImageResource(R.drawable.koala_icon);
@@ -289,9 +333,6 @@ public class ActivityPage extends AppCompatActivity {
         recyclerViewTodoList = findViewById(R.id.todoRecyclerView);
         addToTodoListButton = findViewById(R.id.addToTodoListButton);
         addToTodoListText = findViewById(R.id.addToTodoListText);
-
-
-
 
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
@@ -393,7 +434,6 @@ public class ActivityPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openMainActivity();
-
             }
         });
 

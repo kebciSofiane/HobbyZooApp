@@ -227,8 +227,8 @@ public class RunSession extends AppCompatActivity {
     }
     private void endSession(){
         Intent intent = new Intent(RunSession.this, EndSession.class);
-        intent.putExtra("activity_id",activity_id);
-        intent.putExtra("session_id",session_id);
+        intent.putExtra("activity_id", activity_id);
+        intent.putExtra("session_id", session_id);
         intent.putExtra("spent_time", totalSessionTime);
         startActivity(intent);
     }

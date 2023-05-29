@@ -1,12 +1,12 @@
 package com.example.hobbyzooapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,7 +49,12 @@ public class ProfileActivity extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private String userId;
     private static final int PICK_IMAGE = 1;
+    private static final int EDIT_PROFILE_REQUEST_CODE = 1;
+    private static final int REQUEST_PERSONAL_INFORMATION = 1;
+
+
     private Uri imageUri;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +62,6 @@ public class ProfileActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
-
 
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
@@ -118,7 +122,7 @@ public class ProfileActivity extends AppCompatActivity {
         personalInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this, PersonalInformationActivity.class));
+                startActivityForResult(new Intent(ProfileActivity.this, PersonalInformationActivity.class), 1);
             }
         });
 
@@ -258,7 +262,6 @@ public class ProfileActivity extends AppCompatActivity {
                         }
                     });
         } else {
-            // Cacher les éléments d'édition du profil sans effectuer de mise à jour
             usernameEdit.setVisibility(View.GONE);
             addPhoto.setVisibility(View.GONE);
             validate.setVisibility(View.GONE);
@@ -267,15 +270,30 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
-            imageUri = data.getData();
-            // Afficher l'image sélectionnée dans ImageView
-            profileImageView.setImageURI(imageUri);
+        if (requestCode == REQUEST_PERSONAL_INFORMATION && resultCode == RESULT_OK && data != null) {
+            String newUsername = data.getStringExtra("newUsername");
+            String newImageUri = data.getStringExtra("newImageUri");
+
+            // Mettre à jour votre interface utilisateur avec les données modifiées
+            if (newUsername != null) {
+                // Mettre à jour le nom d'utilisateur affiché
+                usernameTextView.setText(newUsername);
+            }
+
+            if (newImageUri != null) {
+                // Mettre à jour l'image de profil
+                Uri imageUri = Uri.parse(newImageUri);
+                profileImageView.setImageURI(imageUri);
+            }
         }
+    }
+
+    private void launchPersonalInformationActivity() {
+        Intent intent = new Intent(ProfileActivity.this, PersonalInformationActivity.class);
+        startActivityForResult(intent, REQUEST_PERSONAL_INFORMATION);
     }
 }

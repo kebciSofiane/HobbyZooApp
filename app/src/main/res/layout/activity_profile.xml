@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_background">
@@ -8,7 +9,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:ignore="UselessParent">
         <!-- Header -->
 
         <!-- Barre colorée -->
@@ -24,7 +26,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Back"
+                android:contentDescription="@string/back"
                 android:src="@drawable/ic_arrowback"
                 app:tint="@color/white" />
 
@@ -42,7 +44,7 @@
 
             <EditText
                 android:id="@+id/username_edit"
-                android:layout_width="match_parent"
+                android:layout_width="150dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
                 android:fontFamily="serif"
@@ -56,21 +58,21 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/profile_username"
                 android:layout_marginTop="58dp"
-                android:text="Edit profile"
+                android:text="@string/edit_profile"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
 
             <FrameLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="160dp">
+                android:layout_marginStart="150dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profile_image"
-                    android:layout_width="175dp"
-                    android:layout_height="175dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
                     android:layout_marginTop="16dp"
                     android:src="@drawable/ic_animal" />
 
@@ -78,7 +80,7 @@
                     android:id="@+id/add_photo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="120dp"
+                    android:layout_marginStart="120dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/ic_add_a_photo"
                     android:backgroundTint="@color/purple_200"
@@ -86,13 +88,13 @@
 
                 <Button
                     android:id="@+id/validateButton"
-                    android:layout_width="67dp"
-                    android:layout_height="64dp"
-                    android:layout_marginLeft="130dp"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginStart="110dp"
                     android:layout_marginTop="140dp"
                     android:background="@drawable/check_icon"
                     android:visibility="gone"
-                    app:backgroundTint="@color/purple_200" />
+                    app:backgroundTint="@color/green" />
 
 
             </FrameLayout>
@@ -119,7 +121,8 @@
                 android:backgroundTint="@color/purple_200"
                 android:text="My evolution"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                app:icon="@drawable/ic_trending" />
 
             <Button
                 android:id="@+id/my_activities"
@@ -130,7 +133,8 @@
                 android:backgroundTint="@color/purple_200"
                 android:text="My activities"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                app:icon="@drawable/ic_format_list" />
 
             <Button
                 android:id="@+id/personal_info"
@@ -141,7 +145,8 @@
                 android:backgroundTint="@color/purple_200"
                 android:text="Personal information"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                app:icon="@drawable/ic_info" />
 
             <Button
                 android:id="@+id/settings_button"
@@ -152,7 +157,8 @@
                 android:backgroundTint="@color/purple_200"
                 android:text="Settings"
                 android:textColor="@color/white"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                app:icon="@drawable/ic_settings" />
 
 
         </LinearLayout>

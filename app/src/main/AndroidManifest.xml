@@ -40,7 +40,7 @@
             android:theme="@style/Theme.HobbyZooApp.NoActionBar" />
         <activity
             android:name=".PersonalInformationActivity"
-            android:label="Personal Information" />
+            android:exported="false" />
         <activity
             android:name=".SettingsActivity"
             android:exported="false" />

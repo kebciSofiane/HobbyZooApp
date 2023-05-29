@@ -41,239 +41,27 @@ import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 public class ActivityPage extends AppCompatActivity {
 
     ImageView petPic, sessionLastPicture;
-    TextView petName;
-    Button editNamePetButton;
-    EditText editTextPetName;
-    EditText editTextActivityName;
-    Button validatePetName;
-    Button showMoreButton;
-    Button showLessButton;
-    ImageButton addSessionButton;
-    RecyclerView recyclerView;
-    RecyclerView recyclerViewTodoList;
-    ImageButton homeButton;
-    TextView goalsText;
+    TextView petName, goalsText, activityNameDisplay, sessionCommentDisplay;
+    EditText editTextPetName, editTextActivityName, addToTodoListText;
+    Button editNamePetButton, validatePetName, showMoreButton, showLessButton, addToTodoListButton;
+    ImageButton addSessionButton, homeButton, deleteActivityButton;
+    RecyclerView recyclerView, recyclerViewTodoList;
     List<String> items = new ArrayList<>();
     ListSessionsAdapter adapter;
     private List<TodoTask> todoList = new ArrayList<>();
     private List<Session> mySessions = new ArrayList<>();
     private List<String> lastSessionData = new ArrayList<>();
-
     Boolean allSessions = false;
-    Button addToTodoListButton;
-    EditText addToTodoListText;
-    ImageButton deleteActivityButton;
     FirebaseAuth firebaseAuth;
-    TextView activityNameDisplay, sessionCommentDisplay;
-
-    String activityId;
-    String activityName ;
-    String activityPetName ;
-    String activityPet ;
-    String weeklyGoal;
-    String spentTime;
-    String category_id;
+    String activityId, activityName, activityPetName, activityPet, weeklyGoal, spentTime, feeling, category_id;
     LinearLayout header;
-
     FirebaseDatabase database;
     DatabaseReference referenceActivity;
-
-    public void getActivityData(String activity_id){
-         database = FirebaseDatabase.getInstance();
-         referenceActivity = database.getReference().child("Activity");
-
-        referenceActivity.child(activity_id).addListenerForSingleValueEvent(new ValueEventListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    // Récupérez les informations de l'activité
-                     activityId = activity_id;
-                     activityName = dataSnapshot.child("activity_name").getValue(String.class).replace(",", " ");
-                     activityPetName = dataSnapshot.child("activity_pet_name").getValue(String.class).replace(",", " ");
-                     activityPet = dataSnapshot.child("activity_pet").getValue(String.class);
-                     weeklyGoal = dataSnapshot.child("weekly_goal").getValue(String.class);
-                     spentTime = dataSnapshot.child("spent_time").getValue(String.class);
-                     category_id = dataSnapshot.child("category_id").getValue(String.class);
-
-                    petName.setText(activityPetName);
-                    String resourceName = activityPet+"_icon_neutral";
-                    int resId = ActivityPage.this.getResources().getIdentifier(resourceName,"drawable",ActivityPage.this.getPackageName());
-                    petPic.setImageResource(resId);
-                    activityNameDisplay.setText(activityName);
-                    int weeklyHours = Integer.parseInt(weeklyGoal) / 60;
-                    int weeklyMinutes = Integer.parseInt(weeklyGoal) % 60;
-
-
-                    int weeklySpentHours = Integer.parseInt(spentTime) / 60;
-                    int weeklySpentMinutes = Integer.parseInt(spentTime) % 60;
-                    goalsText.setText(new Time(weeklySpentHours,weeklySpentMinutes,0)+
-                            "/"+
-                            new Time(weeklyHours,weeklyMinutes,0));
-
-
-                    DatabaseReference referenceCategory = database.getReference("Category");
-
-                    referenceCategory.child(category_id).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.exists()) {
-                                String category_color = dataSnapshot.child("category_color").getValue(String.class);
-                                int color = Color.parseColor(category_color);
-                                header.setBackgroundColor(color);
-
-
-                            } else {
-                                // L'activité n'existe pas dans la base de données
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                            // Gérez les erreurs de la récupération des données
-                        }
-                    });
-
-                } else {
-                    // L'activité n'existe pas dans la base de données
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                // Gérez les erreurs de la récupération des données
-            }
-        });
-
-    }
-
-    private ArrayList<Session> getSessionList(String activity_id, OnSessionListRetrievedListener listener){
-        DatabaseReference reference = database.getReference("Session");
-        DatabaseReference activityReference = database.getReference("Activity");
-
-        ArrayList<Session> mySessions = new ArrayList<>();
-
-
-
-        activityReference.child(activity_id).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    String activity_name = dataSnapshot.child("activity_name").getValue(String.class);
-                    reference.orderByChild("activity_id").equalTo(activity_id).addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                String session_id = snapshot.child("session_id").getValue(String.class);
-                                String session_duration = snapshot.child("session_duration").getValue(String.class);
-                                String activity_id = snapshot.child("activity_id").getValue(String.class);
-                                String session_day = snapshot.child("session_day").getValue(String.class);
-                                String session_month = snapshot.child("session_month").getValue(String.class);
-                                String session_year = snapshot.child("session_year").getValue(String.class);
-                                String session_image = snapshot.child("session_picture").getValue(String.class);
-                                String mnemonic = dataSnapshot.child("activity_pet").getValue(String.class);
-
-
-                                int hourDuration = Integer.parseInt(session_duration)/60;
-                                int minutesDuration = Integer.parseInt(session_duration)%60;
-
-                                mySessions.add(new Session(session_id,activity_id,activity_name,
-                                        new Time(hourDuration,minutesDuration,0),
-                                        Integer.parseInt(session_day),
-                                        Integer.parseInt(session_month),
-                                        Integer.parseInt(session_year),
-                                        session_image,
-                                        mnemonic
-                                ));
-                            }
-                            listener.onSessionListRetrieved(mySessions);
-                            if (mySessions.size()>=3) showMoreButton.setVisibility(View.VISIBLE);
-                            else showMoreButton.setVisibility(View.GONE);
-
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                            Log.w("TAG", "Erreur lors de la récupération des données", databaseError.toException());
-                        }
-                    });
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-
-        return  mySessions;
-    }
-
-    private ArrayList<String> getLastSessionPicCom(String activity_id, OnSessionListRetrievedListener2 listener){
-        DatabaseReference reference = database.getReference("Session");
-        ArrayList<String> lastSessionData = new ArrayList<>();
-        lastSessionData.add("");
-        lastSessionData.add("No previous session");
-        reference.orderByChild("activity_id").equalTo(activity_id).addListenerForSingleValueEvent(new ValueEventListener() {
-            double lastDate = 0;
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String session_day = snapshot.child("session_day").getValue(String.class);
-                    String session_month = snapshot.child("session_month").getValue(String.class);
-                    String session_year = snapshot.child("session_year").getValue(String.class);
-                    String session_time = snapshot.child("session_time").getValue(String.class);
-                    double date = Double.parseDouble(session_year + session_month + session_day + session_time);
-
-                    String session_done = snapshot.child("session_done").getValue(String.class);
-                    String session_picture = snapshot.child("session_picture").getValue(String.class);
-                    String session_comment = snapshot.child("session_comment").getValue(String.class);
-
-                    if (lastDate < date && session_done.equals("TRUE")) {
-                        lastSessionData.set(0, session_picture);
-                        lastSessionData.set(1, session_comment);
-                        lastDate = date;
-                    }
-                }
-                listener.onSessionListRetrieved(lastSessionData);
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.w("TAG", "Erreur lors de la récupération des données", databaseError.toException());
-            }
-        });
-        return  lastSessionData;
-    }
-
-
-    private void updateDBTasks(String statue, String taskName){
-        DatabaseReference tasksRef = FirebaseDatabase.getInstance().getReference("Tasks");
-        DatabaseReference taskRef = tasksRef.child(taskName);
-        System.out.println(taskName);
-        taskRef.child("taskStatus").setValue(statue, new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                if (databaseError == null) {
-                    System.out.println("Tasks modified ! ");
-                } else {
-                    System.err.println("Error : " + databaseError.getMessage());
-                }
-            }
-        });
-
-    }
-    private GridLayoutManager  changeManagerToDoList() {
-        GridLayoutManager layoutManager;
-        if (todoList.size()<=5 && todoList.size()>0 )
-            layoutManager = new GridLayoutManager(this, todoList.size(), GridLayoutManager.HORIZONTAL, false);
-        else
-            layoutManager = new GridLayoutManager(this, 5, GridLayoutManager.HORIZONTAL, false);
-
-        return  layoutManager;
-    }
 
 
 
@@ -283,21 +71,9 @@ public class ActivityPage extends AppCompatActivity {
         setContentView(R.layout.activity_page);
         Intent intent = getIntent();
         String activity_id = intent.getStringExtra("activity_id");
-        petPic =findViewById(R.id.activityPagePetPic);
-        petName = findViewById(R.id.activityPagePetName);
-        activityNameDisplay =findViewById(R.id.activityPageActivityName);
-        header = findViewById(R.id.headerLayout);
-        goalsText = findViewById(R.id.activityPageGoalsText);
-        editNamePetButton = findViewById(R.id.activityPageEditPetNameButton);
-        editTextActivityName=findViewById(R.id.activityPageActivityNameEdit);
-
-        sessionCommentDisplay = findViewById(R.id.activityPageCommentText);
-        sessionLastPicture = findViewById(R.id.activityPagePicture);
-
-
+        initialisation();
         getActivityData(activity_id);
 
-        firebaseAuth = FirebaseAuth.getInstance();
         getSessionList(activity_id, new OnSessionListRetrievedListener() {
             @Override
             public void onSessionListRetrieved(ArrayList<Session> sessionList) {
@@ -327,16 +103,7 @@ public class ActivityPage extends AppCompatActivity {
 
         });
 
-        petPic = findViewById(R.id.activityPagePetPic);
-        petName = findViewById(R.id.activityPagePetName);
-        petPic.setImageResource(R.drawable.koala_icon);
-        showMoreButton = findViewById(R.id.activityPageShowMoreButton);
-        showLessButton = findViewById(R.id.activityPageShowLessButton);
-        homeButton = findViewById(R.id.homeButton);
-        recyclerView = findViewById(R.id.activityPageRecyclerView);
-        recyclerViewTodoList = findViewById(R.id.todoRecyclerView);
-        addToTodoListButton = findViewById(R.id.addToTodoListButton);
-        addToTodoListText = findViewById(R.id.addToTodoListText);
+
 
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
@@ -561,6 +328,225 @@ public class ActivityPage extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void getActivityData(String activity_id){
+        database = FirebaseDatabase.getInstance();
+        referenceActivity = database.getReference().child("Activity");
+
+        referenceActivity.child(activity_id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @SuppressLint("SetTextI18n")
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    // Récupérez les informations de l'activité
+                    activityId = activity_id;
+                    activityName = dataSnapshot.child("activity_name").getValue(String.class).replace(",", " ");
+                    activityPetName = dataSnapshot.child("activity_pet_name").getValue(String.class).replace(",", " ");
+                    activityPet = dataSnapshot.child("activity_pet").getValue(String.class);
+                    weeklyGoal = dataSnapshot.child("weekly_goal").getValue(String.class);
+                    spentTime = dataSnapshot.child("spent_time").getValue(String.class);
+                    category_id = dataSnapshot.child("category_id").getValue(String.class);
+                    int feelingPointer = Integer.parseInt(Objects.requireNonNull(dataSnapshot.child("feeling").getValue(String.class)));
+                    feeling = HomeActivity.animalsFeeling.get(feelingPointer);
+                    petName.setText(activityPetName);
+                    String resourceName;
+                    if(feelingPointer == 0)
+                        resourceName = "none_whole_gone";
+                    else
+                        resourceName = activityPet + "_whole_" + feeling;
+                    int resId = ActivityPage.this.getResources().getIdentifier(resourceName,"drawable",ActivityPage.this.getPackageName());
+                    petPic.setImageResource(resId);
+                    activityNameDisplay.setText(activityName);
+                    int weeklyHours = Integer.parseInt(weeklyGoal) / 60;
+                    int weeklyMinutes = Integer.parseInt(weeklyGoal) % 60;
+
+
+                    int weeklySpentHours = Integer.parseInt(spentTime) / 60;
+                    int weeklySpentMinutes = Integer.parseInt(spentTime) % 60;
+                    goalsText.setText(new Time(weeklySpentHours,weeklySpentMinutes,0)+
+                            "/"+
+                            new Time(weeklyHours,weeklyMinutes,0));
+
+
+                    DatabaseReference referenceCategory = database.getReference("Category");
+
+                    referenceCategory.child(category_id).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                String category_color = dataSnapshot.child("category_color").getValue(String.class);
+                                int color = Color.parseColor(category_color);
+                                header.setBackgroundColor(color);
+
+
+                            } else {
+                                // L'activité n'existe pas dans la base de données
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            // Gérez les erreurs de la récupération des données
+                        }
+                    });
+
+                } else {
+                    // L'activité n'existe pas dans la base de données
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // Gérez les erreurs de la récupération des données
+            }
+        });
+
+    }
+
+    private void initialisation(){
+        firebaseAuth = FirebaseAuth.getInstance();
+        petPic =findViewById(R.id.activityPagePetPic);
+        petName = findViewById(R.id.activityPagePetName);
+        activityNameDisplay =findViewById(R.id.activityPageActivityName);
+        editTextActivityName=findViewById(R.id.activityPageActivityNameEdit);
+        header = findViewById(R.id.headerLayout);
+        goalsText = findViewById(R.id.activityPageGoalsText);
+        addToTodoListText = findViewById(R.id.addToTodoListText);
+        recyclerView = findViewById(R.id.activityPageRecyclerView);
+        recyclerViewTodoList = findViewById(R.id.todoRecyclerView);
+        sessionCommentDisplay = findViewById(R.id.activityPageCommentText);
+        sessionLastPicture = findViewById(R.id.activityPagePicture);
+        petPic.setImageResource(R.drawable.koala_icon);
+        showMoreButton = findViewById(R.id.activityPageShowMoreButton);
+        showLessButton = findViewById(R.id.activityPageShowLessButton);
+        homeButton = findViewById(R.id.homeButton);
+        addToTodoListButton = findViewById(R.id.addToTodoListButton);
+        editNamePetButton = findViewById(R.id.activityPageEditPetNameButton);
+    }
+
+    private ArrayList<Session> getSessionList(String activity_id, OnSessionListRetrievedListener listener){
+        DatabaseReference reference = database.getReference("Session");
+        DatabaseReference activityReference = database.getReference("Activity");
+
+        ArrayList<Session> mySessions = new ArrayList<>();
+
+
+
+        activityReference.child(activity_id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    String activity_name = dataSnapshot.child("activity_name").getValue(String.class);
+                    reference.orderByChild("activity_id").equalTo(activity_id).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                String session_id = snapshot.child("session_id").getValue(String.class);
+                                String session_duration = snapshot.child("session_duration").getValue(String.class);
+                                String activity_id = snapshot.child("activity_id").getValue(String.class);
+                                String session_day = snapshot.child("session_day").getValue(String.class);
+                                String session_month = snapshot.child("session_month").getValue(String.class);
+                                String session_year = snapshot.child("session_year").getValue(String.class);
+                                String session_image = snapshot.child("session_picture").getValue(String.class);
+                                String mnemonic = dataSnapshot.child("activity_pet").getValue(String.class);
+
+
+                                int hourDuration = Integer.parseInt(session_duration)/60;
+                                int minutesDuration = Integer.parseInt(session_duration)%60;
+
+                                mySessions.add(new Session(session_id,activity_id,activity_name,
+                                        new Time(hourDuration,minutesDuration,0),
+                                        Integer.parseInt(session_day),
+                                        Integer.parseInt(session_month),
+                                        Integer.parseInt(session_year),
+                                        session_image,
+                                        mnemonic
+                                ));
+                            }
+                            listener.onSessionListRetrieved(mySessions);
+                            if (mySessions.size()>=3) showMoreButton.setVisibility(View.VISIBLE);
+                            else showMoreButton.setVisibility(View.GONE);
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Log.w("TAG", "Erreur lors de la récupération des données", databaseError.toException());
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+        return  mySessions;
+    }
+
+    private ArrayList<String> getLastSessionPicCom(String activity_id, OnSessionListRetrievedListener2 listener){
+        DatabaseReference reference = database.getReference("Session");
+        ArrayList<String> lastSessionData = new ArrayList<>();
+        lastSessionData.add("");
+        lastSessionData.add("No previous session");
+        reference.orderByChild("activity_id").equalTo(activity_id).addListenerForSingleValueEvent(new ValueEventListener() {
+            double lastDate = 0;
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String session_day = snapshot.child("session_day").getValue(String.class);
+                    String session_month = snapshot.child("session_month").getValue(String.class);
+                    String session_year = snapshot.child("session_year").getValue(String.class);
+                    String session_time = snapshot.child("session_time").getValue(String.class);
+                    double date = Double.parseDouble(session_year + session_month + session_day + session_time);
+
+                    String session_done = snapshot.child("session_done").getValue(String.class);
+                    String session_picture = snapshot.child("session_picture").getValue(String.class);
+                    String session_comment = snapshot.child("session_comment").getValue(String.class);
+
+                    if (lastDate < date && session_done.equals("TRUE")) {
+                        lastSessionData.set(0, session_picture);
+                        lastSessionData.set(1, session_comment);
+                        lastDate = date;
+                    }
+                }
+                listener.onSessionListRetrieved(lastSessionData);
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("TAG", "Erreur lors de la récupération des données", databaseError.toException());
+            }
+        });
+        return  lastSessionData;
+    }
+
+
+    private void updateDBTasks(String statue, String taskName){
+        DatabaseReference tasksRef = FirebaseDatabase.getInstance().getReference("Tasks");
+        DatabaseReference taskRef = tasksRef.child(taskName);
+        System.out.println(taskName);
+        taskRef.child("taskStatus").setValue(statue, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                if (databaseError == null) {
+                    System.out.println("Tasks modified ! ");
+                } else {
+                    System.err.println("Error : " + databaseError.getMessage());
+                }
+            }
+        });
+
+    }
+    private GridLayoutManager  changeManagerToDoList() {
+        GridLayoutManager layoutManager;
+        if (todoList.size()<=5 && todoList.size()>0 )
+            layoutManager = new GridLayoutManager(this, todoList.size(), GridLayoutManager.HORIZONTAL, false);
+        else
+            layoutManager = new GridLayoutManager(this, 5, GridLayoutManager.HORIZONTAL, false);
+
+        return  layoutManager;
     }
 
     private void changeManager() {

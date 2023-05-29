@@ -44,6 +44,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public class HomeActivity extends AppCompatActivity {
@@ -52,86 +53,25 @@ public class HomeActivity extends AppCompatActivity {
 
     //todo : panel button revien page 1 sans relancer la page ?(phone back button aussi)
     FirebaseAuth firebaseAuth;
-    Button next;
-    Button previous;
+    Button next, previous;
 
     private int currentIndex=0;
     private int currentIndex2=0;
     private int currentIndex3=0;
 
-    ImageButton calendarBtn, runBtn, profileBtn;
-    ImageButton panelHobbyZoo;
-
-    ImageView imageView1;
-    ImageView imageView2;
-    ImageView imageView3;
-    ImageView imageView4;
-    ImageView imageView5;
-
-    TextView textView1;
-    TextView textView2;
-    TextView textView3;
-    TextView textView4;
-    TextView textView5;
-
-    LinearLayout linearLayout1;
-    LinearLayout linearLayout2 ;
-    LinearLayout linearLayout3 ;
-    LinearLayout linearLayout4 ;
-    LinearLayout linearLayout5 ;
+    ImageButton calendarBtn, runBtn, profileBtn, panelHobbyZoo;
+    ImageView imageView1, imageView2, imageView3, imageView4, imageView5;
+    TextView textView1, textView2, textView3, textView4, textView5;
+    LinearLayout linearLayout1, linearLayout2, linearLayout3, linearLayout4, linearLayout5;
 
     ArrayList<Integer> imageList = new ArrayList<>();
     ArrayList<String> activities_name_List = new ArrayList<>();
     ArrayList<String> activities_id_List = new ArrayList<>();
 
-    public static ArrayList<String> animalsFeeling = new ArrayList<>(Arrays.asList("gone", "angry", "sad", "neutral", "happy"));
-
-
-
-
+    public static ArrayList<String> animalsFeeling = new ArrayList<>(Arrays.asList("gone", "sad", "angry", "neutral", "happy"));
     String uid;
-
     int startIndex=0;
-
     Boolean toRight;
-
-    public  void getActivities(){
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        String email = user.getEmail();
-         uid = user.getUid();
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-
-        DatabaseReference referenceActivity = database.getReference("Activity");
-        referenceActivity.orderByChild("user_id").equalTo(uid).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String activity_id = snapshot.child("activity_id").getValue(String.class);
-                    String activity_pet = snapshot.child("activity_pet").getValue(String.class);
-                    String activity_name = snapshot.child("activity_name").getValue(String.class);
-
-                    String resourceName = activity_pet+"_whole_neutral";
-                    int resId = HomeActivity.this.getResources().getIdentifier(resourceName,"drawable",HomeActivity.this.getPackageName());
-                    imageList.add(resId);
-                    activities_name_List.add(activity_name);
-                    activities_id_List.add(activity_id);
-
-                }
-                toRight=true;
-                showAnimals();
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.w("TAG", "Erreur lors de la récupération des données", databaseError.toException());
-            }
-        });
-
-    }
-
-
-
 
     @SuppressLint("MissingInflatedId")
     @RequiresApi(api = Build.VERSION_CODES.N)
@@ -140,44 +80,8 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         startActivity(new Intent(HomeActivity.this, WeeklyEvent.class));
-
-        firebaseAuth = FirebaseAuth.getInstance();
-        next = findViewById(R.id.scrollAnimalsRight);
-        previous = findViewById(R.id.scrollAnimalsLeft);
-
+        initialisation();
         getActivities();
-
-        imageView1 = findViewById(R.id.imageView1);
-        imageView2 = findViewById(R.id.imageView2);
-        imageView3 = findViewById(R.id.imageView3);
-        imageView4 = findViewById(R.id.imageView4);
-        imageView5 = findViewById(R.id.imageView5);
-
-        textView1 = findViewById(R.id.homePageAnimalText1);
-        textView2 = findViewById(R.id.homePageAnimalText2);
-        textView3 = findViewById(R.id.homePageAnimalText3);
-        textView4 = findViewById(R.id.homePageAnimalText4);
-        textView5 = findViewById(R.id.homePageAnimalText5);
-
-        linearLayout1 = findViewById(R.id.linearLayoutHomePageAnimal1);
-        linearLayout2 = findViewById(R.id.linearLayoutHomePageAnimal2);
-        linearLayout3 = findViewById(R.id.linearLayoutHomePageAnimal3);
-        linearLayout4 = findViewById(R.id.linearLayoutHomePageAnimal4);
-        linearLayout5 = findViewById(R.id.linearLayoutHomePageAnimal5);
-
-
-
-
-        //buttons
-
-
-        panelHobbyZoo = findViewById(R.id.panel_hobby_zoo);
-
-        calendarBtn = findViewById(R.id.calendar_btn);
-        runBtn = findViewById(R.id.run_btn);
-        profileBtn = findViewById(R.id.profile_btn);
-
-
         panelHobbyZoo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -272,6 +176,33 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+
+    private void initialisation() {
+        firebaseAuth = FirebaseAuth.getInstance();
+        next = findViewById(R.id.scrollAnimalsRight);
+        previous = findViewById(R.id.scrollAnimalsLeft);
+        imageView1 = findViewById(R.id.imageView1);
+        imageView2 = findViewById(R.id.imageView2);
+        imageView3 = findViewById(R.id.imageView3);
+        imageView4 = findViewById(R.id.imageView4);
+        imageView5 = findViewById(R.id.imageView5);
+
+        textView1 = findViewById(R.id.homePageAnimalText1);
+        textView2 = findViewById(R.id.homePageAnimalText2);
+        textView3 = findViewById(R.id.homePageAnimalText3);
+        textView4 = findViewById(R.id.homePageAnimalText4);
+        textView5 = findViewById(R.id.homePageAnimalText5);
+
+        linearLayout1 = findViewById(R.id.linearLayoutHomePageAnimal1);
+        linearLayout2 = findViewById(R.id.linearLayoutHomePageAnimal2);
+        linearLayout3 = findViewById(R.id.linearLayoutHomePageAnimal3);
+        linearLayout4 = findViewById(R.id.linearLayoutHomePageAnimal4);
+        linearLayout5 = findViewById(R.id.linearLayoutHomePageAnimal5);
+        panelHobbyZoo = findViewById(R.id.panel_hobby_zoo);
+        calendarBtn = findViewById(R.id.calendar_btn);
+        runBtn = findViewById(R.id.run_btn);
+        profileBtn = findViewById(R.id.profile_btn);
     }
 
 
@@ -411,33 +342,44 @@ public class HomeActivity extends AppCompatActivity {
         return intElements;
     }
 
+    public void getActivities(){
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        String email = user.getEmail();
+        uid = user.getUid();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
-    private void weeklyEvent() {
-        // Obtenez une instance de l'AlarmManager
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        DatabaseReference referenceActivity = database.getReference("Activity");
+        referenceActivity.orderByChild("user_id").equalTo(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String activity_id = snapshot.child("activity_id").getValue(String.class);
+                    String activity_pet = snapshot.child("activity_pet").getValue(String.class);
+                    String activity_name = snapshot.child("activity_name").getValue(String.class);
+                    int pet_feeling = Integer.parseInt(Objects.requireNonNull(snapshot.child("feeling").getValue(String.class)));
+                    String resourceName;
+                    if(pet_feeling == 0)
+                        resourceName = "none_whole_gone";
+                    else
+                        resourceName = activity_pet + "_whole_" + pet_feeling;
+                    int resId = HomeActivity.this.getResources().getIdentifier(resourceName,"drawable",HomeActivity.this.getPackageName());
+                    imageList.add(resId);
+                    activities_name_List.add(activity_name);
+                    activities_id_List.add(activity_id);
 
-        // Créez un objet Calendar et configurez-le pour le prochain lundi
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.DAY_OF_WEEK, Calendar.WEDNESDAY);
-        calendar.set(Calendar.HOUR_OF_DAY, 15);
-        calendar.set(Calendar.MINUTE, 15);
+                }
+                toRight=true;
+                showAnimals();
 
-        // Vérifiez si la date programmée est déjà passée, sinon ajoutez 7 jours
-        if (calendar.getTimeInMillis() < System.currentTimeMillis()) {
-            calendar.add(Calendar.DAY_OF_YEAR, 7);
-        }
+            }
 
-        // Créez une intention pour votre BroadcastReceiver
-        Intent intent = new Intent(this, WeeklyEventReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 123, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("TAG", "Erreur lors de la récupération des données", databaseError.toException());
+            }
+        });
 
-        // Planifiez l'alarme récurrente tous les lundis à l'heure spécifiée
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                AlarmManager.INTERVAL_DAY * 7, pendingIntent);
     }
-
 
 
     private void showAnimals() {

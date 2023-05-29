@@ -319,7 +319,7 @@
             android:backgroundTint="@color/red"
             android:scaleType="center"
             android:visibility="gone"
-            app:srcCompat="@drawable/ic_home"
+            app:srcCompat="@drawable/delete_icon"
             app:tint="@color/gray" />
 
     </RelativeLayout>

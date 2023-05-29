@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.MenuItem;
@@ -32,6 +33,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.util.HashMap;
 
 
@@ -127,6 +130,15 @@ public class RegisterActivity extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> emailVerificationTask) {
                                         progressDialog.dismiss();
+                                        LocalDate currentDate = null;
+                                        LocalDate nextMonday = null;
+                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                            currentDate = LocalDate.now();
+                                            nextMonday = currentDate.with(DayOfWeek.MONDAY);
+                                            if (currentDate.compareTo(nextMonday) > 0) {
+                                                nextMonday = nextMonday.plusWeeks(1);
+                                            }
+                                        }
                                         if (emailVerificationTask.isSuccessful()) {
                                             String email = user.getEmail();
                                             String uid = user.getUid();
@@ -139,6 +151,12 @@ public class RegisterActivity extends AppCompatActivity {
                                                 userMap.put("uid", uid);
                                                 userMap.put("pseudo", pseudo);
                                                 userMap.put("emailVerified", false);
+                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                    userMap.put("connectNextMondayDay", nextMonday.getDayOfMonth());
+                                                    userMap.put("connectNextMondayMonth",  Integer.parseInt(String.valueOf(nextMonday.getMonth().getValue())));
+                                                    userMap.put("connectNextMondayYear", nextMonday.getYear());
+                                                }
+
 
                                                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
                                                 reference.child(uid).setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -159,6 +177,7 @@ public class RegisterActivity extends AppCompatActivity {
                                                 // Image sélectionnée
                                                 StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("users/" + uid + "/profile.jpg");
 
+                                                LocalDate finalNextMonday = nextMonday;
                                                 storageRef.putFile(imageUri)
                                                         .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                                             @Override
@@ -173,6 +192,11 @@ public class RegisterActivity extends AppCompatActivity {
                                                                         userMap.put("pseudo", pseudo);
                                                                         userMap.put("image", imageUrl);
                                                                         userMap.put("emailVerified", false);
+                                                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                                            userMap.put("connectNextMondayDay", finalNextMonday.getDayOfMonth());
+                                                                            userMap.put("connectNextMondayMonth", Integer.parseInt(String.valueOf(finalNextMonday.getMonth().getValue())));
+                                                                            userMap.put("connectNextMondayYear", finalNextMonday.getYear());
+                                                                        }
 
                                                                         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
                                                                         reference.child(uid).setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {

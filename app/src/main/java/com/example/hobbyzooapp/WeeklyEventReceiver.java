@@ -18,24 +18,23 @@ public class WeeklyEventReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference tableRef = database.getReference("Activity");
-        DatabaseReference databaseReferenceChild = FirebaseDatabase.getInstance().getReference().child("Activity");
-        databaseReferenceChild.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference activityRef = database.getReference("Activity");
+
+        activityRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String activity_id = snapshot.child("activity_id").getValue(String.class);
-                    DatabaseReference elementRef = tableRef.child(activity_id);
-                    Map<String, Object> updates = new HashMap<>();
-                    updates.put("spent_time", "0");
-                    elementRef.updateChildren(updates);
+                    String activityId = snapshot.child("activity_id").getValue(String.class);
+                    DatabaseReference elementRef = activityRef.child(activityId);
+                    elementRef.child("spent_time").setValue("0");
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Gérez l'erreur en cas d'annulation de la requête
+                // Handle the error if the request is canceled
             }
         });
     }
 }
+

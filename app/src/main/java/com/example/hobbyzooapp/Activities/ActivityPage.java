@@ -33,6 +33,7 @@ import com.example.hobbyzooapp.Sessions.OnSessionListRetrievedListener;
 import com.example.hobbyzooapp.Sessions.Session;
 import com.example.hobbyzooapp.TodoTask;
 import com.example.hobbyzooapp.Sessions.ListSessionsAdapter;
+import com.example.hobbyzooapp.WeeklyEvent;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -68,9 +69,12 @@ public class ActivityPage extends AppCompatActivity {
     Boolean allSessions = false;
     Button addToTodoListButton;
     EditText addToTodoListText;
+    Button validateToTodoListButton;
+    ImageButton deleteActivityButton;
     FirebaseAuth firebaseAuth;
     TextView activityNameDisplay;
 
+    String activityId;
     String activityName ;
     String activityPetName ;
     String activityPet ;
@@ -84,7 +88,7 @@ public class ActivityPage extends AppCompatActivity {
 
     public void getActivityData(String activity_id){
          database = FirebaseDatabase.getInstance();
-         referenceActivity = database.getReference("Activity");
+         referenceActivity = database.getReference().child("Activity");
 
         referenceActivity.child(activity_id).addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
@@ -92,6 +96,7 @@ public class ActivityPage extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     // Récupérez les informations de l'activité
+                     activityId = activity_id;
                      activityName = dataSnapshot.child("activity_name").getValue(String.class).replace(",", " ");
                      activityPetName = dataSnapshot.child("activity_pet_name").getValue(String.class).replace(",", " ");
                      activityPet = dataSnapshot.child("activity_pet").getValue(String.class);
@@ -100,12 +105,15 @@ public class ActivityPage extends AppCompatActivity {
                      category_id = dataSnapshot.child("category_id").getValue(String.class);
 
                     petName.setText(activityPetName);
-                    String resourceName = activityPet+"_icon";
+                    String resourceName = activityPet+"_icon_neutral";
                     int resId = ActivityPage.this.getResources().getIdentifier(resourceName,"drawable",ActivityPage.this.getPackageName());
                     petPic.setImageResource(resId);
                     activityNameDisplay.setText(activityName);
                     int weeklyHours = Integer.parseInt(weeklyGoal) / 60;
-                    int weeklyMinutes = Integer.parseInt(weeklyGoal) % 60;
+                    String weeklyMinutes = Integer.parseInt(weeklyGoal) % 60+"";
+                    if((Integer.parseInt(weeklyGoal) % 60) < 10)
+                        weeklyMinutes = "0"+Integer.parseInt(weeklyGoal) % 60;
+
 
                     int weeklySpentHours = Integer.parseInt(spentTime) / 60;
                     int weeklySpentMinutes = Integer.parseInt(spentTime) % 60;
@@ -247,13 +255,15 @@ public class ActivityPage extends AppCompatActivity {
         setContentView(R.layout.activity_page);
         Intent intent = getIntent();
         String activity_id = intent.getStringExtra("activity_id");
-        petPic =findViewById(R.id.activityPagePetPic);
+        petPic = findViewById(R.id.activityPagePetPic);
         petName = findViewById(R.id.activityPagePetName);
-        activityNameDisplay =findViewById(R.id.activityPageActivityName);
+        activityNameDisplay = findViewById(R.id.activityPageActivityName);
         header = findViewById(R.id.headerLayout);
         goalsText = findViewById(R.id.activityPageGoalsText);
         editNamePetButton = findViewById(R.id.activityPageEditPetNameButton);
-        editTextActivityName=findViewById(R.id.activityPageActivityNameEdit);
+        editTextActivityName = findViewById(R.id.activityPageActivityNameEdit);
+
+
 
 
         getActivityData(activity_id);
@@ -270,7 +280,7 @@ public class ActivityPage extends AppCompatActivity {
             }
         });
 
-
+        deleteActivityButton = findViewById(R.id.deleteActivityButton);
         petPic = findViewById(R.id.activityPagePetPic);
         petName = findViewById(R.id.activityPagePetName);
         petPic.setImageResource(R.drawable.koala_icon);
@@ -377,6 +387,7 @@ public class ActivityPage extends AppCompatActivity {
                 validatePetName.setVisibility(View.VISIBLE);
                 petName.setVisibility(View.GONE);
                 activityNameDisplay.setVisibility(View.GONE);
+                deleteActivityButton.setVisibility(View.VISIBLE);
             }
         });
 
@@ -385,6 +396,51 @@ public class ActivityPage extends AppCompatActivity {
             public void onClick(View v) {
                 openMainActivity();
 
+            }
+        });
+
+        deleteActivityButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseReference databaseReferenceTasks = database.getReference().child("Tasks");
+                databaseReferenceTasks.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            String activity_id_task = snapshot.child("activity_id").getValue(String.class);
+                            String task_id = snapshot.child("task_id").getValue(String.class);
+                            if(activity_id_task.equals(activityId)){
+                                databaseReferenceTasks.child(task_id).removeValue();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        // Gérez l'erreur en cas d'annulation de la requête
+                    }
+                });
+                DatabaseReference databaseReferenceSession = database.getReference().child("Session");
+                databaseReferenceSession.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            String activity_id_session = snapshot.child("activity_id").getValue(String.class);
+                            String session_id = snapshot.child("session_id").getValue(String.class);
+                            if(activity_id_session.equals(activityId)){
+                                databaseReferenceSession.child(session_id).removeValue();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+                referenceActivity.child(activityId).removeValue();
+                finish();
             }
         });
 
@@ -429,6 +485,7 @@ public class ActivityPage extends AppCompatActivity {
                 validatePetName.setVisibility(View.GONE);
                 petName.setVisibility(View.VISIBLE);
                 activityNameDisplay.setVisibility(View.VISIBLE);
+                deleteActivityButton.setVisibility(View.GONE);
 
                 DatabaseReference activitiesRef = FirebaseDatabase.getInstance().getReference("Activity");
                 DatabaseReference activityRef = activitiesRef.child(activity_id);

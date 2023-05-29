@@ -27,7 +27,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.example.hobbyzooapp.Calendar.CalendarAdapter;
 import com.example.hobbyzooapp.Calendar.CalendarUtils;
 import com.example.hobbyzooapp.Calendar.CalendarViewHolder;
 import com.example.hobbyzooapp.Sessions.MyDailySessions;

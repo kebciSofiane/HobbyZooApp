@@ -8,8 +8,6 @@ import android.text.InputFilter;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -28,9 +26,9 @@ import com.example.hobbyzooapp.OnSessionListRetrievedListener2;
 import com.example.hobbyzooapp.R;
 import com.example.hobbyzooapp.Sessions.NewSession;
 import com.example.hobbyzooapp.Sessions.OnSessionListRetrievedListener;
+import com.example.hobbyzooapp.Sessions.Session;
 import com.example.hobbyzooapp.TodoTask;
 import com.example.hobbyzooapp.Sessions.ListSessionsAdapter;
-import com.example.hobbyzooapp.WeeklyEvent;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -39,6 +37,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -61,13 +60,12 @@ public class ActivityPage extends AppCompatActivity {
     List<String> items = new ArrayList<>();
     ListSessionsAdapter adapter;
     private List<TodoTask> todoList = new ArrayList<>();
-    private List<Session> mysessions = new ArrayList<>();
+    private List<Session> mySessions = new ArrayList<>();
     private List<String> lastSessionData = new ArrayList<>();
 
     Boolean allSessions = false;
     Button addToTodoListButton;
     EditText addToTodoListText;
-    Button validateToTodoListButton;
     ImageButton deleteActivityButton;
     FirebaseAuth firebaseAuth;
     TextView activityNameDisplay, sessionCommentDisplay;
@@ -177,6 +175,8 @@ public class ActivityPage extends AppCompatActivity {
                                 String session_month = snapshot.child("session_month").getValue(String.class);
                                 String session_year = snapshot.child("session_year").getValue(String.class);
                                 String session_image = snapshot.child("session_picture").getValue(String.class);
+                                String mnemonic = dataSnapshot.child("activity_pet").getValue(String.class);
+
 
                                 int hourDuration = Integer.parseInt(session_duration)/60;
                                 int minutesDuration = Integer.parseInt(session_duration)%60;
@@ -186,7 +186,8 @@ public class ActivityPage extends AppCompatActivity {
                                         Integer.parseInt(session_day),
                                         Integer.parseInt(session_month),
                                         Integer.parseInt(session_year),
-                                        session_image
+                                        session_image,
+                                        mnemonic
                                 ));
                             }
                             listener.onSessionListRetrieved(mySessions);
@@ -300,7 +301,7 @@ public class ActivityPage extends AppCompatActivity {
         getSessionList(activity_id, new OnSessionListRetrievedListener() {
             @Override
             public void onSessionListRetrieved(ArrayList<Session> sessionList) {
-                mysessions = sessionList;
+                mySessions = sessionList;
                 adapter = new ListSessionsAdapter(sessionList);
                 recyclerView.setAdapter(adapter);
                 changeManager();
@@ -565,14 +566,14 @@ public class ActivityPage extends AppCompatActivity {
     private void changeManager() {
         GridLayoutManager layoutManager;
          if (allSessions)
-             if (mysessions.size()<=5)
-                 layoutManager = new GridLayoutManager(this, mysessions.size() , GridLayoutManager.HORIZONTAL, false);
+             if (mySessions.size()<=5)
+                 layoutManager = new GridLayoutManager(this, mySessions.size() , GridLayoutManager.HORIZONTAL, false);
              else
                 layoutManager = new GridLayoutManager(this, 5, GridLayoutManager.HORIZONTAL, false);
         else
-         if (mysessions.size()<=5 && mysessions.size()>0)
-             layoutManager = new GridLayoutManager(this, mysessions.size(), GridLayoutManager.HORIZONTAL, false);
-        else if (mysessions.size()==0)
+         if (mySessions.size()<=5 && mySessions.size()>0)
+             layoutManager = new GridLayoutManager(this, mySessions.size(), GridLayoutManager.HORIZONTAL, false);
+        else if (mySessions.size()==0)
              layoutManager = new GridLayoutManager(this, 1, GridLayoutManager.HORIZONTAL, false);
          else
              layoutManager = new GridLayoutManager(this, 3, GridLayoutManager.HORIZONTAL, false);

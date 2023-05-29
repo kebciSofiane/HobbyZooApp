@@ -62,7 +62,7 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         petNameView.setText(activity.getPetName());
 
         ImageView activityIconView = convertView.findViewById(R.id.activity_icon);
-        String resourceName = activity.getMnemonic()+"_icon_neutral";
+        String resourceName = activity.getPet()+"_icon_neutral";
         int resId = context.getResources().getIdentifier(resourceName,"drawable",context.getPackageName());
         activityIconView.setImageResource(resId);
 

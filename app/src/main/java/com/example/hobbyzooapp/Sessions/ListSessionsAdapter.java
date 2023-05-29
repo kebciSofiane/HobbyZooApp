@@ -68,9 +68,7 @@ public class ListSessionsAdapter extends RecyclerView.Adapter<ListSessionsAdapte
                 @Override
                 public void onClick(View v) {
                     CalendarUtils.selectedDate = LocalDate.of(item.getYear(),item.getMonth(),item.getDay());
-                    MyDailySessions.localDate=LocalDate.of(item.getYear(),item.getMonth(),item.getDay());
                     Intent intent=new Intent(v.getContext(), MyDailySessions.class);
-                    System.out.println("hahahaah");
 
                 }
             });

@@ -199,7 +199,7 @@ public class HomeActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
-                MyDailySessions.localDate= LocalDate.now();//todo
+                CalendarUtils.selectedDate= LocalDate.now();//todo
                 startActivity(new Intent(HomeActivity.this, MyDailySessions.class));
 
             }

@@ -184,10 +184,9 @@ public class MyDailySessions extends AppCompatActivity {
                                                  new Time(hourDuration,minutesDuration,0),
                                                  Integer.parseInt(session_day),Integer.parseInt(session_month),
                                                  Integer.parseInt(session_year),
-                                                 session_image)
+                                                 session_image,mnemonic)
                                          );
-                                                 Integer.parseInt(session_day),Integer.parseInt(session_month),Integer.parseInt(session_year),
-                                                 mnemonic));
+
                              callback.onSessionsLoaded(mySessions);
                          } else {
                              // L'activité n'existe pas dans la base de données

@@ -26,8 +26,8 @@ import com.bumptech.glide.Glide;
 import com.example.hobbyzooapp.HomeActivity;
 import com.example.hobbyzooapp.OnSessionListRetrievedListener2;
 import com.example.hobbyzooapp.R;
+import com.example.hobbyzooapp.Sessions.NewSession;
 import com.example.hobbyzooapp.Sessions.OnSessionListRetrievedListener;
-import com.example.hobbyzooapp.Sessions.Session;
 import com.example.hobbyzooapp.TodoTask;
 import com.example.hobbyzooapp.Sessions.ListSessionsAdapter;
 import com.example.hobbyzooapp.WeeklyEvent;
@@ -39,7 +39,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,6 +53,7 @@ public class ActivityPage extends AppCompatActivity {
     Button validatePetName;
     Button showMoreButton;
     Button showLessButton;
+    ImageButton addSessionButton;
     RecyclerView recyclerView;
     RecyclerView recyclerViewTodoList;
     ImageButton homeButton;
@@ -208,12 +208,6 @@ public class ActivityPage extends AppCompatActivity {
             }
         });
 
-
-
-
-
-
-
         return  mySessions;
     }
 
@@ -288,13 +282,13 @@ public class ActivityPage extends AppCompatActivity {
         setContentView(R.layout.activity_page);
         Intent intent = getIntent();
         String activity_id = intent.getStringExtra("activity_id");
-        petPic = findViewById(R.id.activityPagePetPic);
+        petPic =findViewById(R.id.activityPagePetPic);
         petName = findViewById(R.id.activityPagePetName);
-        activityNameDisplay = findViewById(R.id.activityPageActivityName);
+        activityNameDisplay =findViewById(R.id.activityPageActivityName);
         header = findViewById(R.id.headerLayout);
         goalsText = findViewById(R.id.activityPageGoalsText);
         editNamePetButton = findViewById(R.id.activityPageEditPetNameButton);
-        editTextActivityName = findViewById(R.id.activityPageActivityNameEdit);
+        editTextActivityName=findViewById(R.id.activityPageActivityNameEdit);
 
         sessionCommentDisplay = findViewById(R.id.activityPageCommentText);
         sessionLastPicture = findViewById(R.id.activityPagePicture);
@@ -381,8 +375,6 @@ public class ActivityPage extends AppCompatActivity {
             }
         });
 
-
-
         addToTodoListButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -436,6 +428,14 @@ public class ActivityPage extends AppCompatActivity {
                 petName.setVisibility(View.GONE);
                 activityNameDisplay.setVisibility(View.GONE);
                 deleteActivityButton.setVisibility(View.VISIBLE);
+            }
+        });
+
+        addSessionButton = findViewById(R.id.add_session_button);
+        addSessionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ActivityPage.this, NewSession.class));
             }
         });
 
@@ -576,7 +576,6 @@ public class ActivityPage extends AppCompatActivity {
              layoutManager = new GridLayoutManager(this, 1, GridLayoutManager.HORIZONTAL, false);
          else
              layoutManager = new GridLayoutManager(this, 3, GridLayoutManager.HORIZONTAL, false);
-
 
         recyclerView.setLayoutManager(layoutManager);
     }

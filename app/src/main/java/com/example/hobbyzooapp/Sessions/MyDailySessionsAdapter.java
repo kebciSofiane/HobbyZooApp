@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -32,7 +33,7 @@ public class MyDailySessionsAdapter extends BaseAdapter{
     public MyDailySessionsAdapter(Context context, List<Session> sessionList, LocalDate localDate){
         this.context = context;
         this.sessionList = sessionList;
-        System.out.println(sessionList.size());
+
         this.inflater = LayoutInflater.from(context);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             this.day = localDate.getDayOfMonth();
@@ -78,13 +79,20 @@ public class MyDailySessionsAdapter extends BaseAdapter{
         Session currentSession = getItem(i);
         String sessionName = currentSession.getActivityName();
         String sessionTime = currentSession.getTime().toString();
-        System.out.println(sessionTime);
 
         TextView sessionNameView = view.findViewById(R.id.session_name);
         sessionNameView.setText(sessionName);
 
         TextView sessionTimeView = view.findViewById(R.id.session_time);
         sessionTimeView.setText(sessionTime);
+
+        String sessionPetIconRes = currentSession.getMnemonic()+"_icon";
+        int resId = context.getResources().getIdentifier(sessionPetIconRes,"drawable",context.getPackageName());
+
+        ImageView sessionPetIcon = view.findViewById(R.id.session_icon);
+        sessionPetIcon.setImageResource(resId);
+
+
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,6 +102,9 @@ public class MyDailySessionsAdapter extends BaseAdapter{
                 }
             }
         });
+
+
+
 
         return view;
     }

@@ -17,8 +17,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/radius_background"
-        android:backgroundTint="@color/white"
-        >
+        android:backgroundTint="@color/white">
 
         <TextView
             android:id="@+id/page_name"
@@ -26,7 +25,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:layout_marginTop="20dp"
-            android:text="My activities"
+            android:text="@string/my_activities"
             android:textColor="@color/title_page"
             android:textSize="@dimen/title_size"
             android:textStyle="bold" />
@@ -55,31 +54,30 @@
         android:textColor="#000000" />
 
 
-    <Button
+    <ImageButton
         android:id="@+id/add_activity_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="30dp"
         android:background="@color/transparent"
-        android:text="@string/add_new"
-        android:textColor="@color/green_btn"
-        android:textSize="90sp"
-        android:textStyle="bold" />
+        app:tint="@color/green_btn"
+        android:scaleType="centerCrop"
+        android:src="@drawable/plus_icon" />
 
     <ImageButton
         android:id="@+id/homeButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_marginEnd="30dp"
         android:layout_marginBottom="30dp"
-        android:backgroundTint="@color/green_btn"
+        android:background="#00FFFFFF"
         android:scaleType="center"
         app:srcCompat="@drawable/ic_home"
-        app:tint="@color/green_btn_text" />
+        app:tint="@color/green_btn" />
 
 
 </RelativeLayout>

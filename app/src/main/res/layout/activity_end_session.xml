@@ -132,7 +132,6 @@
                 android:textColor="@color/green_btn_text"
                 android:layout_gravity="end" />
 
-
             <Button
                 android:id="@+id/validateButton2"
                 android:layout_width="wrap_content"
@@ -143,6 +142,7 @@
                 android:textColor="@color/green_btn_text"
                 android:layout_gravity="end"
                 android:visibility="gone" />
+
             <Button
                 android:id="@+id/skipButton"
                 android:layout_width="wrap_content"

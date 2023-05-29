@@ -3,42 +3,42 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="10dp" >
-
+    android:layout_margin="10dp"
+    android:background="@color/app_background">
 
     <LinearLayout
-        android:id="@+id/session"
+        android:id="@+id/itemSessionList"
+        android:layout_width="140dp"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:padding="10dp"
-        android:layout_width="150dp"
-        android:layout_height="100dp"
         android:background="@drawable/session_border"
         android:orientation="vertical"
-        >
+        android:padding="15dp">
+
+        <ImageView
+            android:id="@+id/session_icon"
+            android:layout_width="105dp"
+            android:layout_height="75dp"
+            android:src="@drawable/hobby_zoo_app" />
 
         <TextView
             android:id="@+id/session_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp"
-            android:textColor="@color/light_green"
-            android:text="@string/default_activity_name"
             android:layout_gravity="center"
-
-         />
+            android:text="@string/default_activity_name"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/session_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="15sp"
-            android:textColor="@color/light_green"
-            android:text="@string/default_activity_time"
             android:layout_gravity="center"
-            />
+            android:text="@string/default_activity_time"
+            android:textColor="@color/black"
+            android:textSize="15sp" />
+
     </LinearLayout>
-
-
-
 
 </LinearLayout>

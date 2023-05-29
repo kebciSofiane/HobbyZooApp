@@ -35,30 +35,26 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.sql.Date;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
 
 public class MyDailySessions extends AppCompatActivity {
 
     private ImageButton homeButton;
-    private Button addSessionButton;
+    private ImageButton addSessionButton;
     private ImageButton calendarButton;
     private View sessionButton;
     FirebaseAuth firebaseAuth;
-    public static LocalDate localDate = null;
+    LocalDate localDate = CalendarUtils.selectedDate;
     MyDailySessionsAdapter adapter;
-
-
 
 
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_my_daily_sessions);
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -87,7 +83,7 @@ public class MyDailySessions extends AppCompatActivity {
             }
         });
 
-        sessionButton = findViewById(R.id.session);
+       // sessionButton = findViewById(R.id.itemSessionList);
 
         GridView sessionListView = findViewById(R.id.session_list_view);
         //LocalDate localDate = CalendarUtils.selectedDate;
@@ -101,8 +97,8 @@ public class MyDailySessions extends AppCompatActivity {
                     @Override
                     public void onItemClick(int position) {
                         new AlertDialog.Builder(MyDailySessions.this)
-                                .setTitle(adapter.getItem(position).getActivityName() + " de " + adapter.getItem(position).getTime())
-                                .setMessage("Voulez-vous commencer cette session ?")
+                                .setTitle(adapter.getItem(position).getActivityName() + " - " + adapter.getItem(position).getTime())
+                                .setMessage("Do you want to start ?")
                                 .setNegativeButton(android.R.string.no, null)
                                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface arg0, int arg1) {
@@ -181,7 +177,7 @@ public class MyDailySessions extends AppCompatActivity {
                              String activityName = dataSnapshot.child("activity_name").getValue(String.class);
                              int hourDuration = Integer.parseInt(session_duration)/60;
                              int minutesDuration = Integer.parseInt(session_duration)%60;
-
+                             String mnemonic = dataSnapshot.child("activity_pet").getValue(String.class);
                                          mySessions.add(new Session(session_id,
                                                  activity_id,
                                                  activityName,
@@ -190,6 +186,8 @@ public class MyDailySessions extends AppCompatActivity {
                                                  Integer.parseInt(session_year),
                                                  session_image)
                                          );
+                                                 Integer.parseInt(session_day),Integer.parseInt(session_month),Integer.parseInt(session_year),
+                                                 mnemonic));
                              callback.onSessionsLoaded(mySessions);
                          } else {
                              // L'activité n'existe pas dans la base de données

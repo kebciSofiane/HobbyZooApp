@@ -34,7 +34,7 @@ import java.util.Map;
 public class MyActivities extends AppCompatActivity {
 
     private ImageButton homeButton;
-    private Button addActivityButton;
+    private ImageButton addActivityButton;
     ExpandableListView expandableListView;
     ExpandableListAdapter expandableListAdapter;
     List<String> expandableListTitle;

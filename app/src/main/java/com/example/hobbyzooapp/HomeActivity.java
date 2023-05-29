@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.icu.util.Calendar;
 import android.os.Build;
@@ -28,6 +29,7 @@ import android.widget.TextView;
 
 import com.example.hobbyzooapp.Activities.ActivityPage;
 import com.example.hobbyzooapp.Calendar.CalendarActivity;
+import com.example.hobbyzooapp.Calendar.CalendarUtils;
 import com.example.hobbyzooapp.Sessions.MyDailySessions;
 import com.example.hobbyzooapp.Sessions.RunSession;
 import com.google.firebase.auth.FirebaseAuth;
@@ -45,7 +47,10 @@ import java.util.List;
 import java.util.Random;
 
 public class HomeActivity extends AppCompatActivity {
+    //TODO 1 général : vérifier les boutons retour du tel de chaque activity + ajout finish() si besoin
+    //TODO 2 général : enlever tous system out + commentaires inutiles + verif indentation
 
+    //todo : panel button revien page 1 sans relancer la page ?(phone back button aussi)
     FirebaseAuth firebaseAuth;
     Button next;
     Button previous;
@@ -55,6 +60,7 @@ public class HomeActivity extends AppCompatActivity {
     private int currentIndex3=0;
 
     ImageButton calendarBtn, runBtn, profileBtn;
+    ImageButton panelHobbyZoo;
 
     ImageView imageView1;
     ImageView imageView2;
@@ -85,11 +91,9 @@ public class HomeActivity extends AppCompatActivity {
 
     String uid;
 
-
     int startIndex=0;
 
     Boolean toRight;
-
 
     public  void getActivities(){
         FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -129,6 +133,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
 
+    @SuppressLint("MissingInflatedId")
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,14 +168,24 @@ public class HomeActivity extends AppCompatActivity {
 
 
 
-
-
-
         //buttons
+
+
+        panelHobbyZoo = findViewById(R.id.panel_hobby_zoo);
 
         calendarBtn = findViewById(R.id.calendar_btn);
         runBtn = findViewById(R.id.run_btn);
         profileBtn = findViewById(R.id.profile_btn);
+
+
+        panelHobbyZoo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(HomeActivity.this, HomeActivity.class));
+                finish();
+
+            }
+        });
 
         calendarBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -184,7 +199,7 @@ public class HomeActivity extends AppCompatActivity {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
-                MyDailySessions.localDate= LocalDate.now();
+                MyDailySessions.localDate= LocalDate.now();//todo
                 startActivity(new Intent(HomeActivity.this, MyDailySessions.class));
 
             }
@@ -257,9 +272,6 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-
     }
 
 
@@ -277,7 +289,7 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+
     }
 
 
@@ -330,7 +342,6 @@ public class HomeActivity extends AppCompatActivity {
 
         return intElements;
     }
-
 
     public List<String> showNextActivityNames(int batchSize) {
         List<String> intElements ;
@@ -433,13 +444,11 @@ public class HomeActivity extends AppCompatActivity {
 
         Random random = new Random();
 
-
         //FirebaseUser user = firebaseAuth.getCurrentUser();
         //user.getUid()
         ArrayList<TextView> textViewList = new ArrayList<>();
         ArrayList<ImageView> imageViewList = new ArrayList<>();
         ArrayList<LinearLayout> linearLayoutList = new ArrayList<>();
-
 
         textViewList.add(textView1);
         textViewList.add(textView2);
@@ -477,15 +486,12 @@ public class HomeActivity extends AppCompatActivity {
             activities_id = showPreviousActivityId(batchSize);
         }
 
-
         for (int i = 0; i < batchElements.size(); i++) {
                 imageViewList.get(i).setImageResource(batchElements.get(i));
                 textViewList.get(i).setText(activities_names.get(i));
                 linearLayoutList.get(i).setVisibility(View.VISIBLE);
                 linearLayoutList.get(i).setTag(activities_id.get(i));
-            }
-
-
+        }
 
 
 
@@ -574,12 +580,12 @@ public class HomeActivity extends AppCompatActivity {
             params2.topMargin = image2Y;
             linearLayout2.setLayoutParams(params2);
 
-            RelativeLayout.LayoutParams params3 = new RelativeLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.WRAP_CONTENT,
-                    RelativeLayout.LayoutParams.WRAP_CONTENT);
-            params3.leftMargin = image3X;
-            params3.topMargin = image3Y;
-            linearLayout3.setLayoutParams(params3);
+        RelativeLayout.LayoutParams params3 = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        params3.leftMargin = image3X;
+        params3.topMargin = image3Y;
+        linearLayout3.setLayoutParams(params3);
 
             RelativeLayout.LayoutParams params4 = new RelativeLayout.LayoutParams(
                     RelativeLayout.LayoutParams.WRAP_CONTENT,
@@ -595,6 +601,5 @@ public class HomeActivity extends AppCompatActivity {
             params5.topMargin = image5Y;
             linearLayout5.setLayoutParams(params5);
         }
-
 
     }

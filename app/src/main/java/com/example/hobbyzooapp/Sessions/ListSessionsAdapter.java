@@ -49,7 +49,7 @@ public class ListSessionsAdapter extends RecyclerView.Adapter<ListSessionsAdapte
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         v= parent;
         // Créez et retournez une instance de ViewHolder qui contient la vue de chaque élément
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_layout, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_session_list_activity, parent, false);
         return new ViewHolder(view);
     }
 

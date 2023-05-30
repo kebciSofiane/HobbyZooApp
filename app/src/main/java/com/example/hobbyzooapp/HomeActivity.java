@@ -44,9 +44,6 @@ public class HomeActivity extends AppCompatActivity {
     //TODO 1 général : vérifier les boutons retour du tel de chaque activity + ajout finish() si besoin
     //TODO 2 général : enlever tous system out + commentaires inutiles + verif indentation
 
-
-    private int pageSize;
-    private int currentPage=0;
     //todo : panel button revien page 1 sans relancer la page ?(phone back button aussi)
     FirebaseAuth firebaseAuth;
     Button next, previous;

@@ -55,6 +55,19 @@
 
 
     <ImageButton
+        android:id="@+id/profile_btn"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginBottom="30dp"
+        android:background="#00FFFFFF"
+        android:scaleType="center"
+        app:srcCompat="@drawable/ic_profile"
+        app:tint="@color/green_btn"/>
+
+    <ImageButton
         android:id="@+id/add_activity_button"
         android:layout_width="65dp"
         android:layout_height="65dp"

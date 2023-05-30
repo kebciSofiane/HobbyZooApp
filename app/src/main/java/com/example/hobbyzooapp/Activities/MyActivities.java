@@ -2,6 +2,7 @@ package com.example.hobbyzooapp.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.hobbyzooapp.Category.Category;
 import com.example.hobbyzooapp.HomeActivity;
+import com.example.hobbyzooapp.ProfileActivity;
 import com.example.hobbyzooapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -33,8 +35,7 @@ import java.util.Map;
 
 public class MyActivities extends AppCompatActivity {
 
-    private ImageButton homeButton;
-    private ImageButton addActivityButton;
+    ImageButton homeButton, addActivityButton, profileButton;
     ExpandableListView expandableListView;
     ExpandableListAdapter expandableListAdapter;
     List<String> expandableListTitle;
@@ -45,6 +46,7 @@ public class MyActivities extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
 
 
+    @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +55,7 @@ public class MyActivities extends AppCompatActivity {
 
         //addActivities();
 
+        editCategoryButton= findViewById(R.id.editCategory);
         homeButton = findViewById(R.id.homeButton);
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,8 +66,6 @@ public class MyActivities extends AppCompatActivity {
         });
 
         addActivityButton = findViewById(R.id.add_activity_button);
-        editCategoryButton= findViewById(R.id.editCategory);
-
         addActivityButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -74,7 +75,14 @@ public class MyActivities extends AppCompatActivity {
         });
 
 
+        profileButton= findViewById(R.id.profile_btn);
+        profileButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                startActivity(new Intent(MyActivities.this, ProfileActivity.class));
 
+            }
+        });
         ActivitiesCallBack callback = new ActivitiesCallBack() {
             @Override
             public void onActivitiesLoaded(HashMap<String, Category> expandableListDetail) {

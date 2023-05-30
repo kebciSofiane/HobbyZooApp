@@ -246,13 +246,13 @@ public class ActivityPage extends AppCompatActivity {
         deleteActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseReference databaseReferenceTasks = database.getReference().child("Tasks");
+                DatabaseReference databaseReferenceTasks = database.getReference("Tasks");
                 databaseReferenceTasks.addListenerForSingleValueEvent(new ValueEventListener() {
 
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            String activity_id_task = snapshot.child("activity_id").getValue(String.class);
+                            String activity_id_task = snapshot.child("activityId").getValue(String.class);
                             String task_id = snapshot.getKey();
                             if(activity_id_task.equals(activityId)){
                                 databaseReferenceTasks.child(task_id).removeValue();
@@ -265,13 +265,14 @@ public class ActivityPage extends AppCompatActivity {
                         // Gérez l'erreur en cas d'annulation de la requête
                     }
                 });
-                DatabaseReference databaseReferenceSession = database.getReference().child("Session");
+                DatabaseReference databaseReferenceSession = database.getReference("Session");
                 databaseReferenceSession.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             String activity_id_session = snapshot.child("activity_id").getValue(String.class);
                             String session_id = snapshot.getKey();
+                            System.out.println(activity_id_session +  "           :          "+ activityId);
                             if(activity_id_session.equals(activityId)){
                                 databaseReferenceSession.child(session_id).removeValue();
                             }
@@ -284,7 +285,7 @@ public class ActivityPage extends AppCompatActivity {
                     }
                 });
                 referenceActivity.child(activityId).removeValue();
-                finish();
+                startActivity(new Intent(ActivityPage.this, HomeActivity.class));
             }
         });
 

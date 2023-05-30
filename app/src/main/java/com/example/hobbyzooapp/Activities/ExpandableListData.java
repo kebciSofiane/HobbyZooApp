@@ -48,7 +48,7 @@ public class ExpandableListData {
                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                 //String activityId = snapshot.getKey();
                                 String activity_id = snapshot.child("activity_id").getValue(String.class);
-                                String activity_pet_name = snapshot.child("activity_pet_name").getValue(String.class);
+                                String activity_pet_name = snapshot.child("activity_pet_name").getValue(String.class).replace(",", " ");
                                 String activity_pet = snapshot.child("activity_pet").getValue(String.class);
                                 String activity_name = snapshot.child("activity_name").getValue(String.class).replace(",", " ");
                                 String pet_feeling = snapshot.child("feeling").getValue(String.class);

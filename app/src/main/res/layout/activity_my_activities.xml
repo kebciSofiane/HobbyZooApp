@@ -19,6 +19,17 @@
         android:background="@drawable/radius_background"
         android:backgroundTint="@color/white">
 
+        <ImageButton
+            android:id="@+id/backButtonMyActivities"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/back"
+            android:src="@drawable/ic_arrowback"
+            app:tint="@color/black" />
+
         <TextView
             android:id="@+id/page_name"
             android:layout_width="wrap_content"

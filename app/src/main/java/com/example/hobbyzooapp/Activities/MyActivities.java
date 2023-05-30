@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.example.hobbyzooapp.Category.Category;
 import com.example.hobbyzooapp.HomeActivity;
+import com.example.hobbyzooapp.ProfileActivity;
 import com.example.hobbyzooapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -33,8 +34,7 @@ import java.util.Map;
 
 public class MyActivities extends AppCompatActivity {
 
-    private ImageButton homeButton;
-    private ImageButton addActivityButton;
+    private ImageButton homeButton, addActivityButton, backButton;
     ExpandableListView expandableListView;
     ExpandableListAdapter expandableListAdapter;
     List<String> expandableListTitle;
@@ -43,7 +43,6 @@ public class MyActivities extends AppCompatActivity {
     Button editCategoryButton;
 
     private FirebaseAuth firebaseAuth;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +71,6 @@ public class MyActivities extends AppCompatActivity {
 
             }
         });
-
-
 
         ActivitiesCallBack callback = new ActivitiesCallBack() {
             @Override
@@ -107,14 +104,18 @@ public class MyActivities extends AppCompatActivity {
 
         });
 
-
-
+        backButton = findViewById(R.id.backButtonMyActivities);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MyActivities.this, ProfileActivity.class));
+            }
+        });
 
         //GridView activityListView = findViewById(R.id.category_list_view);
         //CategoryListAdapter adapter = new CategoryListAdapter(this,category);
         //adapter.setOnItemClickListener(new OnItemClickListener() {
     }
-
 
     public void openMainActivity(){
         Intent intent = new Intent(this, HomeActivity.class);
@@ -125,7 +126,4 @@ public class MyActivities extends AppCompatActivity {
         Intent intent = new Intent(this, ActivityPage.class);
         startActivity(intent);
     }
-
-
-
 }

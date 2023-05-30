@@ -1,7 +1,9 @@
 package com.example.hobbyzooapp.Sessions;
+import com.example.hobbyzooapp.Calendar.CalendarUtils;
 import com.example.hobbyzooapp.R;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -17,6 +19,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -47,32 +50,22 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 public class EndSession extends AppCompatActivity {
 
     private static final int RETOUR_PRENDRE_PHOTO = 1;
-    ImageView petPic;
-    Button takeApic;
-    ImageView takenImage;
-    Button skipButton;
-    TextView commentValidated;
-    Button validateButton;
-    Button validateButton2;
+    ImageView petPic, takenImage;
+    Button takeApic, skipButton, validateButton, validateButton2, modifyPicButton, modifyCommentButton;
+    TextView commentValidated, sessionCount;
     EditText commentField;
-    TextView sessionCount;
-    Button modifyPicButton;
-    Button modifyCommentButton;
     private String photoPath = "";
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     FirebaseAuth firebaseAuth;
     Intent intent = getIntent();
-    String activity_id ;
-    String session_id ;
-    String activityPet;
-    String session_duration;
-    String spent_time;
+    String activity_id, session_id, activityPet, session_duration, spent_time;
     long totalSessionTime;
     Uri photoUri;
 
@@ -193,6 +186,7 @@ public class EndSession extends AppCompatActivity {
         });
 
         validateButton2.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
                 DatabaseReference sessionRef = FirebaseDatabase.getInstance().getReference().child("Session").child(session_id);
@@ -207,6 +201,7 @@ public class EndSession extends AppCompatActivity {
         });
 
         skipButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) { endSession(); }
         });
@@ -346,9 +341,11 @@ public class EndSession extends AppCompatActivity {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void endSession(){
         DatabaseReference sessionRef = FirebaseDatabase.getInstance().getReference().child("Session").child(session_id);
         Date date = new Date();
+        CalendarUtils.selectedDate= LocalDate.now();
         String time = new SimpleDateFormat("HHmm").format(date);
         String day = new SimpleDateFormat("dd").format(date);
         String month = new SimpleDateFormat("MM").format(date);

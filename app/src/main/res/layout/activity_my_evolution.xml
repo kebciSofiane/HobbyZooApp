@@ -11,14 +11,26 @@
         android:layout_height="match_parent"
         android:background="@color/white">
 
-        <TextView
+        <ImageButton
+            android:id="@+id/backButtonMyEvolution"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/evolutionActivityTitle"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/evolutionActivityTitle"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/back"
+            android:src="@drawable/ic_arrowback"
+            app:tint="@color/black" />
+
+        <TextView
             android:id="@+id/evolutionActivityTitle"
-            android:text="@string/my_evolution"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:textSize="40sp"
-            android:textColor="@color/black"       />
+            android:text="@string/my_evolution"
+            android:textColor="@color/black"
+            android:textSize="40sp" />
 
 
         <Spinner
@@ -36,55 +48,53 @@
             app:layout_constraintStart_toStartOf="parent" />
 
 
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_below="@id/evolutionActivityChooseActivity">
+            android:layout_below="@id/evolutionActivityChooseActivity"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
-                android:layout_marginTop="20dp">
+                android:orientation="horizontal">
 
                 <Button
 
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/back"
                     android:background="@null"
-                    android:textStyle="bold"
-                    android:onClick="previousMonthAction"
                     android:backgroundTint="@color/green_btn"
+                    android:onClick="previousMonthAction"
+                    android:text="@string/back"
                     android:textColor="@color/green_btn_text"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/monthYearTV"
                     android:layout_width="0dp"
-                    android:layout_weight="2"
                     android:layout_height="wrap_content"
+                    android:layout_weight="2"
                     android:text="Feb 2021"
-                    android:textSize="20sp"
                     android:textAlignment="center"
-                    android:textColor="@color/black"/>
+                    android:textColor="@color/black"
+                    android:textSize="20sp" />
 
                 <Button
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/forward"
                     android:background="@null"
-                    android:textStyle="bold"
-                    android:onClick="nextMonthAction"
                     android:backgroundTint="@color/green_btn"
+                    android:onClick="nextMonthAction"
+                    android:text="@string/forward"
                     android:textColor="@color/green_btn_text"
-                    android:textSize="20sp"/>
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
             </LinearLayout>
 
@@ -98,63 +108,63 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="SUN"
-                    android:textColor="@color/gray"
                     android:textAlignment="center"
-                    android:textSize="16sp"/>
+                    android:textColor="@color/gray"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="MON"
-                    android:textColor="@color/gray"
                     android:textAlignment="center"
-                    android:textSize="16sp"/>
+                    android:textColor="@color/gray"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="TUE"
-                    android:textColor="@color/gray"
                     android:textAlignment="center"
-                    android:textSize="16sp"/>
+                    android:textColor="@color/gray"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="WED"
-                    android:textColor="@color/gray"
                     android:textAlignment="center"
-                    android:textSize="16sp"/>
+                    android:textColor="@color/gray"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="THUR"
-                    android:textColor="@color/gray"
                     android:textAlignment="center"
-                    android:textSize="16sp"/>
+                    android:textColor="@color/gray"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="FRI"
-                    android:textColor="@color/gray"
                     android:textAlignment="center"
-                    android:textSize="16sp"/>
+                    android:textColor="@color/gray"
+                    android:textSize="16sp" />
 
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="SAT"
-                    android:textColor="@color/gray"
                     android:textAlignment="center"
-                    android:textSize="16sp"/>
+                    android:textColor="@color/gray"
+                    android:textSize="16sp" />
 
 
             </LinearLayout>

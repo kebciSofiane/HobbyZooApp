@@ -86,7 +86,6 @@ public class MyDailySessions extends AppCompatActivity {
        // sessionButton = findViewById(R.id.itemSessionList);
 
         GridView sessionListView = findViewById(R.id.session_list_view);
-        //LocalDate localDate = CalendarUtils.selectedDate;
         ArrayList<Session> sessions;
 
         SessionsCallback callback = new SessionsCallback() {
@@ -119,7 +118,7 @@ public class MyDailySessions extends AppCompatActivity {
         TextView dateSession = findViewById(R.id.dateSession);
         String date = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            date = localDate.getDayOfMonth() + "/" + localDate.getMonth().getValue() + "/" + localDate.getYear();
+            date = CalendarUtils.selectedDate.getDayOfMonth() + "/" + CalendarUtils.selectedDate.getMonth().getValue() + "/" + CalendarUtils.selectedDate.getYear();
         }
         dateSession.setText(date);
 

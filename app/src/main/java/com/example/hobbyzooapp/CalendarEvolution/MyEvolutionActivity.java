@@ -1,33 +1,26 @@
-package com.example.hobbyzooapp;
+package com.example.hobbyzooapp.CalendarEvolution;
 
 import static com.example.hobbyzooapp.Calendar.CalendarUtils.daysInMonthArray;
 import static com.example.hobbyzooapp.Calendar.CalendarUtils.monthYearFromDate;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.drawable.RoundedBitmapDrawable;
-import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.hobbyzooapp.Calendar.CalendarUtils;
-import com.example.hobbyzooapp.Sessions.MyDailySessions;
+import com.example.hobbyzooapp.HomeActivity;
+import com.example.hobbyzooapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -35,8 +28,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -47,8 +38,8 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
     ArrayList<String> myActivities = new ArrayList<>();
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
-    private Button todaySessionButton;
-    private Button todayMonthButton;
+
+    private ImageButton todayMonthButton;
     private ImageButton homeButton;
     FirebaseAuth firebaseAuth;
 
@@ -58,6 +49,7 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_evolution);
+        firebaseAuth = FirebaseAuth.getInstance();
         chooseActivity = findViewById(R.id.evolutionActivityChooseActivity);
         getActivities();
 
@@ -79,6 +71,16 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
         });
 
 
+
+        todayMonthButton = findViewById(R.id.today_month);
+        todayMonthButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CalendarUtils.selectedDate = LocalDate.now();
+                setMonthView();
+            }
+        });
+
     }
 
 
@@ -88,7 +90,7 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
 
 
     void setAdapter(){
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(MyEvolutionActivity.this, android.R.layout.simple_list_item_1, myActivities);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(MyEvolutionActivity.this, R.layout.spinner_evolution_activity, myActivities);
         chooseActivity.setAdapter(adapter);
     }
         ArrayList<String> getActivities () {
@@ -232,33 +234,10 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//            CalendarUtils.selectedDate = date;
-//            MyDailySessions.localDate=date;
-//            openTodaySessions();
-
         }
     }
 
 
-    public void openTodaySessions(){
-        Intent intent = new Intent(this, MyDailySessions.class);
-        startActivity(intent);}
 
     public void openMainActivity(){
         Intent intent = new Intent(this, HomeActivity.class);

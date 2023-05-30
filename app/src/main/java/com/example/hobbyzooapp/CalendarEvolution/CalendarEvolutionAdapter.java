@@ -1,42 +1,28 @@
-package com.example.hobbyzooapp;
+package com.example.hobbyzooapp.CalendarEvolution;
 
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
-import android.transition.Transition;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
 import androidx.core.graphics.drawable.RoundedBitmapDrawable;
 import androidx.core.graphics.drawable.RoundedBitmapDrawableFactory;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.CustomTarget;
-import com.bumptech.glide.request.target.SimpleTarget;
 import com.example.hobbyzooapp.Calendar.CalendarUtils;
-import com.example.hobbyzooapp.Calendar.CalendarViewHolder;
-import com.example.hobbyzooapp.Sessions.MyDailySessions;
-import com.example.hobbyzooapp.Sessions.MyDailySessionsAdapter;
-import com.example.hobbyzooapp.Sessions.RunSession;
+import com.example.hobbyzooapp.R;
 import com.example.hobbyzooapp.Sessions.Session;
-import com.example.hobbyzooapp.Sessions.SessionsCallback;
-import com.firebase.ui.storage.images.FirebaseImageLoader;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -47,31 +33,29 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import java.sql.Time;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class CalendarEvolutionAdapter extends RecyclerView.Adapter<CalendarEvolutionViewHolder> {
 
         private final ArrayList<LocalDate> days;
         private  int evenDayColor;
 
-    private final com.example.hobbyzooapp.CalendarEvolutionAdapter.OnItemListener onItemListener;
+    private final CalendarEvolutionAdapter.OnItemListener onItemListener;
 
-        public CalendarEvolutionAdapter(ArrayList<LocalDate> days,
-                                        com.example.hobbyzooapp.CalendarEvolutionAdapter.OnItemListener onItemListener,
-        int evenDayColor)
+        public CalendarEvolutionAdapter(ArrayList<LocalDate> days, CalendarEvolutionAdapter.OnItemListener onItemListener, int evenDayColor)
         {
             this.evenDayColor =evenDayColor;
             this.days = days;
             this.onItemListener = onItemListener;
+
         }
 
         @NonNull
         @Override
         public CalendarEvolutionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
         {
+
             LayoutInflater inflater = LayoutInflater.from(parent.getContext());
             View view = inflater.inflate(R.layout.calendar_cell, parent, false);
             ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
@@ -86,6 +70,7 @@ public class CalendarEvolutionAdapter extends RecyclerView.Adapter<CalendarEvolu
     @Override
     public void onBindViewHolder(@NonNull CalendarEvolutionViewHolder holder, int position) {
         final LocalDate date = days.get(position);
+
         if(date == null)
             holder.dayOfMonth.setText("");
 
@@ -94,8 +79,13 @@ public class CalendarEvolutionAdapter extends RecyclerView.Adapter<CalendarEvolu
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 holder.dayOfMonth.setText(String.valueOf(date.getDayOfMonth()));
             }
-            if(date.equals(CalendarUtils.selectedDate))
-                holder.parentView.setBackgroundColor(Color.LTGRAY);
+            if(date.equals(CalendarUtils.selectedDate)){
+                GradientDrawable borderDrawable = new GradientDrawable();
+                borderDrawable.setShape(GradientDrawable.RECTANGLE);
+                borderDrawable.setCornerRadius(10);
+                borderDrawable.setStroke(4, Color.LTGRAY);
+                holder.parentView.setBackground(borderDrawable);}
+
 
             getSessions(holder,date);
 
@@ -154,7 +144,6 @@ public class CalendarEvolutionAdapter extends RecyclerView.Adapter<CalendarEvolu
                             if (dataSnapshot.exists()) {
                                 String activityName = dataSnapshot.child("activity_name").getValue(String.class);
                                 LocalDate sessionDate = LocalDate.of(Integer.parseInt(session_year), Integer.parseInt(session_month), Integer.parseInt(session_day));
-
                                 if (date.getMonth() == sessionDate.getMonth() &&
                                         date.getDayOfMonth() == sessionDate.getDayOfMonth()&&
                                         date.getYear() == sessionDate.getYear()) {

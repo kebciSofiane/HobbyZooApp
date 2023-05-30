@@ -16,14 +16,16 @@ public class CalendarViewHolder extends RecyclerView.ViewHolder implements View.
     private final ArrayList<LocalDate> days;
     public final View parentView;
     public final TextView dayOfMonth;
-    public ImageView dayIndicator;
+    public ImageView dayIndicatorDone;
+    public ImageView dayIndicatorPlaned;
     private final CalendarAdapter.OnItemListener onItemListener;
     public CalendarViewHolder(@NonNull View itemView, CalendarAdapter.OnItemListener onItemListener, ArrayList<LocalDate> days)
     {
         super(itemView);
         parentView = itemView.findViewById(R.id.parentView);
         dayOfMonth = itemView.findViewById(R.id.cellDayText);
-        dayIndicator = itemView.findViewById(R.id.day_indicator);
+        dayIndicatorPlaned = itemView.findViewById(R.id.day_indicator_planed);
+        dayIndicatorDone = itemView.findViewById(R.id.day_indicator_done);
         this.onItemListener = onItemListener;
         itemView.setOnClickListener(this);
         this.days = days;

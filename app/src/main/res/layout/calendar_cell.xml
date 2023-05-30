@@ -18,13 +18,25 @@
         android:layout_alignParentTop="true"/>
 
     <ImageView
-        android:id="@+id/day_indicator"
+        android:id="@+id/day_indicator_done"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginTop="9dp"
         android:layout_below="@+id/cellDayText"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/circle" />
+        android:src="@drawable/day_indicator_done"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/day_indicator_planed"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="9dp"
+        android:layout_below="@+id/cellDayText"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/day_indicator_planed"
+        android:visibility="gone" />
+
 
 </RelativeLayout>
 

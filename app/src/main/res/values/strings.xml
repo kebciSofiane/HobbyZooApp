@@ -114,5 +114,7 @@
     <string name="logo" />
 
     <string name="edit_profile">Edit profile</string>
+    <string name="session_finished">Session finished</string>
+    <string name="finish">Finish</string>
 
 </resources>

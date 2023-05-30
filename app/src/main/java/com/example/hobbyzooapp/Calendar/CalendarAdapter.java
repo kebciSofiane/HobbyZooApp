@@ -63,7 +63,7 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
     @Override
     public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position) {
         final LocalDate date = days.get(position);
-        holder.dayIndicator.setVisibility(View.GONE);
+
         if(date == null){
             holder.dayOfMonth.setText("");
         }
@@ -76,7 +76,6 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
                 borderDrawable.setStroke(4, Color.LTGRAY);
                 holder.parentView.setBackground(borderDrawable);
 
-                //holder.parentView.setBackgroundColor(Color.LTGRAY);
             }
 
 
@@ -133,25 +132,31 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
                                 LocalDate sessionDate = LocalDate.of(Integer.parseInt(session_year), Integer.parseInt(session_month), Integer.parseInt(session_day));
 
                                 if (date.getMonth() == sessionDate.getMonth() &&
-                                        date.getDayOfMonth() == sessionDate.getDayOfMonth()&&
+                                        date.getDayOfMonth() == sessionDate.getDayOfMonth() &&
                                         date.getYear() == sessionDate.getYear()) {
+
+                                    //session fait point gris
+                                    if (session_done.equals("TRUE")) {
+                                        holder.dayIndicatorDone.setVisibility(View.VISIBLE);
+                                    }
                                     // session pas fait case en rouge
-                                    /*if (session_done.equals("FALSE")) {
-                                        GradientDrawable backgroundDrawable = new GradientDrawable();
+                                    if (session_done.equals("FALSE")) {
+                                        /*GradientDrawable backgroundDrawable = new GradientDrawable();
                                         backgroundDrawable.setShape(GradientDrawable.RECTANGLE);
                                         backgroundDrawable.setCornerRadius(10); // Définissez ici le rayon de courbure des coins (en pixels)
                                         backgroundDrawable.setColor(Color.RED);
-                                        holder.itemView.setBackground(backgroundDrawable);}
-                                        */
-                                    //session fait point gris
-                                    //if (session_done.equals("TRUE")) {
-                                        holder.dayIndicator.setVisibility(View.VISIBLE);}
-                                //}
-                            } else {
-                                // L'activité n'existe pas dans la base de données
+                                        holder.itemView.setBackground(backgroundDrawable)*/
+                                        holder.dayIndicatorPlaned.setVisibility(View.VISIBLE);
+                                    }
+
+
+                                    //}
+                                } else {
+                                    // L'activité n'existe pas dans la base de données
+                                }
+
+
                             }
-
-
                         }
 
                             @Override

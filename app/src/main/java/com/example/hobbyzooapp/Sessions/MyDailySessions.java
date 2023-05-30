@@ -38,6 +38,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class MyDailySessions extends AppCompatActivity {
 
@@ -119,7 +120,7 @@ public class MyDailySessions extends AppCompatActivity {
         TextView dateSession = findViewById(R.id.dateSession);
         String date = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            date = localDate.getDayOfMonth() + "/" + localDate.getMonth().getValue() + "/" + localDate.getYear();
+            date = CalendarUtils.selectedDate.getDayOfMonth() + "/" + CalendarUtils.selectedDate.getMonth().getValue() + "/" + CalendarUtils.selectedDate.getYear();
         }
         dateSession.setText(date);
 

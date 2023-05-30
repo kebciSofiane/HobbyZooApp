@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -214,6 +215,47 @@ public class RunSession extends AppCompatActivity {
                 stopButton.setVisibility(View.GONE);
                 pauseButton.setVisibility(View.GONE);
                 addTimeButton.setVisibility(View.VISIBLE);
+
+                //////////////
+                // Créer un LayoutInflater pour inflater le fichier XML
+                LayoutInflater inflater = getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.custom_dialog_run_session, null);
+
+                // Référencer les vues dans le fichier XML
+                TextView dialogTitle = dialogView.findViewById(R.id.dialogTitle);
+                Button dialogButtonAddTime = dialogView.findViewById(R.id.dialogButtonAddTime);
+                Button dialogButtonFinish = dialogView.findViewById(R.id.dialogButtonFinish);
+
+                // Définir le titre et le texte du bouton
+                //dialogTitle.setText("Session finished");
+                //dialogButton.setText("Finish");
+
+                // Créer la boîte de dialogue personnalisée
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(RunSession.this);
+                dialogBuilder.setView(dialogView);
+
+                // Afficher la boîte de dialogue
+                AlertDialog dialog = dialogBuilder.create();
+                dialog.show();
+
+                dialogButtonAddTime.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showDurationDialog();
+                        dialog.dismiss();
+                    }
+                });
+
+                dialogButtonFinish.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        endSession();
+                        dialog.dismiss();
+                    }
+                });
+
+                /////////////////////////
+
             }
         }.start();
 

@@ -28,10 +28,10 @@
             android:name=".WeeklyEvent"
             android:exported="false" />
         <activity
-            android:name=".DateMemory"
+            android:name=".CalendarEvolution.DateMemory"
             android:exported="false" />
         <activity
-            android:name=".MyEvolutionActivity"
+            android:name=".CalendarEvolution.MyEvolutionActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

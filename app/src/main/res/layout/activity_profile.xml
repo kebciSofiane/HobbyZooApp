@@ -16,7 +16,7 @@
         <!-- Barre colorée -->
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="237dp"
+            android:layout_height="wrap_content"
             android:background="@color/light_gray"
             android:padding="16dp">
 
@@ -31,39 +31,42 @@
                 app:tint="@color/white" />
 
             <RelativeLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/profile_image_layout">
+                android:layout_below="@+id/profile_image_layout"
+                android:layout_marginTop="5dp">
+
+
                 <TextView
                     android:id="@+id/profile_username"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp"
                     android:fontFamily="serif"
+                    android:layout_centerHorizontal="true"
                     android:text="@string/username"
                     android:textColor="@color/black"
                     android:textSize="30sp" />
 
-
                 <EditText
                     android:id="@+id/username_edit"
-                    android:layout_width="150dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp"
                     android:fontFamily="serif"
+                    android:gravity="center"
                     android:textColor="@color/black"
                     android:visibility="gone" />
 
 
-            <TextView
-                android:id="@+id/edit_profile"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/profile_username"
-                android:layout_marginTop="58dp"
-                android:text="@string/edit_profile"
-                android:textColor="@color/black"
-                android:textSize="16sp" />
+                <TextView
+                    android:id="@+id/edit_profile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_below="@id/profile_username"
+                    android:gravity="center"
+                    android:text="@string/edit_profile"
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
             </RelativeLayout>
 
             <FrameLayout
@@ -74,7 +77,7 @@
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profile_image"
-                    android:layout_width="150"
+                    android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_marginTop="16dp"
                     android:src="@drawable/ic_animal" />
@@ -83,7 +86,7 @@
                     android:id="@+id/add_photo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="120dp"
+                    android:layout_marginStart="150dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/ic_add_a_photo"
                     android:backgroundTint="@color/purple_200"
@@ -93,7 +96,7 @@
                     android:id="@+id/validateButton"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:layout_marginStart="110dp"
+                    android:layout_marginStart="150dp"
                     android:layout_marginTop="140dp"
                     android:background="@drawable/check_icon"
                     android:visibility="gone"

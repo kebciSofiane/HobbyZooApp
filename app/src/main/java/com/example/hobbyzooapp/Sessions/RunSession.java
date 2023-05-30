@@ -72,7 +72,7 @@ public class RunSession extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     activityPet = dataSnapshot.child("activity_pet").getValue(String.class);
                     petPicture = findViewById(R.id.petPicture);
-                    String resourceName = activityPet+"_full_icon";
+                    String resourceName = activityPet+"_whole_neutral";
                     int resId = RunSession.this.getResources().getIdentifier(resourceName,"drawable",RunSession.this.getPackageName());
                     petPicture.setImageResource(resId);
                 } else {

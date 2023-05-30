@@ -1,4 +1,5 @@
 package com.example.hobbyzooapp;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -62,6 +63,7 @@ public class WeeklyEvent extends AppCompatActivity {
                                 modificationActivity();
                             }
                         }
+                        startActivity(new Intent(WeeklyEvent.this, HomeActivity.class));
                         finish();
                     }
                 }

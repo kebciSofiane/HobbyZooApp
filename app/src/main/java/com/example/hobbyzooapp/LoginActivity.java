@@ -196,7 +196,7 @@ public class LoginActivity extends AppCompatActivity {
                             FirebaseUser user = firebaseAuth.getCurrentUser();
                             if (user != null && user.isEmailVerified()) {
                                 progressDialog.dismiss();
-                                startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                                startActivity(new Intent(LoginActivity.this, WeeklyEvent.class));
                                 finish();
                             } else {
                                 progressDialog.dismiss();
@@ -279,7 +279,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             Toast.makeText(LoginActivity.this, ""+user.getEmail(), Toast.LENGTH_SHORT).show();
 
-                            startActivity(new Intent(LoginActivity.this, HomeActivity.class));
+                            startActivity(new Intent(LoginActivity.this, WeeklyEvent.class));
                             finish();
                         } else {
                             // If sign in fails, display a message to the user.

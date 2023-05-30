@@ -112,7 +112,7 @@ public class EndSession extends AppCompatActivity {
                 if (dataSnapshot.exists()) {
                     activityPet = dataSnapshot.child("activity_pet").getValue(String.class);
                     spent_time = dataSnapshot.child("spent_time").getValue(String.class);
-                    String resourceName = activityPet+"_icon";
+                    String resourceName = activityPet+"_icon_neutral";
                     int resId = EndSession.this.getResources().getIdentifier(resourceName,"drawable",EndSession.this.getPackageName());
                     petPic.setImageResource(resId);
 

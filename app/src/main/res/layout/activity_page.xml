@@ -175,13 +175,24 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/activityPageGoalsTextDisplay"
+                    android:layout_centerHorizontal="true"
                     android:layout_marginBottom="10dp"
                     android:text="@string/WeeklyGoal"
-                    android:layout_centerHorizontal="true"
                     android:textColor="@color/sub_tilte"
                     android:textSize="25sp" />
 
 
+                <Button
+                    android:id="@+id/editGoalButton"
+                    android:layout_width="30sp"
+                    android:layout_height="30sp"
+                    android:layout_below="@+id/activityPageGoalsTextDisplay"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="-2dp"
+                    android:layout_marginEnd="26dp"
+                    android:background="@drawable/edit_pic"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:id="@+id/activityPageLinearLayoutTodoList"
@@ -308,16 +319,18 @@
             android:scaleType="center"
             app:srcCompat="@drawable/ic_home" />
 
-        <Button
+        <ImageButton
             android:id="@+id/deleteActivityButton"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="30dp"
+            android:layout_marginBottom="5dp"
             android:background="@drawable/delete_icon"
+            android:backgroundTint="@color/red"
             android:scaleType="center"
-            android:visibility="visible"/>
+            android:visibility="gone" />
 
     </RelativeLayout>
 

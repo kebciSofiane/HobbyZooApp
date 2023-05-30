@@ -147,11 +147,14 @@ public class SettingsActivity extends AppCompatActivity {
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
         notificationManagerCompat.notify(1, builder.build());
     }
-
+//todo : the icon doesn't change at the first click
     private void cancelNotification() {
         // Annuler la notification avec l'ID spécifié
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
+        notificationManagerCompat.cancel(1);
 
-
+        // Mettre à jour l'icône du bouton pour l'état des notifications désactivé
+        notificationsButton.setCompoundDrawablesWithIntrinsicBounds(inactiveIcon, 0, 0, 0);
     }
+
 }

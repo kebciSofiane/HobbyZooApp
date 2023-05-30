@@ -9,11 +9,6 @@
     <uses-permission android:name="android.permission.SET_ALARM" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
 
-
-
-
-
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -33,11 +28,6 @@
         <activity
             android:name=".MyEvolutionActivity"
             android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="false"
-            android:label="@string/title_activity_main"
-            android:theme="@style/Theme.HobbyZooApp.NoActionBar" />
         <activity
             android:name=".AccountActivity"
             android:exported="false" />

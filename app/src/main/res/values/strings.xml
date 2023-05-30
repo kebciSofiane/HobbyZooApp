@@ -115,6 +115,13 @@
 
     <string name="edit_profile">Edit profile</string>
     <string name="account">Account</string>
-    <string name="myEmail">My email:</string>
+    <string name="myEmail">My Email:</string>
+    <string name="enable_notifications">Enable notifications</string>
+
+
+
+    <string name="channel_name">My notification</string>
+    <string name="channel_description">My channel description</string>
+
 
 </resources>

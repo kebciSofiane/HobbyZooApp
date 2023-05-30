@@ -30,26 +30,29 @@
                 android:src="@drawable/ic_arrowback"
                 app:tint="@color/white" />
 
-
-            <TextView
-                android:id="@+id/profile_username"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:fontFamily="serif"
-                android:text="@string/username"
-                android:textColor="@color/black"
-                android:textSize="30sp" />
+                android:layout_below="@+id/profile_image_layout">
+                <TextView
+                    android:id="@+id/profile_username"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:fontFamily="serif"
+                    android:text="@string/username"
+                    android:textColor="@color/black"
+                    android:textSize="30sp" />
 
 
-            <EditText
-                android:id="@+id/username_edit"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:fontFamily="serif"
-                android:textColor="@color/black"
-                android:visibility="gone" />
+                <EditText
+                    android:id="@+id/username_edit"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="50dp"
+                    android:fontFamily="serif"
+                    android:textColor="@color/black"
+                    android:visibility="gone" />
 
 
             <TextView
@@ -61,18 +64,18 @@
                 android:text="@string/edit_profile"
                 android:textColor="@color/black"
                 android:textSize="16sp" />
+            </RelativeLayout>
 
             <FrameLayout
+                android:id="@+id/profile_image_layout"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginStart="150dp">
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profile_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentEnd="true"
-                    android:layout_marginEnd="16dp"
+                    android:layout_width="150"
+                    android:layout_height="150dp"
                     android:layout_marginTop="16dp"
                     android:src="@drawable/ic_animal" />
 

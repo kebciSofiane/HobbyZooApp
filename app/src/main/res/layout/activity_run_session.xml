@@ -11,16 +11,27 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <TextView
+            android:id="@+id/textTimeLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:fontFamily="sans-serif"
+            android:text="@string/time_left_"
+            android:textColor="#0030A8"
+            android:textSize="25sp" />
 
         <TextView
             android:id="@+id/countdownTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/textTimeLeft"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20sp"
+            android:fontFamily="@font/chakra_petch_semibold"
             android:text="@string/time_left_"
-            android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textColor="#0030A8"
+            android:textSize="30dp" />
 
         <ImageView
             android:id="@+id/petPicture"

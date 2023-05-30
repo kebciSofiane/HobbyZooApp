@@ -202,6 +202,7 @@ public class RunSession extends AppCompatActivity {
         resumeButton.setVisibility(View.GONE);
     }
     private void startCountdown(){
+
         countDownTimer=new CountDownTimer(countDownTime, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -266,7 +267,7 @@ public class RunSession extends AppCompatActivity {
         long minutes = TimeUnit.MILLISECONDS.toMinutes(timeLeftInMillis - TimeUnit.HOURS.toMillis(hours));
         long seconds = TimeUnit.MILLISECONDS.toSeconds(timeLeftInMillis - TimeUnit.HOURS.toMillis(hours) - TimeUnit.MINUTES.toMillis(minutes));
         String timeRemainingFormatted = String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds);
-        countdownTextView.setText("Time left : " + timeRemainingFormatted);
+        countdownTextView.setText(timeRemainingFormatted);
     }
     private void endSession(){
         Intent intent = new Intent(RunSession.this, EndSession.class);

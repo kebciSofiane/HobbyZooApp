@@ -308,19 +308,16 @@
             android:scaleType="center"
             app:srcCompat="@drawable/ic_home" />
 
-        <ImageButton
+        <Button
             android:id="@+id/deleteActivityButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentBottom="true"
             android:layout_marginStart="30dp"
-            android:layout_marginBottom="30dp"
-            android:backgroundTint="@color/red"
+            android:background="@drawable/delete_icon"
             android:scaleType="center"
-            android:visibility="gone"
-            app:srcCompat="@drawable/delete_icon"
-            app:tint="@color/gray" />
+            android:visibility="visible"/>
 
     </RelativeLayout>
 

@@ -48,8 +48,8 @@ public class ActivityPage extends AppCompatActivity {
     ImageView petPic, sessionLastPicture;
     TextView petName, goalsText, activityNameDisplay, sessionCommentDisplay;
     EditText editTextPetName, editTextActivityName, addToTodoListText;
-    Button editNamePetButton, validatePetName, showMoreButton, showLessButton, addToTodoListButton;
-    ImageButton addSessionButton, homeButton, deleteActivityButton;
+    Button editNamePetButton, validatePetName, showMoreButton, showLessButton, addToTodoListButton, deleteActivityButton;
+    ImageButton addSessionButton, homeButton;
     RecyclerView recyclerView, recyclerViewTodoList;
     List<String> items = new ArrayList<>();
     ListSessionsAdapter adapter;
@@ -352,9 +352,9 @@ public class ActivityPage extends AppCompatActivity {
                     petName.setText(activityPetName);
                     String resourceName;
                     if(feelingPointer == 0)
-                        resourceName = "none_whole_gone";
+                        resourceName = "none_icon_gone";
                     else
-                        resourceName = activityPet + "_whole_" + feeling;
+                        resourceName = activityPet + "_icon_" + feeling;
                     int resId = ActivityPage.this.getResources().getIdentifier(resourceName,"drawable",ActivityPage.this.getPackageName());
                     petPic.setImageResource(resId);
                     activityNameDisplay.setText(activityName);

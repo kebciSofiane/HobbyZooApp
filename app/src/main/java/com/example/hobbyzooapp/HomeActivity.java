@@ -2,18 +2,12 @@ package com.example.hobbyzooapp;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
-import android.text.BoringLayout;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
@@ -31,7 +25,6 @@ import com.example.hobbyzooapp.Activities.ActivityPage;
 import com.example.hobbyzooapp.Calendar.CalendarActivity;
 import com.example.hobbyzooapp.Calendar.CalendarUtils;
 import com.example.hobbyzooapp.Sessions.MyDailySessions;
-import com.example.hobbyzooapp.Sessions.RunSession;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -51,6 +44,9 @@ public class HomeActivity extends AppCompatActivity {
     //TODO 1 général : vérifier les boutons retour du tel de chaque activity + ajout finish() si besoin
     //TODO 2 général : enlever tous system out + commentaires inutiles + verif indentation
 
+
+    private int pageSize;
+    private int currentPage=0;
     //todo : panel button revien page 1 sans relancer la page ?(phone back button aussi)
     FirebaseAuth firebaseAuth;
     Button next, previous;
@@ -249,14 +245,16 @@ public class HomeActivity extends AppCompatActivity {
 
         if (endIndex > imageList.size()) {
             endIndex = imageList.size();
-            currentIndex = 0;
         }
-
+        else{
+            currentIndex = endIndex;
+        }
         intElements = imageList.subList(startIndex, endIndex);
-        currentIndex = endIndex;
+        //currentIndex = endIndex;
 
         return intElements;
     }
+
     public List<Integer> showPreviousActivities(int batchSize) {
             List<Integer> intElements ;
 
@@ -265,14 +263,19 @@ public class HomeActivity extends AppCompatActivity {
 
         if (startIndex < 0) {
             startIndex = 0;
-            currentIndex = imageList.size() - 1;
+            currentIndex = 0;
+        }
+        else{
+            currentIndex = startIndex;
         }
 
         intElements = imageList.subList(startIndex, endIndex);
-        currentIndex = startIndex;
+
 
         return intElements;
     }
+
+
 
     public List<String> showNextActivityNames(int batchSize) {
         List<String> intElements ;
@@ -281,12 +284,16 @@ public class HomeActivity extends AppCompatActivity {
         int endIndex = startIndex + batchSize;
 
             if (endIndex > activities_name_List.size()) {
-            endIndex = activities_name_List.size();
-            currentIndex2 = 0;
-        }
+                endIndex = activities_name_List.size();
+            //currentIndex2 = 0;
+
+            }
+            else{
+                currentIndex2 = endIndex;
+            }
 
         intElements = activities_name_List.subList(startIndex, endIndex);
-        currentIndex2 = endIndex;
+        ///currentIndex2 = endIndex;
 
         return intElements;
     }
@@ -299,7 +306,10 @@ public class HomeActivity extends AppCompatActivity {
 
         if (startIndex < 0) {
             startIndex = 0;
-            currentIndex2 = activities_name_List.size() - 1;
+            currentIndex2 = 0;
+        }
+        else{
+            currentIndex2 = startIndex;
         }
 
         intElements = activities_name_List.subList(startIndex, endIndex);
@@ -316,11 +326,14 @@ public class HomeActivity extends AppCompatActivity {
 
         if (endIndex > activities_id_List.size()) {
             endIndex = activities_id_List.size();
-            currentIndex3 = 0;
+            //currentIndex = ;
+        }
+        else{
+            currentIndex3 = endIndex;
         }
 
         intElements = activities_id_List.subList(startIndex, endIndex);
-        currentIndex3 = endIndex;
+        //currentIndex3 = endIndex;
 
         return intElements;
     }
@@ -333,7 +346,10 @@ public class HomeActivity extends AppCompatActivity {
 
         if (startIndex < 0) {
             startIndex = 0;
-            currentIndex3 = activities_id_List.size() - 1;
+            currentIndex3 = 0;
+        }
+        else{
+            currentIndex3 = startIndex;
         }
 
         intElements = activities_id_List.subList(startIndex, endIndex);
@@ -341,6 +357,10 @@ public class HomeActivity extends AppCompatActivity {
 
         return intElements;
     }
+
+///////////////////////
+
+
 
     public void getActivities(){
         FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -356,12 +376,12 @@ public class HomeActivity extends AppCompatActivity {
                     String activity_id = snapshot.child("activity_id").getValue(String.class);
                     String activity_pet = snapshot.child("activity_pet").getValue(String.class);
                     String activity_name = snapshot.child("activity_name").getValue(String.class);
-                    int pet_feeling = Integer.parseInt(Objects.requireNonNull(snapshot.child("feeling").getValue(String.class)));
+                    int feelingPointer = Integer.parseInt(Objects.requireNonNull(snapshot.child("feeling").getValue(String.class)));
                     String resourceName;
-                    if(pet_feeling == 0)
+                    if(feelingPointer == 0)
                         resourceName = "none_whole_gone";
                     else
-                        resourceName = activity_pet + "_whole_" + pet_feeling;
+                        resourceName = activity_pet + "_whole_" + animalsFeeling.get(feelingPointer);
                     int resId = HomeActivity.this.getResources().getIdentifier(resourceName,"drawable",HomeActivity.this.getPackageName());
                     imageList.add(resId);
                     activities_name_List.add(activity_name);

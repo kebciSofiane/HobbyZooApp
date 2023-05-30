@@ -30,6 +30,7 @@ public class AccountActivity extends AppCompatActivity {
     private Button changePasswordBtn;
     private Button unregisterBtn;
     private ImageButton backButton;
+    private TextView myEmail;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseStorage storage;
@@ -56,11 +57,11 @@ public class AccountActivity extends AppCompatActivity {
         changePasswordBtn = findViewById(R.id.changePasswordBtn);
         unregisterBtn = findViewById(R.id.unregisterBtn);
         backButton = findViewById(R.id.backButton3);
+        myEmail = findViewById(R.id.myEmail);
 
-       // emailTv.setText(R.string.myEmail);
         if (user != null) {
-
-            emailTv.setText(user.getEmail() );
+            myEmail.setText(getString(R.string.myEmail)); // Utilise la méthode getString() pour récupérer la valeur de la ressource de chaîne
+            emailTv.setText(user.getEmail());
         }
 
 

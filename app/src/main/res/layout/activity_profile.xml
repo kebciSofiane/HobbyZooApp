@@ -17,7 +17,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="237dp"
-            android:background="@color/light_gray"
+            android:background="@color/gray"
             android:padding="16dp">
 
             <ImageButton
@@ -137,13 +137,13 @@
                 app:icon="@drawable/ic_format_list" />
 
             <Button
-                android:id="@+id/personal_info"
+                android:id="@+id/account"
                 style="@style/Widget.Material3.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:backgroundTint="@color/purple_200"
-                android:text="Personal information"
+                android:text="Account"
                 android:textColor="@color/white"
                 android:textSize="16sp"
                 app:icon="@drawable/ic_info" />

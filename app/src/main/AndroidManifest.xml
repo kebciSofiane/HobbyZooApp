@@ -39,7 +39,7 @@
             android:label="@string/title_activity_main"
             android:theme="@style/Theme.HobbyZooApp.NoActionBar" />
         <activity
-            android:name=".PersonalInformationActivity"
+            android:name=".AccountActivity"
             android:exported="false" />
         <activity
             android:name=".SettingsActivity"

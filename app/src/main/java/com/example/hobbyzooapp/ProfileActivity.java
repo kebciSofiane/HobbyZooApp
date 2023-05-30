@@ -122,7 +122,7 @@ public class ProfileActivity extends AppCompatActivity {
         personalInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(ProfileActivity.this, PersonalInformationActivity.class), 1);
+                startActivityForResult(new Intent(ProfileActivity.this, AccountActivity.class), 1);
             }
         });
 
@@ -293,7 +293,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void launchPersonalInformationActivity() {
-        Intent intent = new Intent(ProfileActivity.this, PersonalInformationActivity.class);
+        Intent intent = new Intent(ProfileActivity.this, AccountActivity.class);
         startActivityForResult(intent, REQUEST_PERSONAL_INFORMATION);
     }
 }

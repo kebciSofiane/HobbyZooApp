@@ -26,12 +26,15 @@
         tools:targetApi="31">
         <activity
             android:name=".WeeklyEvent"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".DateMemory"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".MyEvolutionActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
@@ -40,47 +43,61 @@
             android:theme="@style/Theme.HobbyZooApp.NoActionBar" />
         <activity
             android:name=".PersonalInformationActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".SettingsActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".ProfileActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activities.ActivityPage"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Sessions.EndSession"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Sessions.RunSession"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".RegisterActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:parentActivityName=".RegistrationOrConnexion" />
         <activity
             android:name=".LoginActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:parentActivityName=".RegistrationOrConnexion" />
         <activity
             android:name=".HomeActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".RegistrationOrConnexion"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activities.MyActivities"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Sessions.MyDailySessions"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Calendar.CalendarActivity"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".SplashScreenActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -90,12 +107,15 @@
         </activity>
         <activity
             android:name=".Sessions.NewSession"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Category.NewCategory"
+            android:screenOrientation="portrait"
             android:exported="false" />
         <activity
             android:name=".Activities.NewActivity"
+            android:screenOrientation="portrait"
             android:exported="true" />
 
         <provider

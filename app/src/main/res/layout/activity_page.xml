@@ -95,7 +95,9 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="530dp"
-            android:layout_below="@+id/headerLayout">
+            android:layout_below="@+id/headerLayout"
+            android:layout_above="@+id/add_session_button"
+            android:layout_marginBottom="10dp">
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -242,23 +244,12 @@
 
                 </LinearLayout>
 
-                <TextView
-                    android:id="@+id/activityPagePhotosText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/activityPageLinearLayoutTodoList"
-                    android:layout_marginStart="25sp"
-                    android:layout_marginTop="20sp"
-                    android:layout_marginBottom="10sp"
-                    android:text="Photos :"
-                    android:textColor="@color/sub_tilte"
-                    android:textSize="25sp" />
 
                 <LinearLayout
                     android:id="@+id/activityPageLinearLayoutPhotos"
                     android:layout_width="250sp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/activityPagePhotosText"
+                    android:layout_below="@+id/activityPageLinearLayoutTextAndValidateNewElementTodoList"
                     android:orientation="vertical">
 
                     <de.hdodenhof.circleimageview.CircleImageView
@@ -305,6 +296,8 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="30dp"
+            android:layout_marginBottom="30dp"
+            android:background="#00FFFFFF"
             android:scaleType="center"
             app:srcCompat="@drawable/ic_home" />
 

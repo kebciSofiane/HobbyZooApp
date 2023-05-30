@@ -42,53 +42,55 @@
             android:layout_marginBottom="40sp"
             android:gravity="center">
 
-            <Button
+            <ImageButton
                 android:id="@+id/stopButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20sp"
-                android:backgroundTint="@color/brown_btn"
-                android:textColor="@color/brown_btn_text"
-                android:text="@string/stop" />
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@color/transparent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/stop_button"
+                app:tint="@color/brown_btn" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/resumeButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_marginStart="20sp"
-                android:backgroundTint="@color/brown_btn"
-                android:textColor="@color/brown_btn_text"
-                android:text="@string/resume"
+                android:background="@color/transparent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/play_button"
+                app:tint="@color/brown_btn"
                 android:visibility="gone" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/pauseButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_marginStart="20sp"
-                android:backgroundTint="@color/brown_btn"
-                android:textColor="@color/brown_btn_text"
-                android:text="@string/pause"
-                android:visibility="visible" />
+                android:background="@color/transparent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/pause_button"
+                app:tint="@color/brown_btn" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/addTimeButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="20sp"
-                android:backgroundTint="@color/brown_btn"
-                android:textColor="@color/brown_btn_text"
-                android:text="@string/add_time"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@color/transparent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/add_time_button"
+                app:tint="@color/brown_btn"
                 android:visibility="gone" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/validateButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_marginStart="20sp"
-                android:backgroundTint="@color/brown_btn"
-                android:textColor="@color/brown_btn_text"
-                android:text="@string/next"
+                android:background="@color/transparent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/skip_button"
+                app:tint="@color/brown_btn"
                 android:visibility="gone" />
 
         </LinearLayout>

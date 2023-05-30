@@ -116,5 +116,6 @@
     <string name="edit_profile">Edit profile</string>
     <string name="session_finished">Session finished</string>
     <string name="finish">Finish</string>
+    <string name="_00_00_00">00:00:00</string>
 
 </resources>

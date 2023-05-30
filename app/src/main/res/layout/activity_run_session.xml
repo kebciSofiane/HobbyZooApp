@@ -19,7 +19,7 @@
             android:layout_marginTop="20dp"
             android:fontFamily="sans-serif"
             android:text="@string/time_left_"
-            android:textColor="#0030A8"
+            android:textColor="#748198"
             android:textSize="25sp" />
 
         <TextView
@@ -29,8 +29,8 @@
             android:layout_below="@+id/textTimeLeft"
             android:layout_centerHorizontal="true"
             android:fontFamily="@font/chakra_petch_semibold"
-            android:text="@string/time_left_"
-            android:textColor="#0030A8"
+            android:text="@string/_00_00_00"
+            android:textColor="#5B91F1"
             android:textSize="30dp" />
 
         <ImageView

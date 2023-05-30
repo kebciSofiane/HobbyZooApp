@@ -90,17 +90,17 @@ public class ActivityPage extends AppCompatActivity {
             @Override
             public void onSessionListRetrieved(ArrayList<String> sessionPicCom) {
                 lastSessionData = sessionPicCom;
+
                 sessionCommentDisplay.setText(lastSessionData.get(1));
 
                 String image = lastSessionData.get(0);
-
                 if (!image.equals("")) {
                     Glide.with(ActivityPage.this)
                             .load(image)
                             .into(sessionLastPicture);
-                }
-            } //todo a finir
-
+                    sessionLastPicture.setVisibility(View.VISIBLE);
+                } else { sessionLastPicture.setVisibility(View.GONE); }
+            }
         });
 
 

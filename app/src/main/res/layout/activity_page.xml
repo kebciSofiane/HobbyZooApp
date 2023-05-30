@@ -146,8 +146,8 @@
                         android:layout_height="30sp"
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/minus_icon"
-                        android:visibility="gone"
-                        android:gravity="center_vertical"/>
+                        android:gravity="center_vertical"
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/activityPageShowMoreButton"
@@ -175,9 +175,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/activityPageGoalsTextDisplay"
+                    android:layout_centerHorizontal="true"
                     android:layout_marginBottom="10dp"
                     android:text="@string/WeeklyGoal"
-                    android:layout_centerHorizontal="true"
                     android:textColor="@color/sub_tilte"
                     android:textSize="25sp" />
 
@@ -246,11 +246,11 @@
                     android:id="@+id/activityPagePhotosText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_below="@id/activityPageLinearLayoutTodoList"
+                    android:layout_below="@id/activityPageLinearLayoutTextAndValidateNewElementTodoList"
                     android:layout_marginStart="25sp"
                     android:layout_marginTop="20sp"
                     android:layout_marginBottom="10sp"
-                    android:text="Photos :"
+                    android:text="Last session :"
                     android:textColor="@color/sub_tilte"
                     android:textSize="25sp" />
 
@@ -261,14 +261,15 @@
                     android:layout_below="@+id/activityPagePhotosText"
                     android:orientation="vertical">
 
-                    <de.hdodenhof.circleimageview.CircleImageView
+                    <ImageView
                         android:id="@+id/activityPagePicture"
                         android:layout_width="175dp"
                         android:layout_height="175dp"
                         android:layout_alignParentEnd="true"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
-                        android:src="@drawable/ic_animal" />
+                        android:src="@drawable/ic_animal"
+                        android:visibility="gone" />
 
                     <TextView
                         android:id="@+id/activityPageCommentText"

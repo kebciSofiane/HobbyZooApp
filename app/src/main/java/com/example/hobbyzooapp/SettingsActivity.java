@@ -15,13 +15,7 @@ import com.google.firebase.auth.FirebaseUser;
 public class SettingsActivity extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
-
-    private Button notificationsButton;
-    private Button termsButton;
-    private Button rateButton;
-    private Button helpButton;
-    private Button aboutButton;
-    private Button logoutButton;
+    private Button notificationsButton, termsButton, rateButton, helpButton, aboutButton, logoutButton;
     private ImageButton backBtn;
 
     @Override

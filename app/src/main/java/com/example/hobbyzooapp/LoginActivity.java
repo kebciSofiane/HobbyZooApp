@@ -37,18 +37,13 @@ import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
 
-
     private static final int RC_SIGN_IN = 100;
     GoogleSignInClient googleSignInClient;
-
     EditText emailET, passwordEt;
     TextView notHaveAccountTv, recoverPassTv;
     Button loginBtn;
     SignInButton googleLoginBtn;
-
     private FirebaseAuth firebaseAuth;
-
-
     ProgressDialog progressDialog;
 
     @Override

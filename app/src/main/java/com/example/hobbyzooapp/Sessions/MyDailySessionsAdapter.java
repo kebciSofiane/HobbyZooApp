@@ -23,9 +23,7 @@ public class MyDailySessionsAdapter extends BaseAdapter{
     private List<Session> sessionList;
     private List<Session> sessionListFiltered = new ArrayList<Session>();
     private LayoutInflater inflater;
-    private int day;
-    private int month;
-    private int year;
+    private int day, month, year;
     private OnItemClickListener mListener;
 
     //private Date date;

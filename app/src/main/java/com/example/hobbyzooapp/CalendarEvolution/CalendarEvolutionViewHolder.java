@@ -17,14 +17,14 @@ public class CalendarEvolutionViewHolder extends RecyclerView.ViewHolder impleme
     private final ArrayList<LocalDate> days;
     public final View parentView;
     public final TextView dayOfMonth;
-    Spinner spinner;
+
     private final CalendarEvolutionAdapter.OnItemListener onItemListener;
     public CalendarEvolutionViewHolder(@NonNull View itemView, CalendarEvolutionAdapter.OnItemListener onItemListener, ArrayList<LocalDate> days)
     {
         super(itemView);
         parentView = itemView.findViewById(R.id.parentView);
         dayOfMonth = itemView.findViewById(R.id.cellDayText);
-        spinner = itemView.findViewById(R.id.evolutionActivityChooseActivity);
+
         this.onItemListener = onItemListener;
         itemView.setOnClickListener(this);
         this.days = days;

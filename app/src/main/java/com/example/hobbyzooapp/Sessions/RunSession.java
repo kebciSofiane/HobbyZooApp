@@ -38,17 +38,10 @@ public class RunSession extends AppCompatActivity {
     long totalSessionTime=0;
     TextView countdownTextView;
     CountDownTimer countDownTimer;
-    ImageButton stopButton;
-    ImageButton pauseButton;
-    ImageButton resumeButton;
+    ImageButton stopButton, pauseButton, resumeButton, validateButton, addTimeButton;
     ImageView petPicture;
-    ImageButton validateButton;
-    ImageButton addTimeButton;
     FirebaseAuth firebaseAuth;
-    String activity_id;
-    String session_id;
-    String activityPet;
-    String session_duration;
+    String activity_id, session_id, activityPet, session_duration;
 
 
     @SuppressLint("MissingInflatedId")

@@ -34,11 +34,10 @@ import java.util.HashMap;
 import java.util.List;
 
 public class NewSession extends AppCompatActivity {
-    String activityName;
+    String activityName, activity_id;
     DatePicker datePicker;
     TimePicker timePicker;
     FirebaseAuth firebaseAuth;
-    String activity_id;
     FirebaseUser user;
     Spinner activitySelector;
     ImageView validationButton, returnButton;

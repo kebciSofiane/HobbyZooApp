@@ -16,12 +16,8 @@ public class RegistrationOrConnexion extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrationorconnexion);
 
-//        ActionBar actionBar = getSupportActionBar();
-//        actionBar.setTitle("Main");
-
         registerBtn = findViewById(R.id.register_btn);
         loginBtn = findViewById(R.id.login_btn);
-
 
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override

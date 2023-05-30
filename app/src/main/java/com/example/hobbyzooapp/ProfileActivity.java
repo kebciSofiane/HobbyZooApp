@@ -32,18 +32,11 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 public class ProfileActivity extends AppCompatActivity {
-    private TextView usernameTextView;
-    private ImageView profileImageView;
-    private TextView editProfileTextView;
-    private Button personalInfoButton;
-    private Button myActivitiesButton;
-    private Button followMyProgressButton;
+    private TextView usernameTextView, editProfileTextView;
+    private ImageView profileImageView, addPhoto;
+    private Button personalInfoButton, myActivitiesButton, followMyProgressButton, settingsButton, validate;
     private ImageButton backButton;
-    private Button settingsButton;
     private EditText usernameEdit;
-    private ImageView addPhoto;
-    private Button validate;
-
     private FirebaseAuth firebaseAuth;
     private FirebaseStorage storage;
     private StorageReference storageReference;
@@ -52,8 +45,6 @@ public class ProfileActivity extends AppCompatActivity {
     private static final int PICK_IMAGE = 1;
     private static final int EDIT_PROFILE_REQUEST_CODE = 1;
     private static final int REQUEST_PERSONAL_INFORMATION = 1;
-
-
     private Uri imageUri;
 
     @Override

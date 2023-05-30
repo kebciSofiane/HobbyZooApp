@@ -53,26 +53,16 @@ import java.util.concurrent.TimeUnit;
 public class EndSession extends AppCompatActivity {
 
     private static final int RETOUR_PRENDRE_PHOTO = 1;
-    ImageView petPic;
-    Button takeApic;
-    ImageView takenImage;
-    Button skipButton;
-    TextView commentValidated;
-    Button validateButton;
-    Button validateButton2;
+    ImageView petPic, takenImage;
+    TextView commentValidated,sessionCount;
+    Button validateButton, validateButton2, modifyPicButton, modifyCommentButton, takeApic, skipButton;
     EditText commentField;
-    TextView sessionCount;
-    Button modifyPicButton;
-    Button modifyCommentButton;
+
     private String photoPath = "";
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     FirebaseAuth firebaseAuth;
     Intent intent = getIntent();
-    String activity_id ;
-    String session_id ;
-    String activityPet;
-    String session_duration;
-    String spent_time;
+    String activity_id, session_id, activityPet, session_duration, spent_time;
     long totalSessionTime;
     Uri photoUri;
 

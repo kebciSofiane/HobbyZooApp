@@ -38,17 +38,13 @@ import java.text.BreakIterator;
 public class PersonalInformationActivity extends AppCompatActivity {
 
     private TextView emailTv;
-
-    private Button changePasswordBtn;
-    private Button unregisterBtn;
+    private Button changePasswordBtn, unregisterBtn;
     private ImageButton backButton;
-
     private FirebaseAuth firebaseAuth;
     private FirebaseStorage storage;
     private StorageReference storageReference;
     private DatabaseReference databaseReference;
     private static final int PICK_IMAGE = 1;
-
     private Uri imageUri;
     private boolean isEditMode = false;
 

@@ -256,10 +256,8 @@
                         android:id="@+id/activityPagePicture"
                         android:layout_width="175dp"
                         android:layout_height="175dp"
-                        android:layout_alignParentEnd="true"
                         android:layout_marginStart="16dp"
-                        android:layout_marginTop="16dp"
-                        android:src="@drawable/ic_animal" />
+                        android:layout_marginTop="16dp" />
 
                     <TextView
                         android:id="@+id/activityPageCommentText"

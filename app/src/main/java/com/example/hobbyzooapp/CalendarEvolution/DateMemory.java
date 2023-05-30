@@ -44,17 +44,11 @@ import java.util.ArrayList;
 public class DateMemory extends AppCompatActivity {
     TextView dateView;
     LocalDate date;
-
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
-
     ImageView memoryImage;
-
-    Button share;
+    Button share, rightArrow, leftArrow, download;
     int memoriesIndex =0;
-    Button rightArrow;
-    Button leftArrow;
 
-    Button download;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 

@@ -28,8 +28,7 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
 {
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
-    private ImageButton todayMonthButton;
-    private ImageButton homeButton;
+    private ImageButton todayMonthButton, homeButton;
     FirebaseAuth firebaseAuth;
 
 

@@ -42,9 +42,7 @@ import java.util.Calendar;
 
 public class MyDailySessions extends AppCompatActivity {
 
-    private ImageButton homeButton;
-    private ImageButton addSessionButton;
-    private ImageButton calendarButton;
+    private ImageButton homeButton, addSessionButton, calendarButton;
     private View sessionButton;
     FirebaseAuth firebaseAuth;
     LocalDate localDate = CalendarUtils.selectedDate;

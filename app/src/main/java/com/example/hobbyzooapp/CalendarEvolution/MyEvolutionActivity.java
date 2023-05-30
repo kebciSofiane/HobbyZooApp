@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,10 +39,9 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
     ArrayList<String> myActivities = new ArrayList<>();
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
-
-    private ImageButton todayMonthButton;
-    private ImageButton homeButton;
+    private ImageButton todayMonthButton, homeButton;
     FirebaseAuth firebaseAuth;
+    FirebaseDatabase database;
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -53,13 +53,9 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
         chooseActivity = findViewById(R.id.evolutionActivityChooseActivity);
         getActivities();
 
-
-
         initWidgets();
         CalendarUtils.selectedDate = LocalDate.now();
         setMonthView();
-
-
 
         homeButton = findViewById(R.id.home_button);
         homeButton.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +67,6 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
         });
 
 
-
         todayMonthButton = findViewById(R.id.today_month);
         todayMonthButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,13 +75,7 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
                 setMonthView();
             }
         });
-
     }
-
-
-
-
-
 
 
     void setAdapter(){

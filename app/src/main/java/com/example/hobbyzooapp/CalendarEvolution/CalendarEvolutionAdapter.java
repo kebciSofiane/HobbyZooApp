@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -40,6 +41,7 @@ public class CalendarEvolutionAdapter extends RecyclerView.Adapter<CalendarEvolu
 
         private final ArrayList<LocalDate> days;
         private  int evenDayColor;
+
 
     private final CalendarEvolutionAdapter.OnItemListener onItemListener;
 
@@ -141,9 +143,11 @@ public class CalendarEvolutionAdapter extends RecyclerView.Adapter<CalendarEvolu
                         @RequiresApi(api = Build.VERSION_CODES.O)
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
+
                             if (dataSnapshot.exists()) {
                                 String activityName = dataSnapshot.child("activity_name").getValue(String.class);
                                 LocalDate sessionDate = LocalDate.of(Integer.parseInt(session_year), Integer.parseInt(session_month), Integer.parseInt(session_day));
+
                                 if (date.getMonth() == sessionDate.getMonth() &&
                                         date.getDayOfMonth() == sessionDate.getDayOfMonth()&&
                                         date.getYear() == sessionDate.getYear()) {

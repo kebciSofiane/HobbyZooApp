@@ -47,21 +47,23 @@ public class SettingsActivity extends AppCompatActivity {
         notificationsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                isNotificationsEnabled = !isNotificationsEnabled; // Inverse l'état des notifications
+                // Inverser l'état des notifications
+                isNotificationsEnabled = !isNotificationsEnabled;
 
                 if (isNotificationsEnabled) {
                     // Activer les notifications
-                    notificationsButton.setText("Disable  notifications");
+                    notificationsButton.setText("Disable notifications");
+                    showNotification("Notifications enabled", "You will now receive notifications.");
                     notificationsButton.setCompoundDrawablesWithIntrinsicBounds(activeIcon, 0, 0, 0);
-                    showNotification("Notifications enabled", "You will from now receive notifications.");
                 } else {
                     // Désactiver les notifications
                     notificationsButton.setText("Enable notifications");
-                    notificationsButton.setCompoundDrawablesWithIntrinsicBounds(inactiveIcon, 0, 0, 0);
                     cancelNotification();
+                    notificationsButton.setCompoundDrawablesWithIntrinsicBounds(inactiveIcon, 0, 0, 0);
                 }
             }
         });
+
 
 
         termsButton.setOnClickListener(new View.OnClickListener() {

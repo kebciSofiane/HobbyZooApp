@@ -89,7 +89,8 @@
             android:text="@string/terms_of_service"
             android:textColor="@android:color/black"
             android:textSize="20sp"
-            app:backgroundTint="@color/lightbrown"/>
+            app:backgroundTint="@color/lightbrown"
+            app:icon="@drawable/ic_description" />
 
 <!--        <Button-->
 <!--            android:id="@+id/rateBtn"-->

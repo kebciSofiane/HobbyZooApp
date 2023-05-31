@@ -40,7 +40,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class NewCategory extends AppCompatActivity {
 
-    String name, user_id, colorHex;
+    String name, user_id, category_id, colorHex;
     int colorRGB = 0;
     int red, blue, green;
     CircleImageView colorPicker;
@@ -128,7 +128,7 @@ public class NewCategory extends AppCompatActivity {
                             }
                             if(categories.size() == 0){
                                 addDBCategory();
-                                setIntentCategory();
+                                startActivity(new Intent(NewCategory.this, NewActivity.class));
                                 finish();
                             }
                             else{
@@ -145,16 +145,6 @@ public class NewCategory extends AppCompatActivity {
             }
         });
 
-    }
-
-    private void setIntentCategory() {
-        Intent intent = new Intent().setClass(getApplicationContext(), NewActivity.class);
-        Intent intentActivity = getIntent();
-        intent.putExtra("activity_name", intentActivity.getStringExtra("activity_name"));
-        intent.putExtra("animal_name", intentActivity.getStringExtra("animal_name"));
-        intent.putExtra("pos_animal", intentActivity.getStringExtra("pos_animal"));
-        intent.putExtra("category_name", intentActivity.getStringExtra(name));
-        startActivity(intent);
     }
 
 
@@ -174,7 +164,7 @@ public class NewCategory extends AppCompatActivity {
     private void addDBCategory(){
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         DatabaseReference newChildRef = databaseReference.push();
-        String category_id = newChildRef.getKey();
+        category_id = newChildRef.getKey();
         HashMap<Object, String> hashMap = new HashMap<>();
         hashMap.put("category_id", category_id);
         hashMap.put("category_name", name.replace(" ", ","));

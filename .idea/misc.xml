@@ -5,6 +5,7 @@
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.1552757793764988" />
         <entry key="app/src/main/res/drawable/add_time_button.xml" value="0.327" />
+        <entry key="app/src/main/res/drawable/radius_background.xml" value="0.327" />
         <entry key="app/src/main/res/drawable/spinner_color.xml" value="0.327" />
         <entry key="app/src/main/res/layout/activity_calendar_sessions.xml" value="0.3463541666666667" />
         <entry key="app/src/main/res/layout/activity_home.xml" value="0.26902173913043476" />
@@ -17,9 +18,13 @@
         <entry key="app/src/main/res/layout/activity_new_session.xml" value="0.175" />
         <entry key="app/src/main/res/layout/activity_page.xml" value="0.33" />
         <entry key="app/src/main/res/layout/activity_profile.xml" value="0.338768115942029" />
+        <entry key="app/src/main/res/layout/adapter_activity_list.xml" value="0.3463541666666667" />
         <entry key="app/src/main/res/layout/adapter_category_list.xml" value="0.16843971631205673" />
         <entry key="app/src/main/res/layout/adapter_main.xml" value="0.3463541666666667" />
+        <entry key="app/src/main/res/layout/adapter_no_items.xml" value="0.3463541666666667" />
         <entry key="app/src/main/res/layout/adapter_session_list.xml" value="0.16843971631205673" />
+        <entry key="app/src/main/res/layout/adapter_session_list_activity.xml" value="0.3463541666666667" />
+        <entry key="app/src/main/res/layout/custom_dialog_run_session.xml" value="0.3463541666666667" />
         <entry key="app/src/main/res/layout/fragment_first.xml" value="0.3463541666666667" />
         <entry key="app/src/main/res/layout/session_border.xml" value="0.16793313069908813" />
         <entry key="app/src/main/res/layout/todo_task.xml" value="0.3463541666666667" />

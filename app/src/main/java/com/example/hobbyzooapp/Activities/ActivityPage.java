@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,6 +19,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,6 +31,7 @@ import com.example.hobbyzooapp.ProfileActivity;
 import com.example.hobbyzooapp.R;
 import com.example.hobbyzooapp.Sessions.NewSession;
 import com.example.hobbyzooapp.Sessions.OnSessionListRetrievedListener;
+import com.example.hobbyzooapp.Sessions.RunSession;
 import com.example.hobbyzooapp.Sessions.Session;
 import com.example.hobbyzooapp.TodoTask;
 import com.example.hobbyzooapp.Sessions.ListSessionsAdapter;
@@ -65,6 +68,7 @@ public class ActivityPage extends AppCompatActivity {
     LinearLayout header;
     FirebaseDatabase database;
     DatabaseReference referenceActivity;
+    int countActivities = 0;
 
 
 
@@ -254,48 +258,97 @@ public class ActivityPage extends AppCompatActivity {
         });
 
         deleteActivityButton.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
-                DatabaseReference databaseReferenceTasks = database.getReference("Tasks");
-                databaseReferenceTasks.addListenerForSingleValueEvent(new ValueEventListener() {
+                LayoutInflater inflater = getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.custom_dialog_run_session, null);
+                TextView dialogTitle = dialogView.findViewById(R.id.dialogTitle);
+                Button dialogButtonYes = dialogView.findViewById(R.id.dialogButtonAddTime);
+                Button dialogButtonNo = dialogView.findViewById(R.id.dialogButtonFinish);
+                dialogTitle.setText("Are you sure you want to delete it?");
+                dialogButtonYes.setText("Yes");
+                dialogButtonNo.setText("No");
 
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ActivityPage.this);
+                dialogBuilder.setView(dialogView);
+                AlertDialog dialog = dialogBuilder.create();
+                dialog.show();
+
+                dialogButtonYes.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            String activity_id_task = snapshot.child("activityId").getValue(String.class);
-                            String task_id = snapshot.getKey();
-                            if(activity_id_task.equals(activityId)){
-                                databaseReferenceTasks.child(task_id).removeValue();
+                    public void onClick(View v) {
+                        DatabaseReference databaseReferenceTasks = database.getReference("Tasks");
+                        databaseReferenceTasks.addListenerForSingleValueEvent(new ValueEventListener() {
+
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                    String activity_id_task = dataSnapshot.child("activityId").getValue(String.class);
+                                    String task_id = dataSnapshot.getKey();
+                                    if(activity_id_task.equals(activityId)){
+                                        databaseReferenceTasks.child(task_id).removeValue();
+                                    }
+                                }
                             }
-                        }
-                    }
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                            }
+                        });
+                        DatabaseReference databaseReferenceSession = database.getReference("Session");
+                        databaseReferenceSession.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot snapshot) {
+                                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                    String activity_id_session = dataSnapshot.child("activity_id").getValue(String.class);
+                                    String session_id = dataSnapshot.getKey();
+                                    if(activity_id_session.equals(activityId)){
+                                        databaseReferenceSession.child(session_id).removeValue();
+                                    }
+                                }
+                            }
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                            }
+                        });
 
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                        // Gérez l'erreur en cas d'annulation de la requête
+                        DatabaseReference databaseReferenceActivity = database.getReference("Activity");
+                        databaseReferenceActivity.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                    String categoryId = dataSnapshot.child("category_id").getValue(String.class);
+                                    System.out.println(category_id + "           :        " + categoryId);
+                                    if(categoryId.equals(category_id))
+                                        System.out.println("BOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOM!!!!");
+                                        countActivities++;
+                                }
+                                referenceActivity.child(activityId).removeValue();
+                                if(countActivities <= 1){
+                                    DatabaseReference referenceCategory = FirebaseDatabase.getInstance().getReference("Category");
+                                    referenceCategory.child(category_id).removeValue();
+                                }
+                                startActivity(new Intent(ActivityPage.this, HomeActivity.class));
+                                dialog.dismiss();
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                            }
+                        });
+
                     }
                 });
-                DatabaseReference databaseReferenceSession = database.getReference("Session");
-                databaseReferenceSession.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            String activity_id_session = snapshot.child("activity_id").getValue(String.class);
-                            String session_id = snapshot.getKey();
-                            System.out.println(activity_id_session +  "           :          "+ activityId);
-                            if(activity_id_session.equals(activityId)){
-                                databaseReferenceSession.child(session_id).removeValue();
-                            }
-                        }
-                    }
 
+                dialogButtonNo.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
+                    public void onClick(View v) {
+                        dialog.dismiss();
                     }
                 });
-                referenceActivity.child(activityId).removeValue();
-                startActivity(new Intent(ActivityPage.this, HomeActivity.class));
+
+
             }
         });
 
@@ -420,7 +473,13 @@ public class ActivityPage extends AppCompatActivity {
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.exists()) {
                                 String category_color = dataSnapshot.child("category_color").getValue(String.class);
-                                int color = Color.parseColor(category_color);
+                                int color;
+                                try {
+                                    color = Color.parseColor(category_color);
+                                }
+                                catch (IllegalArgumentException e){
+                                    color = Color.parseColor("#FFFFFF");
+                                }
                                 header.setBackgroundColor(color);
 
 

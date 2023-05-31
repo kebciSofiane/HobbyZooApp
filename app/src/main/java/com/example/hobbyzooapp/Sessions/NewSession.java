@@ -61,7 +61,9 @@ public class NewSession extends AppCompatActivity {
                         Object item = parent.getItemAtPosition(pos);
                         if(parent.getItemAtPosition(pos) == "New Activity"){
                             Intent intent = new Intent().setClass(getApplicationContext(), NewActivity.class);
+                            intent.putExtra("origin", 1);
                             startActivity(intent);
+                            finish();
                         }
                         final String[] activity_id_select = new String[1];
                         String user_id = user.getUid();

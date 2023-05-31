@@ -197,6 +197,13 @@ public class ProfileActivity extends AppCompatActivity {
 
         // Mettre à jour le nom d'utilisateur si une nouvelle valeur est fournie
         if (newUsername != null && !newUsername.isEmpty()) {
+
+            if (newUsername.length() > 15) {
+                usernameEdit.setError("Username is too long. Maximum length is " + 15 + " characters.");
+                usernameEdit.requestFocus();
+                return;
+            }
+
             userRef.child("pseudo").setValue(newUsername);
             usernameTextView.setText(newUsername); // Mettre à jour le TextView usernameTextView immédiatement
         }

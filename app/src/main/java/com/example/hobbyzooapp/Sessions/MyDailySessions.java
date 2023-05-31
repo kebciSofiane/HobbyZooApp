@@ -85,7 +85,6 @@ public class MyDailySessions extends AppCompatActivity {
        // sessionButton = findViewById(R.id.itemSessionList);
 
         GridView sessionListView = findViewById(R.id.session_list_view);
-        //LocalDate localDate = CalendarUtils.selectedDate;
         ArrayList<Session> sessions;
 
         SessionsCallback callback = new SessionsCallback() {

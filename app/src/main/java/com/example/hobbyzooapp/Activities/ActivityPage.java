@@ -25,6 +25,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.hobbyzooapp.HomeActivity;
 import com.example.hobbyzooapp.OnSessionListRetrievedListener2;
+import com.example.hobbyzooapp.PersonalInformationActivity;
+import com.example.hobbyzooapp.ProfileActivity;
 import com.example.hobbyzooapp.R;
 import com.example.hobbyzooapp.Sessions.NewSession;
 import com.example.hobbyzooapp.Sessions.OnSessionListRetrievedListener;
@@ -51,7 +53,7 @@ public class ActivityPage extends AppCompatActivity {
     TextView petName, goalsText, activityNameDisplay, sessionCommentDisplay;
     EditText editTextPetName, editTextActivityName, addToTodoListText;
     Button editNamePetButton, validatePetName, showMoreButton, showLessButton, addToTodoListButton, editGoalButton;
-    ImageButton addSessionButton, homeButton, deleteActivityButton;
+    ImageButton addSessionButton, homeButton, deleteActivityButton, backButton;
     RecyclerView recyclerView, recyclerViewTodoList;
     List<String> items = new ArrayList<>();
     ListSessionsAdapter adapter;
@@ -93,17 +95,17 @@ public class ActivityPage extends AppCompatActivity {
             @Override
             public void onSessionListRetrieved(ArrayList<String> sessionPicCom) {
                 lastSessionData = sessionPicCom;
+
                 sessionCommentDisplay.setText(lastSessionData.get(1));
 
                 String image = lastSessionData.get(0);
-
                 if (!image.equals("")) {
                     Glide.with(ActivityPage.this)
                             .load(image)
                             .into(sessionLastPicture);
-                }
-            } //todo a finir
-
+                    sessionLastPicture.setVisibility(View.VISIBLE);
+                } else { sessionLastPicture.setVisibility(View.GONE); }
+            }
         });
 
 
@@ -200,6 +202,7 @@ public class ActivityPage extends AppCompatActivity {
                 activityNameDisplay.setVisibility(View.GONE);
                 deleteActivityButton.setVisibility(View.VISIBLE);
                 editGoalButton.setVisibility(View.VISIBLE);
+                backButton.setVisibility(View.GONE);
             }
         });
 
@@ -240,6 +243,14 @@ public class ActivityPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openMainActivity();
+            }
+        });
+
+        backButton = findViewById(R.id.backButtonActivityPage);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ActivityPage.this, MyActivities.class));
             }
         });
 
@@ -333,6 +344,8 @@ public class ActivityPage extends AppCompatActivity {
                 activityNameDisplay.setVisibility(View.VISIBLE);
                 deleteActivityButton.setVisibility(View.GONE);
                 editGoalButton.setVisibility(View.GONE);
+                backButton.setVisibility(View.VISIBLE);
+
 
                 DatabaseReference activitiesRef = FirebaseDatabase.getInstance().getReference("Activity");
                 DatabaseReference activityRef = activitiesRef.child(activity_id);

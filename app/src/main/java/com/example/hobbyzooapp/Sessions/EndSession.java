@@ -1,7 +1,9 @@
 package com.example.hobbyzooapp.Sessions;
+import com.example.hobbyzooapp.Calendar.CalendarUtils;
 import com.example.hobbyzooapp.R;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -17,6 +19,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -47,6 +50,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
@@ -183,6 +187,7 @@ public class EndSession extends AppCompatActivity {
         });
 
         validateButton2.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
                 DatabaseReference sessionRef = FirebaseDatabase.getInstance().getReference().child("Session").child(session_id);
@@ -197,6 +202,7 @@ public class EndSession extends AppCompatActivity {
         });
 
         skipButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) { endSession(); }
         });
@@ -336,9 +342,11 @@ public class EndSession extends AppCompatActivity {
         }
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void endSession(){
         DatabaseReference sessionRef = FirebaseDatabase.getInstance().getReference().child("Session").child(session_id);
         Date date = new Date();
+        CalendarUtils.selectedDate= LocalDate.now();
         String time = new SimpleDateFormat("HHmm").format(date);
         String day = new SimpleDateFormat("dd").format(date);
         String month = new SimpleDateFormat("MM").format(date);

@@ -35,7 +35,7 @@ import java.util.Map;
 
 public class MyActivities extends AppCompatActivity {
 
-    ImageButton homeButton, addActivityButton, profileButton;
+    ImageButton homeButton, addActivityButton, profileButton, backButton;
     ExpandableListView expandableListView;
     ExpandableListAdapter expandableListAdapter;
     List<String> expandableListTitle;
@@ -115,14 +115,18 @@ public class MyActivities extends AppCompatActivity {
 
         });
 
-
-
+        backButton = findViewById(R.id.backButtonMyActivities);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MyActivities.this, ProfileActivity.class));
+            }
+        });
 
         //GridView activityListView = findViewById(R.id.category_list_view);
         //CategoryListAdapter adapter = new CategoryListAdapter(this,category);
         //adapter.setOnItemClickListener(new OnItemClickListener() {
     }
-
 
     public void openMainActivity(){
         Intent intent = new Intent(this, HomeActivity.class);
@@ -133,7 +137,4 @@ public class MyActivities extends AppCompatActivity {
         Intent intent = new Intent(this, ActivityPage.class);
         startActivity(intent);
     }
-
-
-
 }

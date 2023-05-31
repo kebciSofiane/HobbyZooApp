@@ -11,6 +11,18 @@
         android:layout_height="match_parent"
         android:background="@color/white">
 
+        <ImageButton
+            android:id="@+id/backButtonMyEvolution"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/evolutionActivityTitle"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/evolutionActivityTitle"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/back"
+            android:src="@drawable/ic_arrowback"
+            app:tint="@color/black" />
+
         <TextView
             android:id="@+id/evolutionActivityTitle"
             android:layout_width="wrap_content"
@@ -35,13 +47,11 @@
             app:layout_constraintStart_toStartOf="parent" />
 
 
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_below="@id/evolutionActivityChooseActivity">
+            android:layout_below="@id/evolutionActivityChooseActivity"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"

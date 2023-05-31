@@ -39,10 +39,9 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
     ArrayList<String> myActivities = new ArrayList<>();
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
-    private ImageButton todayMonthButton, homeButton;
+    private ImageButton todayMonthButton, homeButton, backButton;
     FirebaseAuth firebaseAuth;
     FirebaseDatabase database;
-
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -77,6 +76,15 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
         });
     }
 
+        backButton = findViewById(R.id.backButtonMyEvolution);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MyEvolutionActivity.this, ProfileActivity.class));
+            }
+        });
+
+    }
 
     void setAdapter(){
         ArrayAdapter<String> adapter = new ArrayAdapter<>(MyEvolutionActivity.this, R.layout.spinner_evolution_activity, myActivities);
@@ -108,7 +116,6 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
 
             return activities;
     }
-
 
     private void initWidgets() {
         calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
@@ -144,14 +151,7 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
     @Override
     public void onItemClick(int position, LocalDate date)
     {
-        if(date != null)
-        {
-
-
-
-
-
-
+        if(date != null) {
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference reference = database.getReference("Session");
             FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -170,8 +170,6 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
                         String session_year = snapshot.child("session_year").getValue(String.class);
                         String session_done = snapshot.child("session_done").getValue(String.class);
                         String session_image = snapshot.child("session_picture").getValue(String.class);
-
-
 
                         if (session_done.equals("TRUE")) {
 
@@ -198,13 +196,10 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
 
                                                 startActivity(intent);
                                             }
-
                                         }
                                     } else {
                                         // L'activité n'existe pas dans la base de données
                                     }
-
-
                                 }
 
                                 @Override
@@ -232,5 +227,4 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
         finish();}
-
 }

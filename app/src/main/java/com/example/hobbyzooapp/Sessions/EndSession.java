@@ -71,6 +71,7 @@ public class EndSession extends AppCompatActivity {
     long totalSessionTime;
     Uri photoUri;
 
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {

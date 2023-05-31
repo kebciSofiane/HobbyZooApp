@@ -255,6 +255,8 @@ public class RegisterActivity extends AppCompatActivity {
             imageUri = data.getData();
             profileIv.setImageURI(imageUri);
 
+           // profileIv.setVisibility(View.GONE);
+
             uploadImageToFirebase();
         }
     }

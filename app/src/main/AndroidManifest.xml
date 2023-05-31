@@ -29,11 +29,11 @@
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
-            android:name=".DateMemory"
+            android:name=".CalendarEvolution.DateMemory"
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
-            android:name=".MyEvolutionActivity"
+            android:name=".CalendarEvolution.MyEvolutionActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity

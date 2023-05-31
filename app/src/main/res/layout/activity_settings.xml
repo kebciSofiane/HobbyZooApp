@@ -104,18 +104,6 @@
             app:backgroundTint="@color/lightbrown"
             app:icon="@drawable/ic_description" />
 
-<!--        <Button-->
-<!--            android:id="@+id/rateBtn"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginBottom="10dp"-->
-<!--            android:background="@drawable/rounded_button"-->
-
-<!--            android:text="@string/rate_hobbyzoo"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:textSize="16sp"-->
-<!--            app:backgroundTint="@color/lightbrown"/>-->
-
         <Button
             android:id="@+id/helpBtn"
             style="@style/Widget.Material3.Button"

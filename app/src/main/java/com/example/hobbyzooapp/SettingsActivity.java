@@ -22,10 +22,10 @@ public class SettingsActivity extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
 
-    private Button notificationsEnabledButton,notificationsDisabledButton, termsButton, rateButton, helpButton, aboutButton, logoutButton;
+    private Button notificationsEnabledButton,notificationsDisabledButton, termsButton, helpButton, aboutButton, logoutButton;
     private ImageButton backBtn;
     private int activeIcon, inactiveIcon;
-    private boolean isNotificationsEnabled = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +34,9 @@ public class SettingsActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-      //  notificationsButton = findViewById(R.id.notificationsBtn);
         notificationsEnabledButton = findViewById(R.id.notificationsEnabledBtn);
         notificationsDisabledButton = findViewById(R.id.notificationsDisabledBtn);
-
         termsButton = findViewById(R.id.termsBtn);
-//        rateButton = findViewById(R.id.rateBtn);
         helpButton = findViewById(R.id.helpBtn);
         aboutButton = findViewById(R.id.aboutBtn);
         logoutButton = findViewById(R.id.logoutBtn);
@@ -50,8 +47,6 @@ public class SettingsActivity extends AppCompatActivity {
         notificationsEnabledButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Désactiver les notifications
-                isNotificationsEnabled = false;
                 notificationsEnabledButton.setVisibility(View.GONE);
                 notificationsDisabledButton.setVisibility(View.VISIBLE);
                 cancelNotification();
@@ -61,8 +56,6 @@ public class SettingsActivity extends AppCompatActivity {
         notificationsDisabledButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Activer les notifications
-                isNotificationsEnabled = true;
                 notificationsDisabledButton.setVisibility(View.GONE);
                 notificationsEnabledButton.setVisibility(View.VISIBLE);
                 showNotification("Notifications enabled", "You will now receive notifications.");
@@ -77,13 +70,6 @@ public class SettingsActivity extends AppCompatActivity {
                 // Logique pour gérer le clic sur le bouton "Terms of Service"
             }
         });
-//
-//        rateButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // Logique pour gérer le clic sur le bouton "Rate HobbyZoo"
-//            }
-//        });
 
         helpButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,43 +106,34 @@ public class SettingsActivity extends AppCompatActivity {
     private void checkUserStatus() {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if (user != null) {
-            // Utilisateur connecté, redirigez-le vers HomeActivity
             startActivity(new Intent(SettingsActivity.this, HomeActivity.class));
         } else {
-            // Utilisateur non connecté, redirigez-le vers RegistrationOrConnexion
             startActivity(new Intent(SettingsActivity.this, RegistrationOrConnexion.class));
         }
         finish();
     }
 
     private void showNotification(String title, String message) {
-        // Vérifier si le canal de notification existe déjà (pour les versions Android Oreo et supérieures)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel("channel_id", "Channel Name", NotificationManager.IMPORTANCE_DEFAULT);
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
 
-        // Créer la notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "channel_id")
                 .setSmallIcon(R.drawable.ic_notifications_active)
                 .setContentTitle(title)
                 .setContentText(message)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-        // Afficher la notification
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
         notificationManagerCompat.notify(1, builder.build());
     }
-//todo : the icon doesn't change at the first click
     private void cancelNotification() {
-        // Annuler la notification avec l'ID spécifié
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
         notificationManagerCompat.cancel(1);
 
-        // Mettre à jour la visibilité des boutons pour représenter l'état des notifications désactivé
         notificationsEnabledButton.setVisibility(View.GONE);
         notificationsDisabledButton.setVisibility(View.VISIBLE);
     }
-
 }

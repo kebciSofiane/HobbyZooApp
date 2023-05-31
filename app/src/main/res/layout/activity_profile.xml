@@ -11,9 +11,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:ignore="UselessParent">
-        <!-- Header -->
 
-        <!-- Barre colorée -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -108,9 +106,6 @@
         </RelativeLayout>
 
 
-        <!-- Reste du contenu -->
-
-        <!-- Buttons -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

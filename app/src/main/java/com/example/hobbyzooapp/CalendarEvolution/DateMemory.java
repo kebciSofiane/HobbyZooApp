@@ -90,7 +90,7 @@ public class DateMemory extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(DateMemory.this, MyEvolutionActivity.class)); //todo faire le bouton
+                finish(); //TODO quand il y a 2+ photo la page est ouverte 2x et doit se fermer 2x pour revenir au calendrier (2x appuyer sur le bonton)
             }
         });
     }

@@ -311,34 +311,36 @@ public class EndSession extends AppCompatActivity {
     }
 
     private void uploadImageToFirebase() {
+        if (!photoPath.equals("")){
+            FirebaseUser user = firebaseAuth.getCurrentUser();
+            if (user != null) {
+                FirebaseStorage storage = FirebaseStorage.getInstance();
+                StorageReference storageReference = storage.getReference();
+                StorageReference profileRef = storageReference.child("sessions/" + session_id + "/picture.jpg");
+                profileRef.putFile(photoUri)
+                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        //progressDialog.dismiss();
+                                        String imageUrl = uri.toString();
+                                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                                        databaseReference.child("Session").child(session_id).child("session_picture").setValue(imageUrl);
+                                        Toast.makeText(EndSession.this, "Image uploaded successfully", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
 
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        if (user != null) {
-            FirebaseStorage storage = FirebaseStorage.getInstance();
-            StorageReference storageReference = storage.getReference();
-            StorageReference profileRef = storageReference.child("sessions/" + session_id + "/picture.jpg");
-            profileRef.putFile(photoUri)
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    //progressDialog.dismiss();
-                                    String imageUrl = uri.toString();
-                                    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-                                    databaseReference.child("Session").child(session_id).child("session_picture").setValue(imageUrl);
-                                    Toast.makeText(EndSession.this, "Image uploaded successfully", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(EndSession.this, "Failed to upload image", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(EndSession.this, "Failed to upload image", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
         }
     }
 

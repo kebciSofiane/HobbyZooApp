@@ -61,7 +61,7 @@ public class ProfileActivity extends AppCompatActivity {
         usernameTextView = findViewById(R.id.profile_username);
         profileImageView = findViewById(R.id.profile_image);
         editProfileTextView = findViewById(R.id.edit_profile);
-        personalInfoButton = findViewById(R.id.personal_info);
+        personalInfoButton = findViewById(R.id.account);
         myActivitiesButton = findViewById(R.id.my_activities);
         followMyProgressButton = findViewById(R.id.follow_my_progress);
         backButton = findViewById(R.id.backButton);
@@ -115,7 +115,7 @@ public class ProfileActivity extends AppCompatActivity {
         personalInfoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivityForResult(new Intent(ProfileActivity.this, PersonalInformationActivity.class), 1);
+                startActivityForResult(new Intent(ProfileActivity.this, AccountActivity.class), 1);
             }
         });
 
@@ -286,7 +286,7 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void launchPersonalInformationActivity() {
-        Intent intent = new Intent(ProfileActivity.this, PersonalInformationActivity.class);
+        Intent intent = new Intent(ProfileActivity.this, AccountActivity.class);
         startActivityForResult(intent, REQUEST_PERSONAL_INFORMATION);
     }
 }

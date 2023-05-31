@@ -56,59 +56,78 @@
 
         <Button
             android:id="@+id/notificationsBtn"
+            style="@style/Widget.Material3.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:background="@drawable/rounded_button"
-            android:text="@string/notifications"
+            android:text="@string/enable_notifications"
+            android:textSize="20sp"
+            app:backgroundTint="@color/lightbrown"
+            app:icon="@drawable/ic_notifications_off" />
+
+        <Button
+            android:id="@+id/account"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/rounded_button"
+            android:text="@string/account"
             android:textColor="@android:color/black"
-            android:textSize="16sp"
-            app:backgroundTint="@color/lightbrown" />
+            android:textSize="20sp"
+            app:backgroundTint="@color/lightbrown"
+            app:icon="@drawable/ic_manage_account" />
 
         <Button
             android:id="@+id/termsBtn"
+            style="@style/Widget.Material3.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:background="@drawable/rounded_button"
             android:text="@string/terms_of_service"
-            android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
             app:backgroundTint="@color/lightbrown"/>
 
-        <Button
-            android:id="@+id/rateBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/rounded_button"
+<!--        <Button-->
+<!--            android:id="@+id/rateBtn"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginBottom="10dp"-->
+<!--            android:background="@drawable/rounded_button"-->
 
-            android:text="@string/rate_hobbyzoo"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:backgroundTint="@color/lightbrown"/>
+<!--            android:text="@string/rate_hobbyzoo"-->
+<!--            android:textColor="@color/black"-->
+<!--            android:textSize="16sp"-->
+<!--            app:backgroundTint="@color/lightbrown"/>-->
 
         <Button
             android:id="@+id/helpBtn"
+            style="@style/Widget.Material3.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:background="@drawable/rounded_button"
             android:text="@string/help"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:backgroundTint="@color/lightbrown"/>
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            app:backgroundTint="@color/lightbrown"
+            app:icon="@drawable/ic_help" />
 
         <Button
             android:id="@+id/aboutBtn"
+            style="@style/Widget.Material3.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:background="@drawable/rounded_button"
             android:text="@string/about"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            app:backgroundTint="@color/lightbrown"/>
+            android:textColor="@android:color/black"
+            android:textSize="20sp"
+            app:backgroundTint="@color/lightbrown"
+            app:icon="@drawable/ic_info" />
 
         <TextView
             android:id="@+id/textView11"

@@ -22,16 +22,10 @@ public class SettingsActivity extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
 
-    private Button notificationsButton;
-    private Button termsButton;
-    //    private Button rateButton;
-    private Button helpButton;
-    private Button aboutButton;
-    private Button logoutButton;
+    private Button notificationsButton, termsButton, rateButton, helpButton, aboutButton, logoutButton;
     private ImageButton backBtn;
-    private int activeIcon;
+    private int activeIcon, inactiveIcon;
     private boolean isNotificationsEnabled = false;
-    private int inactiveIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

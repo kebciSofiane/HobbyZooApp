@@ -25,19 +25,14 @@ import com.google.firebase.storage.StorageReference;
 
 public class AccountActivity extends AppCompatActivity {
 
-    private TextView emailTv;
-
-    private Button changePasswordBtn;
-    private Button unregisterBtn;
+    private TextView emailTv, myEmail;
+    private Button changePasswordBtn, unregisterBtn;
     private ImageButton backButton;
-    private TextView myEmail;
-
     private FirebaseAuth firebaseAuth;
     private FirebaseStorage storage;
     private StorageReference storageReference;
     private DatabaseReference databaseReference;
     private static final int PICK_IMAGE = 1;
-
     private Uri imageUri;
     private boolean isEditMode = false;
 

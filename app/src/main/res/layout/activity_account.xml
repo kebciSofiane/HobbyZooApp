@@ -71,7 +71,7 @@
                     android:layout_marginEnd="20dp"
                     android:fontFamily="@font/alegreya_sans_sc"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     tools:text="@string/myEmail" />
 
                 <TextView
@@ -81,7 +81,7 @@
                     android:layout_margin="8dp"
                     android:fontFamily="sans-serif"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textStyle="bold"
                     tools:text="user@example.com" />
 
@@ -97,6 +97,7 @@
                 android:fontFamily="@font/alegreya_sans_sc"
                 android:text="@string/change_password"
                 android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@color/white"
                 app:backgroundTint="@color/light_gray" />
         </LinearLayout>
 

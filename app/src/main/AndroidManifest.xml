@@ -37,14 +37,15 @@
             android:label="@string/title_activity_main"
             android:theme="@style/Theme.HobbyZooApp.NoActionBar" />
         <activity
-            android:name=".PersonalInformationActivity"
-            android:screenOrientation="portrait"
-            android:name=".AccountActivity"
-            android:exported="false" />
-        <activity
             android:name=".SettingsActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
+
+        <activity
+            android:name=".AccountActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+
         <activity
             android:name=".ProfileActivity"
             android:screenOrientation="portrait"

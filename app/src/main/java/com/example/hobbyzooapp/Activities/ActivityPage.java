@@ -462,7 +462,7 @@ public class ActivityPage extends AppCompatActivity {
         recyclerViewTodoList = findViewById(R.id.todoRecyclerView);
         sessionCommentDisplay = findViewById(R.id.activityPageCommentText);
         sessionLastPicture = findViewById(R.id.activityPagePicture);
-        petPic.setImageResource(R.drawable.koala_icon);
+        //petPic.setImageResource(R.drawable.koala_icon);
         showMoreButton = findViewById(R.id.activityPageShowMoreButton);
         showLessButton = findViewById(R.id.activityPageShowLessButton);
         homeButton = findViewById(R.id.homeButton);

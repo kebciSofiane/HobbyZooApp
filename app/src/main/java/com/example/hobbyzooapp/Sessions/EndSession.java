@@ -28,6 +28,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,7 +62,7 @@ public class EndSession extends AppCompatActivity {
     TextView commentValidated,sessionCount;
     Button validateButton, validateButton2, modifyPicButton, modifyCommentButton, takeApic, skipButton;
     EditText commentField;
-
+    RelativeLayout windowsPet;
     private String photoPath = "";
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     FirebaseAuth firebaseAuth;
@@ -83,7 +84,8 @@ public class EndSession extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
         petPic = findViewById(R.id.petPicture);
-        petPic.setImageResource(R.drawable.koala_icon);
+        petPic.setImageResource(R.drawable.koala_icon_neutral);
+        //windowsPet.findViewById(R.id.windows_pet);
         takeApic = findViewById(R.id.takeAPic);
         takenImage = findViewById(R.id.takenImage);
         commentField = findViewById(R.id.commentText);
@@ -251,9 +253,10 @@ public class EndSession extends AppCompatActivity {
         Bitmap image = BitmapFactory.decodeFile(photoPath);
         takenImage.setImageBitmap(image);
         takenImage.setVisibility(View.VISIBLE);
-        String resourceName = activityPet+"_icon";
+        String resourceName = activityPet+"_icon_neutral";
         int resId = EndSession.this.getResources().getIdentifier(resourceName,"drawable",EndSession.this.getPackageName());
         petPic.setImageResource(resId);
+        //windowsPet.setVisibility(View.GONE);
     }
 
     @Override
@@ -295,7 +298,7 @@ public class EndSession extends AppCompatActivity {
         long minutes = TimeUnit.MILLISECONDS.toMinutes(totalSessionTime - TimeUnit.HOURS.toMillis(hours));
         int hourDuration = Integer.parseInt(session_duration)/60;
         int minutesDuration = Integer.parseInt(session_duration)%60;
-        sessionCount.setText(hours+"h"+minutes+"/"+ hourDuration+"h"+minutesDuration);
+        sessionCount.setText(hours+"h"+minutes+"min / "+ hourDuration+"h"+minutesDuration+"min");
     }
 
     @Override

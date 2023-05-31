@@ -1,6 +1,5 @@
 package com.example.hobbyzooapp.CalendarEvolution;
 
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -19,6 +18,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.hobbyzooapp.ProfileActivity;
 import com.example.hobbyzooapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -40,13 +41,13 @@ import java.io.OutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-
 public class DateMemory extends AppCompatActivity {
     TextView dateView;
     LocalDate date;
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     ImageView memoryImage;
     Button share, rightArrow, leftArrow, download;
+    ImageButton backButton;
     int memoriesIndex =0;
 
     @Override
@@ -54,7 +55,6 @@ public class DateMemory extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_date_memory);
-
 
         Intent intent = getIntent();
         int day = intent.getIntExtra("day",0);
@@ -67,20 +67,17 @@ public class DateMemory extends AppCompatActivity {
                     day);
         }
 
-
-        dateView=findViewById(R.id.memoryDate);
-        memoryImage=findViewById(R.id.memoryImage);
+        dateView = findViewById(R.id.memoryDate);
+        memoryImage = findViewById(R.id.memoryImage);
         share = findViewById(R.id.shareButton);
         leftArrow = findViewById(R.id.scrollMemoriesLeft);
         rightArrow = findViewById(R.id.scrollMemoriesRight);
         download = findViewById(R.id.downloadButton);
-
+        backButton = findViewById(R.id.backButtonDateMemory);
 
         dateView.setText(date.toString());
 
         showMemories();
-
-
 
         share.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,12 +86,14 @@ public class DateMemory extends AppCompatActivity {
             }
         });
 
+        backButton = findViewById(R.id.backButtonDateMemory);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(DateMemory.this, MyEvolutionActivity.class)); //todo faire le bouton
+            }
+        });
     }
-
-
-
-
-
 
     private void partagerSurTwitter() {
         String cheminImage = "/path/to/your/image.jpg";
@@ -112,9 +111,6 @@ public class DateMemory extends AppCompatActivity {
             Toast.makeText(this, "L'application Twitter n'est pas installée.", Toast.LENGTH_SHORT).show();
         }
     }
-
-
-
 
     private void savePhotoToGallery() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -146,12 +142,7 @@ public class DateMemory extends AppCompatActivity {
         }
     }
 
-
-
-
-
     private void showMemories(){
-
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("Session");
@@ -180,7 +171,6 @@ public class DateMemory extends AppCompatActivity {
                         sessionDate = LocalDate.of(Integer.parseInt(session_year), Integer.parseInt(session_month), Integer.parseInt(session_day));
                     }
 
-
                     assert session_done != null;
                     if (session_done.equals("TRUE")) {
 
@@ -189,10 +179,8 @@ public class DateMemory extends AppCompatActivity {
                                     date.getDayOfMonth() == sessionDate.getDayOfMonth() &&
                                     date.getYear() == sessionDate.getYear()) {
                                 myMemories.add(session_image);
-
                             }
                         }
-
                     }
                 }
                 int cornerRadius = 40; // en pixels
@@ -221,7 +209,6 @@ public class DateMemory extends AppCompatActivity {
                                 .load(myMemories.get(memoriesIndex))
                                 .apply(requestOptions)
                                 .into(memoryImage);
-
                     }
                 });
 
@@ -246,13 +233,11 @@ public class DateMemory extends AppCompatActivity {
                     }
                 });
 
-
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Log.w("TAG", "Erreur lors de la récupération des données", databaseError.toException());
             }
         });
-
     }
 }

@@ -6,10 +6,21 @@
     android:layout_height="match_parent"
     tools:context=".CalendarEvolution.DateMemory">
 
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <ImageButton
+            android:id="@+id/backButtonDateMemory"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/memoryDate"
+            android:layout_alignParentStart="true"
+            android:layout_toStartOf="@+id/memoryDate"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/back"
+            android:src="@drawable/ic_arrowback"
+            app:tint="@color/white" />
 
         <Button
             android:layout_width="30dp"
@@ -20,46 +31,39 @@
             android:layout_alignParentEnd="true"
             android:visibility="visible"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-
-
-            />
-
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
             android:id="@+id/memoryDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/date_format"
-            android:textSize="30sp"
-            android:textColor="@color/white"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            />
+            android:text="@string/date_format"
+            android:textColor="@color/white"
+            android:textSize="30sp" />
 
         <RelativeLayout
             android:id="@+id/linearLayoutMemories"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/memoryDate"
-            android:orientation="horizontal"
-            >
+            android:orientation="horizontal">
+
             <Button
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:id="@+id/scrollMemoriesLeft"
                 android:background="@drawable/arrow_left"
                 android:layout_centerVertical="true"
-                android:layout_alignParentLeft="true"
-                android:visibility="visible"
+                android:layout_alignParentStart="true"
+                android:visibility="visible" />
 
-                />
             <ImageView
                 android:id="@+id/memoryImage"
                 android:layout_width="wrap_content"
                 android:layout_height="600dp"
-                android:contentDescription="@string/memoryPhoto"
-                />
+                android:contentDescription="@string/memoryPhoto" />
 
             <Button
                 android:layout_width="50dp"
@@ -68,9 +72,7 @@
                 android:background="@drawable/arrow_right"
                 android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
-                android:visibility="visible"
-
-                />
+                android:visibility="visible" />
 
         </RelativeLayout>
 
@@ -79,14 +81,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/share"
-android:layout_below="@id/linearLayoutMemories"            android:layout_centerHorizontal="true">
-
-        </Button>
-
-
-
+            android:layout_below="@id/linearLayoutMemories"
+            android:layout_centerHorizontal="true" />
 
     </RelativeLayout>
-
 
 </androidx.constraintlayout.widget.ConstraintLayout>

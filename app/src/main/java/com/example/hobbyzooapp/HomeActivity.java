@@ -43,16 +43,16 @@ import java.util.Random;
 public class HomeActivity extends AppCompatActivity {
     //TODO 1 général : vérifier les boutons retour du tel de chaque activity + ajout finish() si besoin
     //TODO 2 général : enlever tous system out + commentaires inutiles + verif indentation
-
     //todo : panel button revien page 1 sans relancer la page ?(phone back button aussi)
+
     FirebaseAuth firebaseAuth;
-    Button next, previous;
 
     private int currentIndex=0;
     private int currentIndex2=0;
     private int currentIndex3=0;
 
     ImageButton calendarBtn, runBtn, profileBtn, panelHobbyZoo;
+    Button next, previous;
     ImageView imageView1, imageView2, imageView3, imageView4, imageView5;
     TextView textView1, textView2, textView3, textView4, textView5;
     LinearLayout linearLayout1, linearLayout2, linearLayout3, linearLayout4, linearLayout5;
@@ -74,6 +74,7 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         initialisation();
         getActivities();
+
         panelHobbyZoo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,6 +91,7 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
+
         runBtn.setOnClickListener(new View.OnClickListener() {
 
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -100,6 +102,7 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
+
         profileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -123,7 +126,6 @@ public class HomeActivity extends AppCompatActivity {
                 showAnimals();
             }
         });
-
 
         linearLayout1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -197,7 +199,6 @@ public class HomeActivity extends AppCompatActivity {
         profileBtn = findViewById(R.id.profile_btn);
     }
 
-
     private void checkUserStatus(){
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if(user != null){
@@ -209,18 +210,13 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
-
     @Override
-    public void onBackPressed() {
-
-    }
-
+    public void onBackPressed() {}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
-
     }
 
     @Override
@@ -268,8 +264,6 @@ public class HomeActivity extends AppCompatActivity {
         return intElements;
     }
 
-
-
     public List<String> showNextActivityNames(int batchSize) {
         List<String> intElements ;
 
@@ -279,11 +273,7 @@ public class HomeActivity extends AppCompatActivity {
             if (endIndex > activities_name_List.size()) {
                 endIndex = activities_name_List.size();
             //currentIndex2 = 0;
-
-            }
-            else{
-                currentIndex2 = endIndex;
-            }
+            } else { currentIndex2 = endIndex; }
 
         intElements = activities_name_List.subList(startIndex, endIndex);
         ///currentIndex2 = endIndex;
@@ -317,10 +307,7 @@ public class HomeActivity extends AppCompatActivity {
         if (endIndex > activities_id_List.size()) {
             endIndex = activities_id_List.size();
             //currentIndex = ;
-        }
-        else{
-            currentIndex3 = endIndex;
-        }
+        } else { currentIndex3 = endIndex; }
 
         intElements = activities_id_List.subList(startIndex, endIndex);
         //currentIndex3 = endIndex;
@@ -347,8 +334,6 @@ public class HomeActivity extends AppCompatActivity {
 
 ///////////////////////
 
-
-
     public void getActivities(){
         FirebaseUser user = firebaseAuth.getCurrentUser();
         String email = user.getEmail();
@@ -373,11 +358,9 @@ public class HomeActivity extends AppCompatActivity {
                     imageList.add(resId);
                     activities_name_List.add(activity_name);
                     activities_id_List.add(activity_id);
-
                 }
                 toRight=true;
                 showAnimals();
-
             }
 
             @Override
@@ -385,9 +368,7 @@ public class HomeActivity extends AppCompatActivity {
                 Log.w("TAG", "Erreur lors de la récupération des données", databaseError.toException());
             }
         });
-
     }
-
 
     private void showAnimals() {
 
@@ -426,10 +407,10 @@ public class HomeActivity extends AppCompatActivity {
         List<String> activities_names ;
         List<String> activities_id ;
         if (toRight){
-             batchElements = showNextActivities(batchSize);
+            batchElements = showNextActivities(batchSize);
             activities_names = showNextActivityNames(batchSize);
             activities_id = showNextActivityId(batchSize);
-        }else {
+        } else {
             batchElements = showPreviousActivities(batchSize);
             activities_names = showPreviousActivityNames(batchSize);
             activities_id = showPreviousActivityId(batchSize);
@@ -441,8 +422,6 @@ public class HomeActivity extends AppCompatActivity {
                 linearLayoutList.get(i).setVisibility(View.VISIBLE);
                 linearLayoutList.get(i).setTag(activities_id.get(i));
         }
-
-
 
         // Obtenir le gestionnaire de fenêtres
             WindowManager windowManager = getWindowManager();
@@ -470,7 +449,6 @@ public class HomeActivity extends AppCompatActivity {
                     cellList.add(val);
                 }
 
-
             System.out.println(cellList);
 
             // Générez les coordonnées aléatoires pour chaque ImageView
@@ -496,14 +474,12 @@ public class HomeActivity extends AppCompatActivity {
             image3Y = cellList.get(val)[1];
             cellList.remove(val);
 
-
             int image4X = 0;
             int image4Y = 0;
             val = random.nextInt(cellList.size() - 1);
             image4X = cellList.get(val)[0];
             image4Y = cellList.get(val)[1];
             cellList.remove(val);
-
 
             int image5X = 0;
             int image5Y = 0;
@@ -512,12 +488,10 @@ public class HomeActivity extends AppCompatActivity {
             image5Y = cellList.get(val)[1];
             cellList.remove(val);
 
-
             RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams(
                     RelativeLayout.LayoutParams.WRAP_CONTENT,
                     RelativeLayout.LayoutParams.WRAP_CONTENT);
             params1.leftMargin = image1X;
-
 
             params1.topMargin = image1Y;
             linearLayout1.setLayoutParams(params1);
@@ -550,5 +524,4 @@ public class HomeActivity extends AppCompatActivity {
             params5.topMargin = image5Y;
             linearLayout5.setLayoutParams(params5);
         }
-
     }

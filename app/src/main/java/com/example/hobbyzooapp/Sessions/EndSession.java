@@ -13,6 +13,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -24,9 +25,11 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.InputFilter;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -60,9 +63,10 @@ public class EndSession extends AppCompatActivity {
     private static final int RETOUR_PRENDRE_PHOTO = 1;
     ImageView petPic, takenImage;
     TextView commentValidated,sessionCount;
-    Button validateButton, validateButton2, modifyPicButton, modifyCommentButton, takeApic, skipButton;
+    ImageButton modifyCommentButton;
+    Button validateButton, validateButton2, takeApic, skipButton;
     EditText commentField;
-    RelativeLayout windowsPet;
+    private RelativeLayout windowsPet;
     private String photoPath = "";
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     FirebaseAuth firebaseAuth;
@@ -78,15 +82,17 @@ public class EndSession extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_session);
 
+
+
         Intent intent = getIntent();
         activity_id = intent.getStringExtra("activity_id");
         session_id = intent.getStringExtra("session_id");
         totalSessionTime = intent.getLongExtra("spent_time",0);
-
+        windowsPet = findViewById(R.id.windows_pet);
         firebaseAuth = FirebaseAuth.getInstance();
         petPic = findViewById(R.id.petPicture);
         petPic.setImageResource(R.drawable.koala_icon_neutral);
-        //windowsPet.findViewById(R.id.windows_pet);
+
         takeApic = findViewById(R.id.takeAPic);
         takenImage = findViewById(R.id.takenImage);
         commentField = findViewById(R.id.commentText);
@@ -95,7 +101,6 @@ public class EndSession extends AppCompatActivity {
         commentValidated = findViewById(R.id.commentValidated);
         validateButton2 = findViewById(R.id.validateButton2);
         sessionCount = findViewById(R.id.sessionCount);
-        modifyPicButton = findViewById(R.id.ModifyPicButton);
         modifyCommentButton = findViewById(R.id.ModifyCommentButton);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -178,16 +183,7 @@ public class EndSession extends AppCompatActivity {
             }
         });
 
-        modifyPicButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    takePicture();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        });
+
 
         validateButton2.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -219,9 +215,8 @@ public class EndSession extends AppCompatActivity {
                 commentField.setVisibility(View.GONE);
                 commentValidated.setText(comment);
                 commentValidated.setVisibility(View.VISIBLE);
-                takeApic.setVisibility(View.GONE);
+                takeApic.setVisibility(View.VISIBLE);
                 validateButton2.setVisibility(View.VISIBLE);
-                modifyPicButton.setVisibility(View.VISIBLE);
                 modifyCommentButton.setVisibility(View.VISIBLE);
 
 
@@ -257,7 +252,7 @@ public class EndSession extends AppCompatActivity {
         String resourceName = activityPet+"_icon_neutral";
         int resId = EndSession.this.getResources().getIdentifier(resourceName,"drawable",EndSession.this.getPackageName());
         petPic.setImageResource(resId);
-        //windowsPet.setVisibility(View.GONE);
+        windowsPet.setVisibility(View.GONE);
     }
 
     @Override

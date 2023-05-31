@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.example.hobbyzooapp.Calendar.CalendarUtils;
 import com.example.hobbyzooapp.HomeActivity;
+import com.example.hobbyzooapp.ProfileActivity;
 import com.example.hobbyzooapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -74,7 +75,6 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
                 setMonthView();
             }
         });
-    }
 
         backButton = findViewById(R.id.backButtonMyEvolution);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -227,4 +227,5 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
         finish();}
+
 }

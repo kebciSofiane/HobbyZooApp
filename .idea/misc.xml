@@ -20,6 +20,7 @@
         <entry key="app/src/main/res/drawable/rounded_button.xml" value="0.1" />
         <entry key="app/src/main/res/layout-v21/activity_personal_information.xml" value="0.3463541666666667" />
         <entry key="app/src/main/res/layout-v21/activity_register.xml" value="0.31979166666666664" />
+        <entry key="app/src/main/res/layout/activity_account.xml" value="0.16458333333333333" />
         <entry key="app/src/main/res/layout/activity_calendar.xml" value="0.3463541666666667" />
         <entry key="app/src/main/res/layout/activity_editprofile.xml" value="0.2078125" />
         <entry key="app/src/main/res/layout/activity_end_session.xml" value="0.17552083333333332" />

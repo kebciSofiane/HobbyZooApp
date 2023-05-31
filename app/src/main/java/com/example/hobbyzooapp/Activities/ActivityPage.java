@@ -108,7 +108,7 @@ public class ActivityPage extends AppCompatActivity {
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
         database = FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference = database.getReference("Tasks");
+        DatabaseReference databaseReferenceTask = database.getReference("Tasks");
         String thisActivityId = activity_id;
 
         HashMap<String, String> tasks = new HashMap<>();
@@ -117,7 +117,7 @@ public class ActivityPage extends AppCompatActivity {
 
         recyclerViewTodoList.setAdapter(adapterTodoList);
 
-        databaseReference.addValueEventListener(new ValueEventListener(){
+        databaseReferenceTask.addValueEventListener(new ValueEventListener(){
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 todoList.clear();
@@ -151,7 +151,7 @@ public class ActivityPage extends AppCompatActivity {
                     Toast.makeText(ActivityPage.this, "Nothing written!", Toast.LENGTH_LONG).show();
                 }else{
                     todoList.add(new TodoTask(newElement, Boolean.FALSE));
-                    DatabaseReference newChildRef = databaseReference.push();
+                    DatabaseReference newChildRef = databaseReferenceTask.push();
                     String taskId = newChildRef.getKey();
                     tasks.put("taskId", taskId);
                     tasks.put("taskName", newElement);

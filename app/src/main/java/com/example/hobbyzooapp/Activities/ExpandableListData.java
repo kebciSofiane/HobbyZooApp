@@ -55,7 +55,6 @@ public class ExpandableListData {
                                 expandableListDetail.put(category_name, new Category(category_id,category_name,category_color, activities));
                                 callback.onActivitiesLoaded(expandableListDetail);
 
-
                             }
 
                         }

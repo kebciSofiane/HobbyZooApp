@@ -22,7 +22,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
 
-    private Button notificationsButton, termsButton, rateButton, helpButton, aboutButton, logoutButton;
+    private Button notificationsEnabledButton,notificationsDisabledButton, termsButton, rateButton, helpButton, aboutButton, logoutButton;
     private ImageButton backBtn;
     private int activeIcon, inactiveIcon;
     private boolean isNotificationsEnabled = false;
@@ -34,7 +34,10 @@ public class SettingsActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        notificationsButton = findViewById(R.id.notificationsBtn);
+      //  notificationsButton = findViewById(R.id.notificationsBtn);
+        notificationsEnabledButton = findViewById(R.id.notificationsEnabledBtn);
+        notificationsDisabledButton = findViewById(R.id.notificationsDisabledBtn);
+
         termsButton = findViewById(R.id.termsBtn);
 //        rateButton = findViewById(R.id.rateBtn);
         helpButton = findViewById(R.id.helpBtn);
@@ -44,23 +47,25 @@ public class SettingsActivity extends AppCompatActivity {
         activeIcon = R.drawable.ic_notifications_active;
         inactiveIcon = R.drawable.ic_notifications_off;
 
-        notificationsButton.setOnClickListener(new View.OnClickListener() {
+        notificationsEnabledButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Inverser l'état des notifications
-                isNotificationsEnabled = !isNotificationsEnabled;
+                // Désactiver les notifications
+                isNotificationsEnabled = false;
+                notificationsEnabledButton.setVisibility(View.GONE);
+                notificationsDisabledButton.setVisibility(View.VISIBLE);
+                cancelNotification();
+            }
+        });
 
-                if (isNotificationsEnabled) {
-                    // Activer les notifications
-                    notificationsButton.setText("Disable notifications");
-                    showNotification("Notifications enabled", "You will now receive notifications.");
-                    notificationsButton.setCompoundDrawablesWithIntrinsicBounds(activeIcon, 0, 0, 0);
-                } else {
-                    // Désactiver les notifications
-                    notificationsButton.setText("Enable notifications");
-                    cancelNotification();
-                    notificationsButton.setCompoundDrawablesWithIntrinsicBounds(inactiveIcon, 0, 0, 0);
-                }
+        notificationsDisabledButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Activer les notifications
+                isNotificationsEnabled = true;
+                notificationsDisabledButton.setVisibility(View.GONE);
+                notificationsEnabledButton.setVisibility(View.VISIBLE);
+                showNotification("Notifications enabled", "You will now receive notifications.");
             }
         });
 
@@ -149,8 +154,9 @@ public class SettingsActivity extends AppCompatActivity {
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
         notificationManagerCompat.cancel(1);
 
-        // Mettre à jour l'icône du bouton pour l'état des notifications désactivé
-        notificationsButton.setCompoundDrawablesWithIntrinsicBounds(inactiveIcon, 0, 0, 0);
+        // Mettre à jour la visibilité des boutons pour représenter l'état des notifications désactivé
+        notificationsEnabledButton.setVisibility(View.GONE);
+        notificationsDisabledButton.setVisibility(View.VISIBLE);
     }
 
 }

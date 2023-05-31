@@ -55,7 +55,19 @@
         app:layout_constraintVertical_bias="0.49">
 
         <Button
-            android:id="@+id/notificationsBtn"
+            android:id="@+id/notificationsEnabledBtn"
+            style="@style/Widget.Material3.Button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@drawable/rounded_button"
+            android:text="@string/enable_notifications"
+            android:textSize="20sp"
+            app:backgroundTint="@color/lightbrown"
+            app:icon="@drawable/ic_notifications_active"
+            android:visibility="gone"/>
+        <Button
+            android:id="@+id/notificationsDisabledBtn"
             style="@style/Widget.Material3.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -116,6 +128,7 @@
             android:textSize="20sp"
             app:backgroundTint="@color/lightbrown"
             app:icon="@drawable/ic_help" />
+
 
         <Button
             android:id="@+id/aboutBtn"

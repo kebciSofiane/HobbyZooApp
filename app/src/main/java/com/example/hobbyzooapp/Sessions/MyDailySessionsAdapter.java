@@ -26,8 +26,6 @@ public class MyDailySessionsAdapter extends BaseAdapter{
     private int day, month, year;
     private OnItemClickListener mListener;
 
-    //private Date date;
-
     public MyDailySessionsAdapter(Context context, List<Session> sessionList, LocalDate localDate){
         this.context = context;
         this.sessionList = sessionList;
@@ -48,7 +46,6 @@ public class MyDailySessionsAdapter extends BaseAdapter{
                 sessionListFiltered.add(session);
             }
         }
-
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
@@ -76,7 +73,7 @@ public class MyDailySessionsAdapter extends BaseAdapter{
 
         Session currentSession = getItem(i);
         String sessionName = currentSession.getActivityName().replace(",", " ");
-        String sessionTime = currentSession.getTime().toString();
+        String sessionTime = currentSession.getTime().toString(); //todo enlever les secondes ?
 
         TextView sessionNameView = view.findViewById(R.id.session_name);
         sessionNameView.setText(sessionName);
@@ -84,25 +81,21 @@ public class MyDailySessionsAdapter extends BaseAdapter{
         TextView sessionTimeView = view.findViewById(R.id.session_time);
         sessionTimeView.setText(sessionTime);
 
-        String sessionPetIconRes = currentSession.getMnemonic()+"_icon_neutral";
+        String sessionPetIconRes = currentSession.getPet()+"_icon_neutral";
         int resId = context.getResources().getIdentifier(sessionPetIconRes,"drawable",context.getPackageName());
 
         ImageView sessionPetIcon = view.findViewById(R.id.session_icon);
         sessionPetIcon.setImageResource(resId);
 
-
-
+        String sessionDone = currentSession.getDone();
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mListener != null) {
+                if (mListener != null && sessionDone.equals("FALSE")) {
                     mListener.onItemClick(i);
                 }
             }
         });
-
-
-
 
         return view;
     }

@@ -32,7 +32,6 @@ public class ListSessionsAdapter extends RecyclerView.Adapter<ListSessionsAdapte
     private boolean isExpanded = false;
     ViewGroup v;
 
-
     public void setDisplayedItemCount(int displayedItemCount) {
         this.displayedItemCount = displayedItemCount;
     }
@@ -68,27 +67,15 @@ public class ListSessionsAdapter extends RecyclerView.Adapter<ListSessionsAdapte
                 @Override
                 public void onClick(View v) {
                     CalendarUtils.selectedDate = LocalDate.of(item.getYear(),item.getMonth(),item.getDay());
-                    Intent intent=new Intent(v.getContext(), MyDailySessions.class);
-
+                    Intent intent = new Intent(v.getContext(), MyDailySessions.class);
                 }
             });
-
-
-
-
-
         }
-
     }
 
-    public boolean isExpanded() {
-        return isExpanded;
-    }
+    public boolean isExpanded() { return isExpanded; }
 
-    public void setExpanded(boolean expanded) {
-        isExpanded = expanded;
-    }
-
+    public void setExpanded(boolean expanded) { isExpanded = expanded; }
 
     @Override
     public int getItemCount() {
@@ -101,16 +88,12 @@ public class ListSessionsAdapter extends RecyclerView.Adapter<ListSessionsAdapte
         }
     }
 
-
-
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView textView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.itemTitleTextView);
-
-
         }
     }
 }

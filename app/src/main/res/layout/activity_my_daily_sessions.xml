@@ -48,7 +48,6 @@
             android:layout_marginBottom="9dp"
             android:background="@drawable/edit_pic" />
 
-
     </RelativeLayout>
 
     <LinearLayout
@@ -64,8 +63,8 @@
             android:id="@+id/session_list_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:numColumns="2"
-            />
+            android:numColumns="2" />
+
     </LinearLayout>
 
     <ImageButton
@@ -105,10 +104,5 @@
         android:scaleType="center"
         app:srcCompat="@drawable/ic_home"
         app:tint="@color/green_btn" />
-
-
-
-
-
 
 </RelativeLayout>

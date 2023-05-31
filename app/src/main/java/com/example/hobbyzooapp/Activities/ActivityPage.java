@@ -497,8 +497,8 @@ public class ActivityPage extends AppCompatActivity {
                                 String session_month = snapshot.child("session_month").getValue(String.class);
                                 String session_year = snapshot.child("session_year").getValue(String.class);
                                 String session_image = snapshot.child("session_picture").getValue(String.class);
-                                String mnemonic = dataSnapshot.child("activity_pet").getValue(String.class);
-
+                                String mnemonicPet = dataSnapshot.child("activity_pet").getValue(String.class);
+                                String session_done = snapshot.child("session_done").getValue(String.class);
 
                                 int hourDuration = Integer.parseInt(session_duration)/60;
                                 int minutesDuration = Integer.parseInt(session_duration)%60;
@@ -509,13 +509,13 @@ public class ActivityPage extends AppCompatActivity {
                                         Integer.parseInt(session_month),
                                         Integer.parseInt(session_year),
                                         session_image,
-                                        mnemonic
+                                        mnemonicPet,
+                                        session_done
                                 ));
                             }
                             listener.onSessionListRetrieved(mySessions);
                             if (mySessions.size()>=3) showMoreButton.setVisibility(View.VISIBLE);
                             else showMoreButton.setVisibility(View.GONE);
-
                         }
 
                         @Override

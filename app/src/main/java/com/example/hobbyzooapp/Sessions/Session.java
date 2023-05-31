@@ -4,27 +4,23 @@ import java.sql.Time;
 
 public class Session {
 
-    private String sessionId,activityId,activityName, image;
+    private String sessionId,activityId,activityName, image, done;
     private Time time;
     private int month, day, year;
-    String mnemonic;
+    String pet;
 
-
-    public Session(String id, String activityId, String activityName,Time time,
-                   int day, int month , int year, String image,String mnemonic) {
+    public Session(String id, String activityId, String activityName, Time time,
+                   int day, int month , int year, String image, String pet, String done) {
         this.sessionId = id;
+        this.activityId = activityId;
+        this.activityName = activityName;
         this.time = time;
-        this.activityId=activityId;
         this.day = day;
-        this.image=image;
         this.month = month;
         this.year = year;
-        this.activityName=activityName;
-        this.mnemonic=mnemonic;
-    }
-
-    public String getImage() {
-        return image;
+        this.image = image;
+        this.pet = pet;
+        this.done = done;
     }
 
     public String getSessionId() {
@@ -39,14 +35,16 @@ public class Session {
         return activityName;
     }
 
-    public String getName() {return sessionId;}
-
     public Time getTime() {return time;}
-
-    public int getMonth() {return month;}
 
     public int getDay() {return day;}
 
+    public int getMonth() {return month;}
+
     public int getYear() {return year;}
-    public String getMnemonic() {return mnemonic;}
-}
+
+    public String getImage() {return image;}
+
+    public String getPet() {return pet;}
+
+    public String getDone() {return done;}}

@@ -48,7 +48,6 @@ public class MyDailySessions extends AppCompatActivity {
     LocalDate localDate = CalendarUtils.selectedDate;
     MyDailySessionsAdapter adapter;
 
-
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,20 +111,13 @@ public class MyDailySessions extends AppCompatActivity {
         };
         getSessions(callback);
 
-
-
         TextView dateSession = findViewById(R.id.dateSession);
         String date = null;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             date = CalendarUtils.selectedDate.getDayOfMonth() + "/" + CalendarUtils.selectedDate.getMonth().getValue() + "/" + CalendarUtils.selectedDate.getYear();
         }
         dateSession.setText(date);
-
-
-
-
     }
-
 
     public void openMainActivity() {
         Intent intent = new Intent(this, HomeActivity.class);
@@ -138,10 +130,7 @@ public class MyDailySessions extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void openRunSession() {
-
-
-    }
+    public void openRunSession() {}
 
  private ArrayList<Session> getSessions(SessionsCallback callback) {
      FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -162,8 +151,7 @@ public class MyDailySessions extends AppCompatActivity {
                  String session_month = snapshot.child("session_month").getValue(String.class);
                  String session_year = snapshot.child("session_year").getValue(String.class);
                  String session_image = snapshot.child("session_picture").getValue(String.class);
-
-
+                 String session_done = snapshot.child("session_done").getValue(String.class);
 
                  DatabaseReference referenceActivity = database.getReference("Activity");
 
@@ -175,16 +163,18 @@ public class MyDailySessions extends AppCompatActivity {
                              String activityName = dataSnapshot.child("activity_name").getValue(String.class).replace(",", " ");
                              int hourDuration = Integer.parseInt(session_duration)/60;
                              int minutesDuration = Integer.parseInt(session_duration)%60;
-                             String mnemonic = dataSnapshot.child("activity_pet").getValue(String.class);
+                             String mnemonicPet = dataSnapshot.child("activity_pet").getValue(String.class);
                                          mySessions.add(new Session(session_id,
                                                  activity_id,
                                                  activityName,
                                                  new Time(hourDuration,minutesDuration,0),
-                                                 Integer.parseInt(session_day),Integer.parseInt(session_month),
+                                                 Integer.parseInt(session_day),
+                                                 Integer.parseInt(session_month),
                                                  Integer.parseInt(session_year),
-                                                 session_image,mnemonic)
+                                                 session_image,
+                                                 mnemonicPet,
+                                                 session_done)
                                          );
-
                              callback.onSessionsLoaded(mySessions);
                          } else {
                              // L'activité n'existe pas dans la base de données
@@ -195,10 +185,8 @@ public class MyDailySessions extends AppCompatActivity {
                          // Une erreur s'est produite lors de la récupération des données
                      }
                  });
-
              }
          }
-
          @Override
          public void onCancelled(DatabaseError databaseError) {
              Log.w("TAG", "Erreur lors de la récupération des données", databaseError.toException());
@@ -206,7 +194,4 @@ public class MyDailySessions extends AppCompatActivity {
      });
      return mySessions;
  }
-
-
-
 }

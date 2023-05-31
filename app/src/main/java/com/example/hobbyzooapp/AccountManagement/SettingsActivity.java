@@ -1,4 +1,4 @@
-package com.example.hobbyzooapp;
+package com.example.hobbyzooapp.AccountManagement;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,11 +8,12 @@ import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.hobbyzooapp.HomeActivity;
+import com.example.hobbyzooapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.Context;
 import android.os.Build;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;

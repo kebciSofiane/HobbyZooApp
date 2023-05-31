@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.example.hobbyzooapp.AccountManagement.RegistrationOrConnexion;
+
 public class SplashScreenActivity extends AppCompatActivity {
 
     private final int SPASH_SCREEN_TIMEOUT = 2000;
@@ -17,7 +19,7 @@ public class SplashScreenActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(getApplicationContext(),RegistrationOrConnexion.class);
+                Intent intent = new Intent(getApplicationContext(), RegistrationOrConnexion.class);
                 startActivity(intent);
                 finish();
             }

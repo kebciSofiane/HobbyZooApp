@@ -1,4 +1,4 @@
-package com.example.hobbyzooapp;
+package com.example.hobbyzooapp.AccountManagement;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,8 +17,9 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.hobbyzooapp.Activities.MyActivities;
-import com.example.hobbyzooapp.CalendarEvolution.CalendarEvolutionAdapter;
 import com.example.hobbyzooapp.CalendarEvolution.MyEvolutionActivity;
+import com.example.hobbyzooapp.HomeActivity;
+import com.example.hobbyzooapp.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;

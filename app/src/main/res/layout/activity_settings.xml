@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_background"
-    tools:context=".SettingsActivity">
+    tools:context=".AccountManagement.SettingsActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -77,19 +77,6 @@
             android:textSize="20sp"
             app:backgroundTint="@color/lightbrown"
             app:icon="@drawable/ic_notifications_off" />
-
-        <Button
-            android:id="@+id/account"
-            style="@style/Widget.Material3.Button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:background="@drawable/rounded_button"
-            android:text="@string/account"
-            android:textColor="@android:color/black"
-            android:textSize="20sp"
-            app:backgroundTint="@color/lightbrown"
-            app:icon="@drawable/ic_manage_account" />
 
         <Button
             android:id="@+id/termsBtn"

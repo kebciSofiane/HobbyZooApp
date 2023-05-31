@@ -84,7 +84,7 @@ public class MyDailySessionsAdapter extends BaseAdapter{
         TextView sessionTimeView = view.findViewById(R.id.session_time);
         sessionTimeView.setText(sessionTime);
 
-        String sessionPetIconRes = currentSession.getMnemonic()+"_icon";
+        String sessionPetIconRes = currentSession.getMnemonic()+"_icon_neutral";
         int resId = context.getResources().getIdentifier(sessionPetIconRes,"drawable",context.getPackageName());
 
         ImageView sessionPetIcon = view.findViewById(R.id.session_icon);

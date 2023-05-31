@@ -253,21 +253,18 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public List<Integer> showPreviousActivities(int batchSize) {
-            List<Integer> intElements ;
+        List<Integer> intElements ;
 
         int endIndex = currentIndex;
         int startIndex = endIndex - batchSize;
 
         if (startIndex < 0) {
             startIndex = 0;
-            currentIndex = 0;
-        }
-        else{
-            currentIndex = startIndex;
+            currentIndex = imageList.size() - 1;
         }
 
         intElements = imageList.subList(startIndex, endIndex);
-
+        currentIndex = startIndex;
 
         return intElements;
     }
@@ -303,10 +300,7 @@ public class HomeActivity extends AppCompatActivity {
 
         if (startIndex < 0) {
             startIndex = 0;
-            currentIndex2 = 0;
-        }
-        else{
-            currentIndex2 = startIndex;
+            currentIndex2 = activities_name_List.size() - 1;
         }
 
         intElements = activities_name_List.subList(startIndex, endIndex);
@@ -343,10 +337,7 @@ public class HomeActivity extends AppCompatActivity {
 
         if (startIndex < 0) {
             startIndex = 0;
-            currentIndex3 = 0;
-        }
-        else{
-            currentIndex3 = startIndex;
+            currentIndex3 = activities_id_List.size() - 1;
         }
 
         intElements = activities_id_List.subList(startIndex, endIndex);
@@ -356,7 +347,6 @@ public class HomeActivity extends AppCompatActivity {
     }
 
 ///////////////////////
-
 
 
     public void getActivities(){

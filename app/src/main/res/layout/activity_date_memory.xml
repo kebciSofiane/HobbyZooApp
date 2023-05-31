@@ -7,6 +7,10 @@
     tools:context=".CalendarEvolution.DateMemory">
 
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -37,42 +41,60 @@
             android:layout_marginTop="20dp"
             />
 
-        <RelativeLayout
-            android:id="@+id/linearLayoutMemories"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/memoryDate"
-            android:orientation="horizontal"
-            >
-            <Button
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:id="@+id/scrollMemoriesLeft"
-                android:background="@drawable/arrow_left"
-                android:layout_centerVertical="true"
-                android:layout_alignParentLeft="true"
-                android:visibility="visible"
+            <RelativeLayout
+                android:id="@+id/linearLayoutMemories"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/memoryDate"
+                android:orientation="horizontal">
 
-                />
-            <ImageView
-                android:id="@+id/memoryImage"
-                android:layout_width="wrap_content"
-                android:layout_height="600dp"
-                android:contentDescription="@string/memoryPhoto"
-                />
+                <Button
+                    android:id="@+id/scrollMemoriesLeft"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/arrow_left"
+                    android:visibility="visible"
 
-            <Button
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:id="@+id/scrollMemoriesRight"
-                android:background="@drawable/arrow_right"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
-                android:visibility="visible"
+                    />
 
-                />
+                <ImageView
+                    android:id="@+id/memoryImage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="600dp"
+                    android:contentDescription="@string/memoryPhoto" />
 
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/memoryComment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="60sp"
+                    android:background="@drawable/border"
+                    android:layout_marginLeft="30dp"
+                    android:layout_marginRight="30dp"
+                    android:layout_marginBottom="10dp"
+                    android:paddingStart="10dp"
+                    android:textAlignment="center"
+                    android:gravity="center"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="10dp"
+                    android:paddingEnd="10dp"
+                    android:layout_below="@id/memoryImage"
+                   />
+
+                <Button
+                    android:id="@+id/scrollMemoriesRight"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/arrow_right"
+                    android:visibility="visible"
+
+                    />
+
+            </RelativeLayout>
 
         <Button
             android:id="@+id/shareButton"
@@ -87,6 +109,7 @@ android:layout_below="@id/linearLayoutMemories"            android:layout_center
 
 
     </RelativeLayout>
+    </ScrollView>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

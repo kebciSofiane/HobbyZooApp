@@ -26,8 +26,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.hobbyzooapp.Activities.ActivitiesCallBack;
-import com.example.hobbyzooapp.Category.Category;
 import com.example.hobbyzooapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -35,14 +33,12 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 
 public class DateMemory extends AppCompatActivity {
@@ -51,9 +47,12 @@ public class DateMemory extends AppCompatActivity {
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     ImageView memoryImage;
     String activity_name;
+    TextView memoryComment;
     Button share, rightArrow, leftArrow, download;
     int memoriesIndex =0;
-    ArrayList<String> myMemories;
+    ArrayList<String> myMemoriesPictures;
+    ArrayList<String> myMemoriesComments;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,6 +81,7 @@ public class DateMemory extends AppCompatActivity {
         leftArrow = findViewById(R.id.scrollMemoriesLeft);
         rightArrow = findViewById(R.id.scrollMemoriesRight);
         download = findViewById(R.id.downloadButton);
+        memoryComment=findViewById(R.id.memoryComment);
 
         dateView.setText(date.toString());
 
@@ -163,7 +163,9 @@ public class DateMemory extends AppCompatActivity {
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user = firebaseAuth.getCurrentUser();
         String uid = user.getUid();
-         myMemories = new ArrayList<>();
+        myMemoriesPictures = new ArrayList<>();
+        myMemoriesComments = new ArrayList<>();
+
 
         reference.orderByChild("user_id").equalTo(uid).addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -178,6 +180,8 @@ public class DateMemory extends AppCompatActivity {
                     String session_year = snapshot.child("session_year").getValue(String.class);
                     String session_done = snapshot.child("session_done").getValue(String.class);
                     String session_image = snapshot.child("session_picture").getValue(String.class);
+                    String session_comment = snapshot.child("session_comment").getValue(String.class);
+
                     LocalDate sessionDate = null; //todo vérfiier le null
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                         assert session_year != null;
@@ -203,7 +207,9 @@ public class DateMemory extends AppCompatActivity {
                                             if (activityId.equals(activity_id)) {
                                                 assert activityId != null;
                                                 if (activityId.equals(activity_id)) {
-                                                    myMemories.add(session_image);
+                                                    myMemoriesPictures.add(session_image);
+                                                    myMemoriesComments.add(session_comment);
+
                                                     buttons();
                                                 }
                                             }
@@ -211,7 +217,6 @@ public class DateMemory extends AppCompatActivity {
                                     }
                                 }
                             }
-
                         }
 
                         @Override
@@ -244,11 +249,13 @@ public class DateMemory extends AppCompatActivity {
                 .transform(new RoundedCorners(cornerRadius));
 
         Glide.with(DateMemory.this)
-                .load(myMemories.get(memoriesIndex))
+                .load(myMemoriesPictures.get(memoriesIndex))
                 .apply(requestOptions)
                 .into(memoryImage);
 
-        if (myMemories.size()==1){
+        memoryComment.setText(myMemoriesComments.get(memoriesIndex));
+
+        if (myMemoriesPictures.size()==1){
             leftArrow.setVisibility(View.GONE);
             rightArrow.setVisibility(View.GONE);
         }
@@ -256,14 +263,16 @@ public class DateMemory extends AppCompatActivity {
         rightArrow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (memoriesIndex==myMemories.size()-1)
+                if (memoriesIndex== myMemoriesPictures.size()-1)
                     memoriesIndex=0;
                 else memoriesIndex++;
 
                 Glide.with(DateMemory.this)
-                        .load(myMemories.get(memoriesIndex))
+                        .load(myMemoriesPictures.get(memoriesIndex))
                         .apply(requestOptions)
                         .into(memoryImage);
+                memoryComment.setText(myMemoriesComments.get(memoriesIndex));
+
 
             }
         });
@@ -272,13 +281,15 @@ public class DateMemory extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (memoriesIndex==0)
-                    memoriesIndex=myMemories.size()-1;
+                    memoriesIndex= myMemoriesPictures.size()-1;
                 else memoriesIndex--;
 
                 Glide.with(DateMemory.this)
-                        .load(myMemories.get(memoriesIndex))
+                        .load(myMemoriesPictures.get(memoriesIndex))
                         .apply(requestOptions)
                         .into(memoryImage);
+                memoryComment.setText(myMemoriesComments.get(memoriesIndex));
+
             }
         });
 

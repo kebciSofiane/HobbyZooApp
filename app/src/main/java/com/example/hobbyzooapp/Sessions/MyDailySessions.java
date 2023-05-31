@@ -173,7 +173,7 @@ public class MyDailySessions extends AppCompatActivity {
                      @Override
                      public void onDataChange(DataSnapshot dataSnapshot) {
                          if (dataSnapshot.exists()) {
-                             String activityName = dataSnapshot.child("activity_name").getValue(String.class);
+                             String activityName = dataSnapshot.child("activity_name").getValue(String.class).replace(",", " ");
                              int hourDuration = Integer.parseInt(session_duration)/60;
                              int minutesDuration = Integer.parseInt(session_duration)%60;
                              String mnemonic = dataSnapshot.child("activity_pet").getValue(String.class);

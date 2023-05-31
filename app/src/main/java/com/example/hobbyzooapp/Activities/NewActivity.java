@@ -112,7 +112,7 @@ public class NewActivity extends AppCompatActivity {
                             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                     String user_id_verify = snapshot.child("user_id").getValue(String.class);
-                                    String category_name = snapshot.child("category_name").getValue(String.class);
+                                    String category_name = snapshot.child("category_name").getValue(String.class).replace(",", " ");
                                     if(user_id.equals(user_id_verify) && category_name.equals(category_name_selected)){
                                         String category_id_verify = snapshot.child("category_id").getValue(String.class);
                                         category_id_select[0] = category_id_verify;

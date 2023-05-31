@@ -36,7 +36,7 @@ public class ExpandableListData {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String category_id = snapshot.child("category_id").getValue(String.class);
                     String category_color = snapshot.child("category_color").getValue(String.class);
-                    String category_name = snapshot.child("category_name").getValue(String.class);
+                    String category_name = snapshot.child("category_name").getValue(String.class).replace(",", " ");
 
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference reference = database.getReference("Activity");
@@ -48,10 +48,11 @@ public class ExpandableListData {
                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                 //String activityId = snapshot.getKey();
                                 String activity_id = snapshot.child("activity_id").getValue(String.class);
-                                String activity_pet_name = snapshot.child("activity_pet_name").getValue(String.class);
+                                String activity_pet_name = snapshot.child("activity_pet_name").getValue(String.class).replace(",", " ");
                                 String activity_pet = snapshot.child("activity_pet").getValue(String.class);
-                                String activity_name = snapshot.child("activity_name").getValue(String.class);
-                                activities.add(new Activity(activity_id,activity_name, activity_pet_name, activity_pet));
+                                String activity_name = snapshot.child("activity_name").getValue(String.class).replace(",", " ");
+                                String pet_feeling = snapshot.child("feeling").getValue(String.class);
+                                activities.add(new Activity(activity_id,activity_name, activity_pet_name, activity_pet, pet_feeling));
                                 expandableListDetail.put(category_name, new Category(category_id,category_name,category_color, activities));
                                 callback.onActivitiesLoaded(expandableListDetail);
 

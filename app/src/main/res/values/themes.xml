@@ -13,6 +13,7 @@
 
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">#00018E41</item>
+
         <!-- Customize your theme here. -->
     </style>
     <style name="Theme.HobbyZooApp.NoActionBar">

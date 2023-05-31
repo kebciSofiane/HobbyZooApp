@@ -1,6 +1,7 @@
 package com.example.hobbyzooapp.Activities;
 
 import android.annotation.SuppressLint;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -48,8 +50,8 @@ public class ActivityPage extends AppCompatActivity {
     ImageView petPic, sessionLastPicture;
     TextView petName, goalsText, activityNameDisplay, sessionCommentDisplay;
     EditText editTextPetName, editTextActivityName, addToTodoListText;
-    Button editNamePetButton, validatePetName, showMoreButton, showLessButton, addToTodoListButton, deleteActivityButton;
-    ImageButton addSessionButton, homeButton;
+    Button editNamePetButton, validatePetName, showMoreButton, showLessButton, addToTodoListButton, editGoalButton;
+    ImageButton addSessionButton, homeButton, deleteActivityButton;
     RecyclerView recyclerView, recyclerViewTodoList;
     List<String> items = new ArrayList<>();
     ListSessionsAdapter adapter;
@@ -65,6 +67,7 @@ public class ActivityPage extends AppCompatActivity {
 
 
 
+    @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,7 +88,7 @@ public class ActivityPage extends AppCompatActivity {
             }
         });
 
-        deleteActivityButton = findViewById(R.id.deleteActivityButton);
+
         getLastSessionPicCom(activity_id, new OnSessionListRetrievedListener2() {
             @Override
             public void onSessionListRetrieved(ArrayList<String> sessionPicCom) {
@@ -196,10 +199,36 @@ public class ActivityPage extends AppCompatActivity {
                 petName.setVisibility(View.GONE);
                 activityNameDisplay.setVisibility(View.GONE);
                 deleteActivityButton.setVisibility(View.VISIBLE);
+                editGoalButton.setVisibility(View.VISIBLE);
             }
         });
 
-        addSessionButton = findViewById(R.id.add_session_button);
+        editGoalButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int currentHour = 0;
+                int currentMinute = 0;
+
+                TimePickerDialog timePickerDialog = new TimePickerDialog(ActivityPage.this, new TimePickerDialog.OnTimeSetListener() {
+                    @SuppressLint("SetTextI18n")
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                        String goal = (minute + hourOfDay * 60) + "" ;
+                        database.getReference("Activity").child(activityId).child("weekly_goal").setValue(goal);
+                        weeklyGoal = goal;
+                        int weeklyHours = Integer.parseInt(weeklyGoal) / 60;
+                        int weeklyMinutes = Integer.parseInt(weeklyGoal) % 60;
+                        int weeklySpentHours = Integer.parseInt(spentTime) / 60;
+                        int weeklySpentMinutes = Integer.parseInt(spentTime) % 60;
+                        goalsText.setText(new Time(weeklySpentHours,weeklySpentMinutes,0)+
+                                "/"+
+                                new Time(weeklyHours,weeklyMinutes,0));
+                    }
+                }, currentHour, currentMinute, true);
+                timePickerDialog.show();
+            }
+        });
+
         addSessionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -217,14 +246,14 @@ public class ActivityPage extends AppCompatActivity {
         deleteActivityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatabaseReference databaseReferenceTasks = database.getReference().child("Tasks");
+                DatabaseReference databaseReferenceTasks = database.getReference("Tasks");
                 databaseReferenceTasks.addListenerForSingleValueEvent(new ValueEventListener() {
 
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            String activity_id_task = snapshot.child("activity_id").getValue(String.class);
-                            String task_id = snapshot.child("task_id").getValue(String.class);
+                            String activity_id_task = snapshot.child("activityId").getValue(String.class);
+                            String task_id = snapshot.getKey();
                             if(activity_id_task.equals(activityId)){
                                 databaseReferenceTasks.child(task_id).removeValue();
                             }
@@ -236,13 +265,14 @@ public class ActivityPage extends AppCompatActivity {
                         // Gérez l'erreur en cas d'annulation de la requête
                     }
                 });
-                DatabaseReference databaseReferenceSession = database.getReference().child("Session");
+                DatabaseReference databaseReferenceSession = database.getReference("Session");
                 databaseReferenceSession.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             String activity_id_session = snapshot.child("activity_id").getValue(String.class);
-                            String session_id = snapshot.child("session_id").getValue(String.class);
+                            String session_id = snapshot.getKey();
+                            System.out.println(activity_id_session +  "           :          "+ activityId);
                             if(activity_id_session.equals(activityId)){
                                 databaseReferenceSession.child(session_id).removeValue();
                             }
@@ -255,7 +285,7 @@ public class ActivityPage extends AppCompatActivity {
                     }
                 });
                 referenceActivity.child(activityId).removeValue();
-                finish();
+                startActivity(new Intent(ActivityPage.this, HomeActivity.class));
             }
         });
 
@@ -288,6 +318,7 @@ public class ActivityPage extends AppCompatActivity {
 
         validatePetName.setOnClickListener(new View.OnClickListener() {
 
+            @SuppressLint("SetTextI18n")
             @Override
             public void onClick(View v) {
                 editTextPetName.setVisibility(View.GONE);
@@ -301,6 +332,7 @@ public class ActivityPage extends AppCompatActivity {
                 petName.setVisibility(View.VISIBLE);
                 activityNameDisplay.setVisibility(View.VISIBLE);
                 deleteActivityButton.setVisibility(View.GONE);
+                editGoalButton.setVisibility(View.GONE);
 
                 DatabaseReference activitiesRef = FirebaseDatabase.getInstance().getReference("Activity");
                 DatabaseReference activityRef = activitiesRef.child(activity_id);
@@ -404,6 +436,7 @@ public class ActivityPage extends AppCompatActivity {
 
     }
 
+    @SuppressLint("WrongViewCast")
     private void initialisation(){
         firebaseAuth = FirebaseAuth.getInstance();
         petPic =findViewById(R.id.activityPagePetPic);
@@ -423,6 +456,9 @@ public class ActivityPage extends AppCompatActivity {
         homeButton = findViewById(R.id.homeButton);
         addToTodoListButton = findViewById(R.id.addToTodoListButton);
         editNamePetButton = findViewById(R.id.activityPageEditPetNameButton);
+        editGoalButton = findViewById(R.id.editGoalButton);
+        deleteActivityButton = findViewById(R.id.deleteActivityButton);
+        addSessionButton = findViewById(R.id.add_session_button);
     }
 
     private ArrayList<Session> getSessionList(String activity_id, OnSessionListRetrievedListener listener){

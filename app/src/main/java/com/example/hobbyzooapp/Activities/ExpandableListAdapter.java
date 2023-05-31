@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.hobbyzooapp.Category.Category;
+import com.example.hobbyzooapp.HomeActivity;
 import com.example.hobbyzooapp.R;
 
 
@@ -62,7 +63,12 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
         petNameView.setText(activity.getPetName());
 
         ImageView activityIconView = convertView.findViewById(R.id.activity_icon);
-        String resourceName = activity.getPet()+"_icon_neutral";
+        String feeling = HomeActivity.animalsFeeling.get(Integer.parseInt(activity.getFeeling()));
+        String resourceName;
+        if(Integer.parseInt(activity.getFeeling()) == 0)
+            resourceName = "none_icon_gone";
+        else
+            resourceName = activity.getPet()+"_icon_"+feeling;
         int resId = context.getResources().getIdentifier(resourceName,"drawable",context.getPackageName());
         activityIconView.setImageResource(resId);
 

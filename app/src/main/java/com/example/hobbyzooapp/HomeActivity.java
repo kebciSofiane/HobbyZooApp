@@ -349,6 +349,7 @@ public class HomeActivity extends AppCompatActivity {
 ///////////////////////
 
 
+
     public void getActivities(){
         FirebaseUser user = firebaseAuth.getCurrentUser();
         String email = user.getEmail();

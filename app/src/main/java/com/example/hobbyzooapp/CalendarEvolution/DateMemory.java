@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.hobbyzooapp.Calendar.CalendarUtils;
 import com.example.hobbyzooapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -48,6 +50,7 @@ public class DateMemory extends AppCompatActivity {
     ImageView memoryImage;
     String activity_name;
     TextView memoryComment;
+    ImageButton backButton;
     Button share, rightArrow, leftArrow, download;
     int memoriesIndex =0;
     ArrayList<String> myMemoriesPictures;
@@ -82,12 +85,21 @@ public class DateMemory extends AppCompatActivity {
         rightArrow = findViewById(R.id.scrollMemoriesRight);
         download = findViewById(R.id.downloadButton);
         memoryComment=findViewById(R.id.memoryComment);
+        backButton=findViewById(R.id.memoryBackButton);
 
         dateView.setText(date.toString());
 
         showMemories();
 
 
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DateMemory.this, MyEvolutionActivity.class);
+                CalendarUtils.selectedDate = date;
+                startActivity(intent);
+            }
+        });
 
         share.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -15,86 +15,102 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
         <Button
+            android:id="@+id/downloadButton"
             android:layout_width="30dp"
             android:layout_height="30dp"
-            android:id="@+id/downloadButton"
-            android:layout_margin="20dp"
-            android:background="@drawable/download_icon"
             android:layout_alignParentEnd="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="@drawable/download_icon"
             android:visibility="visible"
-            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-
-
-            />
-
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/memoryDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/date_format"
-            android:textSize="30sp"
-            android:textColor="@color/white"
             android:layout_centerHorizontal="true"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
-            />
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="@string/date_format"
+            android:textColor="@color/white"
+            android:textSize="30sp" />
 
-            <RelativeLayout
-                android:id="@+id/linearLayoutMemories"
+        <ImageButton
+            android:id="@+id/memoryBackButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/back"
+            android:src="@drawable/ic_arrowback"
+            app:tint="@color/white" />
+
+        <RelativeLayout
+            android:id="@+id/linearLayoutMemories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/memoryDate"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/scrollMemoriesLeft"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/arrow_left"
+                android:visibility="visible"
+
+                />
+
+            <ImageView
+                android:id="@+id/memoryImage"
+                android:layout_width="wrap_content"
+                android:layout_height="600dp"
+                android:contentDescription="@string/memoryPhoto"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"/>
+
+            <TextView
+                android:id="@+id/memoryComment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/memoryDate"
-                android:orientation="horizontal">
+                android:layout_below="@id/memoryImage"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/border"
+                android:gravity="center"
+                android:minHeight="60sp"
+                android:paddingStart="10dp"
+                android:paddingTop="10dp"
+                android:paddingEnd="10dp"
+                android:paddingBottom="10dp"
+                android:textAlignment="center" />
 
-                <Button
-                    android:id="@+id/scrollMemoriesLeft"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/arrow_left"
-                    android:visibility="visible"
+            <Button
+                android:id="@+id/scrollMemoriesRight"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="@drawable/arrow_right"
+                android:visibility="visible"
 
-                    />
+                />
 
-                <ImageView
-                    android:id="@+id/memoryImage"
-                    android:layout_width="wrap_content"
-                    android:layout_height="600dp"
-                    android:contentDescription="@string/memoryPhoto" />
-
-                <TextView
-                    android:id="@+id/memoryComment"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:minHeight="60sp"
-                    android:background="@drawable/border"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginRight="30dp"
-                    android:layout_marginBottom="10dp"
-                    android:paddingStart="10dp"
-                    android:textAlignment="center"
-                    android:gravity="center"
-                    android:paddingTop="10dp"
-                    android:paddingBottom="10dp"
-                    android:paddingEnd="10dp"
-                    android:layout_below="@id/memoryImage"
-                   />
-
-                <Button
-                    android:id="@+id/scrollMemoriesRight"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
-                    android:layout_alignParentEnd="true"
-                    android:layout_centerVertical="true"
-                    android:background="@drawable/arrow_right"
-                    android:visibility="visible"
-
-                    />
-
-            </RelativeLayout>
+        </RelativeLayout>
 
         <Button
             android:id="@+id/shareButton"

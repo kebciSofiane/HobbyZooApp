@@ -31,7 +31,7 @@
             android:fontFamily="@font/chakra_petch_semibold"
             android:text="@string/_00_00_00"
             android:textColor="#5B91F1"
-            android:textSize="30dp" />
+            android:textSize="30sp" />
 
         <ImageView
             android:id="@+id/petPicture"

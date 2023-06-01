@@ -16,7 +16,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
-        android:background="@drawable/radius_background"
+        android:background="@drawable/shape_radius_background"
         android:backgroundTint="@color/white">
 
         <ImageButton
@@ -49,7 +49,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="25dp"
             android:layout_marginEnd="10dp"
-            android:background="@drawable/edit_pic"
+            android:background="@drawable/ic_edit"
             android:visibility="visible" />
 
     </RelativeLayout>
@@ -88,7 +88,7 @@
         android:background="@color/transparent"
         app:tint="@color/green_btn"
         android:scaleType="centerCrop"
-        android:src="@drawable/plus_icon" />
+        android:src="@drawable/ic_plus_" />
 
     <ImageButton
         android:id="@+id/homeButton"

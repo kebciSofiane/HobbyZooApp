@@ -61,7 +61,7 @@
             android:layout_height="97dp"
             android:layout_below="@id/windows_pet"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/takepic"
+            android:background="@drawable/ic_takepic"
             android:visibility="visible"/>
 
 
@@ -105,30 +105,32 @@
                 android:visibility="visible" />
 
 
-            <Button
+            <ImageButton
                 android:id="@+id/validateButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_marginEnd="20sp"
                 android:layout_marginBottom="30dp"
-                android:text="@string/ok"
-                android:backgroundTint="@color/green_btn"
-                android:textColor="@color/green_btn_text"
+                android:src="@drawable/ic_circle_check_icon"
                 android:layout_gravity="end"
-                android:visibility="visible"/>
+                android:background="@color/transparent"
+                android:scaleType="fitCenter"
+                android:visibility="visible"
+                app:tint="@color/green_btn" />
 
-            <Button
+            <ImageButton
                 android:id="@+id/skipButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_marginBottom="50sp"
                 android:layout_marginEnd="20sp"
-                android:layout_marginTop="-30dp"
-                android:text="@string/skip"
-                android:backgroundTint="@color/green_btn"
-                android:textColor="@color/green_btn_text"
+                android:layout_marginTop="-20dp"
+                android:src="@drawable/ic_skip"
+                android:background="@color/transparent"
+                android:scaleType="fitCenter"
                 android:layout_gravity="end"
-                android:visibility="visible" />
+                android:visibility="visible"
+                app:tint="@color/brown_btn"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -142,7 +144,7 @@
                     android:layout_marginRight="30sp"
                     android:layout_marginBottom="30dp"
                     android:layout_marginTop="30dp"
-                    android:background="@drawable/border"
+                    android:background="@drawable/ic_border"
                     android:minHeight="30sp"
                     android:paddingStart="10sp"
                     android:paddingTop="10sp"
@@ -163,23 +165,24 @@
                     android:layout_marginEnd="30dp"
                     android:backgroundTint="@color/white"
                     android:scaleType="fitCenter"
-                    android:src="@drawable/edit_pic"
+                    android:src="@drawable/ic_edit"
                     android:visibility="gone"
                     app:tint="@color/green_btn" />
 
             </RelativeLayout>
 
-            <Button
+            <ImageButton
                 android:id="@+id/validateButton2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
                 android:layout_marginEnd="30dp"
                 android:layout_marginBottom="30dp"
-                android:text="@string/ok"
-                android:backgroundTint="@color/green_btn"
-                android:textColor="@color/green_btn_text"
+                android:src="@drawable/ic_circle_check_icon"
+                android:background="@color/transparent"
                 android:layout_gravity="end"
-                android:visibility="gone" />
+                android:visibility="gone"
+                android:scaleType="fitCenter"
+                app:tint="@color/green"/>
 
         </LinearLayout>
 

@@ -4,6 +4,7 @@ import com.example.hobbyzooapp.R;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -13,18 +14,20 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.InputFilter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -36,7 +39,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hobbyzooapp.Activities.ActivityPage;
-import com.example.hobbyzooapp.RegisterActivity;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -63,8 +65,8 @@ public class EndSession extends AppCompatActivity {
     private static final int RETOUR_PRENDRE_PHOTO = 1;
     ImageView petPic, takenImage;
     TextView commentValidated,sessionCount;
-    ImageButton modifyCommentButton;
-    Button validateButton, validateButton2, takeApic, skipButton;
+    Button takeApic ;
+    ImageButton validateButton, validateButton2, skipButton,modifyCommentButton;
     EditText commentField;
     private RelativeLayout windowsPet;
     private String photoPath = "";
@@ -161,7 +163,6 @@ public class EndSession extends AppCompatActivity {
         commentField.setFilters(filters);
 
         takeApic.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 try {
@@ -184,19 +185,53 @@ public class EndSession extends AppCompatActivity {
         });
 
 
-
         validateButton2.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
                 DatabaseReference sessionRef = FirebaseDatabase.getInstance().getReference().child("Session").child(session_id);
-                uploadImageToFirebase();
-                if (commentValidated.getText().equals("")){
-                    sessionRef.child("session_comment").setValue("no comment for this photo");
-                } else {
+                if (commentValidated.getText().equals("") && !photoPath.equals("")){
+                    sessionRef.child("session_comment").setValue("No comment for this photo");
+                    uploadImageToFirebase();
+                    endSession();
+                } else if (!commentValidated.getText().equals("")){
                     sessionRef.child("session_comment").setValue(commentValidated.getText());
+                    uploadImageToFirebase();
+                    endSession();
+                } else if (commentValidated.getText().equals("") && photoPath.equals("")){
+                    LayoutInflater inflater = getLayoutInflater();
+                    View dialogView = inflater.inflate(R.layout.custom_dialog_run_session, null);
+
+                    TextView dialogTitle = dialogView.findViewById(R.id.dialogTitle);
+                    TextView dialogText = dialogView.findViewById(R.id.dialogText);
+                    Button dialogButtonLeft = dialogView.findViewById(R.id.dialogButtonLeft);
+                    Button dialogButtonRight = dialogView.findViewById(R.id.dialogButtonRight);
+
+                    dialogTitle.setText("No comment and no picture");
+                    dialogText.setText("Do you want to continue ?");
+                    dialogButtonLeft.setText("Edit");
+                    dialogButtonLeft.setTextColor(Color.GREEN);
+                    dialogButtonRight.setText("Skip");
+                    dialogButtonRight.setTextColor(Color.RED);
+
+                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(EndSession.this);
+                    dialogBuilder.setView(dialogView);
+                    AlertDialog dialog = dialogBuilder.create();
+                    dialog.show();
+                    dialogButtonLeft.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+                    dialogButtonRight.setOnClickListener(new View.OnClickListener() {
+                      @Override
+                      public void onClick(View v) {
+                          endSession();
+                          dialog.dismiss();
+                      }
+                    });
                 }
-                endSession();
             }
         });
 
@@ -218,7 +253,6 @@ public class EndSession extends AppCompatActivity {
                 takeApic.setVisibility(View.VISIBLE);
                 validateButton2.setVisibility(View.VISIBLE);
                 modifyCommentButton.setVisibility(View.VISIBLE);
-
 
             }
         });

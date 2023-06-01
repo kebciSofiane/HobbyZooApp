@@ -31,7 +31,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:background="@drawable/radius_background"
+            android:background="@drawable/shape_radius_background"
             android:gravity="center">
 
             <ImageView
@@ -89,14 +89,14 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="25dp"
             android:layout_marginEnd="10dp"
-            android:background="@drawable/edit_pic"
+            android:background="@drawable/ic_edit"
             android:visibility="visible" />
 
         <Button
             android:id="@+id/activityPagecheckPetNameButton"
             android:layout_width="30sp"
             android:layout_height="30sp"
-            android:background="@drawable/check_icon"
+            android:background="@drawable/ic_check"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="10dp"
             android:layout_marginLeft="10dp"
@@ -129,7 +129,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="30sp"
                         android:layout_marginRight="30sp"
-                        android:background="@drawable/border"
+                        android:background="@drawable/ic_border"
                         android:orientation="vertical"
                         android:padding="20sp" />
 
@@ -159,7 +159,7 @@
                         android:layout_width="30sp"
                         android:layout_height="30sp"
                         android:layout_gravity="center_vertical"
-                        android:background="@drawable/minus_icon"
+                        android:background="@drawable/ic_minus_icon"
                         android:gravity="center_vertical"
                         android:visibility="gone" />
 
@@ -168,7 +168,7 @@
                         android:layout_width="30sp"
                         android:layout_height="30sp"
                         android:layout_gravity="center_vertical"
-                        android:background="@drawable/plus_icon"
+                        android:background="@drawable/ic_plus_"
                         android:visibility="gone" />
                 </LinearLayout>
 
@@ -205,7 +205,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="-2dp"
                     android:layout_marginEnd="26dp"
-                    android:background="@drawable/edit_pic"
+                    android:background="@drawable/ic_edit"
                     android:visibility="gone" />
 
                 <LinearLayout
@@ -222,7 +222,7 @@
                         android:layout_below="@id/activityPageGoalsText"
                         android:layout_marginLeft="30sp"
                         android:layout_marginRight="30sp"
-                        android:background="@drawable/border"
+                        android:background="@drawable/ic_border"
                         android:orientation="vertical"
                         android:padding="20sp" />
 
@@ -235,7 +235,7 @@
                     android:layout_below="@id/activityPageLinearLayoutTodoList"
                     android:layout_marginLeft="30sp"
                     android:layout_marginRight="30sp"
-                    android:background="@drawable/border"
+                    android:background="@drawable/ic_border"
                     android:orientation="horizontal"
                     android:paddingLeft="20sp"
 
@@ -246,7 +246,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_gravity="center"
-                        android:background="@drawable/add_check_box"
+                        android:background="@drawable/ic_add_check_box"
                         android:visibility="gone" />
 
                     <Button
@@ -254,7 +254,7 @@
                         android:layout_width="40dp"
                         android:layout_height="40dp"
                         android:layout_gravity="center"
-                        android:background="@drawable/add_check_box"
+                        android:background="@drawable/ic_add_check_box"
                         android:visibility="visible" />
 
                     <EditText
@@ -324,7 +324,7 @@
             android:background="@color/transparent"
             app:tint="@color/green_btn"
             android:scaleType="centerCrop"
-            android:src="@drawable/plus_icon"/>
+            android:src="@drawable/ic_plus_"/>
 
         <ImageButton
             android:id="@+id/homeButton"
@@ -346,7 +346,7 @@
             android:layout_alignParentBottom="true"
             android:layout_marginStart="30dp"
             android:layout_marginBottom="5dp"
-            android:background="@drawable/delete_icon"
+            android:background="@drawable/ic_delete"
             android:backgroundTint="@color/red"
             android:scaleType="center"
             android:visibility="gone" />

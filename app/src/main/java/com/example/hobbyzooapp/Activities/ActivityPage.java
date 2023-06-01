@@ -479,8 +479,6 @@ public class ActivityPage extends AppCompatActivity {
 
         ArrayList<Session> mySessions = new ArrayList<>();
 
-
-
         activityReference.child(activity_id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -498,7 +496,6 @@ public class ActivityPage extends AppCompatActivity {
                                 String session_year = snapshot.child("session_year").getValue(String.class);
                                 String session_image = snapshot.child("session_picture").getValue(String.class);
                                 String mnemonic = dataSnapshot.child("activity_pet").getValue(String.class);
-
 
                                 int hourDuration = Integer.parseInt(session_duration)/60;
                                 int minutesDuration = Integer.parseInt(session_duration)%60;

@@ -24,7 +24,7 @@
         android:layout_marginTop="9dp"
         android:layout_below="@+id/cellDayText"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/day_indicator_done"
+        android:src="@drawable/shape_day_indicator_done"
         android:visibility="gone"/>
 
     <ImageView
@@ -34,7 +34,7 @@
         android:layout_marginTop="9dp"
         android:layout_below="@+id/cellDayText"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/day_indicator_planed"
+        android:src="@drawable/shape_day_indicator_planed"
         android:visibility="gone" />
 
 

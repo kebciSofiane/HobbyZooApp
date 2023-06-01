@@ -27,7 +27,7 @@
             android:layout_height="30dp"
             android:id="@+id/downloadButton"
             android:layout_margin="20dp"
-            android:background="@drawable/download_icon"
+            android:background="@drawable/ic_download"
             android:layout_alignParentEnd="true"
             android:visibility="visible"
             app:layout_constraintTop_toTopOf="parent"
@@ -54,7 +54,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:id="@+id/scrollMemoriesLeft"
-                android:background="@drawable/arrow_left"
+                android:background="@drawable/ic_arrow_left"
                 android:layout_centerVertical="true"
                 android:layout_alignParentStart="true"
                 android:visibility="visible" />
@@ -69,7 +69,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:id="@+id/scrollMemoriesRight"
-                android:background="@drawable/arrow_right"
+                android:background="@drawable/ic_arrow_right"
                 android:layout_centerVertical="true"
                 android:layout_alignParentEnd="true"
                 android:visibility="visible" />

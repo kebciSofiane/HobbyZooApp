@@ -52,6 +52,8 @@ public class HomeActivity extends AppCompatActivity {
     private int currentIndex2=0;
     private int currentIndex3=0;
 
+    boolean showNextPreviousButtons=false;
+
     ImageButton calendarBtn, runBtn, profileBtn, panelHobbyZoo;
     ImageView imageView1, imageView2, imageView3, imageView4, imageView5;
     TextView textView1, textView2, textView3, textView4, textView5;
@@ -98,7 +100,6 @@ public class HomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 CalendarUtils.selectedDate= LocalDate.now();//todo
                 startActivity(new Intent(HomeActivity.this, MyDailySessions.class));
-
             }
         });
         profileBtn.setOnClickListener(new View.OnClickListener() {
@@ -240,14 +241,17 @@ public class HomeActivity extends AppCompatActivity {
         int startIndex = currentIndex;
         int endIndex = startIndex + batchSize;
 
+
         if (endIndex > imageList.size()) {
             endIndex = imageList.size();
         }
-        else{
-            currentIndex = endIndex;
-        }
+        currentIndex = endIndex;
+
         intElements = imageList.subList(startIndex, endIndex);
-        //currentIndex = endIndex;
+
+        if (endIndex == imageList.size()) {
+            currentIndex = 0;
+        }
 
         return intElements;
     }
@@ -260,11 +264,13 @@ public class HomeActivity extends AppCompatActivity {
 
         if (startIndex < 0) {
             startIndex = 0;
-            currentIndex = imageList.size() - 1;
         }
-
         intElements = imageList.subList(startIndex, endIndex);
         currentIndex = startIndex;
+
+        if (startIndex == 0) {
+            currentIndex = imageList.size();
+        }
 
         return intElements;
     }
@@ -279,16 +285,14 @@ public class HomeActivity extends AppCompatActivity {
 
             if (endIndex > activities_name_List.size()) {
                 endIndex = activities_name_List.size();
-            //currentIndex2 = 0;
+            }
+            currentIndex2 = endIndex;
 
-            }
-            else{
-                currentIndex2 = endIndex;
-            }
 
         intElements = activities_name_List.subList(startIndex, endIndex);
-        ///currentIndex2 = endIndex;
-
+        if (endIndex == activities_name_List.size()) {
+            currentIndex2 = 0;
+        }
         return intElements;
     }
 
@@ -300,11 +304,15 @@ public class HomeActivity extends AppCompatActivity {
 
         if (startIndex < 0) {
             startIndex = 0;
-            currentIndex2 = activities_name_List.size() - 1;
         }
 
         intElements = activities_name_List.subList(startIndex, endIndex);
         currentIndex2 = startIndex;
+
+
+        if (startIndex == 0) {
+            currentIndex2 = activities_name_List.size();
+        }
 
         return intElements;
     }
@@ -317,15 +325,14 @@ public class HomeActivity extends AppCompatActivity {
 
         if (endIndex > activities_id_List.size()) {
             endIndex = activities_id_List.size();
-            //currentIndex = ;
         }
-        else{
-            currentIndex3 = endIndex;
-        }
+        currentIndex3 = endIndex;
+
 
         intElements = activities_id_List.subList(startIndex, endIndex);
-        //currentIndex3 = endIndex;
-
+        if (endIndex == activities_id_List.size()) {
+            currentIndex3 = 0;
+        }
         return intElements;
     }
 
@@ -337,11 +344,15 @@ public class HomeActivity extends AppCompatActivity {
 
         if (startIndex < 0) {
             startIndex = 0;
-            currentIndex3 = activities_id_List.size() - 1;
         }
 
         intElements = activities_id_List.subList(startIndex, endIndex);
         currentIndex3 = startIndex;
+
+        if (startIndex ==0) {
+            currentIndex3 = activities_id_List.size();
+        }
+
 
         return intElements;
     }

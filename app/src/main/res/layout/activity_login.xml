@@ -14,12 +14,7 @@
         android:layout_width="283dp"
         android:layout_height="303dp"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/hobby_zoo_app"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.35" />
+        android:src="@drawable/hobby_zoo_app" />
 
 
     <com.google.android.material.textfield.TextInputLayout

@@ -120,8 +120,7 @@ public class NewSession extends AppCompatActivity {
                 else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     if (dateCourante.isAfter(LocalDate.of(selectedYear, selectedMonth, selectedDay))) {
                         Toast.makeText(getApplicationContext(),"The date can't be earlier!",Toast.LENGTH_LONG).show();
-                    }
-                    else{
+                    } else {
                         addDBSession();
                         Intent intent = new Intent().setClass(getApplicationContext(), HomeActivity.class);
                         startActivity(intent);

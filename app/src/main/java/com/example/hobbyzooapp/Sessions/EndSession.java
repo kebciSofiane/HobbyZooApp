@@ -214,20 +214,21 @@ public class EndSession extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String comment = String.valueOf(commentField.getText());
-                validateButton.setVisibility(View.GONE);
-                skipButton.setVisibility(View.GONE);
-                commentField.setVisibility(View.GONE);
-                commentValidated.setText(comment);
-                commentValidated.setVisibility(View.VISIBLE);
-                takeApic.setVisibility(View.GONE);
-                validateButton2.setVisibility(View.VISIBLE);
-                modifyPicButton.setVisibility(View.VISIBLE);
-                modifyCommentButton.setVisibility(View.VISIBLE);
-
-
+                if(photoPath.equals("") && comment.equals("")){
+                    Toast.makeText(getApplicationContext(),"Add a comment or a picture!",Toast.LENGTH_LONG).show();
+                } else {
+                    validateButton.setVisibility(View.GONE);
+                    skipButton.setVisibility(View.GONE);
+                    commentField.setVisibility(View.GONE);
+                    commentValidated.setText(comment);
+                    commentValidated.setVisibility(View.VISIBLE);
+                    takeApic.setVisibility(View.GONE);
+                    validateButton2.setVisibility(View.VISIBLE);
+                    modifyPicButton.setVisibility(View.VISIBLE);
+                    modifyCommentButton.setVisibility(View.VISIBLE);
+                }
             }
         });
-
     }
 
     private void takePicture() throws IOException {

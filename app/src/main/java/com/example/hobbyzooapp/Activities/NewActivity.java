@@ -151,6 +151,8 @@ public class NewActivity extends AppCompatActivity {
                 if(activity_name.trim().isEmpty() || activity_name == null|| animalName.trim().isEmpty() || (weeklyGoal.getMinute() ==0 && weeklyGoal.getHour() == 0 ) || categorySelector.getSelectedItem() == null){
                     Toast.makeText(getApplicationContext(),"Field can't be empty!",Toast.LENGTH_LONG).show();
                 }
+                else if(activity_name.length() > 15 || animalName.length() > 15)
+                    Toast.makeText(getApplicationContext(),"Name fields must be less than 15 characters!",Toast.LENGTH_LONG).show();
                 else if(!matcherAnimalName.matches() || !matcherActivityName.matches()){
                     Toast.makeText(getApplicationContext(),"Name fields can't have special characters!",Toast.LENGTH_LONG).show();
                 }

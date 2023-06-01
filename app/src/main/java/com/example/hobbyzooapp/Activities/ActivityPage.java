@@ -318,9 +318,7 @@ public class ActivityPage extends AppCompatActivity {
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                     String categoryId = dataSnapshot.child("category_id").getValue(String.class);
-                                    System.out.println(category_id + "           :        " + categoryId);
                                     if(categoryId.equals(category_id))
-                                        System.out.println("BOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOM!!!!");
                                         countActivities++;
                                 }
                                 referenceActivity.child(activityId).removeValue();
@@ -484,13 +482,13 @@ public class ActivityPage extends AppCompatActivity {
 
 
                             } else {
-                                // L'activité n'existe pas dans la base de données
+
                             }
                         }
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
-                            // Gérez les erreurs de la récupération des données
+
                         }
                     });
 

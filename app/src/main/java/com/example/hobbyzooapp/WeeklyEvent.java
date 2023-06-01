@@ -2,6 +2,7 @@ package com.example.hobbyzooapp;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -25,12 +26,13 @@ public class WeeklyEvent extends AppCompatActivity {
     FirebaseDatabase database;
     String userId;
     int nextDayMondayUser, nextMonthMondayUser, nextYearMondayUser;
+    private final int SCREEN_TIMEOUT = 1000;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
+        setContentView(R.layout.activity_welcome);
         firebaseAuth = FirebaseAuth.getInstance();
         userId = Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid();
         database = FirebaseDatabase.getInstance();
@@ -63,8 +65,14 @@ public class WeeklyEvent extends AppCompatActivity {
                                 modificationActivity();
                             }
                         }
-                        startActivity(new Intent(WeeklyEvent.this, HomeActivity.class));
-                        finish();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                startActivity(new Intent(WeeklyEvent.this, HomeActivity.class));
+                                finish();
+                            }
+                        },SCREEN_TIMEOUT);
+
                     }
                 }
 

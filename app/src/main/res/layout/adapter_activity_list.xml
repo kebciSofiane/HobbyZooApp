@@ -13,7 +13,7 @@
         android:id="@+id/activity_icon"
         android:layout_width="131dp"
         android:layout_height="112dp"
-        android:src="@drawable/hobby_zoo_app" />
+        android:src="@drawable/hobby_zoo_splash" />
 
     <RelativeLayout
         android:layout_margin="10dp"

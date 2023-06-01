@@ -19,7 +19,7 @@
             android:id="@+id/session_icon"
             android:layout_width="105dp"
             android:layout_height="75dp"
-            android:src="@drawable/hobby_zoo_app" />
+            android:src="@drawable/hobby_zoo_splash" />
 
         <TextView
             android:id="@+id/session_name"

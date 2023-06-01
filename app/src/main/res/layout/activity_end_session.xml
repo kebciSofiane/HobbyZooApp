@@ -115,8 +115,8 @@
                 android:layout_gravity="end"
                 android:background="@color/transparent"
                 android:scaleType="fitCenter"
-                android:visibility="visible"
-                app:tint="@color/green_btn" />
+                app:tint="@color/green_btn"
+                android:visibility="visible"/>
 
             <ImageButton
                 android:id="@+id/skipButton"
@@ -129,8 +129,8 @@
                 android:background="@color/transparent"
                 android:scaleType="fitCenter"
                 android:layout_gravity="end"
-                android:visibility="visible"
-                app:tint="@color/brown_btn"/>
+                app:tint="@color/brown_btn"
+                android:visibility="visible"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -166,8 +166,8 @@
                     android:backgroundTint="@color/white"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_edit"
-                    android:visibility="gone"
-                    app:tint="@color/green_btn" />
+                    app:tint="@color/green_btn"
+                    android:visibility="gone"/>
 
             </RelativeLayout>
 
@@ -175,14 +175,28 @@
                 android:id="@+id/validateButton2"
                 android:layout_width="70dp"
                 android:layout_height="70dp"
-                android:layout_marginEnd="30dp"
+                android:layout_marginEnd="20dp"
                 android:layout_marginBottom="30dp"
                 android:src="@drawable/ic_circle_check_icon"
                 android:background="@color/transparent"
                 android:layout_gravity="end"
-                android:visibility="gone"
                 android:scaleType="fitCenter"
-                app:tint="@color/green"/>
+                app:tint="@color/green"
+                android:visibility="gone"/>
+
+            <ImageButton
+                android:id="@+id/cancelButton"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="30dp"
+                android:layout_marginTop="-20dp"
+                android:src="@drawable/ic_circle_red_cross_icon"
+                android:background="@color/transparent"
+                android:layout_gravity="end"
+                android:scaleType="fitCenter"
+                app:tint="@color/red"
+                android:visibility="gone"/>
 
         </LinearLayout>
 

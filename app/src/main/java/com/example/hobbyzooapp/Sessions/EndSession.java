@@ -64,7 +64,7 @@ public class EndSession extends AppCompatActivity {
     ImageView petPic, takenImage;
     TextView commentValidated,sessionCount;
     Button takeApic ;
-    ImageButton validateButton, validateButton2, skipButton,modifyCommentButton;
+    ImageButton validateButton, validateButton2, skipButton, modifyCommentButton, cancelButton;
     EditText commentField;
     private RelativeLayout windowsPet;
     private String photoPath = "";
@@ -102,6 +102,7 @@ public class EndSession extends AppCompatActivity {
         validateButton2 = findViewById(R.id.validateButton2);
         sessionCount = findViewById(R.id.sessionCount);
         modifyCommentButton = findViewById(R.id.ModifyCommentButton);
+        cancelButton = findViewById(R.id.cancelButton);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference activitiesRef = FirebaseDatabase.getInstance().getReference("Activity");
@@ -175,10 +176,11 @@ public class EndSession extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 commentField.setVisibility(View.VISIBLE);
+                validateButton.setVisibility(View.VISIBLE);
                 commentValidated.setVisibility(View.GONE);
                 validateButton2.setVisibility(View.GONE);
-                validateButton.setVisibility(View.VISIBLE);
                 modifyCommentButton.setVisibility(View.GONE);
+                cancelButton.setVisibility(View.GONE);
             }
         });
 
@@ -233,6 +235,46 @@ public class EndSession extends AppCompatActivity {
             }
         });
 
+
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LayoutInflater inflater = getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.custom_dialog_, null);
+
+                TextView dialogTitle = dialogView.findViewById(R.id.dialogTitle);
+                TextView dialogText = dialogView.findViewById(R.id.dialogText);
+                Button dialogButtonLeft = dialogView.findViewById(R.id.dialogButtonLeft);
+                Button dialogButtonRight = dialogView.findViewById(R.id.dialogButtonRight);
+
+                dialogTitle.setText("You're about to cancel your feedback");
+                //dialogText.setText("Do you want to continue ?");
+                dialogButtonLeft.setText("Edit");
+                dialogButtonLeft.setTextColor(Color.GREEN);
+                dialogButtonRight.setText("Cancel");
+                dialogButtonRight.setTextColor(Color.RED);
+
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(EndSession.this);
+                dialogBuilder.setView(dialogView);
+                AlertDialog dialog = dialogBuilder.create();
+                dialog.show();
+                dialogButtonLeft.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                dialogButtonRight.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        endSession();
+                        dialog.dismiss();
+                    }
+                });
+
+            }
+        });
+
         skipButton.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -251,6 +293,7 @@ public class EndSession extends AppCompatActivity {
                 takeApic.setVisibility(View.VISIBLE);
                 validateButton2.setVisibility(View.VISIBLE);
                 modifyCommentButton.setVisibility(View.VISIBLE);
+                cancelButton.setVisibility(View.VISIBLE);
 
             }
         });

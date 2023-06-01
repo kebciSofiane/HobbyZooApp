@@ -319,7 +319,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
         int startIndex;
-        if (endIndex==imageList.size())
+        if (endIndex==imageList.size() )
             startIndex = endIndex - mod;
         else startIndex =endIndex-batchSize;
 
@@ -330,9 +330,6 @@ public class HomeActivity extends AppCompatActivity {
         intElements = imageList.subList(startIndex, endIndex);
         currentIndex = startIndex;
 
-        if (startIndex == 0) {
-            currentIndex = imageList.size();
-        }
 
         return intElements;
     }
@@ -406,9 +403,7 @@ public class HomeActivity extends AppCompatActivity {
         currentIndex2 = startIndex;
 
 
-        if (startIndex == 0) {
-            currentIndex2 = activities_name_List.size();
-        }
+
 
         return intElements;
     }
@@ -482,9 +477,6 @@ public class HomeActivity extends AppCompatActivity {
         intElements = activities_id_List.subList(startIndex, endIndex);
         currentIndex3 = startIndex;
 
-        if (startIndex ==0) {
-            currentIndex3 = activities_id_List.size();
-        }
 
         previousNumberOfAnimals=intElements.size();
         rightButtonClicked=false;

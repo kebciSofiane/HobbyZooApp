@@ -52,11 +52,17 @@ public class HomeActivity extends AppCompatActivity {
     private int currentIndex2=0;
     private int currentIndex3=0;
 
-    boolean showNextPreviousButtons=false;
+    private int countText=0;
+
+    private int previousNumberOfAnimals=0;
+
+    private  int numberOfPages;
+
+    boolean rightButtonClicked=true;
 
     ImageButton calendarBtn, runBtn, profileBtn, panelHobbyZoo;
     ImageView imageView1, imageView2, imageView3, imageView4, imageView5;
-    TextView textView1, textView2, textView3, textView4, textView5;
+    TextView textView1, textView2, textView3, textView4, textView5, count;
     LinearLayout linearLayout1, linearLayout2, linearLayout3, linearLayout4, linearLayout5;
 
     ArrayList<Integer> imageList = new ArrayList<>();
@@ -187,6 +193,7 @@ public class HomeActivity extends AppCompatActivity {
         textView3 = findViewById(R.id.homePageAnimalText3);
         textView4 = findViewById(R.id.homePageAnimalText4);
         textView5 = findViewById(R.id.homePageAnimalText5);
+        count= findViewById(R.id.countPages);
 
         linearLayout1 = findViewById(R.id.linearLayoutHomePageAnimal1);
         linearLayout2 = findViewById(R.id.linearLayoutHomePageAnimal2);
@@ -197,6 +204,9 @@ public class HomeActivity extends AppCompatActivity {
         calendarBtn = findViewById(R.id.calendar_btn);
         runBtn = findViewById(R.id.run_btn);
         profileBtn = findViewById(R.id.profile_btn);
+
+
+        count.setText(String.valueOf(countText));
     }
 
 
@@ -238,18 +248,44 @@ public class HomeActivity extends AppCompatActivity {
     public List<Integer> showNextActivities(int batchSize) {
         List<Integer> intElements ;
 
-        int startIndex = currentIndex;
+
+
+        if (!rightButtonClicked){
+            currentIndex += previousNumberOfAnimals;
+        }
+
+        if (currentIndex > imageList.size()) {
+            currentIndex = imageList.size();
+        }
+
+        if (countText >= numberOfPages)
+            countText=1;
+        else countText++;
+
+        count.setText(String.valueOf(countText));
+
+        int startIndex;
+        if (currentIndex == imageList.size())
+            startIndex = 0;
+        else
+            startIndex = currentIndex;
+
         int endIndex = startIndex + batchSize;
+
+
+
+
 
 
         if (endIndex > imageList.size()) {
             endIndex = imageList.size();
         }
+
         currentIndex = endIndex;
 
         intElements = imageList.subList(startIndex, endIndex);
 
-        if (endIndex == imageList.size()) {
+        if (endIndex > imageList.size()) {
             currentIndex = 0;
         }
 
@@ -258,9 +294,35 @@ public class HomeActivity extends AppCompatActivity {
 
     public List<Integer> showPreviousActivities(int batchSize) {
         List<Integer> intElements ;
+        int mod = imageList.size() % batchSize;
 
-        int endIndex = currentIndex;
-        int startIndex = endIndex - batchSize;
+        if (rightButtonClicked){
+            currentIndex -= previousNumberOfAnimals;
+        }
+
+        if (currentIndex < 0) {
+            currentIndex = 0;
+        }
+
+
+        if (countText <= 1)
+            countText=numberOfPages;
+        else countText--;
+        count.setText(String.valueOf(countText));
+
+
+        int endIndex;
+        if (currentIndex== 0)
+            endIndex = imageList.size();
+        else
+            endIndex = currentIndex;
+
+
+        int startIndex;
+        if (endIndex==imageList.size())
+            startIndex = endIndex - mod;
+        else startIndex =endIndex-batchSize;
+
 
         if (startIndex < 0) {
             startIndex = 0;
@@ -280,7 +342,21 @@ public class HomeActivity extends AppCompatActivity {
     public List<String> showNextActivityNames(int batchSize) {
         List<String> intElements ;
 
-        int startIndex = currentIndex2;
+        int startIndex ;
+
+        if (!rightButtonClicked){
+            currentIndex2 += previousNumberOfAnimals;
+        }
+
+        if (currentIndex2 > activities_name_List.size()) {
+            currentIndex2 = activities_name_List.size();
+        }
+
+        if (currentIndex2 == activities_name_List.size())
+            startIndex = 0;
+        else
+            startIndex = currentIndex2;
+
         int endIndex = startIndex + batchSize;
 
             if (endIndex > activities_name_List.size()) {
@@ -290,7 +366,7 @@ public class HomeActivity extends AppCompatActivity {
 
 
         intElements = activities_name_List.subList(startIndex, endIndex);
-        if (endIndex == activities_name_List.size()) {
+        if (endIndex > activities_name_List.size()) {
             currentIndex2 = 0;
         }
         return intElements;
@@ -298,9 +374,29 @@ public class HomeActivity extends AppCompatActivity {
 
     public List<String> showPreviousActivityNames(int batchSize) {
         List<String> intElements = new ArrayList<>();
+        int mod = activities_name_List.size() % batchSize;
 
-        int endIndex = currentIndex2;
-        int startIndex = endIndex - batchSize;
+        int endIndex ;
+        if (rightButtonClicked){
+            currentIndex2 -= previousNumberOfAnimals;
+        }
+
+        if (currentIndex2 < 0) {
+            currentIndex2 = 0;
+        }
+
+
+        if (currentIndex2== 0)
+            endIndex = activities_name_List.size();
+        else
+            endIndex = currentIndex2;
+
+        int startIndex;
+        if (endIndex==activities_name_List.size())
+            startIndex = endIndex - mod;
+        else startIndex =endIndex-batchSize;
+
+
 
         if (startIndex < 0) {
             startIndex = 0;
@@ -320,7 +416,22 @@ public class HomeActivity extends AppCompatActivity {
     public List<String> showNextActivityId(int batchSize) {
         List<String> intElements = new ArrayList<>();
 
-        int startIndex = currentIndex3;
+        int startIndex ;
+
+        if (!rightButtonClicked){
+            currentIndex3 += previousNumberOfAnimals;
+        }
+
+        if (currentIndex3 > activities_id_List.size()) {
+            currentIndex3 = activities_id_List.size();
+        }
+
+
+        if (currentIndex3 == activities_id_List.size())
+            startIndex = 0;
+        else
+            startIndex = currentIndex3;
+
         int endIndex = startIndex + batchSize;
 
         if (endIndex > activities_id_List.size()) {
@@ -330,17 +441,39 @@ public class HomeActivity extends AppCompatActivity {
 
 
         intElements = activities_id_List.subList(startIndex, endIndex);
-        if (endIndex == activities_id_List.size()) {
+        if (endIndex > activities_id_List.size()) {
             currentIndex3 = 0;
         }
+        previousNumberOfAnimals=intElements.size();
+        rightButtonClicked=true;
+        System.out.println("Current index:"+currentIndex);
+        System.out.println("animals index:"+previousNumberOfAnimals);
         return intElements;
     }
 
     public List<String> showPreviousActivityId(int batchSize) {
         List<String> intElements = new ArrayList<>();
+        int mod = activities_id_List.size() % batchSize;
 
-        int endIndex = currentIndex3;
-        int startIndex = endIndex - batchSize;
+        int endIndex;
+        if (rightButtonClicked){
+            currentIndex3 -= previousNumberOfAnimals;
+        }
+
+        if (currentIndex3 < 0) {
+            currentIndex3 = 0;
+        }
+
+
+        if (currentIndex3== 0)
+            endIndex = activities_id_List.size();
+        else
+            endIndex = currentIndex3;
+
+        int startIndex;
+        if (endIndex==imageList.size())
+            startIndex = endIndex - mod;
+        else startIndex =endIndex-batchSize;
 
         if (startIndex < 0) {
             startIndex = 0;
@@ -353,7 +486,10 @@ public class HomeActivity extends AppCompatActivity {
             currentIndex3 = activities_id_List.size();
         }
 
-
+        previousNumberOfAnimals=intElements.size();
+        rightButtonClicked=false;
+        System.out.println("Current index:"+currentIndex);
+        System.out.println("animals index:"+previousNumberOfAnimals);
         return intElements;
     }
 
@@ -386,8 +522,16 @@ public class HomeActivity extends AppCompatActivity {
                     activities_name_List.add(activity_name);
                     activities_id_List.add(activity_id);
 
+
+
+
                 }
+                numberOfPages = imageList.size()/5;
+                if (imageList.size() % 5 !=0)
+                    numberOfPages++;
                 toRight=true;
+                if (imageList.size()>=5) previousNumberOfAnimals =5 ;
+                else previousNumberOfAnimals=imageList.size();
                 showAnimals();
 
             }

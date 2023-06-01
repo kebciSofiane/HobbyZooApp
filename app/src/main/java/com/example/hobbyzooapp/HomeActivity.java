@@ -63,7 +63,7 @@ public class HomeActivity extends AppCompatActivity {
     ImageButton calendarBtn, runBtn, profileBtn, panelHobbyZoo;
     ImageView imageView1, imageView2, imageView3, imageView4, imageView5;
     TextView textView1, textView2, textView3, textView4, textView5, count;
-    LinearLayout linearLayout1, linearLayout2, linearLayout3, linearLayout4, linearLayout5;
+    LinearLayout linearLayout1, linearLayout2, linearLayout3, linearLayout4, linearLayout5,footer;
 
     ArrayList<Integer> imageList = new ArrayList<>();
     ArrayList<String> activities_name_List = new ArrayList<>();
@@ -200,6 +200,7 @@ public class HomeActivity extends AppCompatActivity {
         linearLayout3 = findViewById(R.id.linearLayoutHomePageAnimal3);
         linearLayout4 = findViewById(R.id.linearLayoutHomePageAnimal4);
         linearLayout5 = findViewById(R.id.linearLayoutHomePageAnimal5);
+        footer=findViewById(R.id.footer);
         panelHobbyZoo = findViewById(R.id.panel_hobby_zoo);
         calendarBtn = findViewById(R.id.calendar_btn);
         runBtn = findViewById(R.id.run_btn);
@@ -660,14 +661,22 @@ public class HomeActivity extends AppCompatActivity {
             image5Y = cellList.get(val)[1];
             cellList.remove(val);
 
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        params.topMargin = cellHeight*4- cellHeight/4;
+
+
+        footer.setLayoutParams(params);
+
 
             RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams(
                     RelativeLayout.LayoutParams.WRAP_CONTENT,
                     RelativeLayout.LayoutParams.WRAP_CONTENT);
             params1.leftMargin = image1X;
-
-
             params1.topMargin = image1Y;
+
+
             linearLayout1.setLayoutParams(params1);
 
             RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(

@@ -1,14 +1,18 @@
 package com.example.hobbyzooapp.Sessions;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+
+import androidx.core.content.ContextCompat;
 
 import com.example.hobbyzooapp.OnItemClickListener;
 import com.example.hobbyzooapp.R;
@@ -73,7 +77,7 @@ public class MyDailySessionsAdapter extends BaseAdapter{
 
         Session currentSession = getItem(i);
         String sessionName = currentSession.getActivityName().replace(",", " ");
-        String sessionTime = currentSession.getTime().toString(); //todo enlever les secondes ?
+        String sessionTime = currentSession.getTime().toString();
 
         TextView sessionNameView = view.findViewById(R.id.session_name);
         sessionNameView.setText(sessionName);
@@ -88,6 +92,10 @@ public class MyDailySessionsAdapter extends BaseAdapter{
         sessionPetIcon.setImageResource(resId);
 
         String sessionDone = currentSession.getDone();
+        LinearLayout sessionSquare = view.findViewById(R.id.itemSessionList);
+        Drawable drawable = ContextCompat.getDrawable(context, R.drawable.session_border_grey);
+        if (sessionDone.equals("TRUE")) sessionSquare.setBackground(drawable);
+
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

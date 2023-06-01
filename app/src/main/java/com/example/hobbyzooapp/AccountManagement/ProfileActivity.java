@@ -98,10 +98,6 @@ public class ProfileActivity extends AppCompatActivity {
                             Glide.with(ProfileActivity.this)
                                     .load(image)
                                     .into(profileImageView);
-                        } else {
-                            Glide.with(ProfileActivity.this)
-                                    .load(R.drawable.ic_profile)
-                                    .into(profileImageView);
                         }
                     }
                 }

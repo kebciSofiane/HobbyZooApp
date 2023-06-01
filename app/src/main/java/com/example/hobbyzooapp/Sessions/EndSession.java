@@ -20,14 +20,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.InputFilter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -200,7 +198,7 @@ public class EndSession extends AppCompatActivity {
                     endSession();
                 } else if (commentValidated.getText().equals("") && photoPath.equals("")){
                     LayoutInflater inflater = getLayoutInflater();
-                    View dialogView = inflater.inflate(R.layout.custom_dialog_run_session, null);
+                    View dialogView = inflater.inflate(R.layout.custom_dialog_, null);
 
                     TextView dialogTitle = dialogView.findViewById(R.id.dialogTitle);
                     TextView dialogText = dialogView.findViewById(R.id.dialogText);

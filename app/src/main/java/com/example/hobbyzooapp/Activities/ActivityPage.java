@@ -329,7 +329,6 @@ public class ActivityPage extends AppCompatActivity {
                                 }
                                 startActivity(new Intent(ActivityPage.this, HomeActivity.class));
                                 dialog.dismiss();
-
                             }
 
                             @Override

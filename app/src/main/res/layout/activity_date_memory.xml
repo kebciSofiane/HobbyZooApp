@@ -90,7 +90,7 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/shape_black_border"
+                android:background="@drawable/shape_border_black"
                 android:gravity="center"
                 android:minHeight="60sp"
                 android:paddingStart="10dp"

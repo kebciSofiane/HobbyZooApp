@@ -1,7 +1,6 @@
 package com.example.hobbyzooapp.Sessions;
 
 import android.annotation.SuppressLint;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
@@ -15,17 +14,13 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.hobbyzooapp.Activities.ActivitiesCallBack;
-import com.example.hobbyzooapp.Activities.Activity;
-import com.example.hobbyzooapp.Activities.ExpandableListAdapter;
-import com.example.hobbyzooapp.Activities.MyActivities;
 import com.example.hobbyzooapp.Calendar.CalendarActivity;
 import com.example.hobbyzooapp.Calendar.CalendarUtils;
-import com.example.hobbyzooapp.Category.Category;
 import com.example.hobbyzooapp.HomeActivity;
 import com.example.hobbyzooapp.R;
 import com.example.hobbyzooapp.OnItemClickListener;
@@ -40,15 +35,19 @@ import com.google.firebase.database.ValueEventListener;
 import java.sql.Time;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class MyDailySessions extends AppCompatActivity {
 
     private ImageButton homeButton, addSessionButton, calendarButton;
+    private Button editButton, validateButton;
     private View sessionButton;
     FirebaseAuth firebaseAuth;
     LocalDate localDate = CalendarUtils.selectedDate;
     MyDailySessionsAdapter adapter;
+    Boolean isDeleteMode = Boolean.FALSE;
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference referenceSession = database.getReference("Session");
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -84,6 +83,34 @@ public class MyDailySessions extends AppCompatActivity {
             }
         });
 
+        editButton = findViewById(R.id.dailySessionPageEditButton);
+        validateButton = findViewById(R.id.dailySessionPageValidateButton);
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editButton.setVisibility(View.GONE);
+                validateButton.setVisibility(View.VISIBLE);
+                homeButton.setVisibility(View.GONE);
+                addSessionButton.setVisibility(View.GONE);
+                calendarButton.setVisibility(View.GONE);
+                isDeleteMode = Boolean.TRUE;
+                adapter.setIsDeleteMode(isDeleteMode);
+            }
+        });
+
+        validateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editButton.setVisibility(View.VISIBLE);
+                validateButton.setVisibility(View.GONE);
+                homeButton.setVisibility(View.VISIBLE);
+                addSessionButton.setVisibility(View.VISIBLE);
+                calendarButton.setVisibility(View.VISIBLE);
+                isDeleteMode = Boolean.FALSE;
+                adapter.setIsDeleteMode(isDeleteMode);
+            }
+        });
+
        // sessionButton = findViewById(R.id.itemSessionList);
 
         GridView sessionListView = findViewById(R.id.session_list_view);
@@ -92,11 +119,10 @@ public class MyDailySessions extends AppCompatActivity {
         SessionsCallback callback = new SessionsCallback() {
             @Override
             public void onSessionsLoaded(ArrayList<Session> mySessions) {
-                adapter = new MyDailySessionsAdapter(MyDailySessions.this, mySessions, localDate);
+                adapter = new MyDailySessionsAdapter(MyDailySessions.this, mySessions, localDate, Boolean.FALSE);
                 adapter.setOnItemClickListener(new OnItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
-
                         LayoutInflater inflater = getLayoutInflater();
                         View dialogView = inflater.inflate(R.layout.custom_dialog_, null);
 
@@ -106,11 +132,19 @@ public class MyDailySessions extends AppCompatActivity {
                         Button dialogButtonNo = dialogView.findViewById(R.id.dialogButtonRight);
 
                         dialogTitle.setText(adapter.getItem(position).getActivityName() + " - " + adapter.getItem(position).getTime());
-                        dialogText.setText("Do you want to start ?");
-                        dialogButtonYes.setText("Yes");
-                        dialogButtonYes.setTextColor(Color.GREEN);
-                        dialogButtonNo.setText("No");
-                        dialogButtonNo.setTextColor(Color.RED);
+                        if (isDeleteMode.equals(Boolean.TRUE)){
+                            dialogText.setText("Do you really want to delete ?");
+                            dialogButtonYes.setText("Yes");
+                            dialogButtonYes.setTextColor(Color.RED);
+                            dialogButtonNo.setText("No");
+                            dialogButtonNo.setTextColor(Color.GREEN);
+                        } else {
+                            dialogText.setText("Do you want to start ?");
+                            dialogButtonYes.setText("Yes");
+                            dialogButtonYes.setTextColor(Color.GREEN);
+                            dialogButtonNo.setText("No");
+                            dialogButtonNo.setTextColor(Color.RED);
+                        }
 
                         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MyDailySessions.this);
                         dialogBuilder.setView(dialogView);
@@ -119,10 +153,25 @@ public class MyDailySessions extends AppCompatActivity {
                         dialogButtonYes.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                Intent intent = new Intent(MyDailySessions.this, RunSession.class);
-                                intent.putExtra("activity_id", adapter.getItem(position).getActivityId());
-                                intent.putExtra("session_id", adapter.getItem(position).getSessionId());
-                                startActivity(intent);
+                                if (isDeleteMode.equals(Boolean.TRUE)){
+                                    DatabaseReference databaseReferenceSession = database.getReference("Session");
+                                    databaseReferenceSession.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                            String sessionId = adapter.getItem(position).getSessionId();
+                                            referenceSession.child(sessionId).removeValue();
+                                            refresh();
+                                        }
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError error) {
+                                        }
+                                    });
+                                } else {
+                                    Intent intent = new Intent(MyDailySessions.this, RunSession.class);
+                                    intent.putExtra("activity_id", adapter.getItem(position).getActivityId());
+                                    intent.putExtra("session_id", adapter.getItem(position).getSessionId());
+                                    startActivity(intent);
+                                }
                                 dialog.dismiss();
                             }
                         });
@@ -132,11 +181,6 @@ public class MyDailySessions extends AppCompatActivity {
                                 dialog.dismiss();
                             }
                         });
-
-
-
-
-
                     }
                 });
                 sessionListView.setAdapter(adapter);
@@ -155,7 +199,6 @@ public class MyDailySessions extends AppCompatActivity {
     public void openMainActivity() {
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
-
     }
 
     public void openCalendar() {
@@ -163,16 +206,20 @@ public class MyDailySessions extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void refresh() {
+        Intent intent = new Intent(MyDailySessions.this, MyDailySessions.class);
+        startActivity(intent);
+        finish();
+    }
+
     public void openRunSession() {}
 
- private ArrayList<Session> getSessions(SessionsCallback callback) {
-     FirebaseDatabase database = FirebaseDatabase.getInstance();
-     DatabaseReference reference = database.getReference("Session");
-     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-     FirebaseUser user = firebaseAuth.getCurrentUser();
-     String uid = user.getUid();
-     ArrayList<Session> mySessions = new ArrayList<>();
-     reference.orderByChild("user_id").equalTo(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+     private ArrayList<Session> getSessions(SessionsCallback callback) {
+         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+         FirebaseUser user = firebaseAuth.getCurrentUser();
+         String uid = user.getUid();
+         ArrayList<Session> mySessions = new ArrayList<>();
+         referenceSession.orderByChild("user_id").equalTo(uid).addListenerForSingleValueEvent(new ValueEventListener() {
 
          @Override
          public void onDataChange(DataSnapshot dataSnapshot) {

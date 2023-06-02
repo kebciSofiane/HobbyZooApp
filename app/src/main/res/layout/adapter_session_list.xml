@@ -11,7 +11,7 @@
         android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:background="@drawable/shape_black_border"
+        android:background="@drawable/shape_border_black"
         android:orientation="vertical"
         android:padding="15dp">
 

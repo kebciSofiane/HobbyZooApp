@@ -1,6 +1,7 @@
 package com.example.hobbyzooapp.Sessions;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.LayoutInflater;
@@ -14,8 +15,11 @@ import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
+import com.example.hobbyzooapp.Calendar.CalendarActivity;
 import com.example.hobbyzooapp.OnItemClickListener;
 import com.example.hobbyzooapp.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -29,10 +33,12 @@ public class MyDailySessionsAdapter extends BaseAdapter{
     private LayoutInflater inflater;
     private int day, month, year;
     private OnItemClickListener mListener;
+    private Boolean isDeleteMode;
 
-    public MyDailySessionsAdapter(Context context, List<Session> sessionList, LocalDate localDate){
+    public MyDailySessionsAdapter(Context context, List<Session> sessionList, LocalDate localDate, boolean isDeleteMode){
         this.context = context;
         this.sessionList = sessionList;
+        this.isDeleteMode = isDeleteMode;
 
         this.inflater = LayoutInflater.from(context);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -93,8 +99,10 @@ public class MyDailySessionsAdapter extends BaseAdapter{
 
         String sessionDone = currentSession.getDone();
         LinearLayout sessionSquare = view.findViewById(R.id.itemSessionList);
-        Drawable drawable = ContextCompat.getDrawable(context, R.drawable.shape_border_gray);
-        if (sessionDone.equals("TRUE")) sessionSquare.setBackground(drawable);
+        Drawable drawableDone = ContextCompat.getDrawable(context, R.drawable.shape_border_gray);
+        Drawable drawableDelete = ContextCompat.getDrawable(context, R.drawable.shape_border_red);
+        if (sessionDone.equals("TRUE")) sessionSquare.setBackground(drawableDone);
+        else if (isDeleteMode.equals(Boolean.TRUE)) sessionSquare.setBackground(drawableDelete);
 
         view.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,5 +114,10 @@ public class MyDailySessionsAdapter extends BaseAdapter{
         });
 
         return view;
+    }
+
+    public void setIsDeleteMode(Boolean deleteMode) {
+        isDeleteMode = deleteMode;
+
     }
 }

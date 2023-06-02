@@ -46,7 +46,18 @@
             android:layout_alignParentBottom="true"
             android:layout_marginEnd="12dp"
             android:layout_marginBottom="9dp"
-            android:background="@drawable/ic_edit" />
+            android:background="@drawable/ic_edit"/>
+
+        <Button
+            android:id="@+id/dailySessionPageValidateButton"
+            android:layout_width="33dp"
+            android:layout_height="30sp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="12dp"
+            android:layout_marginBottom="9dp"
+            android:background="@drawable/ic_check"
+            android:visibility="gone"/>
 
 
     </RelativeLayout>

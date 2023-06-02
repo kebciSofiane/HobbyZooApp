@@ -128,9 +128,7 @@ public class NewSession extends AppCompatActivity {
                     }
                 }
             }
-
         });
-
     }
 
     private void initialisation(){
@@ -201,4 +199,3 @@ public class NewSession extends AppCompatActivity {
         return activities;
     }
 }
-

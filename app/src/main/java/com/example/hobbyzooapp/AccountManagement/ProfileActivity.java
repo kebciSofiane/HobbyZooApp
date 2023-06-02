@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.hobbyzooapp.Activities.MyActivities;
+import com.example.hobbyzooapp.CalendarEvolution.MyEvolutionActivity;
 import com.example.hobbyzooapp.HomeActivity;
 import com.example.hobbyzooapp.R;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -135,6 +136,12 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ProfileActivity.this, AccountActivity.class));
+            }
+        });
+        followMyProgressButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileActivity.this, MyEvolutionActivity.class));
             }
         });
 

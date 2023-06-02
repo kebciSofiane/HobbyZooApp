@@ -26,7 +26,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.hobbyzooapp.ProfileActivity;
+import com.example.hobbyzooapp.AccountManagement.ProfileActivity;
 import com.example.hobbyzooapp.Calendar.CalendarUtils;
 import com.example.hobbyzooapp.R;
 import com.google.firebase.auth.FirebaseAuth;

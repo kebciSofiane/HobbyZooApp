@@ -154,6 +154,8 @@ public class NewActivity extends AppCompatActivity {
                 else if(!matcherAnimalName.matches() || !matcherActivityName.matches()){
                     Toast.makeText(getApplicationContext(),"Name fields can't have special characters!",Toast.LENGTH_LONG).show();
                 }
+                else if(activity_name.length() > 15 || animalName.length() > 15)
+                    Toast.makeText(getApplicationContext(),"Name fields can't have more then 15 characters!",Toast.LENGTH_LONG).show();
                 else {
                     List<String> activities = new ArrayList<>();
 

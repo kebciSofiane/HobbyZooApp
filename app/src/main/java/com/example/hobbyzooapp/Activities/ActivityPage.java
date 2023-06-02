@@ -261,10 +261,10 @@ public class ActivityPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 LayoutInflater inflater = getLayoutInflater();
-                View dialogView = inflater.inflate(R.layout.custom_dialog_run_session, null);
+                View dialogView = inflater.inflate(R.layout.custom_dialog_, null);
                 TextView dialogTitle = dialogView.findViewById(R.id.dialogTitle);
-                Button dialogButtonYes = dialogView.findViewById(R.id.dialogButtonAddTime);
-                Button dialogButtonNo = dialogView.findViewById(R.id.dialogButtonFinish);
+                Button dialogButtonYes = dialogView.findViewById(R.id.dialogButtonLeft);
+                Button dialogButtonNo = dialogView.findViewById(R.id.dialogButtonRight);
                 dialogTitle.setText("Are you sure you want to delete it?");
                 dialogButtonYes.setText("Yes");
                 dialogButtonNo.setText("No");
@@ -317,9 +317,7 @@ public class ActivityPage extends AppCompatActivity {
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                                     String categoryId = dataSnapshot.child("category_id").getValue(String.class);
-                                    System.out.println(category_id + "           :        " + categoryId);
                                     if(categoryId.equals(category_id))
-                                        System.out.println("BOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOM!!!!");
                                         countActivities++;
                                 }
                                 referenceActivity.child(activityId).removeValue();

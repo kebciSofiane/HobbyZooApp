@@ -113,7 +113,8 @@ public class NewCategory extends AppCompatActivity {
                 else if(!matcherCategoryName.matches()){
                     Toast.makeText(getApplicationContext(),"Name fields can't have special characters!",Toast.LENGTH_LONG).show();
                 }
-
+                else if(name.length() > 15)
+                    Toast.makeText(getApplicationContext(),"Name fields can't have more then 15 characters!",Toast.LENGTH_LONG).show();
                 else {
                     List<String> categories = new ArrayList<>();
                     DatabaseReference databaseReferenceChild = FirebaseDatabase.getInstance().getReference().child("Category");

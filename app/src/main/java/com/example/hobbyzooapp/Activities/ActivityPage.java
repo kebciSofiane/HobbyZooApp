@@ -68,8 +68,6 @@ public class ActivityPage extends AppCompatActivity {
     DatabaseReference referenceActivity;
     int countActivities = 0;
 
-
-
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +90,6 @@ public class ActivityPage extends AppCompatActivity {
             }
         });
 
-
         getLastSessionPicCom(activity_id, new OnSessionListRetrievedListener2() {
             @Override
             public void onSessionListRetrieved(ArrayList<String> sessionPicCom) {
@@ -111,8 +108,6 @@ public class ActivityPage extends AppCompatActivity {
             }
         });
 
-
-
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
         database = FirebaseDatabase.getInstance();
@@ -121,7 +116,6 @@ public class ActivityPage extends AppCompatActivity {
 
         HashMap<String, String> tasks = new HashMap<>();
         TodoAdapter adapterTodoList = new TodoAdapter(todoList);
-
 
         recyclerViewTodoList.setAdapter(adapterTodoList);
 
@@ -346,7 +340,6 @@ public class ActivityPage extends AppCompatActivity {
                             public void onCancelled(@NonNull DatabaseError error) {
                             }
                         });
-
                     }
                 });
 
@@ -356,8 +349,6 @@ public class ActivityPage extends AppCompatActivity {
                         dialog.dismiss();
                     }
                 });
-
-
             }
         });
 
@@ -371,7 +362,6 @@ public class ActivityPage extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
                 showLessButton.setVisibility(View.VISIBLE);
                 showMoreButton.setVisibility(View.GONE);
-
             }
         });
 
@@ -409,7 +399,6 @@ public class ActivityPage extends AppCompatActivity {
                 addSessionButton.setVisibility(View.VISIBLE);
                 homeButton.setVisibility(View.VISIBLE);
 
-
                 DatabaseReference activitiesRef = FirebaseDatabase.getInstance().getReference("Activity");
                 DatabaseReference activityRef = activitiesRef.child(activity_id);
                 activityRef.child("activity_pet_name").setValue(newPetName, new DatabaseReference.CompletionListener() {
@@ -435,7 +424,6 @@ public class ActivityPage extends AppCompatActivity {
                 });
             }
         });
-
     }
 
     public void getActivityData(String activity_id){
@@ -469,13 +457,11 @@ public class ActivityPage extends AppCompatActivity {
                     int weeklyHours = Integer.parseInt(weeklyGoal) / 60;
                     int weeklyMinutes = Integer.parseInt(weeklyGoal) % 60;
 
-
                     int weeklySpentHours = Integer.parseInt(spentTime) / 60;
                     int weeklySpentMinutes = Integer.parseInt(spentTime) % 60;
                     goalsText.setText(new Time(weeklySpentHours,weeklySpentMinutes,0)+
                             "/"+
                             new Time(weeklyHours,weeklyMinutes,0));
-
 
                     DatabaseReference referenceCategory = database.getReference("Category");
 
@@ -492,7 +478,6 @@ public class ActivityPage extends AppCompatActivity {
                                     color = Color.parseColor("#FFFFFF");
                                 }
                                 header.setBackgroundColor(color);
-
 
                             } else {
                                 // L'activité n'existe pas dans la base de données
@@ -550,8 +535,6 @@ public class ActivityPage extends AppCompatActivity {
         DatabaseReference activityReference = database.getReference("Activity");
 
         ArrayList<Session> mySessions = new ArrayList<>();
-
-
 
         activityReference.child(activity_id).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -642,7 +625,6 @@ public class ActivityPage extends AppCompatActivity {
         return  lastSessionData;
     }
 
-
     private void updateDBTasks(String statue, String taskName){
         DatabaseReference tasksRef = FirebaseDatabase.getInstance().getReference("Tasks");
         DatabaseReference taskRef = tasksRef.child(taskName);
@@ -659,6 +641,7 @@ public class ActivityPage extends AppCompatActivity {
         });
 
     }
+
     private GridLayoutManager  changeManagerToDoList() {
         GridLayoutManager layoutManager;
         if (todoList.size()<=5 && todoList.size()>0 )
@@ -677,7 +660,7 @@ public class ActivityPage extends AppCompatActivity {
              else
                 layoutManager = new GridLayoutManager(this, 5, GridLayoutManager.HORIZONTAL, false);
         else
-         if (mySessions.size()<=5 && mySessions.size()>0)
+         if (mySessions.size()<=3 && mySessions.size()>0)
              layoutManager = new GridLayoutManager(this, mySessions.size(), GridLayoutManager.HORIZONTAL, false);
         else if (mySessions.size()==0)
              layoutManager = new GridLayoutManager(this, 1, GridLayoutManager.HORIZONTAL, false);
@@ -691,5 +674,4 @@ public class ActivityPage extends AppCompatActivity {
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
-
 }

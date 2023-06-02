@@ -50,7 +50,7 @@ public class DateMemory extends AppCompatActivity {
     String activity_name;
     TextView memoryComment;
     ImageButton backButton;
-    Button share, rightArrow, leftArrow, download;
+    Button  rightArrow, leftArrow, download;
     int memoriesIndex =0;
     ArrayList<String> myMemoriesPictures;
     ArrayList<String> myMemoriesComments;
@@ -77,7 +77,6 @@ public class DateMemory extends AppCompatActivity {
 
         dateView = findViewById(R.id.memoryDate);
         memoryImage = findViewById(R.id.memoryImage);
-        share = findViewById(R.id.shareButton);
         leftArrow = findViewById(R.id.scrollMemoriesLeft);
         rightArrow = findViewById(R.id.scrollMemoriesRight);
         download = findViewById(R.id.downloadButton);
@@ -98,31 +97,10 @@ public class DateMemory extends AppCompatActivity {
             }
         });
 
-        share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                partagerSurTwitter();
-            }
-        });
+
 
     }
 
-    private void partagerSurTwitter() {
-        String cheminImage = "/path/to/your/image.jpg";
-        Uri imageUri = Uri.parse(cheminImage);
-
-        Intent partagerIntent = new Intent(Intent.ACTION_SEND);
-        partagerIntent.setType("image/*");
-        partagerIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
-        partagerIntent.setPackage("com.twitter.android"); // L'identifiant du package de l'application Twitter
-
-        PackageManager packageManager = getPackageManager();
-        if (packageManager.resolveActivity(partagerIntent, 0) != null) {
-            startActivity(partagerIntent);
-        } else {
-            Toast.makeText(this, "L'application Twitter n'est pas installée.", Toast.LENGTH_SHORT).show();
-        }
-    }
 
     private void savePhotoToGallery() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)

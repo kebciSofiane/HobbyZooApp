@@ -112,15 +112,7 @@
 
         </RelativeLayout>
 
-        <Button
-            android:id="@+id/shareButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/share"
-            android:layout_below="@id/linearLayoutMemories"
-            android:layout_centerHorizontal="true">
 
-        </Button>
 
 
 

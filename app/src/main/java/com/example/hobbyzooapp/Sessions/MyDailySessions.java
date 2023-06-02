@@ -264,14 +264,10 @@ public class MyDailySessions extends AppCompatActivity {
                                                  session_done)
                                          );
                              callback.onSessionsLoaded(mySessions);
-                         } else {
-                             // L'activité n'existe pas dans la base de données
-                         }
+                         } else {}
                      }
                      @Override
-                     public void onCancelled(DatabaseError databaseError) {
-                         // Une erreur s'est produite lors de la récupération des données
-                     }
+                     public void onCancelled(DatabaseError databaseError) {}
                  });
              }
          }

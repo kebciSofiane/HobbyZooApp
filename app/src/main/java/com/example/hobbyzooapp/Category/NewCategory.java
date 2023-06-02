@@ -84,6 +84,11 @@ public class NewCategory extends AppCompatActivity {
                         displayColors.setBackgroundColor(Color.rgb(red, green, blue));
                         colorRGB = Color.rgb(red, green, blue);
                         colorHex = "#" + Integer.toHexString(red) + Integer.toHexString(green) + Integer.toHexString(blue);
+                        try {
+                            int color = Color.parseColor(colorHex);
+                        } catch (IllegalArgumentException e) {
+                            colorHex = "#FFFFFF";
+                        }
                     }
                 }
 

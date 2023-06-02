@@ -31,6 +31,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -50,54 +51,65 @@ public class NewSession extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_session);
         initialisation();
-        List<String> activities = setActivities();
-        activities.add("");
+        Intent previousActivity = getIntent();
+        List<String> activities;
+        if(previousActivity.hasExtra("activity_name")){
+            activities = new ArrayList<>(List.of(previousActivity.getStringExtra("activity_name")));
 
+        }
+        else{
+            activities = setActivities();
+            activities.add("");
+        }
         ArrayAdapter adapter = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_list_item_1, activities);
         activitySelector.setAdapter(adapter);
-        activitySelector.setOnItemSelectedListener(
-                new AdapterView.OnItemSelectedListener() {
-                    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+        if(previousActivity.hasExtra("activity_name")){
+            activitySelector.setSelection(0);
+        }
+        else{
+            activitySelector.setOnItemSelectedListener(
+                    new AdapterView.OnItemSelectedListener() {
+                        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
 
-                        Object item = parent.getItemAtPosition(pos);
-                        if(parent.getItemAtPosition(pos) == "New Activity"){
-                            Intent intent = new Intent().setClass(getApplicationContext(), NewActivity.class);
-                            intent.putExtra("origin", 1);
-                            startActivity(intent);
-                            finish();
-                        }
-                        final String[] activity_id_select = new String[1];
-                        String user_id = user.getUid();
-                        DatabaseReference databaseReferenceChild = FirebaseDatabase.getInstance().getReference().child("Activity");
-                        String activity_name_selected = (String) activitySelector.getSelectedItem();
-                        databaseReferenceChild.orderByChild("user_id").equalTo(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
+                            Object item = parent.getItemAtPosition(pos);
+                            if(parent.getItemAtPosition(pos) == "New Activity"){
+                                Intent intent = new Intent().setClass(getApplicationContext(), NewActivity.class);
+                                intent.putExtra("origin", 1);
+                                startActivity(intent);
+                                finish();
+                            }
+                            final String[] activity_id_select = new String[1];
+                            String user_id = user.getUid();
+                            DatabaseReference databaseReferenceChild = FirebaseDatabase.getInstance().getReference().child("Activity");
+                            String activity_name_selected = (String) activitySelector.getSelectedItem();
+                            databaseReferenceChild.orderByChild("user_id").equalTo(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
 
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                    String user_id_verify = snapshot.child("user_id").getValue(String.class);
-                                    String activity_name = snapshot.child("activity_name").getValue(String.class);
-                                    if(user_id.equals(user_id_verify) && activity_name.equals(activity_name_selected)){
-                                        String activity_id_verify = snapshot.child("activity_id").getValue(String.class);
-                                        activity_id_select[0] = activity_id_verify;
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                        String user_id_verify = snapshot.child("user_id").getValue(String.class);
+                                        String activity_name = snapshot.child("activity_name").getValue(String.class);
+                                        if(user_id.equals(user_id_verify) && activity_name.equals(activity_name_selected)){
+                                            String activity_id_verify = snapshot.child("activity_id").getValue(String.class);
+                                            activity_id_select[0] = activity_id_verify;
+                                        }
+                                        activity_id = activity_id_select[0];
+
                                     }
-                                    activity_id = activity_id_select[0];
-
                                 }
-                            }
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-                                // Gérez l'erreur en cas d'annulation de la requête
-                            }
-                        });
-                        activitySelector.setSelection(pos);
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+                                    // Gérez l'erreur en cas d'annulation de la requête
+                                }
+                            });
+                            activitySelector.setSelection(pos);
 
-                    }
-                    public void onNothingSelected(AdapterView<?> parent) {
-                    }
-                });
-
+                        }
+                        public void onNothingSelected(AdapterView<?> parent) {
+                        }
+                    });
+        }
 
         returnButton.setOnClickListener(new View.OnClickListener() {
             @Override

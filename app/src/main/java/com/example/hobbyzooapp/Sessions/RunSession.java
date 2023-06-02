@@ -1,16 +1,20 @@
 package com.example.hobbyzooapp.Sessions;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.PowerManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -230,11 +234,19 @@ public class RunSession extends AppCompatActivity {
         });
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT_WATCH)
     @Override
     protected void onPause() {
         super.onPause();
-        pauseCountDown();
-        isCounting = false;
+        PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+
+        if (powerManager.isInteractive()) {
+            pauseCountDown();
+            isCounting = false;
+        } else {
+            // L'écran est en veille
+        }
+
     }
     @Override
     protected void onResume() {

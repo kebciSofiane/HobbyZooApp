@@ -3,9 +3,11 @@ package com.example.hobbyzooapp.Sessions;
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.GridView;
@@ -93,17 +95,47 @@ public class MyDailySessions extends AppCompatActivity {
                 adapter.setOnItemClickListener(new OnItemClickListener() {
                     @Override
                     public void onItemClick(int position) {
-                        new AlertDialog.Builder(MyDailySessions.this)
-                                .setTitle(adapter.getItem(position).getActivityName() + " - " + adapter.getItem(position).getTime())
-                                .setMessage("Do you want to start ?")
-                                .setNegativeButton(android.R.string.no, null)
-                                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface arg0, int arg1) {
-                                        Intent intent = new Intent(MyDailySessions.this, RunSession.class);
-                                        intent.putExtra("activity_id", adapter.getItem(position).getActivityId());
-                                        intent.putExtra("session_id", adapter.getItem(position).getSessionId());
-                                        startActivity(intent);                                    }
-                                }).create().show();
+
+                        LayoutInflater inflater = getLayoutInflater();
+                        View dialogView = inflater.inflate(R.layout.custom_dialog_, null);
+
+                        TextView dialogTitle = dialogView.findViewById(R.id.dialogTitle);
+                        TextView dialogText = dialogView.findViewById(R.id.dialogText);
+                        Button dialogButtonYes = dialogView.findViewById(R.id.dialogButtonLeft);
+                        Button dialogButtonNo = dialogView.findViewById(R.id.dialogButtonRight);
+
+                        dialogTitle.setText(adapter.getItem(position).getActivityName() + " - " + adapter.getItem(position).getTime());
+                        dialogText.setText("Do you want to start ?");
+                        dialogButtonYes.setText("Yes");
+                        dialogButtonYes.setTextColor(Color.GREEN);
+                        dialogButtonNo.setText("No");
+                        dialogButtonNo.setTextColor(Color.RED);
+
+                        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(MyDailySessions.this);
+                        dialogBuilder.setView(dialogView);
+                        AlertDialog dialog = dialogBuilder.create();
+                        dialog.show();
+                        dialogButtonYes.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent(MyDailySessions.this, RunSession.class);
+                                intent.putExtra("activity_id", adapter.getItem(position).getActivityId());
+                                intent.putExtra("session_id", adapter.getItem(position).getSessionId());
+                                startActivity(intent);
+                                dialog.dismiss();
+                            }
+                        });
+                        dialogButtonNo.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                dialog.dismiss();
+                            }
+                        });
+
+
+
+
+
                     }
                 });
                 sessionListView.setAdapter(adapter);

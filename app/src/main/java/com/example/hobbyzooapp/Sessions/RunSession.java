@@ -7,6 +7,7 @@ import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
@@ -17,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.example.hobbyzooapp.Activities.ActivityPage;
 import com.example.hobbyzooapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -26,7 +26,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.sql.Time;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.concurrent.TimeUnit;
@@ -129,17 +128,40 @@ public class RunSession extends AppCompatActivity {
         stopButton.setOnClickListener(new  View.OnClickListener(){
             @Override
             public void onClick(View view) {
-                new AlertDialog.Builder(RunSession.this)
-                        .setTitle("You are about to close your session !")
-                        .setMessage("Do you really want to stop ?")
-                        .setNegativeButton(android.R.string.no, null)
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface arg0, int arg1) {
-                                totalSessionTime += countDownTime-timeLeftInMillis;
-                                countDownTimer.cancel();
-                                endSession();
-                            }
-                        }).create().show();
+
+                LayoutInflater inflater = getLayoutInflater();
+                View dialogView = inflater.inflate(R.layout.custom_dialog_, null);
+
+                TextView dialogTitle = dialogView.findViewById(R.id.dialogTitle);
+                TextView dialogText = dialogView.findViewById(R.id.dialogText);
+                Button dialogButtonResume = dialogView.findViewById(R.id.dialogButtonLeft);
+                Button dialogButtonStop = dialogView.findViewById(R.id.dialogButtonRight);
+
+                dialogTitle.setText("You are about to close your session !");
+                dialogText.setText("Do you really want to stop ?");
+                dialogButtonResume.setText("Resume");
+                dialogButtonResume.setTextColor(Color.GREEN);
+                dialogButtonStop.setText("Stop");
+                dialogButtonStop.setTextColor(Color.RED);
+
+                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(RunSession.this);
+                dialogBuilder.setView(dialogView);
+                AlertDialog dialog = dialogBuilder.create();
+                dialog.show();
+                dialogButtonResume.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                dialogButtonStop.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        totalSessionTime += countDownTime-timeLeftInMillis;
+                        countDownTimer.cancel();
+                        endSession();
+                    }
+                });
 
             }
         });
@@ -211,25 +233,16 @@ public class RunSession extends AppCompatActivity {
                 pauseButton.setVisibility(View.GONE);
                 addTimeButton.setVisibility(View.VISIBLE);
 
-                //////////////
-                // Créer un LayoutInflater pour inflater le fichier XML
                 LayoutInflater inflater = getLayoutInflater();
-                View dialogView = inflater.inflate(R.layout.custom_dialog_run_session, null);
+                View dialogView = inflater.inflate(R.layout.custom_dialog_, null);
 
-                // Référencer les vues dans le fichier XML
                 TextView dialogTitle = dialogView.findViewById(R.id.dialogTitle);
-                Button dialogButtonAddTime = dialogView.findViewById(R.id.dialogButtonAddTime);
-                Button dialogButtonFinish = dialogView.findViewById(R.id.dialogButtonFinish);
+                Button dialogButtonAddTime = dialogView.findViewById(R.id.dialogButtonLeft);
+                Button dialogButtonFinish = dialogView.findViewById(R.id.dialogButtonRight);
 
-                // Définir le titre et le texte du bouton
-                //dialogTitle.setText("Session finished");
-                //dialogButton.setText("Finish");
-
-                // Créer la boîte de dialogue personnalisée
                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(RunSession.this);
                 dialogBuilder.setView(dialogView);
 
-                // Afficher la boîte de dialogue
                 AlertDialog dialog = dialogBuilder.create();
                 dialog.show();
 
@@ -248,10 +261,8 @@ public class RunSession extends AppCompatActivity {
                         dialog.dismiss();
                     }
                 });
-
-                /////////////////////////
-
             }
+
         }.start();
 
     }
@@ -271,12 +282,10 @@ public class RunSession extends AppCompatActivity {
         finish();
     }
 
-
     @Override
     public void onBackPressed() {
 
     }
-
 
 
 }

@@ -106,7 +106,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="75dp"
             android:layout_marginBottom="10dp"
-            android:src="@drawable/circle_check_icon"
+            android:src="@drawable/ic_circle_check_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
@@ -119,7 +119,7 @@
             android:layout_height="66dp"
             android:layout_marginStart="75dp"
             android:layout_marginBottom="10dp"
-            android:src="@drawable/circle_red_cross_icon"
+            android:src="@drawable/ic_circle_red_cross_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
@@ -181,7 +181,7 @@
             android:layout_marginStart="44dp"
             android:layout_marginTop="96dp"
             android:layout_marginEnd="33dp"
-            android:background="@drawable/arrow_right"
+            android:background="@drawable/ic_arrow_right"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/animalImage"
             app:layout_constraintTop_toBottomOf="@+id/textView8" />
@@ -195,7 +195,7 @@
             android:layout_marginStart="33dp"
             android:layout_marginTop="96dp"
             android:layout_marginEnd="44dp"
-            android:background="@drawable/arrow_left"
+            android:background="@drawable/ic_arrow_left"
             app:layout_constraintEnd_toStartOf="@+id/animalImage"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView8" />

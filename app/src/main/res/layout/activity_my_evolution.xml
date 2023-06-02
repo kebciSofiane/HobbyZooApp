@@ -69,7 +69,7 @@
                     android:backgroundTint="@color/green_btn"
                     android:onClick="previousMonthAction"
                     android:scaleType="fitEnd"
-                    android:src="@drawable/arrow_left"
+                    android:src="@drawable/ic_arrow_left"
                     android:tint="@color/green_btn" />
 
                 <TextView
@@ -93,7 +93,7 @@
                     android:backgroundTint="@color/green_btn"
                     android:onClick="nextMonthAction"
                     android:scaleType="fitStart"
-                    android:src="@drawable/arrow_right"
+                    android:src="@drawable/ic_arrow_right"
                     android:tint="@color/green_btn" />
 
             </LinearLayout>

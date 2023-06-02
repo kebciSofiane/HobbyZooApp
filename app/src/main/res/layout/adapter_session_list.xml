@@ -11,7 +11,7 @@
         android:layout_width="140dp"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:background="@drawable/session_border"
+        android:background="@drawable/shape_black_border"
         android:orientation="vertical"
         android:padding="15dp">
 
@@ -19,7 +19,7 @@
             android:id="@+id/session_icon"
             android:layout_width="105dp"
             android:layout_height="75dp"
-            android:src="@drawable/hobby_zoo_app" />
+            android:src="@drawable/hobby_zoo_splash" />
 
         <TextView
             android:id="@+id/session_name"

@@ -59,7 +59,7 @@
                 android:id="@+id/emailLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/rounded_background"
+                android:background="@drawable/shape_rounded_background"
                 android:gravity="center"
                 android:orientation="horizontal">
 

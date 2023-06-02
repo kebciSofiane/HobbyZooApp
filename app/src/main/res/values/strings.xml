@@ -124,6 +124,7 @@
 
     <string name="channel_name">My notification</string>
     <string name="channel_description">My channel description</string>
+    <string name="welcome_to">Welcome to</string>
 
 
 </resources>

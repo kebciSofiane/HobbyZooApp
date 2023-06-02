@@ -86,9 +86,10 @@ public class HomeActivity extends AppCompatActivity {
         panelHobbyZoo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this, HomeActivity.class));
-                finish();
-
+                currentIndex=0;
+                currentIndex2=0;
+                currentIndex3=0;
+                showAnimals();
             }
         });
 
@@ -96,15 +97,13 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(HomeActivity.this,CalendarActivity.class));
-
             }
         });
         runBtn.setOnClickListener(new View.OnClickListener() {
-
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onClick(View v) {
-                CalendarUtils.selectedDate= LocalDate.now();//todo
+                CalendarUtils.selectedDate= LocalDate.now();
                 startActivity(new Intent(HomeActivity.this, MyDailySessions.class));
             }
         });
@@ -112,7 +111,6 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(HomeActivity.this,ProfileActivity.class));
-
             }
         });
 
@@ -224,10 +222,9 @@ public class HomeActivity extends AppCompatActivity {
 
 
     @Override
-    public void onBackPressed() {
-
-    }
-
+    public void onBackPressed() {}
+/*
+   //TODO ca sert a rien ca ???
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -245,6 +242,7 @@ public class HomeActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+    */
 
     public List<Integer> showNextActivities(int batchSize) {
         List<Integer> intElements ;

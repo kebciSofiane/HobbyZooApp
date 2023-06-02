@@ -93,7 +93,7 @@ public class MyDailySessionsAdapter extends BaseAdapter{
 
         String sessionDone = currentSession.getDone();
         LinearLayout sessionSquare = view.findViewById(R.id.itemSessionList);
-        Drawable drawable = ContextCompat.getDrawable(context, R.drawable.session_border_grey);
+        Drawable drawable = ContextCompat.getDrawable(context, R.drawable.shape_border_gray);
         if (sessionDone.equals("TRUE")) sessionSquare.setBackground(drawable);
 
         view.setOnClickListener(new View.OnClickListener() {

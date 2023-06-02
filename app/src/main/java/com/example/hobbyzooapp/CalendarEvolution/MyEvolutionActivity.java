@@ -65,10 +65,12 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finishAffinity();
                 openMainActivity();
                 finish();
             }
         });
+
 
 
         todayMonthButton = findViewById(R.id.today_month);
@@ -167,9 +169,13 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
                     }
                     myActivities =activities;
                     if (activities.size()!=0)   {
-                    selectedActivity=activities.get(0) ;
-                    setAdapter();
-                }
+                        selectedActivity=activities.get(0) ;
+                        setAdapter();
+                    }
+                    else
+                        activities.add("No activity");
+                        selectedActivity="";
+                        setAdapter();
                 }
 
                 @Override

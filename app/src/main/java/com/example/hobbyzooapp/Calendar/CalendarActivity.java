@@ -57,6 +57,7 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finishAffinity();
                 openMainActivity();
                 finish();
             }

@@ -244,7 +244,9 @@ public class ActivityPage extends AppCompatActivity {
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finishAffinity();
                 openMainActivity();
+                finish();
             }
         });
 
@@ -674,7 +676,6 @@ public class ActivityPage extends AppCompatActivity {
     public void openMainActivity(){
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
-        finish();
     }
 
 }

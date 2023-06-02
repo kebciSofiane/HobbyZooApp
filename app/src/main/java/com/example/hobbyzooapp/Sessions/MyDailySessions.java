@@ -62,6 +62,7 @@ public class MyDailySessions extends AppCompatActivity {
         homeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finishAffinity();
                 openMainActivity();
                 finish();
             }

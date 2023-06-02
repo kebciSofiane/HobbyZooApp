@@ -1,5 +1,6 @@
 package com.example.hobbyzooapp.Sessions;
 import com.example.hobbyzooapp.Calendar.CalendarUtils;
+import com.example.hobbyzooapp.HomeActivity;
 import com.example.hobbyzooapp.R;
 
 import androidx.annotation.NonNull;
@@ -7,6 +8,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.TaskStackBuilder;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
@@ -267,7 +269,9 @@ public class EndSession extends AppCompatActivity {
                 dialogButtonRight.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        endSession();
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                            endSession();
+                        }
                         dialog.dismiss();
                     }
                 });
@@ -333,7 +337,7 @@ public class EndSession extends AppCompatActivity {
     @Override
     public void onBackPressed() {
     }
-
+/*
     private void savePhotoToGallery() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -362,7 +366,7 @@ public class EndSession extends AppCompatActivity {
                 Toast.makeText(this, "Select a photo before saving it", Toast.LENGTH_SHORT).show();
             }
         }
-    }
+    }*/
 
     public  void updateSessionCount(){
         long hours = TimeUnit.MILLISECONDS.toHours(totalSessionTime);
@@ -372,6 +376,7 @@ public class EndSession extends AppCompatActivity {
         sessionCount.setText(hours+"h"+minutes+"min / "+ hourDuration+"h"+minutesDuration+"min");
     }
 
+    /*
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -382,12 +387,13 @@ public class EndSession extends AppCompatActivity {
                 Toast.makeText(this, "Permission to register in the gallery has been refused", Toast.LENGTH_SHORT).show();
             }
         }
-    }
+    }*/
 
     private void uploadImageToFirebase() {
         if (!photoPath.equals("")){
             FirebaseUser user = firebaseAuth.getCurrentUser();
             if (user != null) {
+
                 FirebaseStorage storage = FirebaseStorage.getInstance();
                 StorageReference storageReference = storage.getReference();
                 StorageReference profileRef = storageReference.child("sessions/" + session_id + "/picture.jpg");
@@ -433,7 +439,9 @@ public class EndSession extends AppCompatActivity {
         sessionRef.child("session_month").setValue(month);
         sessionRef.child("session_year").setValue(year);
 
-        Intent intent = new Intent(EndSession.this, ActivityPage.class);
+        finishAffinity();
+
+        Intent intent = new Intent(EndSession.this, HomeActivity.class);
         intent.putExtra("activity_id", activity_id);
         startActivity(intent);
         finish();

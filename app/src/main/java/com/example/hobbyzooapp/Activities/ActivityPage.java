@@ -30,7 +30,6 @@ import com.example.hobbyzooapp.OnSessionListRetrievedListener2;
 import com.example.hobbyzooapp.R;
 import com.example.hobbyzooapp.Sessions.NewSession;
 import com.example.hobbyzooapp.Sessions.OnSessionListRetrievedListener;
-import com.example.hobbyzooapp.Sessions.RunSession;
 import com.example.hobbyzooapp.Sessions.Session;
 import com.example.hobbyzooapp.TodoTask;
 import com.example.hobbyzooapp.Sessions.ListSessionsAdapter;
@@ -53,7 +52,7 @@ public class ActivityPage extends AppCompatActivity {
     ImageView petPic, sessionLastPicture;
     TextView petName, goalsText, activityNameDisplay, sessionCommentDisplay;
     EditText editTextPetName, editTextActivityName, addToTodoListText;
-    Button editNamePetButton, validatePetName, showMoreButton, showLessButton, addToTodoListButton, editGoalButton;
+    Button editActivityButton, validate, showMoreButton, showLessButton, addToTodoListButton, editGoalButton;
     ImageButton addSessionButton, homeButton, deleteActivityButton, backButton;
     RecyclerView recyclerView, recyclerViewTodoList;
     List<String> items = new ArrayList<>();
@@ -99,6 +98,7 @@ public class ActivityPage extends AppCompatActivity {
                 lastSessionData = sessionPicCom;
 
                 sessionCommentDisplay.setText(lastSessionData.get(1));
+                if (!lastSessionData.get(1).isEmpty()) {sessionCommentDisplay.setVisibility(View.VISIBLE);}
 
                 String image = lastSessionData.get(0);
                 if (!image.equals("")) {
@@ -178,7 +178,18 @@ public class ActivityPage extends AppCompatActivity {
         InputFilter[] filters = new InputFilter[1];
         filters[0] = new InputFilter.LengthFilter(10);
         editTextPetName.setFilters(filters);
-        editNamePetButton.setOnClickListener(new View.OnClickListener() {
+
+        validate = findViewById(R.id.activityPageValidateButton);
+        //Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.koa);
+        /*
+        int newWidth = (int) (bitmap.getWidth() * (70 / 100.0));
+        int newHeight = (int) (bitmap.getHeight() * (70 / 100.0));
+        Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, false);
+        petPic.setScaleType(ImageView.ScaleType.CENTER_CROP);*/
+
+       // petPic.setImageBitmap(bitmap);
+
+        editActivityButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -186,13 +197,14 @@ public class ActivityPage extends AppCompatActivity {
                 editTextActivityName.setText(activityNameDisplay.getText());
                 editTextPetName.setVisibility(View.VISIBLE);
                 editTextActivityName.setVisibility(View.VISIBLE);
-                editNamePetButton.setVisibility(View.GONE);
-                validatePetName.setVisibility(View.VISIBLE);
+                editActivityButton.setVisibility(View.GONE);
+                validate.setVisibility(View.VISIBLE);
                 petName.setVisibility(View.GONE);
                 activityNameDisplay.setVisibility(View.GONE);
                 deleteActivityButton.setVisibility(View.VISIBLE);
                 editGoalButton.setVisibility(View.VISIBLE);
                 backButton.setVisibility(View.GONE);
+                homeButton.setVisibility(View.GONE);
                 addSessionButton.setVisibility(View.GONE);
             }
         });
@@ -259,11 +271,15 @@ public class ActivityPage extends AppCompatActivity {
                 LayoutInflater inflater = getLayoutInflater();
                 View dialogView = inflater.inflate(R.layout.custom_dialog_, null);
                 TextView dialogTitle = dialogView.findViewById(R.id.dialogTitle);
-                Button dialogButtonNo = dialogView.findViewById(R.id.dialogButtonLeft);
-                Button dialogButtonYes = dialogView.findViewById(R.id.dialogButtonRight);
-                dialogTitle.setText("Are you sure you want to delete it?");
+                TextView dialogText = dialogView.findViewById(R.id.dialogText);
+                Button dialogButtonYes = dialogView.findViewById(R.id.dialogButtonLeft);
+                Button dialogButtonNo = dialogView.findViewById(R.id.dialogButtonRight);
+                dialogTitle.setText("You're about to delete this activity !\nAre you sure ?");
+                dialogText.setText("All your progression and memories\nwill be deleted !");
+                dialogText.setTextColor(Color.RED);
                 dialogButtonYes.setText("Yes");
                 dialogButtonNo.setText("No");
+                dialogButtonNo.setTextSize(25);
 
                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ActivityPage.this);
                 dialogBuilder.setView(dialogView);
@@ -371,7 +387,7 @@ public class ActivityPage extends AppCompatActivity {
             }
         });
 
-        validatePetName.setOnClickListener(new View.OnClickListener() {
+        validate.setOnClickListener(new View.OnClickListener() {
 
             @SuppressLint("SetTextI18n")
             @Override
@@ -382,14 +398,15 @@ public class ActivityPage extends AppCompatActivity {
                 String newActivityName = String.valueOf(editTextActivityName.getText());;
                 petName.setText(newPetName);
                 activityNameDisplay.setText(newActivityName);
-                editNamePetButton.setVisibility(View.VISIBLE);
-                validatePetName.setVisibility(View.GONE);
+                editActivityButton.setVisibility(View.VISIBLE);
+                validate.setVisibility(View.GONE);
                 petName.setVisibility(View.VISIBLE);
                 activityNameDisplay.setVisibility(View.VISIBLE);
                 deleteActivityButton.setVisibility(View.GONE);
                 editGoalButton.setVisibility(View.GONE);
                 backButton.setVisibility(View.VISIBLE);
                 addSessionButton.setVisibility(View.VISIBLE);
+                homeButton.setVisibility(View.VISIBLE);
 
 
                 DatabaseReference activitiesRef = FirebaseDatabase.getInstance().getReference("Activity");
@@ -518,7 +535,7 @@ public class ActivityPage extends AppCompatActivity {
         showLessButton = findViewById(R.id.activityPageShowLessButton);
         homeButton = findViewById(R.id.homeButton);
         addToTodoListButton = findViewById(R.id.addToTodoListButton);
-        editNamePetButton = findViewById(R.id.activityPageEditPetNameButton);
+        editActivityButton = findViewById(R.id.activityPageEditButton);
         editGoalButton = findViewById(R.id.editGoalButton);
         deleteActivityButton = findViewById(R.id.deleteActivityButton);
         addSessionButton = findViewById(R.id.add_session_button);

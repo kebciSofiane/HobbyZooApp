@@ -136,8 +136,8 @@ public class MyDailySessions extends AppCompatActivity {
 
                         TextView dialogTitle = dialogView.findViewById(R.id.dialogTitle);
                         TextView dialogText = dialogView.findViewById(R.id.dialogText);
-                        Button dialogButtonYes = dialogView.findViewById(R.id.dialogButtonLeft);
-                        Button dialogButtonNo = dialogView.findViewById(R.id.dialogButtonRight);
+                        Button dialogButtonYes = dialogView.findViewById(R.id.dialogButtonRight);
+                        Button dialogButtonNo = dialogView.findViewById(R.id.dialogButtonLeft);
 
                         dialogTitle.setText(adapter.getItem(position).getActivityName() + " - " + adapter.getItem(position).getTime());
                         if (isDeleteMode.equals(Boolean.TRUE)){

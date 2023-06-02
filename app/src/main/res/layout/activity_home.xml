@@ -14,7 +14,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginStart="30dp"
-        android:layout_marginTop="-15dp"
+        android:layout_marginTop="-17dp"
         android:padding="1dp"
         android:background="@color/transparent"
         android:scaleType="centerCrop"
@@ -24,12 +24,21 @@
     <TextView
         android:id="@+id/countPages"
         android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minWidth="40dp"
+        android:minHeight="30dp"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="20dp"
         android:layout_marginTop="20dp"
-        android:textSize="20sp"
-        android:textColor="@color/black"
-        android:layout_height="wrap_content"/>
+        android:layout_marginEnd="20dp"
+        android:gravity="center"
+        android:background="@drawable/shape_rounded_background"
+        android:backgroundTint="@color/white"
+        android:fontFamily="@font/abril_fatface"
+
+        android:text="15"
+        android:textColor="#668CBA"
+        android:textSize="25sp" />
+
     <Button
         android:id="@+id/scrollAnimalsRight"
         android:layout_width="50dp"
@@ -66,9 +75,10 @@
                 android:id="@+id/homePageAnimalText1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/first_animal"
                 android:layout_gravity="center"
-                android:textColor="@color/black"/>
+                android:fontFamily="sans-serif-condensed-medium"
+                android:text="@string/first_animal"
+                android:textColor="@color/dark_gray" />
 
             <ImageView
                 android:id="@+id/imageView1"
@@ -93,8 +103,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/second_animal"
                 android:layout_gravity="center"
-                android:textColor="@color/black"/>
-
+                android:textColor="@color/dark_gray"
+                android:fontFamily="sans-serif-condensed-medium" />
             <ImageView
                 android:id="@+id/imageView2"
                 android:layout_width="75dp"
@@ -118,7 +128,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/third_animal"
                 android:layout_gravity="center"
-                android:textColor="@color/black"/>
+                android:textColor="@color/dark_gray"
+                android:fontFamily="sans-serif-condensed-medium"/>
 
             <ImageView
                 android:id="@+id/imageView3"
@@ -143,7 +154,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/fourth_animal"
                 android:layout_gravity="center"
-                android:textColor="@color/black"/>
+                android:textColor="@color/dark_gray"
+                android:fontFamily="sans-serif-condensed-medium"/>
 
             <ImageView
                 android:id="@+id/imageView4"
@@ -168,7 +180,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/fifth_animal"
                 android:layout_gravity="center"
-                android:textColor="@color/black"/>
+                android:textColor="@color/dark_gray"
+                android:fontFamily="sans-serif-condensed-medium"/>
 
             <ImageView
                 android:id="@+id/imageView5"
@@ -194,28 +207,29 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp">
+            android:layout_height="100dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center_vertical">
 
             <ImageButton
                 android:id="@+id/calendar_btn"
                 android:layout_width="0dp"
                 android:layout_height="70dp"
-                android:layout_weight="1"
                 android:layout_marginStart="10dp"
-                android:scaleType="fitCenter"
+                android:layout_weight="1"
                 android:background="@color/transparent"
+                android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_calendar"
                 app:tint="@color/brown_btn" />
 
             <ImageButton
                 android:id="@+id/run_btn"
                 android:layout_width="0dp"
-                android:layout_height="80dp"
+                android:layout_height="100dp"
                 android:layout_weight="1"
-
-                android:scaleType="fitCenter"
                 android:background="@color/transparent"
+                android:scaleType="fitCenter"
                 android:visibility="visible"
                 app:srcCompat="@drawable/ic_play"
                 app:tint="@color/brown_btn"
@@ -225,11 +239,11 @@
                 android:id="@+id/profile_btn"
                 android:layout_width="0dp"
                 android:layout_height="70dp"
+                android:layout_marginEnd="10dp"
                 android:layout_weight="1"
-                android:layout_marginEnd="30dp"
-                android:scaleType="fitCenter"
                 android:background="@color/transparent"
                 android:cropToPadding="false"
+                android:scaleType="fitCenter"
                 app:srcCompat="@drawable/ic_profile"
                 app:tint="@color/brown_btn" />
 

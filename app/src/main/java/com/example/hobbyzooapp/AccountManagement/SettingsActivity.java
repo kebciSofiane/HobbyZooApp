@@ -99,6 +99,8 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 firebaseAuth.signOut();
                 checkUserStatus();
+                finishAffinity();
+                startActivity(new Intent(SettingsActivity.this, RegistrationOrConnexion.class));
                 finish();
             }
         });

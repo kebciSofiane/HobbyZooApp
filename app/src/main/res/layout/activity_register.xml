@@ -6,34 +6,24 @@
     android:layout_height="match_parent"
     android:padding="20dp"
     android:background="@color/app_background"
-    tools:context=".RegisterActivity">
+    tools:context=".AccountManagement.RegisterActivity">
 
 
     <ImageView
-        android:id="@+id/image_icon5"
-        android:layout_width="391dp"
-        android:layout_height="273dp"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="-51dp"
-        android:layout_marginEnd="20dp"
-        android:src="@drawable/hobby_zoo_splash"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.35"
-        android:contentDescription="@string/logo" />
+        android:id="@+id/image_icon3"
+        android:layout_width="283dp"
+        android:layout_height="280dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/hobby_zoo_splash" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/photoIV"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="200dp"
-        android:background="@drawable/ic_add_a_photo" />
+        android:layout_marginTop="180dp"
+        android:src="@drawable/ic_add_a_photo" />
+
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/pseudoTIL"

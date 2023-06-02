@@ -1,12 +1,13 @@
-package com.example.hobbyzooapp;
+package com.example.hobbyzooapp.AccountManagement;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.hobbyzooapp.R;
 
 public class RegistrationOrConnexion extends AppCompatActivity {
 
@@ -22,7 +23,7 @@ public class RegistrationOrConnexion extends AppCompatActivity {
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(RegistrationOrConnexion.this,RegisterActivity.class));
+                startActivity(new Intent(RegistrationOrConnexion.this, RegisterActivity.class));
 
             }
         });
@@ -30,7 +31,7 @@ public class RegistrationOrConnexion extends AppCompatActivity {
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(RegistrationOrConnexion.this,LoginActivity.class));
+                startActivity(new Intent(RegistrationOrConnexion.this, LoginActivity.class));
 
             }
         });

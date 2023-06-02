@@ -1,12 +1,14 @@
-package com.example.hobbyzooapp;
+package com.example.hobbyzooapp.AccountManagement;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,8 +19,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.hobbyzooapp.Activities.MyActivities;
-import com.example.hobbyzooapp.CalendarEvolution.CalendarEvolutionAdapter;
-import com.example.hobbyzooapp.CalendarEvolution.MyEvolutionActivity;
+import com.example.hobbyzooapp.HomeActivity;
+import com.example.hobbyzooapp.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,27 +29,32 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 public class ProfileActivity extends AppCompatActivity {
-    private TextView usernameTextView, editProfileTextView;
-    private ImageView profileImageView, addPhoto;
-    private Button personalInfoButton, myActivitiesButton, followMyProgressButton, settingsButton, validate;
+    private TextView usernameTextView;
+    private ImageView profileImageView;
+    private TextView editProfileTextView;
+    private Button personalInfoButton;
+    private Button myActivitiesButton;
+    private Button followMyProgressButton;
     private ImageButton backButton;
+    private Button settingsButton;
     private EditText usernameEdit;
+    private ImageView addPhoto;
+    private Button validate;
+
     private FirebaseAuth firebaseAuth;
     private FirebaseStorage storage;
     private StorageReference storageReference;
     private DatabaseReference databaseReference;
     private String userId;
     private static final int PICK_IMAGE = 1;
-    private static final int EDIT_PROFILE_REQUEST_CODE = 1;
-    private static final int REQUEST_PERSONAL_INFORMATION = 1;
     private Uri imageUri;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +62,7 @@ public class ProfileActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
+
 
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
@@ -69,7 +77,6 @@ public class ProfileActivity extends AppCompatActivity {
         usernameEdit = findViewById(R.id.username_edit);
         addPhoto = findViewById(R.id.add_photo);
         validate = findViewById(R.id.validateButton);
-        followMyProgressButton= findViewById(R.id.follow_my_progress);
 
         databaseReference = FirebaseDatabase.getInstance().getReference("Users");
         userId = user.getUid();
@@ -91,10 +98,6 @@ public class ProfileActivity extends AppCompatActivity {
                             Glide.with(ProfileActivity.this)
                                     .load(image)
                                     .into(profileImageView);
-                        } else {
-                            Glide.with(ProfileActivity.this)
-                                    .load(R.drawable.ic_animal)
-                                    .into(profileImageView);
                         }
                     }
                 }
@@ -112,19 +115,6 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivity(new Intent(ProfileActivity.this, MyActivities.class));
             }
         });
-        personalInfoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivityForResult(new Intent(ProfileActivity.this, AccountActivity.class), 1);
-            }
-        });
-
-        followMyProgressButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this, MyEvolutionActivity.class));
-            }
-        });
 
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -138,6 +128,13 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ProfileActivity.this, SettingsActivity.class));
+            }
+        });
+
+        personalInfoButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileActivity.this, AccountActivity.class));
             }
         });
 
@@ -203,6 +200,13 @@ public class ProfileActivity extends AppCompatActivity {
 
         // Mettre à jour le nom d'utilisateur si une nouvelle valeur est fournie
         if (newUsername != null && !newUsername.isEmpty()) {
+
+            if (newUsername.length() > 15) {
+                usernameEdit.setError("Username is too long. Maximum length is " + 15 + " characters.");
+                usernameEdit.requestFocus();
+                return;
+            }
+
             userRef.child("pseudo").setValue(newUsername);
             usernameTextView.setText(newUsername); // Mettre à jour le TextView usernameTextView immédiatement
         }
@@ -255,6 +259,7 @@ public class ProfileActivity extends AppCompatActivity {
                         }
                     });
         } else {
+            // Cacher les éléments d'édition du profil sans effectuer de mise à jour
             usernameEdit.setVisibility(View.GONE);
             addPhoto.setVisibility(View.GONE);
             validate.setVisibility(View.GONE);
@@ -263,30 +268,15 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST_PERSONAL_INFORMATION && resultCode == RESULT_OK && data != null) {
-            String newUsername = data.getStringExtra("newUsername");
-            String newImageUri = data.getStringExtra("newImageUri");
-
-            // Mettre à jour votre interface utilisateur avec les données modifiées
-            if (newUsername != null) {
-                // Mettre à jour le nom d'utilisateur affiché
-                usernameTextView.setText(newUsername);
-            }
-
-            if (newImageUri != null) {
-                // Mettre à jour l'image de profil
-                Uri imageUri = Uri.parse(newImageUri);
-                profileImageView.setImageURI(imageUri);
-            }
+        if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            imageUri = data.getData();
+            // Afficher l'image sélectionnée dans ImageView
+            profileImageView.setImageURI(imageUri);
         }
-    }
-
-    private void launchPersonalInformationActivity() {
-        Intent intent = new Intent(ProfileActivity.this, AccountActivity.class);
-        startActivityForResult(intent, REQUEST_PERSONAL_INFORMATION);
     }
 }

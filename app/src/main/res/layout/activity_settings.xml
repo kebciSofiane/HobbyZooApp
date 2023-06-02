@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/app_background"
-    tools:context=".SettingsActivity">
+    tools:context=".AccountManagement.SettingsActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -55,7 +55,7 @@
         app:layout_constraintVertical_bias="0.49">
 
         <Button
-            android:id="@+id/notificationsBtn"
+            android:id="@+id/notificationsEnabledBtn"
             style="@style/Widget.Material3.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -64,20 +64,20 @@
             android:text="@string/enable_notifications"
             android:textSize="20sp"
             app:backgroundTint="@color/lightbrown"
-            app:icon="@drawable/ic_notifications_off" />
-
+            app:icon="@drawable/ic_notifications_active"
+            android:visibility="gone"/>
         <Button
-            android:id="@+id/account"
+            android:id="@+id/notificationsDisabledBtn"
             style="@style/Widget.Material3.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:background="@drawable/shape_rounded_button"
-            android:text="@string/account"
             android:textColor="@android:color/black"
+            android:text="@string/enable_notifications"
             android:textSize="20sp"
             app:backgroundTint="@color/lightbrown"
-            app:icon="@drawable/ic_manage_account" />
+            app:icon="@drawable/ic_notifications_off" />
 
         <Button
             android:id="@+id/termsBtn"
@@ -89,19 +89,8 @@
             android:text="@string/terms_of_service"
             android:textColor="@android:color/black"
             android:textSize="20sp"
-            app:backgroundTint="@color/lightbrown"/>
-
-<!--        <Button-->
-<!--            android:id="@+id/rateBtn"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginBottom="10dp"-->
-<!--            android:background="@drawable/rounded_button"-->
-
-<!--            android:text="@string/rate_hobbyzoo"-->
-<!--            android:textColor="@color/black"-->
-<!--            android:textSize="16sp"-->
-<!--            app:backgroundTint="@color/lightbrown"/>-->
+            app:backgroundTint="@color/lightbrown"
+            app:icon="@drawable/ic_description" />
 
         <Button
             android:id="@+id/helpBtn"
@@ -115,6 +104,7 @@
             android:textSize="20sp"
             app:backgroundTint="@color/lightbrown"
             app:icon="@drawable/ic_help" />
+
 
         <Button
             android:id="@+id/aboutBtn"

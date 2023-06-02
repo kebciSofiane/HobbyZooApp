@@ -31,23 +31,19 @@
             android:name=".CalendarEvolution.MyEvolutionActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
+
         <activity
-            android:name=".MainActivity"
-            android:exported="false"
-            android:label="@string/title_activity_main"
-            android:theme="@style/Theme.HobbyZooApp.NoActionBar" />
-        <activity
-            android:name=".SettingsActivity"
+            android:name=".AccountManagement.SettingsActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
 
         <activity
-            android:name=".AccountActivity"
+            android:name=".AccountManagement.AccountActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
 
         <activity
-            android:name=".ProfileActivity"
+            android:name=".AccountManagement.ProfileActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
@@ -63,21 +59,21 @@
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".AccountManagement.RegisterActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:parentActivityName=".RegistrationOrConnexion" />
+            android:parentActivityName=".AccountManagement.RegistrationOrConnexion" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".AccountManagement.LoginActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:parentActivityName=".RegistrationOrConnexion" />
+            android:parentActivityName=".AccountManagement.RegistrationOrConnexion" />
         <activity
             android:name=".HomeActivity"
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity
-            android:name=".RegistrationOrConnexion"
+            android:name=".AccountManagement.RegistrationOrConnexion"
             android:screenOrientation="portrait"
             android:exported="false" />
         <activity

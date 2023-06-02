@@ -1,8 +1,7 @@
-package com.example.hobbyzooapp;
+package com.example.hobbyzooapp.AccountManagement;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
@@ -19,7 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import com.example.hobbyzooapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -56,6 +55,8 @@ public class RegisterActivity extends AppCompatActivity {
     private Uri imageUri;
 
     private static final int PICK_IMAGE = 1;
+    private static final int USERNAME_MAX_LENGTH = 15;
+
     //
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,6 +96,12 @@ public class RegisterActivity extends AppCompatActivity {
                 String password = passwordEt.getText().toString().trim();
                 String pseudo = pseudoET.getText().toString().trim();
 
+                if (pseudo.length() > USERNAME_MAX_LENGTH) {
+                    pseudoET.setError("Username is too long. Maximum length is " + USERNAME_MAX_LENGTH + " characters.");
+                    pseudoET.requestFocus();
+                    return;
+                }
+
                 if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                     emailEt.setError("Invalid email address");
                     emailEt.setFocusable(true);
@@ -118,7 +125,9 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void registerUser(String email, String password, String pseudo, Uri imageUri) {
+        progressDialog.setMessage("Registering User...");
         progressDialog.show();
+
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -130,19 +139,22 @@ public class RegisterActivity extends AppCompatActivity {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> emailVerificationTask) {
                                         progressDialog.dismiss();
-                                        LocalDate currentDate = null;
-                                        LocalDate nextMonday = null;
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                            currentDate = LocalDate.now();
-                                            nextMonday = currentDate.with(DayOfWeek.MONDAY);
-                                            if (currentDate.compareTo(nextMonday) > 0) {
-                                                nextMonday = nextMonday.plusWeeks(1);
-                                            }
-                                        }
+
                                         if (emailVerificationTask.isSuccessful()) {
+                                            LocalDate currentDate = null;
+                                            LocalDate nextMonday = null;
+                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                                currentDate = LocalDate.now();
+                                                nextMonday = currentDate.with(DayOfWeek.MONDAY);
+                                                if (currentDate.compareTo(nextMonday) > 0) {
+                                                    nextMonday = nextMonday.plusWeeks(1);
+                                                }
+                                            }
                                             String email = user.getEmail();
                                             String uid = user.getUid();
+
                                             String pseudo = pseudoET.getText().toString().trim();
+
 
                                             if (imageUri == null) {
                                                 // Pas d'image sélectionnée
@@ -156,7 +168,6 @@ public class RegisterActivity extends AppCompatActivity {
                                                     userMap.put("connectNextMondayMonth",  Integer.parseInt(String.valueOf(nextMonday.getMonth().getValue())));
                                                     userMap.put("connectNextMondayYear", nextMonday.getYear());
                                                 }
-
 
                                                 DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
                                                 reference.child(uid).setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -220,12 +231,13 @@ public class RegisterActivity extends AppCompatActivity {
                                                         .addOnFailureListener(new OnFailureListener() {
                                                             @Override
                                                             public void onFailure(@NonNull Exception e) {
-                                                                Toast.makeText(RegisterActivity.this, "Failed to upload image. " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                                                progressDialog.dismiss();
+                                                                Toast.makeText(RegisterActivity.this, "Failed to upload image", Toast.LENGTH_SHORT).show();
                                                             }
                                                         });
                                             }
                                         } else {
-                                            Toast.makeText(RegisterActivity.this, "Failed to send verification email.", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(RegisterActivity.this, "Failed to send verification email. Please try again.", Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 });
@@ -252,18 +264,16 @@ public class RegisterActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
             imageUri = data.getData();
             profileIv.setImageURI(imageUri);
 
             uploadImageToFirebase();
         }
+
     }
-
     private void uploadImageToFirebase() {
-        progressDialog.setMessage("Uploading image...");
-        progressDialog.show();
-
         FirebaseUser user = auth.getCurrentUser();
         if (user != null) {
             StorageReference profileRef = storageReference.child("users/" + user.getUid() + "/profile.jpg");
@@ -271,15 +281,13 @@ public class RegisterActivity extends AppCompatActivity {
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
                             profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                 @Override
                                 public void onSuccess(Uri uri) {
-                                    //progressDialog.dismiss();
                                     String imageUrl = uri.toString();
                                     databaseReference.child("Users").child(user.getUid()).child("image").setValue(imageUrl);
                                     Toast.makeText(RegisterActivity.this, "Image uploaded successfully", Toast.LENGTH_SHORT).show();
-                                    progressDialog.dismiss();
-
                                 }
                             });
                         }

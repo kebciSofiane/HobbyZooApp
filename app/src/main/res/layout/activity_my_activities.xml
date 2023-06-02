@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_background"
+    tools:context=".Activities.MyActivities">
+
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="381dp"
+        android:layout_height="75dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/shape_radius_background"
+        android:backgroundTint="@color/white">
+
+        <ImageButton
+            android:id="@+id/backButtonMyActivities"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/back"
+            android:src="@drawable/ic_arrowback"
+            app:tint="@color/black" />
+
+        <TextView
+            android:id="@+id/page_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="20dp"
+            android:text="@string/my_activities"
+            android:textColor="@color/title_page"
+            android:textSize="@dimen/title_size"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/editCategory"
+            android:layout_width="30sp"
+            android:layout_height="30sp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/ic_edit"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+    <ExpandableListView
+        android:id="@+id/expandableListView"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:layout_below="@id/header"
+        android:layout_marginTop="10dp"
+        android:divider="#AFAFAF"
+        android:dividerHeight="1.0dp"
+        android:textColor="#000000" />
+
+
+    <ImageButton
+        android:id="@+id/profile_btn"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginBottom="30dp"
+        android:background="#00FFFFFF"
+        android:scaleType="center"
+        app:srcCompat="@drawable/ic_profile"
+        app:tint="@color/green_btn"/>
+
+    <ImageButton
+        android:id="@+id/add_activity_button"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="30dp"
+        android:background="@color/transparent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_plus_"
+        app:tint="@color/green_btn" />
+
+    <ImageButton
+        android:id="@+id/homeButton"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="30dp"
+        android:background="#00FFFFFF"
+        android:scaleType="center"
+        app:srcCompat="@drawable/ic_home"
+        app:tint="@color/green_btn" />
+
+
+</RelativeLayout>

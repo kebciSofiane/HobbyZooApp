@@ -3,6 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.hobbyzooapp">
 
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.SET_ALARM" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -14,7 +22,77 @@
         android:theme="@style/Theme.HobbyZooApp"
         tools:targetApi="31">
         <activity
-            android:name=".MainActivity"
+            android:name=".WeeklyEvent"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
+            android:name=".CalendarEvolution.DateMemory"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
+            android:name=".CalendarEvolution.MyEvolutionActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+
+        <activity
+            android:name=".AccountManagement.SettingsActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+
+        <activity
+            android:name=".AccountManagement.AccountActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+
+        <activity
+            android:name=".AccountManagement.ProfileActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.ActivityPage"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
+            android:name=".Sessions.EndSession"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
+            android:name=".Sessions.RunSession"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
+            android:name=".AccountManagement.RegisterActivity"
+            android:exported="true"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".AccountManagement.RegistrationOrConnexion" />
+        <activity
+            android:name=".AccountManagement.LoginActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".AccountManagement.RegistrationOrConnexion" />
+        <activity
+            android:name=".HomeActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
+            android:name=".AccountManagement.RegistrationOrConnexion"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.MyActivities"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
+            android:name=".Sessions.MyDailySessions"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
+            android:name=".Calendar.CalendarActivity"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
+            android:name=".SplashScreenActivity"
+            android:screenOrientation="portrait"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,6 +100,32 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".Sessions.NewSession"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
+            android:name=".Category.NewCategory"
+            android:screenOrientation="portrait"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.NewActivity"
+            android:screenOrientation="portrait"
+            android:exported="true" />
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.example.hobbyzooapp.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

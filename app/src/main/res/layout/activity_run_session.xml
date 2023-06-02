@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/grass_sky"
+    tools:context=".Sessions.RunSession">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/textTimeLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:fontFamily="sans-serif"
+            android:text="@string/time_left_"
+            android:textColor="#748198"
+            android:textSize="25sp" />
+
+        <TextView
+            android:id="@+id/countdownTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textTimeLeft"
+            android:layout_centerHorizontal="true"
+            android:fontFamily="@font/chakra_petch_semibold"
+            android:text="@string/_00_00_00"
+            android:textColor="#5B91F1"
+            android:textSize="30sp" />
+
+        <ImageView
+            android:id="@+id/petPicture"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50sp"
+            android:layout_margin="70dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@id/pauseButton"
+            tools:ignore="NotSibling"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="40sp"
+            android:gravity="center">
+
+            <ImageButton
+                android:id="@+id/stopButton"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@color/transparent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_stop"
+                app:tint="@color/brown_btn" />
+
+            <ImageButton
+                android:id="@+id/resumeButton"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="20sp"
+                android:background="@color/transparent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_play_button"
+                app:tint="@color/brown_btn"
+                android:visibility="gone" />
+
+            <ImageButton
+                android:id="@+id/pauseButton"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="20sp"
+                android:background="@color/transparent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_pause_button"
+                app:tint="@color/brown_btn" />
+
+            <ImageButton
+                android:id="@+id/addTimeButton"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:background="@color/transparent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_add_time_button"
+                app:tint="@color/brown_btn"
+                android:visibility="gone" />
+
+            <ImageButton
+                android:id="@+id/validateButton"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginStart="20sp"
+                android:background="@color/transparent"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_skip"
+                app:tint="@color/brown_btn"
+                android:visibility="gone" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

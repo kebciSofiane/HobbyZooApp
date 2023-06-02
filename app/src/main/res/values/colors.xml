@@ -5,6 +5,41 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
+
     <color name="black">#FF000000</color>
+    <color name="dark_gray">#4A4A4A</color>
+    <color name="gray">#6C6C6C</color>
+    <color name="red">#FA0A0A</color>
+    <color name="dark_blue">#175D95</color>
+    <color name="light_gray">#888888</color>
     <color name="white">#FFFFFFFF</color>
+
+    <color name="dark_green">#0B6C00</color>
+    <color name="green">#0F9500</color>
+    <color name="light_green">#72E465</color>
+    <color name="very_light_green">#a9e693</color>
+
+    <color name="blue">#3F51B5</color>
+
+    <color name="evenDayColor">#FFC0CB</color>
+
+
+    <color name="title_page">#F0000000</color>
+    <color name="sub_tilte">#8A000000</color>
+
+    <color name="brown_btn">#DD9A4D</color>
+    <color name="brown_btn_text">#FAC792</color>
+    <color name="green_btn">#0F9500</color>
+    <color name="green_btn_text">#a9e693</color>
+
+    <color name="transparent">#00FFFFFF</color>
+
+    <color name="app_background">#EDE4DC</color>
+
+    <color name="inputColor">#882C0F</color>
+    <color name="light_calendar">#8E7F6F</color>
+
+
+    <color name="valid">#73B626</color>
+    <color name="lightbrown">#FCD5B1</color>
 </resources>

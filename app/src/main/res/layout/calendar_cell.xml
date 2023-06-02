@@ -1,0 +1,44 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/parentView"
+    android:layout_margin="2dp"
+    android:scaleType="centerCrop"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <TextView
+        android:id="@+id/cellDayText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:textSize="16sp"
+        android:textColor="@android:color/black"
+        android:gravity="center"
+        android:layout_alignParentTop="true"/>
+
+    <ImageView
+        android:id="@+id/day_indicator_done"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="9dp"
+        android:layout_below="@+id/cellDayText"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/shape_day_indicator_done"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/day_indicator_planed"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="9dp"
+        android:layout_below="@+id/cellDayText"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/shape_day_indicator_planed"
+        android:visibility="gone" />
+
+
+</RelativeLayout>
+
+
+

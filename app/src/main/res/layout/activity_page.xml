@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_background"
+    tools:context=".Activities.ActivityPage">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="horizontal">
+
+        <ImageButton
+            android:id="@+id/backButtonActivityPage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/headerLayout"
+            android:layout_alignTop="@+id/headerLayout"
+            android:layout_marginStart="8sp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="@string/back"
+            android:src="@drawable/ic_arrowback"
+            app:tint="@color/black"
+            android:elevation="8dp" />
+
+        <LinearLayout
+            android:id="@+id/headerLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/shape_radius_background"
+            android:gravity="center">
+
+            <ImageView
+                android:id="@+id/activityPagePetPic"
+                android:layout_width="150dp"
+                android:layout_height="100dp"
+                android:scaleType="fitCenter" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/activityPagePetName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/default_pet_name"
+                    android:textColor="@color/title_page"
+                    android:textSize="25sp" />
+
+                <EditText
+                    android:id="@+id/activityPagePetNameEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/activityPageActivityName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/default_activity_name"
+                    android:textColor="@color/title_page"
+                    android:textSize="20sp" />
+
+                <EditText
+                    android:id="@+id/activityPageActivityNameEdit"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    android:visibility="gone" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/activityPageEditButton"
+            android:layout_width="30sp"
+            android:layout_height="30sp"
+            android:layout_alignParentEnd="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/ic_edit"
+            android:visibility="visible" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="530dp"
+            android:layout_below="@+id/headerLayout"
+            android:layout_above="@+id/add_session_button"
+            android:layout_marginBottom="10dp">
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/activityPageLinearLayoutNextSessions"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/myNextSessionAndshowButtons"
+                    android:orientation="horizontal">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/activityPageRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="30sp"
+                        android:layout_marginRight="30sp"
+                        android:background="@drawable/ic_border"
+                        android:orientation="vertical"
+                        android:padding="20sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/myNextSessionAndshowButtons"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
+
+                    <TextView
+                        android:id="@+id/myNextSessionstext"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="25sp"
+                        android:layout_marginTop="20sp"
+                        android:layout_marginBottom="10sp"
+                        android:text="@string/my_next_sessions_"
+                        android:textColor="@color/sub_tilte"
+                        android:textSize="25sp" />
+
+                    <Button
+                        android:id="@+id/activityPageShowLessButton"
+                        android:layout_width="30sp"
+                        android:layout_height="30sp"
+                        android:layout_marginTop="20sp"
+                        android:layout_marginBottom="10sp"
+                        android:layout_marginLeft="5dp"
+                        android:background="@drawable/ic_minus_icon"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/activityPageShowMoreButton"
+                        android:layout_width="30sp"
+                        android:layout_height="30sp"
+                        android:layout_marginTop="20sp"
+                        android:layout_marginBottom="10sp"
+                        android:layout_marginLeft="5dp"
+                        android:background="@drawable/ic_plus_"
+                        android:visibility="gone" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/activityPageGoalsTextDisplay"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/activityPageLinearLayoutNextSessions"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginStart="25sp"
+                    android:layout_marginTop="20sp"
+                    android:text="@string/weeklyGoal"
+                    android:textColor="@color/sub_tilte"
+                    android:textSize="25sp" />
+
+                <TextView
+                    android:id="@+id/activityPageGoalsText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/activityPageGoalsTextDisplay"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"
+                    android:text="@string/WeeklyGoal"
+                    android:textColor="@color/sub_tilte"
+                    android:textSize="25sp" />
+
+                <Button
+                    android:id="@+id/editGoalButton"
+                    android:layout_width="30sp"
+                    android:layout_height="30sp"
+                    android:layout_below="@+id/activityPageGoalsTextDisplay"
+                    android:layout_alignParentEnd="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="-2dp"
+                    android:layout_marginEnd="26dp"
+                    android:background="@drawable/ic_edit"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/activityPageLinearLayoutTodoList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/activityPageGoalsText"
+                    android:orientation="horizontal">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/todoRecyclerView"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@id/activityPageGoalsText"
+                        android:layout_marginLeft="30sp"
+                        android:layout_marginRight="30sp"
+                        android:background="@drawable/ic_border"
+                        android:orientation="vertical"
+                        android:padding="20sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/activityPageLinearLayoutTextAndValidateNewElementTodoList"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/activityPageLinearLayoutTodoList"
+                    android:layout_marginLeft="30sp"
+                    android:layout_marginRight="30sp"
+                    android:background="@drawable/ic_border"
+                    android:orientation="horizontal"
+                    android:paddingLeft="20sp">
+
+                    <Button
+                        android:id="@+id/validateToTodoListButton"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/ic_add_check_box"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/addToTodoListButton"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_gravity="center"
+                        android:background="@drawable/ic_add_check_box"
+                        android:visibility="visible" />
+
+                    <EditText
+                        android:id="@+id/addToTodoListText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:hint="Add a element" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/activityPagePhotosText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/activityPageLinearLayoutTextAndValidateNewElementTodoList"
+                    android:layout_marginStart="25sp"
+                    android:layout_marginTop="20sp"
+                    android:layout_marginBottom="10sp"
+                    android:text="Last session :"
+                    android:textColor="@color/sub_tilte"
+                    android:textSize="25sp" />
+
+                <LinearLayout
+                    android:id="@+id/activityPageLinearLayoutPhotos"
+                    android:layout_width="250sp"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/activityPagePhotosText"
+                    android:orientation="vertical"
+                    android:layout_centerHorizontal="true">
+
+                    <ImageView
+                        android:id="@+id/activityPagePicture"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:src="@drawable/ic_animal"
+                        android:visibility="visible" />
+
+                    <TextView
+                        android:id="@+id/activityPageCommentText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:paddingRight="10dp"
+                        android:paddingLeft="10dp"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/shape_radius_background"
+                        android:backgroundTint="@color/white"
+                        android:text="comment zone"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        android:visibility="gone"/>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </ScrollView>
+
+        <ImageButton
+            android:id="@+id/add_session_button"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="30dp"
+            android:background="@color/transparent"
+            app:tint="@color/green_btn"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_plus_"/>
+
+        <ImageButton
+            android:id="@+id/homeButton"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="30dp"
+            android:background="#00FFFFFF"
+            android:scaleType="center"
+            app:srcCompat="@drawable/ic_home"
+            app:tint="@color/green_btn"/>
+
+        <Button
+            android:id="@+id/activityPageValidateButton"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/ic_check"
+            android:visibility="gone"
+            app:backgroundTint="@color/green_btn" />
+
+        <ImageButton
+            android:id="@+id/deleteActivityButton"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="30dp"
+            android:layout_marginBottom="40dp"
+            android:background="@drawable/ic_bin"
+            android:scaleType="center"
+            android:visibility="gone" />
+
+    </RelativeLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

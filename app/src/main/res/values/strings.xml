@@ -1,3 +1,130 @@
 <resources>
-    <string name="app_name">HobbyZooBeZoo</string>
+    <string name="app_name">HobbyZoo</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Default values of lists (adapter) -->
+    <string name="default_pet_name">Pet Name</string>
+    <string name="default_activity_name">Activity Name</string>
+    <string name="default_activity_time">Activity Time</string>
+    <string name="default_session_date">Sessions date</string>
+
+    <string name="first_animal">1stAnimal</string>
+    <string name="second_animal">2ndAnimal</string>
+    <string name="third_animal">3rdAnimal</string>
+    <string name="fourth_animal">4thAnimal</string>
+    <string name="fifth_animal">5thAnimal</string>
+
+    <!-- A changer par un image button  -->
+    <string name="add_new">+</string>
+    <string name="back_back"><![CDATA[<<]]></string>
+    <string name="validate">Validate</string>
+    <!-- A changer PEUT ETRE par un image button  -->
+    <string name="back_arrow"><![CDATA[<-]]></string>
+    <string name="forward_arrow"><![CDATA[->]]></string>
+
+    <!-- New category -->
+    <string name="new_category">New Category</string>
+    <string name="category_name_">Category name :</string>
+    <string name="category_color_">Category color :</string>
+
+    <!-- New activity -->
+    <string name="new_activity">New Activity</string>
+    <string name="activity_name_">Activity name :</string>
+    <string name="category_">Category :</string>
+    <string name="pet_choice_">Choose a pet :</string>
+    <string name="weekly_goal_">Weekly goal :</string>
+
+    <!-- New session -->
+    <string name="new_session">New Session</string>
+    <string name="activity_">Activity :</string>
+    <string name="session_duration_">Session duration :</string>
+    <string name="date_">Date :</string>
+
+    <!-- My activities  -->
+    <string name="my_activities">My activities</string>
+    <string name="my_next_sessions_">My next sessions :</string>
+    <string name="WeeklyGoal">Goal :</string>
+
+    <!-- login register  -->
+    <string name="forgot_password_">Forgot password? Recover</string>
+    <string name="do_not_have_account_">Do not have account? Register</string>
+    <string name="register">Register</string>
+    <string name="pseudo">Pseudo</string>
+    <string name="email_address">Email address</string>
+    <string name="password">Password</string>
+    <string name="already_have_account_login">Already have account? Login</string>
+    <string name="login">Login</string>
+
+    <!-- session  -->
+    <string name="stop">Stop</string>
+    <string name="resume">Resume</string>
+    <string name="pause">Pause</string>
+    <string name="add_time">Add time</string>
+    <string name="next">Next</string>
+    <string name="time_left_">Time left :</string>
+    <string name="rewrite">Rewrite</string>
+    <string name="session_comment_edit">Write your comment</string>
+    <string name="retake">Retake</string>
+    <string name="default_time_end_session">0h/0h</string>
+
+    <!-- calendar  -->
+    <string name="default_calendar_date">Feb 2021</string>
+    <string name="sun">SUN</string>
+    <string name="mon">MON</string>
+    <string name="tue">TUE</string>
+    <string name="wed">WED</string>
+    <string name="thur">THUR</string>
+    <string name="fri">FRI</string>
+    <string name="sat">SAT</string>
+    <string name="today_sessions">Today Sessions</string>
+
+    <!-- common buttons  -->
+    <string name="ok">Ok</string>
+    <string name="back">Back</string>
+    <string name="skip">Skip</string>
+    <string name="Next">Next</string>
+    <string name="username">Username</string>
+    <string name="change_password">Change Password</string>
+    <string name="unregister">Delete account</string>
+    <string name="log_out">Log out</string>
+    <string name="version">V 1.0</string>
+    <string name="about">About</string>
+    <string name="help">Help</string>
+    <string name="rate_hobbyzoo">Rate HobbyZoo</string>
+    <string name="terms_of_service">Terms Of Service</string>
+    <string name="notifications">Notifications</string>
+    <string name="settings">Settings</string>
+
+    <string name="weeklyGoal">Weekly Goal:</string>
+    <string name="title_activity_main">MainActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="my_evolution">My evolution</string>
+    <string name="date_format">xx-xx-xxxx</string>
+    <string name="memoryPhoto">memoryPhoto</string>
+    <string name="share">Share</string>
+
+    <string name="logo" />
+
+    <string name="edit_profile">Edit profile</string>
+    <string name="session_finished">Session finished</string>
+    <string name="finish">Finish</string>
+    <string name="_00_00_00">00:00:00</string>
+    <string name="account">Account</string>
+    <string name="myEmail">My Email:</string>
+    <string name="enable_notifications">Enable notifications</string>
+
+
+
+    <string name="channel_name">My notification</string>
+    <string name="channel_description">My channel description</string>
+    <string name="welcome_to">Welcome to</string>
+
+
 </resources>

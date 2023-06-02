@@ -8,6 +8,7 @@ import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.LayoutInflater;
@@ -40,7 +41,9 @@ public class RunSession extends AppCompatActivity {
     ImageButton stopButton, pauseButton, resumeButton, validateButton, addTimeButton;
     ImageView petPicture;
     FirebaseAuth firebaseAuth;
+    private MediaPlayer mediaPlayer;
     String activity_id, session_id, activityPet, session_duration;
+    private boolean isCounting = false;
 
 
     @SuppressLint("MissingInflatedId")
@@ -216,6 +219,31 @@ public class RunSession extends AppCompatActivity {
         pauseButton.setVisibility(View.VISIBLE);
         resumeButton.setVisibility(View.GONE);
     }
+
+    private void initMediaPlayer() {
+        mediaPlayer = MediaPlayer.create(this, R.raw.notification2);
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+
+            }
+        });
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        pauseCountDown();
+        isCounting = false;
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isCounting) {
+            resumeCountDown();
+        }
+
+    }
     private void startCountdown(){
 
         countDownTimer=new CountDownTimer(countDownTime, 1000) {
@@ -226,6 +254,8 @@ public class RunSession extends AppCompatActivity {
             }
             @Override
             public void onFinish() {
+                initMediaPlayer();
+                mediaPlayer.start();
                 totalSessionTime += countDownTime;
                 validateButton.setVisibility(View.VISIBLE);
                 resumeButton.setVisibility(View.GONE);

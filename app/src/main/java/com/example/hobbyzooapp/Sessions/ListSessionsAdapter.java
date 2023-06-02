@@ -167,7 +167,6 @@ public class ListSessionsAdapter extends RecyclerView.Adapter<ListSessionsAdapte
                             Intent intent = new Intent(holder.itemView.getContext(), ActivityPage.class);
                             intent.putExtra("activity_id",items.get(position).getActivityId());
                             holder.itemView.getContext().startActivity(intent);
-
                         }
                     });
                     dialogButtonNo.setOnClickListener(new View.OnClickListener() {

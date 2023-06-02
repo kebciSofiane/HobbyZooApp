@@ -82,7 +82,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/activityPageEditPetNameButton"
+            android:id="@+id/activityPageEditButton"
             android:layout_width="30sp"
             android:layout_height="30sp"
             android:layout_alignParentEnd="true"
@@ -92,16 +92,7 @@
             android:background="@drawable/ic_edit"
             android:visibility="visible" />
 
-        <Button
-            android:id="@+id/activityPagecheckPetNameButton"
-            android:layout_width="30sp"
-            android:layout_height="30sp"
-            android:background="@drawable/ic_check"
-            android:layout_alignParentEnd="true"
-            android:layout_marginEnd="10dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="25dp"
-            android:visibility="gone"/>
+
 
 
         <ScrollView
@@ -305,10 +296,12 @@
                         android:layout_marginBottom="10sp"
                         android:padding="5dp"
                         android:background="@drawable/shape_radius_background"
+                        android:backgroundTint="@color/white"
                         android:text="comment zone"
                         android:textAlignment="center"
                         android:textColor="@color/black"
-                        android:textSize="20sp" />
+                        android:textSize="20sp"
+                        android:visibility="gone"/>
 
                 </LinearLayout>
 
@@ -338,7 +331,21 @@
             android:layout_marginBottom="30dp"
             android:background="#00FFFFFF"
             android:scaleType="center"
-            app:srcCompat="@drawable/ic_home" />
+            app:srcCompat="@drawable/ic_home"
+            app:tint="@color/green_btn"/>
+
+        <Button
+            android:id="@+id/activityPageValidateButton"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/ic_check"
+            android:visibility="gone"
+            app:backgroundTint="@color/green_btn" />
+
 
         <ImageButton
             android:id="@+id/deleteActivityButton"

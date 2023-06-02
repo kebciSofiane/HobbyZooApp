@@ -124,8 +124,9 @@ public class NewSession extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"The date can't be earlier!",Toast.LENGTH_LONG).show();
                     } else {
                         addDBSession();
+                        /*
                         Intent intent = new Intent().setClass(getApplicationContext(), HomeActivity.class);
-                        startActivity(intent);
+                        startActivity(intent);*/
                         finish();
                     }
                 }

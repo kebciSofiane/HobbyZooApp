@@ -175,21 +175,9 @@ public class ActivityPage extends AppCompatActivity {
             }
         });
 
-        editTextPetName = findViewById(R.id.activityPagePetNameEdit);
         InputFilter[] filters = new InputFilter[1];
         filters[0] = new InputFilter.LengthFilter(10);
         editTextPetName.setFilters(filters);
-
-        validatePetName = findViewById(R.id.activityPagecheckPetNameButton);
-        //Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.koa);
-        /*
-        int newWidth = (int) (bitmap.getWidth() * (70 / 100.0));
-        int newHeight = (int) (bitmap.getHeight() * (70 / 100.0));
-        Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, false);
-        petPic.setScaleType(ImageView.ScaleType.CENTER_CROP);*/
-
-       // petPic.setImageBitmap(bitmap);
-
         editNamePetButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -205,6 +193,7 @@ public class ActivityPage extends AppCompatActivity {
                 deleteActivityButton.setVisibility(View.VISIBLE);
                 editGoalButton.setVisibility(View.VISIBLE);
                 backButton.setVisibility(View.GONE);
+                addSessionButton.setVisibility(View.GONE);
             }
         });
 
@@ -237,7 +226,12 @@ public class ActivityPage extends AppCompatActivity {
         addSessionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ActivityPage.this, NewSession.class));
+                Intent intent = new Intent(ActivityPage.this, NewSession.class);
+                intent.putExtra("previousActivity", 1);
+                intent.putExtra("activity_id", activityId);
+                intent.putExtra("activity_name", activityName);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -250,11 +244,11 @@ public class ActivityPage extends AppCompatActivity {
             }
         });
 
-        backButton = findViewById(R.id.backButtonActivityPage);
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ActivityPage.this, MyActivities.class));
+                finish();
             }
         });
 
@@ -265,8 +259,8 @@ public class ActivityPage extends AppCompatActivity {
                 LayoutInflater inflater = getLayoutInflater();
                 View dialogView = inflater.inflate(R.layout.custom_dialog_, null);
                 TextView dialogTitle = dialogView.findViewById(R.id.dialogTitle);
-                Button dialogButtonYes = dialogView.findViewById(R.id.dialogButtonLeft);
-                Button dialogButtonNo = dialogView.findViewById(R.id.dialogButtonRight);
+                Button dialogButtonNo = dialogView.findViewById(R.id.dialogButtonLeft);
+                Button dialogButtonYes = dialogView.findViewById(R.id.dialogButtonRight);
                 dialogTitle.setText("Are you sure you want to delete it?");
                 dialogButtonYes.setText("Yes");
                 dialogButtonNo.setText("No");
@@ -395,6 +389,7 @@ public class ActivityPage extends AppCompatActivity {
                 deleteActivityButton.setVisibility(View.GONE);
                 editGoalButton.setVisibility(View.GONE);
                 backButton.setVisibility(View.VISIBLE);
+                addSessionButton.setVisibility(View.VISIBLE);
 
 
                 DatabaseReference activitiesRef = FirebaseDatabase.getInstance().getReference("Activity");
@@ -508,10 +503,10 @@ public class ActivityPage extends AppCompatActivity {
     @SuppressLint("WrongViewCast")
     private void initialisation(){
         firebaseAuth = FirebaseAuth.getInstance();
-        petPic =findViewById(R.id.activityPagePetPic);
+        petPic = findViewById(R.id.activityPagePetPic);
         petName = findViewById(R.id.activityPagePetName);
         activityNameDisplay =findViewById(R.id.activityPageActivityName);
-        editTextActivityName=findViewById(R.id.activityPageActivityNameEdit);
+        editTextActivityName = findViewById(R.id.activityPageActivityNameEdit);
         header = findViewById(R.id.headerLayout);
         goalsText = findViewById(R.id.activityPageGoalsText);
         addToTodoListText = findViewById(R.id.addToTodoListText);
@@ -519,7 +514,6 @@ public class ActivityPage extends AppCompatActivity {
         recyclerViewTodoList = findViewById(R.id.todoRecyclerView);
         sessionCommentDisplay = findViewById(R.id.activityPageCommentText);
         sessionLastPicture = findViewById(R.id.activityPagePicture);
-        //petPic.setImageResource(R.drawable.koala_icon);
         showMoreButton = findViewById(R.id.activityPageShowMoreButton);
         showLessButton = findViewById(R.id.activityPageShowLessButton);
         homeButton = findViewById(R.id.homeButton);
@@ -528,6 +522,9 @@ public class ActivityPage extends AppCompatActivity {
         editGoalButton = findViewById(R.id.editGoalButton);
         deleteActivityButton = findViewById(R.id.deleteActivityButton);
         addSessionButton = findViewById(R.id.add_session_button);
+        validatePetName = findViewById(R.id.activityPagecheckPetNameButton);
+        backButton = findViewById(R.id.backButtonActivityPage);
+        editTextPetName = findViewById(R.id.activityPagePetNameEdit);
     }
 
     private ArrayList<Session> getSessionList(String activity_id, OnSessionListRetrievedListener listener){

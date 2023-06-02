@@ -1,210 +1,216 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/app_background"
-    android:fillViewport="true">
+    android:background="@color/app_background">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:visibility="visible">
+        android:layout_height="680dp"
+        android:fillViewport="true">
 
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:text="@string/new_activity"
-            android:textColor="@color/title_page"
-            android:textSize="30sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.409"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="MissingConstraints" />
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/activityName"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="15dp"
-            android:background="@color/brown_btn"
-            android:padding="20dp"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2"
-            tools:ignore="MissingConstraints" />
-
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/animalName"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="15dp"
-            android:padding="20dp"
-            android:textColor="@color/white"
-            android:background="@color/brown_btn"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/animalImage"
-            tools:ignore="MissingConstraints" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="@string/activity_name_"
-            android:textColor="@color/sub_tilte"
-            android:textSize="23sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.135"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
-            tools:ignore="MissingConstraints" />
+            android:padding="16dp"
+            android:visibility="visible"
+            tools:ignore="ExtraText">
+            android:visibility="visible">
 
-        <TextView
-            android:id="@+id/textView3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="44dp"
-            android:text="@string/category_"
-            android:textColor="@color/sub_tilte"
-            android:textSize="23sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.1"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activityName"
-            tools:ignore="MissingConstraints" />
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:text="@string/new_activity"
+                android:textColor="@color/title_page"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.409"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="MissingConstraints" />
 
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="44dp"
-            android:text="@string/pet_choice_"
-            android:textColor="@color/sub_tilte"
-            android:textSize="23sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.127"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/weeklyGoal"
-            tools:ignore="MissingConstraints" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/activityName"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="15dp"
+                android:background="@color/brown_btn"
+                android:padding="20dp"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sub_title_activity_name"
+                tools:ignore="MissingConstraints" />
 
-        <ImageView
-            android:id="@+id/validationButton"
-            android:layout_width="88dp"
-            android:layout_height="66dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="75dp"
-            android:layout_marginBottom="10dp"
-            android:src="@drawable/ic_circle_check_icon"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/returnButton"
-            app:layout_constraintTop_toBottomOf="@+id/animalName" />
 
-        <ImageView
-            android:id="@+id/returnButton"
-            android:layout_width="88dp"
-            android:layout_height="66dp"
-            android:layout_marginStart="75dp"
-            android:layout_marginBottom="10dp"
-            android:src="@drawable/ic_circle_red_cross_icon"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/animalName"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="15dp"
+                android:background="@color/brown_btn"
+                android:padding="20dp"
+                android:textColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/animalImage"
+                tools:ignore="MissingConstraints" />
 
-        <ImageView
-            android:id="@+id/animalImage"
-            android:layout_width="168dp"
-            android:layout_height="174dp"
-            android:layout_marginTop="30dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView8"
-            app:srcCompat="@drawable/sheep_whole_neutral" />
+            <TextView
+                android:id="@+id/sub_title_category"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="@string/category_"
+                android:textColor="@color/sub_tilte"
+                android:textSize="23sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                tools:ignore="MissingConstraints" />
 
-        <Spinner
-            android:id="@+id/categoryName"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="15dp"
-            android:background="@color/brown_btn"
-            android:popupBackground="@color/light_calendar"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView3" />
+            <TextView
+                android:id="@+id/sub_title_activity_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="44dp"
+                android:text="@string/activity_name_"
+                android:textColor="@color/sub_tilte"
+                android:textSize="23sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/categoryName"
+                tools:ignore="MissingConstraints" />
 
-        <TextView
-            android:id="@+id/textView9"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="48dp"
-            android:text="@string/weekly_goal_"
-            android:textColor="@color/sub_tilte"
-            android:textSize="23sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.111"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/categoryName" />
+            <TextView
+                android:id="@+id/sub_title_pet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="44dp"
+                android:text="@string/pet_choice_"
+                android:textColor="@color/sub_tilte"
+                android:textSize="23sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/weeklyGoal"
+                tools:ignore="MissingConstraints" />
 
-        <TimePicker
-            android:id="@+id/weeklyGoal"
-            android:layout_width="256dp"
-            android:layout_height="158dp"
-            android:layout_marginTop="24dp"
-            android:background="@color/brown_btn"
-            android:timePickerMode="spinner"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView9" />
+            <ImageView
+                android:id="@+id/animalImage"
+                android:layout_width="168dp"
+                android:layout_height="174dp"
+                android:layout_marginTop="30dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sub_title_pet"
+                app:srcCompat="@drawable/sheep_whole_neutral" />
 
-        <Button
-            android:id="@+id/scrollAnimalsRight"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="44dp"
-            android:layout_marginTop="96dp"
-            android:layout_marginEnd="33dp"
-            android:background="@drawable/ic_arrow_right"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/animalImage"
-            app:layout_constraintTop_toBottomOf="@+id/textView8" />
+            <Spinner
+                android:id="@+id/categoryName"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="15dp"
+                android:background="@color/brown_btn"
+                android:popupBackground="@color/light_calendar"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sub_title_category" />
 
-        <Button
-            android:id="@+id/scrollAnimalsLeft"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="33dp"
-            android:layout_marginTop="96dp"
-            android:layout_marginEnd="44dp"
-            android:background="@drawable/ic_arrow_left"
-            app:layout_constraintEnd_toStartOf="@+id/animalImage"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView8" />
+            <TextView
+                android:id="@+id/sub_title_weekly_goal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:text="@string/weekly_goal_"
+                android:textColor="@color/sub_tilte"
+                android:textSize="23sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.1"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activityName" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+            <TimePicker
+                android:id="@+id/weeklyGoal"
+                android:layout_width="256dp"
+                android:layout_height="158dp"
+                android:layout_marginTop="24dp"
+                android:background="@color/brown_btn"
+                android:timePickerMode="spinner"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sub_title_weekly_goal" />
 
-</ScrollView>
+            <Button
+                android:id="@+id/scrollAnimalsRight"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="44dp"
+                android:layout_marginTop="96dp"
+                android:layout_marginEnd="33dp"
+                android:background="@drawable/ic_arrow_right"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/animalImage"
+                app:layout_constraintTop_toBottomOf="@+id/sub_title_pet" />
+
+            <Button
+                android:id="@+id/scrollAnimalsLeft"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="33dp"
+                android:layout_marginTop="96dp"
+                android:layout_marginEnd="44dp"
+                android:background="@drawable/ic_arrow_left"
+                app:layout_constraintEnd_toStartOf="@+id/animalImage"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/sub_title_pet" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <ImageView
+        android:id="@+id/validationButton"
+        android:layout_width="88dp"
+        android:layout_height="66dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginBottom="10dp"
+        app:tint="@color/green"
+        android:src="@drawable/ic_circle_check_icon" />
+
+    <ImageView
+        android:id="@+id/returnButton"
+        android:layout_width="88dp"
+        android:layout_height="66dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/ic_circle_red_cross_icon"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>

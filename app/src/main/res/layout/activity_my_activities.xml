@@ -50,7 +50,7 @@
             android:layout_marginTop="25dp"
             android:layout_marginEnd="10dp"
             android:background="@drawable/ic_edit"
-            android:visibility="visible" />
+            android:visibility="gone" />
 
     </RelativeLayout>
 

@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/app_background"
-    android:fillViewport="true">
+    android:background="@color/app_background">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="16dp"
+        android:layout_height="680dp"
+        android:fillViewport="true">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:visibility="visible"
+            tools:ignore="ExtraText">
         android:visibility="visible">
 
         <TextView
@@ -103,31 +109,6 @@
             tools:ignore="MissingConstraints" />
 
         <ImageView
-            android:id="@+id/validationButton"
-            android:layout_width="88dp"
-            android:layout_height="66dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginEnd="75dp"
-            android:layout_marginBottom="10dp"
-            android:src="@drawable/ic_circle_check_icon"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/returnButton"
-            app:layout_constraintTop_toBottomOf="@+id/animalName" />
-
-        <ImageView
-            android:id="@+id/returnButton"
-            android:layout_width="88dp"
-            android:layout_height="66dp"
-            android:layout_marginStart="75dp"
-            android:layout_marginBottom="10dp"
-            android:src="@drawable/ic_circle_red_cross_icon"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <ImageView
             android:id="@+id/animalImage"
             android:layout_width="168dp"
             android:layout_height="174dp"
@@ -205,6 +186,31 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-</ScrollView>
+    </ScrollView>
+
+    <ImageView
+        android:id="@+id/validationButton"
+        android:layout_width="88dp"
+        android:layout_height="66dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="80dp"
+        android:layout_marginBottom="10dp"
+        app:tint="@color/green"
+        android:src="@drawable/ic_circle_check_icon" />
+
+    <ImageView
+        android:id="@+id/returnButton"
+        android:layout_width="88dp"
+        android:layout_height="66dp"
+        android:layout_marginStart="80dp"
+        android:layout_marginBottom="10dp"
+        android:src="@drawable/ic_circle_red_cross_icon"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>

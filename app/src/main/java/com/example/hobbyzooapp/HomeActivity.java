@@ -174,6 +174,9 @@ public class HomeActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        Intent serviceIntent = new Intent(this, BackgroundService.class);
+        startService(serviceIntent);
+
     }
 
     private void initialisation() {

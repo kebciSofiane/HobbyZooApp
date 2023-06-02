@@ -84,7 +84,7 @@ public class MyDailySessions extends AppCompatActivity {
             }
         });
 
-       // sessionButton = findViewById(R.id.itemSessionList);
+        // sessionButton = findViewById(R.id.itemSessionList);
 
         GridView sessionListView = findViewById(R.id.session_list_view);
         ArrayList<Session> sessions;
@@ -132,11 +132,6 @@ public class MyDailySessions extends AppCompatActivity {
                                 dialog.dismiss();
                             }
                         });
-
-
-
-
-
                     }
                 });
                 sessionListView.setAdapter(adapter);
@@ -165,66 +160,67 @@ public class MyDailySessions extends AppCompatActivity {
 
     public void openRunSession() {}
 
- private ArrayList<Session> getSessions(SessionsCallback callback) {
-     FirebaseDatabase database = FirebaseDatabase.getInstance();
-     DatabaseReference reference = database.getReference("Session");
-     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-     FirebaseUser user = firebaseAuth.getCurrentUser();
-     String uid = user.getUid();
-     ArrayList<Session> mySessions = new ArrayList<>();
-     reference.orderByChild("user_id").equalTo(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+    private ArrayList<Session> getSessions(SessionsCallback callback) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference reference = database.getReference("Session");
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        String uid = user.getUid();
+        ArrayList<Session> mySessions = new ArrayList<>();
+        reference.orderByChild("user_id").equalTo(uid).addListenerForSingleValueEvent(new ValueEventListener() {
 
-         @Override
-         public void onDataChange(DataSnapshot dataSnapshot) {
-             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                 String session_id = snapshot.child("session_id").getValue(String.class);
-                 String session_duration = snapshot.child("session_duration").getValue(String.class);
-                 String activity_id = snapshot.child("activity_id").getValue(String.class);
-                 String session_day = snapshot.child("session_day").getValue(String.class);
-                 String session_month = snapshot.child("session_month").getValue(String.class);
-                 String session_year = snapshot.child("session_year").getValue(String.class);
-                 String session_image = snapshot.child("session_picture").getValue(String.class);
-                 String session_done = snapshot.child("session_done").getValue(String.class);
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String session_id = snapshot.child("session_id").getValue(String.class);
+                    String session_duration = snapshot.child("session_duration").getValue(String.class);
+                    String activity_id = snapshot.child("activity_id").getValue(String.class);
+                    String session_day = snapshot.child("session_day").getValue(String.class);
+                    String session_month = snapshot.child("session_month").getValue(String.class);
+                    String session_year = snapshot.child("session_year").getValue(String.class);
+                    String session_image = snapshot.child("session_picture").getValue(String.class);
+                    String session_done = snapshot.child("session_done").getValue(String.class);
 
-                 DatabaseReference referenceActivity = database.getReference("Activity");
+                    DatabaseReference referenceActivity = database.getReference("Activity");
 
-                 referenceActivity.child(activity_id).addListenerForSingleValueEvent(new ValueEventListener() {
-                     @RequiresApi(api = Build.VERSION_CODES.O)
-                     @Override
-                     public void onDataChange(DataSnapshot dataSnapshot) {
-                         if (dataSnapshot.exists()) {
-                             String activityName = dataSnapshot.child("activity_name").getValue(String.class).replace(",", " ");
-                             int hourDuration = Integer.parseInt(session_duration)/60;
-                             int minutesDuration = Integer.parseInt(session_duration)%60;
-                             String mnemonicPet = dataSnapshot.child("activity_pet").getValue(String.class);
-                                         mySessions.add(new Session(session_id,
-                                                 activity_id,
-                                                 activityName,
-                                                 new Time(hourDuration,minutesDuration,0),
-                                                 Integer.parseInt(session_day),
-                                                 Integer.parseInt(session_month),
-                                                 Integer.parseInt(session_year),
-                                                 session_image,
-                                                 mnemonicPet,
-                                                 session_done)
-                                         );
-                             callback.onSessionsLoaded(mySessions);
-                         } else {
-                             // L'activité n'existe pas dans la base de données
-                         }
-                     }
-                     @Override
-                     public void onCancelled(DatabaseError databaseError) {
-                         // Une erreur s'est produite lors de la récupération des données
-                     }
-                 });
-             }
-         }
-         @Override
-         public void onCancelled(DatabaseError databaseError) {
-             Log.w("TAG", "Erreur lors de la récupération des données", databaseError.toException());
-         }
-     });
-     return mySessions;
- }
+                    referenceActivity.child(activity_id).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @RequiresApi(api = Build.VERSION_CODES.O)
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                String activityName = dataSnapshot.child("activity_name").getValue(String.class).replace(",", " ");
+                                int hourDuration = Integer.parseInt(session_duration)/60;
+                                int minutesDuration = Integer.parseInt(session_duration)%60;
+                                String mnemonicPet = dataSnapshot.child("activity_pet").getValue(String.class);
+                                mySessions.add(new Session(session_id,
+                                        activity_id,
+                                        activityName,
+                                        new Time(hourDuration,minutesDuration,0),
+                                        Integer.parseInt(session_day),
+                                        Integer.parseInt(session_month),
+                                        Integer.parseInt(session_year),
+                                        session_image,
+                                        mnemonicPet,
+                                        session_done)
+                                );
+                                callback.onSessionsLoaded(mySessions);
+                            } else {
+                                // L'activité n'existe pas dans la base de données
+                            }
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            // Une erreur s'est produite lors de la récupération des données
+                        }
+                    });
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("TAG", "Erreur lors de la récupération des données", databaseError.toException());
+            }
+        });
+        return mySessions;
+    }
+
 }

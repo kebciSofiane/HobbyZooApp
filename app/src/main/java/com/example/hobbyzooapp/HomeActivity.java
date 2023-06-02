@@ -582,8 +582,6 @@ public class HomeActivity extends AppCompatActivity {
                 linearLayoutList.get(i).setTag(activities_id.get(i));
         }
 
-
-
         // Obtenir le gestionnaire de fenêtres
             WindowManager windowManager = getWindowManager();
 
@@ -597,19 +595,18 @@ public class HomeActivity extends AppCompatActivity {
             // Obtenir la hauteur de l'écran
             int surfaceHeight = displayMetrics.heightPixels;
 
-            int cellHeight = surfaceHeight / 5;
-            int cellWidth = surfaceWidth / 5;
+            int cellHeight = surfaceHeight / 6;
+            int cellWidth = surfaceWidth / 6;
 
             ArrayList<int[]> cellList = new ArrayList<>();
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 6; i++)
                 for (int j = 0; j < 4; j++) {
                     int[] val = new int[2];
                     val[0] = i * cellWidth;
                     val[1] = j * cellHeight;
                     cellList.add(val);
                 }
-
 
             System.out.println(cellList);
 
@@ -636,14 +633,12 @@ public class HomeActivity extends AppCompatActivity {
             image3Y = cellList.get(val)[1];
             cellList.remove(val);
 
-
             int image4X = 0;
             int image4Y = 0;
             val = random.nextInt(cellList.size() - 1);
             image4X = cellList.get(val)[0];
             image4Y = cellList.get(val)[1];
             cellList.remove(val);
-
 
             int image5X = 0;
             int image5Y = 0;
@@ -655,18 +650,15 @@ public class HomeActivity extends AppCompatActivity {
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT,
                 RelativeLayout.LayoutParams.WRAP_CONTENT);
-        params.topMargin = cellHeight*4- cellHeight/4;
-
+        params.topMargin = cellHeight*4;
 
         footer.setLayoutParams(params);
-
 
             RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams(
                     RelativeLayout.LayoutParams.WRAP_CONTENT,
                     RelativeLayout.LayoutParams.WRAP_CONTENT);
             params1.leftMargin = image1X;
             params1.topMargin = image1Y;
-
 
             linearLayout1.setLayoutParams(params1);
 
@@ -698,5 +690,4 @@ public class HomeActivity extends AppCompatActivity {
             params5.topMargin = image5Y;
             linearLayout5.setLayoutParams(params5);
         }
-
     }

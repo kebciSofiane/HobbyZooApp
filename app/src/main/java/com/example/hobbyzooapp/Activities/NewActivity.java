@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.hobbyzooapp.Category.NewCategory;
 import com.example.hobbyzooapp.HomeActivity;
 import com.example.hobbyzooapp.R;
+import com.example.hobbyzooapp.Sessions.NewSession;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -38,14 +39,14 @@ import java.util.regex.Pattern;
 
 public class NewActivity extends AppCompatActivity {
 
-    String activity_name, animalName, category_id;
+    String activity_name, animalName, category_id, category_name;
     FirebaseAuth firebaseAuth;
     Spinner categorySelector;
     FirebaseUser user;
     TimePicker weeklyGoal;
     ImageView animalImage, validationButton, returnButton;
     List<String> animals, categories;
-    int posAnimals;
+    int posAnimals, origin;
     String regexPattern = "^[a-zA-Z0-9 ]+$";
     Pattern pattern;
     EditText editActivityName, editPetName;
@@ -57,7 +58,6 @@ public class NewActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_activity);
         initialisation();
-        intentInitialisation();
         Button scrollAnimalsRight = findViewById(R.id.scrollAnimalsRight);
         @SuppressLint({"MissingInflatedId", "LocalSuppress"}) Button scrollAnimalsLeft = findViewById(R.id.scrollAnimalsLeft);
         scrollAnimalsRight.setOnClickListener(new View.OnClickListener() {
@@ -93,15 +93,6 @@ public class NewActivity extends AppCompatActivity {
         categorySelector.setOnItemSelectedListener(
                 new AdapterView.OnItemSelectedListener() {
                     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-
-                        if(parent.getItemAtPosition(pos) == "New Category"){
-                            Intent intent = new Intent().setClass(getApplicationContext(), NewCategory.class);
-                            intent.putExtra("activity_name", editActivityName.getText());
-                            intent.putExtra("animal_name", editPetName.getText());
-                            intent.putExtra("pos_animal", posAnimals);
-                            startActivity(intent);
-                            finish();
-                        }
                         final String[] category_id_select = new String[1];
                         String user_id = user.getUid();
                         DatabaseReference databaseReferenceChild = FirebaseDatabase.getInstance().getReference().child("Category");
@@ -127,7 +118,10 @@ public class NewActivity extends AppCompatActivity {
                             }
                         });
                         categorySelector.setSelection(pos);
-
+                        if(categorySelector.getSelectedItem().equals("New Category")){
+                            startActivity(new Intent(NewActivity.this, NewCategory.class));
+                            finish();
+                        }
                     }
                     public void onNothingSelected(AdapterView<?> parent) {
                     }
@@ -136,6 +130,12 @@ public class NewActivity extends AppCompatActivity {
         returnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent;
+                if (origin == 1)
+                    intent = new Intent(NewActivity.this, NewSession.class);
+                else
+                    intent = new Intent(NewActivity.this, MyActivities.class);
+                startActivity(intent);
                 finish();
             }
         });
@@ -169,7 +169,11 @@ public class NewActivity extends AppCompatActivity {
                             }
                             if(activities.size() == 0){
                                 addBDActivity();
-                                Intent intent = new Intent().setClass(getApplicationContext(), HomeActivity.class);
+                                Intent intent;
+                                if (origin == 1)
+                                    intent = new Intent(NewActivity.this, NewSession.class);
+                                else
+                                    intent = new Intent(NewActivity.this, MyActivities.class);
                                 startActivity(intent);
                                 finish();
                             }
@@ -189,18 +193,6 @@ public class NewActivity extends AppCompatActivity {
             }
         });
     }
-
-    private void intentInitialisation() {
-        Intent intentCategory = getIntent();
-        if(intentCategory.hasExtra(activity_name)){
-            editActivityName.setText(intentCategory.getStringExtra("activity_name"));
-            editPetName.setText(intentCategory.getStringExtra("animal_name"));
-            categorySelector.setSelection(categories.size()-2);
-            posAnimals = Integer.parseInt(intentCategory.getStringExtra("pos_animal"));
-        }
-
-    }
-
 
     void initialisation(){
         firebaseAuth = FirebaseAuth.getInstance();
@@ -223,6 +215,8 @@ public class NewActivity extends AppCompatActivity {
         editPetName = findViewById(R.id.animalName);
         categories = setCategories();
         categories.add("");
+        Intent intent = getIntent();
+        origin = intent.getIntExtra("origin", 0);
     }
 
     private void addBDActivity(){

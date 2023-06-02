@@ -129,6 +129,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
+            android:popupBackground="@color/light_calendar"
             android:background="@color/brown_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"

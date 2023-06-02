@@ -41,15 +41,17 @@ public class CalendarEvolutionAdapter extends RecyclerView.Adapter<CalendarEvolu
 
         private final ArrayList<LocalDate> days;
         private  int evenDayColor;
+        private String activity;
 
 
     private final CalendarEvolutionAdapter.OnItemListener onItemListener;
 
-        public CalendarEvolutionAdapter(ArrayList<LocalDate> days, CalendarEvolutionAdapter.OnItemListener onItemListener, int evenDayColor)
+        public CalendarEvolutionAdapter(ArrayList<LocalDate> days, CalendarEvolutionAdapter.OnItemListener onItemListener, int evenDayColor, String activity)
         {
             this.evenDayColor =evenDayColor;
             this.days = days;
             this.onItemListener = onItemListener;
+            this.activity=activity;
 
         }
 
@@ -149,36 +151,39 @@ public class CalendarEvolutionAdapter extends RecyclerView.Adapter<CalendarEvolu
                                 LocalDate sessionDate = LocalDate.of(Integer.parseInt(session_year), Integer.parseInt(session_month), Integer.parseInt(session_day));
 
                                 if (date.getMonth() == sessionDate.getMonth() &&
-                                        date.getDayOfMonth() == sessionDate.getDayOfMonth()&&
+                                        date.getDayOfMonth() == sessionDate.getDayOfMonth() &&
                                         date.getYear() == sessionDate.getYear()) {
+                                    assert activityName != null;
+                                    if (activityName.equals(activity)) {
 
-                                    FirebaseStorage storage = FirebaseStorage.getInstance();
-                                    StorageReference storageRef = storage.getReference();
+                                        FirebaseStorage storage = FirebaseStorage.getInstance();
+                                        StorageReference storageRef = storage.getReference();
 
-                                    if (!session_image.isEmpty()) {
-                                        System.out.println("session: " + session_image);
-                                        Glide.with(holder.itemView.getContext())
-                                                .load(session_image)
-                                                .into(new CustomTarget<Drawable>() {
-                                                    @Override
-                                                    public void onResourceReady(@NonNull Drawable resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Drawable> transition) {
-                                                        BitmapDrawable bitmapDrawable = (BitmapDrawable) resource;
-                                                        Bitmap bitmap = bitmapDrawable.getBitmap();
-                                                        RoundedBitmapDrawable roundedDrawable = RoundedBitmapDrawableFactory.create(holder.itemView.getResources(), bitmap);
-                                                        roundedDrawable.setCornerRadius(20);
+                                        if (!session_image.isEmpty()) {
+                                            System.out.println("session: " + session_image);
+                                            Glide.with(holder.itemView.getContext())
+                                                    .load(session_image)
+                                                    .into(new CustomTarget<Drawable>() {
+                                                        @Override
+                                                        public void onResourceReady(@NonNull Drawable resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Drawable> transition) {
+                                                            BitmapDrawable bitmapDrawable = (BitmapDrawable) resource;
+                                                            Bitmap bitmap = bitmapDrawable.getBitmap();
+                                                            RoundedBitmapDrawable roundedDrawable = RoundedBitmapDrawableFactory.create(holder.itemView.getResources(), bitmap);
+                                                            roundedDrawable.setCornerRadius(20);
 
-                                                        holder.itemView.setBackground(roundedDrawable);
-                                                    }
+                                                            holder.itemView.setBackground(roundedDrawable);
+                                                        }
 
-                                                    @Override
-                                                    public void onLoadCleared(@Nullable Drawable placeholder) {
-                                                        // Méthode facultative pour gérer le chargement annulé ou effacé
-                                                    }
-                                                });
+                                                        @Override
+                                                        public void onLoadCleared(@Nullable Drawable placeholder) {
+                                                            // Méthode facultative pour gérer le chargement annulé ou effacé
+                                                        }
+                                                    });
+                                        }
+
+
+                                        // holder.itemView.setBackgroundColor(evenDayColor);
                                     }
-
-
-                                   // holder.itemView.setBackgroundColor(evenDayColor);
                                 }
                             } else {
                                 // L'activité n'existe pas dans la base de données

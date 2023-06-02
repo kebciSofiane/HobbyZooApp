@@ -3,6 +3,7 @@ package com.example.hobbyzooapp.CalendarEvolution;
 import static com.example.hobbyzooapp.Calendar.CalendarUtils.daysInMonthArray;
 import static com.example.hobbyzooapp.Calendar.CalendarUtils.monthYearFromDate;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -14,12 +15,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.hobbyzooapp.Calendar.CalendarUtils;
+import com.example.hobbyzooapp.Category.NewCategory;
 import com.example.hobbyzooapp.HomeActivity;
 import com.example.hobbyzooapp.ProfileActivity;
 import com.example.hobbyzooapp.R;
@@ -43,19 +46,20 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
     private ImageButton todayMonthButton, homeButton, backButton;
     FirebaseAuth firebaseAuth;
     FirebaseDatabase database;
+    String selectedActivity;
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_evolution);
+
+        database =FirebaseDatabase.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         chooseActivity = findViewById(R.id.evolutionActivityChooseActivity);
         getActivities();
 
-        initWidgets();
-        CalendarUtils.selectedDate = LocalDate.now();
-        setMonthView();
 
         homeButton = findViewById(R.id.home_button);
         homeButton.setOnClickListener(new View.OnClickListener() {
@@ -86,10 +90,66 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
 
     }
 
-    void setAdapter(){
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    void setAdapter() {
         ArrayAdapter<String> adapter = new ArrayAdapter<>(MyEvolutionActivity.this, R.layout.spinner_evolution_activity, myActivities);
         chooseActivity.setAdapter(adapter);
+        chooseActivity.setOnItemSelectedListener(
+                new AdapterView.OnItemSelectedListener() {
+
+                    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                        selectedActivity = (String) chooseActivity.getSelectedItem();
+                        DatabaseReference referenceActivity = database.getReference("Activity");
+
+                        referenceActivity.orderByChild("activity_name").equalTo(selectedActivity).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                    System.out.println(selectedActivity);
+                                    String category_id = snapshot.child("category_id").getValue(String.class);
+                                    DatabaseReference referenceCategory = database.getReference("Category");
+                                    System.out.println(category_id);
+
+                                    referenceCategory.orderByChild("category_id").equalTo(category_id).addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                                String category_color = snapshot.child("category_color").getValue(String.class);
+                                                int color = Color.parseColor(category_color);
+                                                chooseActivity.setBackgroundColor(color);
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+                                            // Gérez les erreurs de la récupération des données
+                                        }
+                                    });
+
+
+
+                                }
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                // Gérez les erreurs de la récupération des données
+                            }
+                        });
+                        initWidgets();
+                        CalendarUtils.selectedDate = LocalDate.now();
+                        setMonthView();
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+
+                });
     }
+
         ArrayList<String> getActivities () {
             FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
             FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -98,6 +158,7 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
             DatabaseReference dataBaseActivityRef = FirebaseDatabase.getInstance().getReference().child("Activity");
 
             dataBaseActivityRef.orderByChild("user_id").equalTo(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
+                @RequiresApi(api = Build.VERSION_CODES.O)
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -105,7 +166,10 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
                         activities.add(activity_name);
                     }
                     myActivities =activities;
+                    if (activities.size()!=0)   {
+                    selectedActivity=activities.get(0) ;
                     setAdapter();
+                }
                 }
 
                 @Override
@@ -128,7 +192,7 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
         ArrayList<LocalDate> daysInMonth = daysInMonthArray(CalendarUtils.selectedDate);
         int evenDayColor = getResources().getColor(R.color.evenDayColor);
 
-        CalendarEvolutionAdapter calendarAdapter = new CalendarEvolutionAdapter(daysInMonth, this,evenDayColor);
+        CalendarEvolutionAdapter calendarAdapter = new CalendarEvolutionAdapter(daysInMonth, this,evenDayColor, selectedActivity);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 7);
         calendarRecyclerView.setLayoutManager(layoutManager);
         calendarRecyclerView.setAdapter(calendarAdapter);
@@ -184,17 +248,21 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
                                         LocalDate sessionDate = LocalDate.of(Integer.parseInt(session_year), Integer.parseInt(session_month), Integer.parseInt(session_day));
 
                                         if (date.getMonth() == sessionDate.getMonth() &&
-                                                date.getDayOfMonth() == sessionDate.getDayOfMonth()&&
+                                                date.getDayOfMonth() == sessionDate.getDayOfMonth() &&
                                                 date.getYear() == sessionDate.getYear()) {
+                                            assert activityName != null;
+                                            if (activityName.equals(selectedActivity)) {
 
-                                            if (!session_image.isEmpty()) {
+                                                if (!session_image.isEmpty()) {
 
-                                                Intent intent = new Intent(MyEvolutionActivity.this, DateMemory.class);
-                                                intent.putExtra("day",sessionDate.getDayOfMonth());
-                                                intent.putExtra("month",sessionDate.getMonth().getValue());
-                                                intent.putExtra("year",sessionDate.getYear());
+                                                    Intent intent = new Intent(MyEvolutionActivity.this, DateMemory.class);
+                                                    intent.putExtra("day", sessionDate.getDayOfMonth());
+                                                    intent.putExtra("month", sessionDate.getMonth().getValue());
+                                                    intent.putExtra("year", sessionDate.getYear());
+                                                    intent.putExtra("activity_name", selectedActivity);
+                                                    startActivity(intent);
+                                                }
 
-                                                startActivity(intent);
                                             }
                                         }
                                     } else {

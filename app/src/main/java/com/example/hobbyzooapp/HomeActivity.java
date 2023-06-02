@@ -43,19 +43,27 @@ import java.util.Random;
 public class HomeActivity extends AppCompatActivity {
     //TODO 1 général : vérifier les boutons retour du tel de chaque activity + ajout finish() si besoin
     //TODO 2 général : enlever tous system out + commentaires inutiles + verif indentation
-    //todo : panel button revien page 1 sans relancer la page ?(phone back button aussi)
 
+    //todo : panel button revien page 1 sans relancer la page ?(phone back button aussi)
     FirebaseAuth firebaseAuth;
+    Button next, previous;
 
     private int currentIndex=0;
     private int currentIndex2=0;
     private int currentIndex3=0;
 
+    private int countText=0;
+
+    private int previousNumberOfAnimals=0;
+
+    private  int numberOfPages;
+
+    boolean rightButtonClicked=true;
+
     ImageButton calendarBtn, runBtn, profileBtn, panelHobbyZoo;
-    Button next, previous;
     ImageView imageView1, imageView2, imageView3, imageView4, imageView5;
-    TextView textView1, textView2, textView3, textView4, textView5;
-    LinearLayout linearLayout1, linearLayout2, linearLayout3, linearLayout4, linearLayout5;
+    TextView textView1, textView2, textView3, textView4, textView5, count;
+    LinearLayout linearLayout1, linearLayout2, linearLayout3, linearLayout4, linearLayout5,footer;
 
     ArrayList<Integer> imageList = new ArrayList<>();
     ArrayList<String> activities_name_List = new ArrayList<>();
@@ -72,9 +80,9 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        startActivity(new Intent(HomeActivity.this, WeeklyEvent.class));
         initialisation();
         getActivities();
-
         panelHobbyZoo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,7 +99,6 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
-
         runBtn.setOnClickListener(new View.OnClickListener() {
 
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -99,10 +106,8 @@ public class HomeActivity extends AppCompatActivity {
             public void onClick(View v) {
                 CalendarUtils.selectedDate= LocalDate.now();//todo
                 startActivity(new Intent(HomeActivity.this, MyDailySessions.class));
-
             }
         });
-
         profileBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,6 +131,7 @@ public class HomeActivity extends AppCompatActivity {
                 showAnimals();
             }
         });
+
 
         linearLayout1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -187,17 +193,23 @@ public class HomeActivity extends AppCompatActivity {
         textView3 = findViewById(R.id.homePageAnimalText3);
         textView4 = findViewById(R.id.homePageAnimalText4);
         textView5 = findViewById(R.id.homePageAnimalText5);
+        count= findViewById(R.id.countPages);
 
         linearLayout1 = findViewById(R.id.linearLayoutHomePageAnimal1);
         linearLayout2 = findViewById(R.id.linearLayoutHomePageAnimal2);
         linearLayout3 = findViewById(R.id.linearLayoutHomePageAnimal3);
         linearLayout4 = findViewById(R.id.linearLayoutHomePageAnimal4);
         linearLayout5 = findViewById(R.id.linearLayoutHomePageAnimal5);
+        footer=findViewById(R.id.footer);
         panelHobbyZoo = findViewById(R.id.panel_hobby_zoo);
         calendarBtn = findViewById(R.id.calendar_btn);
         runBtn = findViewById(R.id.run_btn);
         profileBtn = findViewById(R.id.profile_btn);
+
+
+        count.setText(String.valueOf(countText));
     }
+
 
     private void checkUserStatus(){
         FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -210,13 +222,18 @@ public class HomeActivity extends AppCompatActivity {
         }
     }
 
+
     @Override
-    public void onBackPressed() {}
+    public void onBackPressed() {
+
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return super.onCreateOptionsMenu(menu);
+
     }
 
     @Override
@@ -232,68 +249,162 @@ public class HomeActivity extends AppCompatActivity {
     public List<Integer> showNextActivities(int batchSize) {
         List<Integer> intElements ;
 
-        int startIndex = currentIndex;
+
+
+        if (!rightButtonClicked){
+            currentIndex += previousNumberOfAnimals;
+        }
+
+        if (currentIndex > imageList.size()) {
+            currentIndex = imageList.size();
+        }
+
+        if (countText >= numberOfPages)
+            countText=1;
+        else countText++;
+
+        count.setText(String.valueOf(countText));
+
+        int startIndex;
+        if (currentIndex == imageList.size())
+            startIndex = 0;
+        else
+            startIndex = currentIndex;
+
         int endIndex = startIndex + batchSize;
+
+
+
+
+
 
         if (endIndex > imageList.size()) {
             endIndex = imageList.size();
         }
-        else{
-            currentIndex = endIndex;
-        }
+
+        currentIndex = endIndex;
+
         intElements = imageList.subList(startIndex, endIndex);
-        //currentIndex = endIndex;
+
+        if (endIndex > imageList.size()) {
+            currentIndex = 0;
+        }
 
         return intElements;
     }
 
     public List<Integer> showPreviousActivities(int batchSize) {
         List<Integer> intElements ;
+        int mod = imageList.size() % batchSize;
 
-        int endIndex = currentIndex;
-        int startIndex = endIndex - batchSize;
+        if (rightButtonClicked){
+            currentIndex -= previousNumberOfAnimals;
+        }
+
+        if (currentIndex < 0) {
+            currentIndex = 0;
+        }
+
+
+        if (countText <= 1)
+            countText=numberOfPages;
+        else countText--;
+        count.setText(String.valueOf(countText));
+
+
+        int endIndex;
+        if (currentIndex== 0)
+            endIndex = imageList.size();
+        else
+            endIndex = currentIndex;
+
+
+        int startIndex;
+        if (endIndex==imageList.size() )
+            startIndex = endIndex - mod;
+        else startIndex =endIndex-batchSize;
+
 
         if (startIndex < 0) {
             startIndex = 0;
-            currentIndex = imageList.size() - 1;
         }
-
         intElements = imageList.subList(startIndex, endIndex);
         currentIndex = startIndex;
+
 
         return intElements;
     }
 
+
+
     public List<String> showNextActivityNames(int batchSize) {
         List<String> intElements ;
 
-        int startIndex = currentIndex2;
+        int startIndex ;
+
+        if (!rightButtonClicked){
+            currentIndex2 += previousNumberOfAnimals;
+        }
+
+        if (currentIndex2 > activities_name_List.size()) {
+            currentIndex2 = activities_name_List.size();
+        }
+
+        if (currentIndex2 == activities_name_List.size())
+            startIndex = 0;
+        else
+            startIndex = currentIndex2;
+
         int endIndex = startIndex + batchSize;
 
             if (endIndex > activities_name_List.size()) {
                 endIndex = activities_name_List.size();
-            //currentIndex2 = 0;
-            } else { currentIndex2 = endIndex; }
+            }
+            currentIndex2 = endIndex;
+
 
         intElements = activities_name_List.subList(startIndex, endIndex);
-        ///currentIndex2 = endIndex;
-
+        if (endIndex > activities_name_List.size()) {
+            currentIndex2 = 0;
+        }
         return intElements;
     }
 
     public List<String> showPreviousActivityNames(int batchSize) {
         List<String> intElements = new ArrayList<>();
+        int mod = activities_name_List.size() % batchSize;
 
-        int endIndex = currentIndex2;
-        int startIndex = endIndex - batchSize;
+        int endIndex ;
+        if (rightButtonClicked){
+            currentIndex2 -= previousNumberOfAnimals;
+        }
+
+        if (currentIndex2 < 0) {
+            currentIndex2 = 0;
+        }
+
+
+        if (currentIndex2== 0)
+            endIndex = activities_name_List.size();
+        else
+            endIndex = currentIndex2;
+
+        int startIndex;
+        if (endIndex==activities_name_List.size())
+            startIndex = endIndex - mod;
+        else startIndex =endIndex-batchSize;
+
+
 
         if (startIndex < 0) {
             startIndex = 0;
-            currentIndex2 = activities_name_List.size() - 1;
         }
 
         intElements = activities_name_List.subList(startIndex, endIndex);
         currentIndex2 = startIndex;
+
+
+
 
         return intElements;
     }
@@ -301,38 +412,83 @@ public class HomeActivity extends AppCompatActivity {
     public List<String> showNextActivityId(int batchSize) {
         List<String> intElements = new ArrayList<>();
 
-        int startIndex = currentIndex3;
+        int startIndex ;
+
+        if (!rightButtonClicked){
+            currentIndex3 += previousNumberOfAnimals;
+        }
+
+        if (currentIndex3 > activities_id_List.size()) {
+            currentIndex3 = activities_id_List.size();
+        }
+
+
+        if (currentIndex3 == activities_id_List.size())
+            startIndex = 0;
+        else
+            startIndex = currentIndex3;
+
         int endIndex = startIndex + batchSize;
 
         if (endIndex > activities_id_List.size()) {
             endIndex = activities_id_List.size();
-            //currentIndex = ;
-        } else { currentIndex3 = endIndex; }
+        }
+        currentIndex3 = endIndex;
+
 
         intElements = activities_id_List.subList(startIndex, endIndex);
-        //currentIndex3 = endIndex;
-
+        if (endIndex > activities_id_List.size()) {
+            currentIndex3 = 0;
+        }
+        previousNumberOfAnimals=intElements.size();
+        rightButtonClicked=true;
+        System.out.println("Current index:"+currentIndex);
+        System.out.println("animals index:"+previousNumberOfAnimals);
         return intElements;
     }
 
     public List<String> showPreviousActivityId(int batchSize) {
         List<String> intElements = new ArrayList<>();
+        int mod = activities_id_List.size() % batchSize;
 
-        int endIndex = currentIndex3;
-        int startIndex = endIndex - batchSize;
+        int endIndex;
+        if (rightButtonClicked){
+            currentIndex3 -= previousNumberOfAnimals;
+        }
+
+        if (currentIndex3 < 0) {
+            currentIndex3 = 0;
+        }
+
+
+        if (currentIndex3== 0)
+            endIndex = activities_id_List.size();
+        else
+            endIndex = currentIndex3;
+
+        int startIndex;
+        if (endIndex==imageList.size())
+            startIndex = endIndex - mod;
+        else startIndex =endIndex-batchSize;
 
         if (startIndex < 0) {
             startIndex = 0;
-            currentIndex3 = activities_id_List.size() - 1;
         }
 
         intElements = activities_id_List.subList(startIndex, endIndex);
         currentIndex3 = startIndex;
 
+
+        previousNumberOfAnimals=intElements.size();
+        rightButtonClicked=false;
+        System.out.println("Current index:"+currentIndex);
+        System.out.println("animals index:"+previousNumberOfAnimals);
         return intElements;
     }
 
 ///////////////////////
+
+
 
     public void getActivities(){
         FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -347,7 +503,7 @@ public class HomeActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String activity_id = snapshot.child("activity_id").getValue(String.class);
                     String activity_pet = snapshot.child("activity_pet").getValue(String.class);
-                    String activity_name = snapshot.child("activity_name").getValue(String.class).replace(",", " ");
+                    String activity_name = snapshot.child("activity_name").getValue(String.class);
                     int feelingPointer = Integer.parseInt(Objects.requireNonNull(snapshot.child("feeling").getValue(String.class)));
                     String resourceName;
                     if(feelingPointer == 0)
@@ -358,9 +514,19 @@ public class HomeActivity extends AppCompatActivity {
                     imageList.add(resId);
                     activities_name_List.add(activity_name);
                     activities_id_List.add(activity_id);
+
+
+
+
                 }
+                numberOfPages = imageList.size()/5;
+                if (imageList.size() % 5 !=0)
+                    numberOfPages++;
                 toRight=true;
+                if (imageList.size()>=5) previousNumberOfAnimals =5 ;
+                else previousNumberOfAnimals=imageList.size();
                 showAnimals();
+
             }
 
             @Override
@@ -368,7 +534,9 @@ public class HomeActivity extends AppCompatActivity {
                 Log.w("TAG", "Erreur lors de la récupération des données", databaseError.toException());
             }
         });
+
     }
+
 
     private void showAnimals() {
 
@@ -407,10 +575,10 @@ public class HomeActivity extends AppCompatActivity {
         List<String> activities_names ;
         List<String> activities_id ;
         if (toRight){
-            batchElements = showNextActivities(batchSize);
+             batchElements = showNextActivities(batchSize);
             activities_names = showNextActivityNames(batchSize);
             activities_id = showNextActivityId(batchSize);
-        } else {
+        }else {
             batchElements = showPreviousActivities(batchSize);
             activities_names = showPreviousActivityNames(batchSize);
             activities_id = showPreviousActivityId(batchSize);
@@ -422,6 +590,8 @@ public class HomeActivity extends AppCompatActivity {
                 linearLayoutList.get(i).setVisibility(View.VISIBLE);
                 linearLayoutList.get(i).setTag(activities_id.get(i));
         }
+
+
 
         // Obtenir le gestionnaire de fenêtres
             WindowManager windowManager = getWindowManager();
@@ -449,6 +619,7 @@ public class HomeActivity extends AppCompatActivity {
                     cellList.add(val);
                 }
 
+
             System.out.println(cellList);
 
             // Générez les coordonnées aléatoires pour chaque ImageView
@@ -474,12 +645,14 @@ public class HomeActivity extends AppCompatActivity {
             image3Y = cellList.get(val)[1];
             cellList.remove(val);
 
+
             int image4X = 0;
             int image4Y = 0;
             val = random.nextInt(cellList.size() - 1);
             image4X = cellList.get(val)[0];
             image4Y = cellList.get(val)[1];
             cellList.remove(val);
+
 
             int image5X = 0;
             int image5Y = 0;
@@ -488,12 +661,22 @@ public class HomeActivity extends AppCompatActivity {
             image5Y = cellList.get(val)[1];
             cellList.remove(val);
 
+        RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        params.topMargin = cellHeight*4- cellHeight/4;
+
+
+        footer.setLayoutParams(params);
+
+
             RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams(
                     RelativeLayout.LayoutParams.WRAP_CONTENT,
                     RelativeLayout.LayoutParams.WRAP_CONTENT);
             params1.leftMargin = image1X;
-
             params1.topMargin = image1Y;
+
+
             linearLayout1.setLayoutParams(params1);
 
             RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(
@@ -524,4 +707,5 @@ public class HomeActivity extends AppCompatActivity {
             params5.topMargin = image5Y;
             linearLayout5.setLayoutParams(params5);
         }
+
     }

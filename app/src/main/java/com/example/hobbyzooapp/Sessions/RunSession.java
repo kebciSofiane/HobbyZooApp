@@ -48,6 +48,7 @@ public class RunSession extends AppCompatActivity {
     private MediaPlayer mediaPlayer;
     String activity_id, session_id, activityPet, session_duration;
     private boolean isCounting = false;
+    private boolean isCountdownFinished = false;
 
 
     @SuppressLint("MissingInflatedId")
@@ -238,15 +239,16 @@ public class RunSession extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+        if (!isCountdownFinished) {
+            PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
 
-        if (powerManager.isInteractive()) {
-            pauseCountDown();
-            isCounting = false;
-        } else {
-            // L'écran est en veille
+            if (powerManager.isInteractive()) {
+                pauseCountDown();
+                isCounting = false;
+            } else {
+                // L'écran est en veille
+            }
         }
-
     }
     @Override
     protected void onResume() {
@@ -267,6 +269,7 @@ public class RunSession extends AppCompatActivity {
             @Override
             public void onFinish() {
                 initMediaPlayer();
+                isCountdownFinished=true;
                 mediaPlayer.start();
                 totalSessionTime += countDownTime;
                 validateButton.setVisibility(View.VISIBLE);

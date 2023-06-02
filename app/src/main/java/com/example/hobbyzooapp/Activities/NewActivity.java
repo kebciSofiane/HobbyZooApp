@@ -50,6 +50,7 @@ public class NewActivity extends AppCompatActivity {
     String regexPattern = "^[a-zA-Z0-9 ]+$";
     Pattern pattern;
     EditText editActivityName, editPetName;
+    Intent previousActivity;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -86,46 +87,49 @@ public class NewActivity extends AppCompatActivity {
             }
         });
 
-        categories = setCategories();
-        categories.add("");
         ArrayAdapter<String> adapter = new ArrayAdapter<>(NewActivity.this, android.R.layout.simple_list_item_1, categories);
         categorySelector.setAdapter(adapter);
-        categorySelector.setOnItemSelectedListener(
-                new AdapterView.OnItemSelectedListener() {
-                    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                        final String[] category_id_select = new String[1];
-                        String user_id = user.getUid();
-                        DatabaseReference databaseReferenceChild = FirebaseDatabase.getInstance().getReference().child("Category");
-                        String category_name_selected = (String) categorySelector.getSelectedItem();
-                        databaseReferenceChild.orderByChild("user_id").equalTo(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
+        if(previousActivity.hasExtra("category_name")){
+            categorySelector.setSelection(0);
+        }
+        else{
+            categorySelector.setOnItemSelectedListener(
+                    new AdapterView.OnItemSelectedListener() {
+                        public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                            final String[] category_id_select = new String[1];
+                            String user_id = user.getUid();
+                            DatabaseReference databaseReferenceChild = FirebaseDatabase.getInstance().getReference().child("Category");
+                            String category_name_selected = (String) categorySelector.getSelectedItem();
+                            databaseReferenceChild.orderByChild("user_id").equalTo(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
 
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                    String user_id_verify = snapshot.child("user_id").getValue(String.class);
-                                    String category_name = snapshot.child("category_name").getValue(String.class).replace(",", " ");
-                                    if(user_id.equals(user_id_verify) && category_name.equals(category_name_selected)){
-                                        String category_id_verify = snapshot.child("category_id").getValue(String.class);
-                                        category_id_select[0] = category_id_verify;
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                        String user_id_verify = snapshot.child("user_id").getValue(String.class);
+                                        String category_name = snapshot.child("category_name").getValue(String.class).replace(",", " ");
+                                        if(user_id.equals(user_id_verify) && category_name.equals(category_name_selected)){
+                                            String category_id_verify = snapshot.child("category_id").getValue(String.class);
+                                            category_id_select[0] = category_id_verify;
+                                        }
+                                        category_id = category_id_select[0];
                                     }
-                                    category_id = category_id_select[0];
                                 }
-                            }
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-                                // Gérez l'erreur en cas d'annulation de la requête
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+                                    // Gérez l'erreur en cas d'annulation de la requête
+                                }
+                            });
+                            categorySelector.setSelection(pos);
+                            if(categorySelector.getSelectedItem().equals("New Category")){
+                                startActivity(new Intent(NewActivity.this, NewCategory.class));
+                                finish();
                             }
-                        });
-                        categorySelector.setSelection(pos);
-                        if(categorySelector.getSelectedItem().equals("New Category")){
-                            startActivity(new Intent(NewActivity.this, NewCategory.class));
-                            finish();
                         }
-                    }
-                    public void onNothingSelected(AdapterView<?> parent) {
-                    }
-                });
+                        public void onNothingSelected(AdapterView<?> parent) {
+                        }
+                    });
+        }
 
         returnButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -215,10 +219,17 @@ public class NewActivity extends AppCompatActivity {
         pattern = Pattern.compile(regexPattern);
         editActivityName = findViewById(R.id.activityName);
         editPetName = findViewById(R.id.animalName);
-        categories = setCategories();
-        categories.add("");
-        Intent intent = getIntent();
-        origin = intent.getIntExtra("origin", 0);
+
+        previousActivity = getIntent();
+        origin = previousActivity.getIntExtra("origin", 0);
+        if(previousActivity.hasExtra("category_name")){
+            categories = new ArrayList<>(List.of(previousActivity.getStringExtra("category_name")));
+        }
+        else{
+            categories = setCategories();
+            categories.add("");
+        }
+
     }
 
     private void addBDActivity(){

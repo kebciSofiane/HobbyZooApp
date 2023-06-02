@@ -134,7 +134,9 @@ public class NewCategory extends AppCompatActivity {
                             }
                             if(categories.size() == 0){
                                 addDBCategory();
-                                startActivity(new Intent(NewCategory.this, NewActivity.class));
+                                Intent intent = new Intent(NewCategory.this, NewActivity.class);
+                                intent.putExtra("category_name", name.replace(",", " "));
+                                startActivity(intent);
                                 finish();
                             }
                             else{
@@ -144,7 +146,6 @@ public class NewCategory extends AppCompatActivity {
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
-                            // Gérez l'erreur en cas d'annulation de la requête
                         }
                     });
                 }

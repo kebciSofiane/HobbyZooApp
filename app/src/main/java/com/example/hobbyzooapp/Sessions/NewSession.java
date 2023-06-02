@@ -55,7 +55,6 @@ public class NewSession extends AppCompatActivity {
         List<String> activities;
         if(previousActivity.hasExtra("activity_name")){
             activities = new ArrayList<>(List.of(previousActivity.getStringExtra("activity_name")));
-
         }
         else{
             activities = setActivities();

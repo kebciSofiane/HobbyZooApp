@@ -136,6 +136,7 @@ public class NewCategory extends AppCompatActivity {
                                 addDBCategory();
                                 Intent intent = new Intent(NewCategory.this, NewActivity.class);
                                 intent.putExtra("category_name", name.replace(",", " "));
+                                intent.putExtra("category_id", category_id);
                                 startActivity(intent);
                                 finish();
                             }

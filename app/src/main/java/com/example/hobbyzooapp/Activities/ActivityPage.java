@@ -625,23 +625,6 @@ public class ActivityPage extends AppCompatActivity {
         return  lastSessionData;
     }
 
-    private void updateDBTasks(String statue, String taskName){
-        DatabaseReference tasksRef = FirebaseDatabase.getInstance().getReference("Tasks");
-        DatabaseReference taskRef = tasksRef.child(taskName);
-        System.out.println(taskName);
-        taskRef.child("taskStatus").setValue(statue, new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                if (databaseError == null) {
-                    System.out.println("Tasks modified ! ");
-                } else {
-                    System.err.println("Error : " + databaseError.getMessage());
-                }
-            }
-        });
-
-    }
-
     private GridLayoutManager  changeManagerToDoList() {
         GridLayoutManager layoutManager;
         if (todoList.size()<=5 && todoList.size()>0 )

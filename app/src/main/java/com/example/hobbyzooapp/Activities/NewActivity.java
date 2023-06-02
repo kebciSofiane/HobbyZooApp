@@ -91,6 +91,7 @@ public class NewActivity extends AppCompatActivity {
         categorySelector.setAdapter(adapter);
         if(previousActivity.hasExtra("category_name")){
             categorySelector.setSelection(0);
+            category_id = previousActivity.getStringExtra("category_id");
         }
         else{
             categorySelector.setOnItemSelectedListener(

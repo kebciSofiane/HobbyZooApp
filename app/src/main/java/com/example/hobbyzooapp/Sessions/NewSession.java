@@ -55,6 +55,7 @@ public class NewSession extends AppCompatActivity {
         List<String> activities;
         if(previousActivity.hasExtra("activity_name")){
             activities = new ArrayList<>(List.of(previousActivity.getStringExtra("activity_name")));
+            activity_id = previousActivity.getStringExtra("activity_id");
         }
         else{
             activities = setActivities();
@@ -195,6 +196,7 @@ public class NewSession extends AppCompatActivity {
         else{
             intent = new Intent(NewSession.this, ActivityPage.class);
             intent.putExtra("activity_id", previousIntent.getStringExtra("activity_id"));
+
         }
 
 

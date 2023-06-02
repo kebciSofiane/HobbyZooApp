@@ -511,6 +511,11 @@ public class HomeActivity extends AppCompatActivity {
 
                 }
                 numberOfPages = imageList.size()/5;
+
+                if (imageList.size()<=5)
+                    next.setVisibility(View.GONE);
+                    previous.setVisibility(View.GONE);
+
                 if (imageList.size() % 5 !=0)
                     numberOfPages++;
                 toRight=true;

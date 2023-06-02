@@ -84,7 +84,8 @@ public class ActivityPage extends AppCompatActivity {
             @Override
             public void onSessionListRetrieved(ArrayList<Session> sessionList) {
                 mySessions = sessionList;
-                adapter = new ListSessionsAdapter(sessionList);
+                LayoutInflater inflater = getLayoutInflater();
+                adapter = new ListSessionsAdapter(sessionList,inflater);
                 recyclerView.setAdapter(adapter);
                 changeManager();
 

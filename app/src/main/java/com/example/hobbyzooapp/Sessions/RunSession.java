@@ -1,15 +1,20 @@
 package com.example.hobbyzooapp.Sessions;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.PowerManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -40,7 +45,10 @@ public class RunSession extends AppCompatActivity {
     ImageButton stopButton, pauseButton, resumeButton, validateButton, addTimeButton;
     ImageView petPicture;
     FirebaseAuth firebaseAuth;
+    private MediaPlayer mediaPlayer;
     String activity_id, session_id, activityPet, session_duration;
+    private boolean isCounting = false;
+    private boolean isCountdownFinished = false;
 
 
     @SuppressLint("MissingInflatedId")
@@ -216,6 +224,40 @@ public class RunSession extends AppCompatActivity {
         pauseButton.setVisibility(View.VISIBLE);
         resumeButton.setVisibility(View.GONE);
     }
+
+    private void initMediaPlayer() {
+        mediaPlayer = MediaPlayer.create(this, R.raw.notification2);
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+
+            }
+        });
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT_WATCH)
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (!isCountdownFinished) {
+            PowerManager powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+
+            if (powerManager.isInteractive()) {
+                pauseCountDown();
+                isCounting = false;
+            } else {
+                // L'écran est en veille
+            }
+        }
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isCounting) {
+            resumeCountDown();
+        }
+
+    }
     private void startCountdown(){
 
         countDownTimer=new CountDownTimer(countDownTime, 1000) {
@@ -226,6 +268,9 @@ public class RunSession extends AppCompatActivity {
             }
             @Override
             public void onFinish() {
+                initMediaPlayer();
+                isCountdownFinished=true;
+                mediaPlayer.start();
                 totalSessionTime += countDownTime;
                 validateButton.setVisibility(View.VISIBLE);
                 resumeButton.setVisibility(View.GONE);

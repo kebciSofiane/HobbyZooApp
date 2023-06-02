@@ -539,7 +539,7 @@ public class ActivityPage extends AppCompatActivity {
         editGoalButton = findViewById(R.id.editGoalButton);
         deleteActivityButton = findViewById(R.id.deleteActivityButton);
         addSessionButton = findViewById(R.id.add_session_button);
-        validatePetName = findViewById(R.id.activityPagecheckPetNameButton);
+        validate = findViewById(R.id.activityPageValidateButton);
         backButton = findViewById(R.id.backButtonActivityPage);
         editTextPetName = findViewById(R.id.activityPagePetNameEdit);
     }

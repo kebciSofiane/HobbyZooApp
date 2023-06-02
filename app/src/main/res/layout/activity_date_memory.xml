@@ -25,7 +25,7 @@
             android:layout_marginTop="20dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="20dp"
-            android:background="@drawable/download_icon"
+            android:background="@drawable/ic_download"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -69,7 +69,7 @@
                 android:layout_height="50dp"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/arrow_left"
+                android:background="@drawable/ic_arrow_left"
                 android:visibility="visible"
 
                 />
@@ -90,7 +90,7 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/border"
+                android:background="@drawable/shape_black_border"
                 android:gravity="center"
                 android:minHeight="60sp"
                 android:paddingStart="10dp"
@@ -105,7 +105,7 @@
                 android:layout_height="50dp"
                 android:layout_alignParentEnd="true"
                 android:layout_centerVertical="true"
-                android:background="@drawable/arrow_right"
+                android:background="@drawable/ic_arrow_right"
                 android:visibility="visible"
 
                 />
@@ -117,7 +117,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/share"
-android:layout_below="@id/linearLayoutMemories"            android:layout_centerHorizontal="true">
+            android:layout_below="@id/linearLayoutMemories"
+            android:layout_centerHorizontal="true">
 
         </Button>
 

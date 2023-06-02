@@ -46,30 +46,30 @@ public class CalendarEvolutionAdapter extends RecyclerView.Adapter<CalendarEvolu
 
     private final CalendarEvolutionAdapter.OnItemListener onItemListener;
 
-        public CalendarEvolutionAdapter(ArrayList<LocalDate> days, CalendarEvolutionAdapter.OnItemListener onItemListener, int evenDayColor, String activity)
-        {
-            this.evenDayColor =evenDayColor;
-            this.days = days;
-            this.onItemListener = onItemListener;
-            this.activity=activity;
+    public CalendarEvolutionAdapter(ArrayList<LocalDate> days, CalendarEvolutionAdapter.OnItemListener onItemListener, int evenDayColor, String activity)
+    {
+        this.evenDayColor =evenDayColor;
+        this.days = days;
+        this.onItemListener = onItemListener;
+        this.activity=activity;
 
-        }
+    }
 
-        @NonNull
-        @Override
-        public CalendarEvolutionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
-        {
+    @NonNull
+    @Override
+    public CalendarEvolutionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    {
 
-            LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-            View view = inflater.inflate(R.layout.calendar_cell, parent, false);
-            ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
-            if(days.size() > 15) //month view
-                layoutParams.height = (int) (parent.getHeight() * 0.166666666);
-            else // week view
-                layoutParams.height = (int) parent.getHeight();
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        View view = inflater.inflate(R.layout.calendar_cell, parent, false);
+        ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
+        if(days.size() > 15) //month view
+            layoutParams.height = (int) (parent.getHeight() * 0.166666666);
+        else // week view
+            layoutParams.height = (int) parent.getHeight();
 
-            return new CalendarEvolutionViewHolder(view, onItemListener, days);
-        }
+        return new CalendarEvolutionViewHolder(view, onItemListener, days);
+    }
 
     @Override
     public void onBindViewHolder(@NonNull CalendarEvolutionViewHolder holder, int position) {
@@ -90,15 +90,7 @@ public class CalendarEvolutionAdapter extends RecyclerView.Adapter<CalendarEvolu
                 borderDrawable.setStroke(4, Color.LTGRAY);
                 holder.parentView.setBackground(borderDrawable);}
 
-
             getSessions(holder,date);
-
-
-//                if (date.getDayOfMonth() % 2 == 0) {
-//                    holder.itemView.setBackgroundColor(evenDayColor);
-//                } else {
-//                    holder.itemView.setBackgroundColor(Color.TRANSPARENT);
-//                }
         }
     }
 
@@ -180,9 +172,6 @@ public class CalendarEvolutionAdapter extends RecyclerView.Adapter<CalendarEvolu
                                                         }
                                                     });
                                         }
-
-
-                                        // holder.itemView.setBackgroundColor(evenDayColor);
                                     }
                                 }
                             } else {

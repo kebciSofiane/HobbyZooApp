@@ -69,7 +69,7 @@ public class HomeActivity extends AppCompatActivity {
     ArrayList<String> activities_name_List = new ArrayList<>();
     ArrayList<String> activities_id_List = new ArrayList<>();
 
-    public static ArrayList<String> animalsFeeling = new ArrayList<>(Arrays.asList("gone", "sad", "angry", "neutral", "happy"));
+    public static ArrayList<String> animalsFeeling = new ArrayList<>(Arrays.asList("gone", "angry", "sad", "neutral", "happy"));
     String uid;
     int startIndex=0;
     Boolean toRight;
@@ -80,7 +80,6 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        startActivity(new Intent(HomeActivity.this, WeeklyEvent.class));
         initialisation();
         getActivities();
         panelHobbyZoo.setOnClickListener(new View.OnClickListener() {

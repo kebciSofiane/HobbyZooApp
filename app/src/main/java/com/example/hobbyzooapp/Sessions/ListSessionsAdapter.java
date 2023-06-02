@@ -2,13 +2,16 @@ package com.example.hobbyzooapp.Sessions;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hobbyzooapp.Activities.ActivityPage;
@@ -30,14 +33,16 @@ public class ListSessionsAdapter extends RecyclerView.Adapter<ListSessionsAdapte
     private List<Session> items;
     private int displayedItemCount = 3;
     private boolean isExpanded = false;
+    private  LayoutInflater inflater;
     ViewGroup v;
 
     public void setDisplayedItemCount(int displayedItemCount) {
         this.displayedItemCount = displayedItemCount;
     }
 
-    public ListSessionsAdapter(List<Session> items) {
+    public ListSessionsAdapter(List<Session> items,LayoutInflater inflater) {
         this.items = items;
+        this.inflater=inflater;
     }
 
     public void setItems(List<Session> items) {
@@ -70,7 +75,55 @@ public class ListSessionsAdapter extends RecyclerView.Adapter<ListSessionsAdapte
                     Intent intent = new Intent(v.getContext(), MyDailySessions.class);
                 }
             });
-        }
+
+
+            holder.textView.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+
+                    View dialogView = inflater.inflate(R.layout.custom_dialog_, null);
+
+                    TextView dialogTitle = dialogView.findViewById(R.id.dialogTitle);
+                    TextView dialogText = dialogView.findViewById(R.id.dialogText);
+
+                    Button dialogButtonYes = dialogView.findViewById(R.id.dialogButtonLeft);
+                    Button dialogButtonNo = dialogView.findViewById(R.id.dialogButtonRight);
+
+                    dialogTitle.setText(items.get(position).getActivityName() + " - " + items.get(position).getTime());
+                    dialogText.setText("Do you want to start ?");
+                    dialogButtonYes.setText("Yes");
+                    dialogButtonYes.setTextColor(Color.GREEN);
+                    dialogButtonNo.setText("No");
+                    dialogButtonNo.setTextColor(Color.RED);
+
+                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(holder.textView.getContext());
+                    dialogBuilder.setView(dialogView);
+                    AlertDialog dialog = dialogBuilder.create();
+                    dialog.show();
+                    dialogButtonYes.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(holder.textView.getContext(), RunSession.class);
+                            intent.putExtra("activity_id", items.get(position).getActivityId());
+                            intent.putExtra("session_id", items.get(position).getSessionId());
+                            holder.itemView.getContext().startActivity(intent);
+                            dialog.dismiss();
+                        }
+                    });
+                    dialogButtonNo.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            dialog.dismiss();
+                        }
+                    });
+
+
+
+
+
+                }
+            });        }
     }
 
     public boolean isExpanded() { return isExpanded; }
@@ -90,10 +143,10 @@ public class ListSessionsAdapter extends RecyclerView.Adapter<ListSessionsAdapte
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView textView;
-
         public ViewHolder(View itemView) {
             super(itemView);
             textView = itemView.findViewById(R.id.itemTitleTextView);
+
         }
     }
 }

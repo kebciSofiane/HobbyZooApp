@@ -102,6 +102,7 @@ public class MyDailySessions extends AppCompatActivity {
 
                         TextView dialogTitle = dialogView.findViewById(R.id.dialogTitle);
                         TextView dialogText = dialogView.findViewById(R.id.dialogText);
+
                         Button dialogButtonYes = dialogView.findViewById(R.id.dialogButtonLeft);
                         Button dialogButtonNo = dialogView.findViewById(R.id.dialogButtonRight);
 

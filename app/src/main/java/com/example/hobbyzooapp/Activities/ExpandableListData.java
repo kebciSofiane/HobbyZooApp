@@ -22,7 +22,6 @@ import java.util.List;
 
 public class ExpandableListData {
 
-
     public static HashMap<String, Category>  getActivities(ActivitiesCallBack callback) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("Category");
@@ -55,9 +54,7 @@ public class ExpandableListData {
                                 activities.add(new Activity(activity_id,activity_name, activity_pet_name, activity_pet, pet_feeling));
                                 expandableListDetail.put(category_name, new Category(category_id,category_name,category_color, activities));
                                 callback.onActivitiesLoaded(expandableListDetail);
-
                             }
-
                         }
 
                         @Override
@@ -73,7 +70,6 @@ public class ExpandableListData {
                 Log.w("TAG", "Erreur lors de la récupération des données", databaseError.toException());
             }
         });
-
         return expandableListDetail;
     }
 }

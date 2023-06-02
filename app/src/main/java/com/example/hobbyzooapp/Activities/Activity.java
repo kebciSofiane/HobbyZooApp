@@ -11,7 +11,6 @@ public class Activity {
         this.pet = pet;
         this.activity_id = id;
         this.feeling = feeling;
-
     }
 
     public String getActivity_id() {
@@ -21,8 +20,4 @@ public class Activity {
     public String getPetName() {return petName;}
     public String getPet() {return pet;}
     public String getFeeling(){return feeling;}
-
-
-
-
 }

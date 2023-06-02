@@ -55,7 +55,6 @@ public class ActivityPage extends AppCompatActivity {
     Button editActivityButton, validate, showMoreButton, showLessButton, addToTodoListButton, editGoalButton;
     ImageButton addSessionButton, homeButton, deleteActivityButton, backButton;
     RecyclerView recyclerView, recyclerViewTodoList;
-    List<String> items = new ArrayList<>();
     ListSessionsAdapter adapter;
     private List<TodoTask> todoList = new ArrayList<>();
     private List<Session> mySessions = new ArrayList<>();
@@ -86,7 +85,6 @@ public class ActivityPage extends AppCompatActivity {
                 adapter = new ListSessionsAdapter(sessionList,inflater);
                 recyclerView.setAdapter(adapter);
                 changeManager();
-
             }
         });
 
@@ -94,7 +92,6 @@ public class ActivityPage extends AppCompatActivity {
             @Override
             public void onSessionListRetrieved(ArrayList<String> sessionPicCom) {
                 lastSessionData = sessionPicCom;
-
                 sessionCommentDisplay.setText(lastSessionData.get(1));
                 if (!lastSessionData.get(1).isEmpty()) {sessionCommentDisplay.setVisibility(View.VISIBLE);}
 
@@ -109,7 +106,6 @@ public class ActivityPage extends AppCompatActivity {
         });
 
         FirebaseUser user = firebaseAuth.getCurrentUser();
-
         database = FirebaseDatabase.getInstance();
         DatabaseReference databaseReferenceTask = database.getReference("Tasks");
         String thisActivityId = activity_id;
@@ -174,18 +170,7 @@ public class ActivityPage extends AppCompatActivity {
         filters[0] = new InputFilter.LengthFilter(10);
         editTextPetName.setFilters(filters);
 
-        validate = findViewById(R.id.activityPageValidateButton);
-        //Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.koa);
-        /*
-        int newWidth = (int) (bitmap.getWidth() * (70 / 100.0));
-        int newHeight = (int) (bitmap.getHeight() * (70 / 100.0));
-        Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, newWidth, newHeight, false);
-        petPic.setScaleType(ImageView.ScaleType.CENTER_CROP);*/
-
-       // petPic.setImageBitmap(bitmap);
-
         editActivityButton.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 editTextPetName.setText(petName.getText());
@@ -435,7 +420,6 @@ public class ActivityPage extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    // Récupérez les informations de l'activité
                     activityId = activity_id;
                     activityName = dataSnapshot.child("activity_name").getValue(String.class).replace(",", " ");
                     activityPetName = dataSnapshot.child("activity_pet_name").getValue(String.class).replace(",", " ");
@@ -489,7 +473,6 @@ public class ActivityPage extends AppCompatActivity {
                             // Gérez les erreurs de la récupération des données
                         }
                     });
-
                 } else {
                     // L'activité n'existe pas dans la base de données
                 }
@@ -500,7 +483,6 @@ public class ActivityPage extends AppCompatActivity {
                 // Gérez les erreurs de la récupération des données
             }
         });
-
     }
 
     @SuppressLint("WrongViewCast")
@@ -585,7 +567,6 @@ public class ActivityPage extends AppCompatActivity {
             public void onCancelled(DatabaseError databaseError) {
             }
         });
-
         return  mySessions;
     }
 
@@ -631,7 +612,6 @@ public class ActivityPage extends AppCompatActivity {
             layoutManager = new GridLayoutManager(this, todoList.size(), GridLayoutManager.HORIZONTAL, false);
         else
             layoutManager = new GridLayoutManager(this, 5, GridLayoutManager.HORIZONTAL, false);
-
         return  layoutManager;
     }
 

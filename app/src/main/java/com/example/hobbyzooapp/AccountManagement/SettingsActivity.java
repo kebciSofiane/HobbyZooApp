@@ -18,7 +18,6 @@ import android.os.Build;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-
 public class SettingsActivity extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
@@ -26,7 +25,6 @@ public class SettingsActivity extends AppCompatActivity {
     private Button notificationsEnabledButton,notificationsDisabledButton, termsButton, helpButton, aboutButton, logoutButton;
     private ImageButton backBtn;
     private int activeIcon, inactiveIcon;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,27 +61,19 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
-
-
         termsButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                // Logique pour gérer le clic sur le bouton "Terms of Service"
-            }
+            public void onClick(View v) {}
         });
 
         helpButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                // Logique pour gérer le clic sur le bouton "Help"
-            }
+            public void onClick(View v) {}
         });
 
         aboutButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                // Logique pour gérer le clic sur le bouton "About"
-            }
+            public void onClick(View v) {}
         });
 
         backBtn.setOnClickListener(new View.OnClickListener() {
@@ -103,7 +93,6 @@ public class SettingsActivity extends AppCompatActivity {
                 finish();
             }
         });
-
     }
 
     private void checkUserStatus() {

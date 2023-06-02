@@ -64,7 +64,6 @@ public class ProfileActivity extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
 
-
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
         usernameTextView = findViewById(R.id.profile_username);
@@ -274,7 +273,6 @@ public class ProfileActivity extends AppCompatActivity {
             editProfileTextView.setVisibility(View.VISIBLE);
         }
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

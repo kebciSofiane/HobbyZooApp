@@ -26,7 +26,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private List<String> expandableListTitle;
     private HashMap<String, Category> expandableListDetail;
 
-
     public ExpandableListAdapter(Context context, List<String> expandableListTitle,
                                  HashMap<String, Category> expandableListDetail) {
         this.context = context;
@@ -110,8 +109,6 @@ public class ExpandableListAdapter extends BaseExpandableListAdapter {
                 .findViewById(R.id.text);
         listTitleTextView.setTypeface(null, Typeface.BOLD);
         listTitleTextView.setText(listTitle);
-       // int backgroundColor =Color.parseColor(expandableListDetail.get(listTitle).getColor());
-        //listTitleTextView.setBackgroundColor(backgroundColor);
         return convertView;
     }
 

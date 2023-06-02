@@ -60,7 +60,6 @@ public class AccountActivity extends AppCompatActivity {
             emailTv.setText(user.getEmail());
         }
 
-
         changePasswordBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,7 +78,6 @@ public class AccountActivity extends AppCompatActivity {
             }
         });
 
-
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -87,8 +85,6 @@ public class AccountActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
     private void showConfirmationDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -113,8 +109,6 @@ public class AccountActivity extends AppCompatActivity {
 
     private void exitEditMode() {
         isEditMode = false;
-
-
     }
 
     private void changePassword() {
@@ -140,8 +134,6 @@ public class AccountActivity extends AppCompatActivity {
                     }
                 });
     }
-
-
 
     private void unregisterUser() {
         FirebaseUser user = firebaseAuth.getCurrentUser();

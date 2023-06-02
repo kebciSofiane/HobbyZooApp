@@ -24,7 +24,6 @@ public class RegistrationOrConnexion extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(RegistrationOrConnexion.this, RegisterActivity.class));
-
             }
         });
 
@@ -32,7 +31,6 @@ public class RegistrationOrConnexion extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(RegistrationOrConnexion.this, LoginActivity.class));
-
             }
         });
     }

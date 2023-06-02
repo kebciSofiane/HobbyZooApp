@@ -36,19 +36,16 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.HashMap;
 
-
 public class RegisterActivity extends AppCompatActivity {
 
     EditText emailEt, passwordEt, pseudoET;
     Button registerBtn;
     TextView haveAccountTv;
 
-    // photo
     ImageView profileIv;
 
     ProgressDialog progressDialog;
     private FirebaseAuth auth;
-    //photo
     private FirebaseStorage storage;
     private StorageReference storageReference;
     private DatabaseReference databaseReference;
@@ -57,7 +54,6 @@ public class RegisterActivity extends AppCompatActivity {
     private static final int PICK_IMAGE = 1;
     private static final int USERNAME_MAX_LENGTH = 15;
 
-    //
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,11 +64,9 @@ public class RegisterActivity extends AppCompatActivity {
         registerBtn = findViewById(R.id.register_btn);
         haveAccountTv = findViewById(R.id.have_accountTv);
         pseudoET = findViewById(R.id.pseudoET);
-        profileIv = findViewById(R.id.photoIV);//photo
+        profileIv = findViewById(R.id.photoIV);
 
         auth = FirebaseAuth.getInstance();
-
-        //photo
         storage = FirebaseStorage.getInstance();
         storageReference = storage.getReference();
         databaseReference = FirebaseDatabase.getInstance().getReference();
@@ -88,7 +82,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        //
         registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -113,7 +106,6 @@ public class RegisterActivity extends AppCompatActivity {
                 }
             }
         });
-
 
         haveAccountTv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,9 +147,7 @@ public class RegisterActivity extends AppCompatActivity {
 
                                             String pseudo = pseudoET.getText().toString().trim();
 
-
                                             if (imageUri == null) {
-                                                // Pas d'image sélectionnée
                                                 HashMap<String, Object> userMap = new HashMap<>();
                                                 userMap.put("email", email);
                                                 userMap.put("uid", uid);
@@ -175,7 +165,6 @@ public class RegisterActivity extends AppCompatActivity {
                                                     public void onComplete(@NonNull Task<Void> task) {
                                                         if (task.isSuccessful()) {
                                                             Toast.makeText(RegisterActivity.this, "Registered...\nA verification email has been sent to " + email, Toast.LENGTH_LONG).show();
-                                                            // Déconnecter l'utilisateur après l'enregistrement
                                                             FirebaseAuth.getInstance().signOut();
                                                             startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                                                             finish();
@@ -185,7 +174,6 @@ public class RegisterActivity extends AppCompatActivity {
                                                     }
                                                 });
                                             } else {
-                                                // Image sélectionnée
                                                 StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("users/" + uid + "/profile.jpg");
 
                                                 LocalDate finalNextMonday = nextMonday;
@@ -208,14 +196,12 @@ public class RegisterActivity extends AppCompatActivity {
                                                                             userMap.put("connectNextMondayMonth", Integer.parseInt(String.valueOf(finalNextMonday.getMonth().getValue())));
                                                                             userMap.put("connectNextMondayYear", finalNextMonday.getYear());
                                                                         }
-
                                                                         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Users");
                                                                         reference.child(uid).setValue(userMap).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                                             @Override
                                                                             public void onComplete(@NonNull Task<Void> task) {
                                                                                 if (task.isSuccessful()) {
                                                                                     Toast.makeText(RegisterActivity.this, "Registered...\nA verification email has been sent to " + email, Toast.LENGTH_LONG).show();
-                                                                                    // Déconnecter l'utilisateur après l'enregistrement
                                                                                     FirebaseAuth.getInstance().signOut();
                                                                                     startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                                                                                     finish();
@@ -259,8 +245,6 @@ public class RegisterActivity extends AppCompatActivity {
                 });
     }
 
-
-    //photo
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -271,8 +255,8 @@ public class RegisterActivity extends AppCompatActivity {
 
             uploadImageToFirebase();
         }
-
     }
+
     private void uploadImageToFirebase() {
         FirebaseUser user = auth.getCurrentUser();
         if (user != null) {
@@ -302,14 +286,11 @@ public class RegisterActivity extends AppCompatActivity {
         }
     }
 
-    //
-
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
         if (id == android.R.id.home) {
             this.finish();
         }
-
         return super.onOptionsItemSelected(item);
     }
 }

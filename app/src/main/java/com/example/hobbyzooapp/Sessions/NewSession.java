@@ -16,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.hobbyzooapp.Activities.ActivityPage;
 import com.example.hobbyzooapp.HomeActivity;
 import com.example.hobbyzooapp.R;
 import com.example.hobbyzooapp.Activities.NewActivity;
@@ -95,13 +96,13 @@ public class NewSession extends AppCompatActivity {
                     }
                     public void onNothingSelected(AdapterView<?> parent) {
                     }
-                });//todo penser verif si les espaces fonctionnent dans les noms
+                });
 
 
         returnButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                startIntent();
             }
         });
 
@@ -124,9 +125,7 @@ public class NewSession extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"The date can't be earlier!",Toast.LENGTH_LONG).show();
                     } else {
                         addDBSession();
-                        Intent intent = new Intent().setClass(getApplicationContext(), HomeActivity.class);
-                        startActivity(intent);
-                        finish();
+                        startIntent();
                     }
                 }
             }
@@ -148,6 +147,22 @@ public class NewSession extends AppCompatActivity {
         activitySelector = findViewById(R.id.activityName);
         validationButton = findViewById(R.id.validationButton);
         returnButton = findViewById(R.id.returnButton);
+    }
+
+    private void startIntent(){
+        Intent previousIntent = getIntent();
+        int indexPreviousActivity = previousIntent.getIntExtra("previousActivity", 0);
+        Intent intent;
+        if(indexPreviousActivity == 0)
+            intent = new Intent(NewSession.this, MyDailySessions.class);
+        else{
+            intent = new Intent(NewSession.this, ActivityPage.class);
+            intent.putExtra("activity_id", previousIntent.getStringExtra("activity_id"));
+        }
+
+
+        startActivity(intent);
+        finish();
     }
 
     private void addDBSession(){

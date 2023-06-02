@@ -205,6 +205,7 @@ public class ActivityPage extends AppCompatActivity {
                 deleteActivityButton.setVisibility(View.VISIBLE);
                 editGoalButton.setVisibility(View.VISIBLE);
                 backButton.setVisibility(View.GONE);
+                addSessionButton.setVisibility(View.GONE);
             }
         });
 
@@ -237,7 +238,11 @@ public class ActivityPage extends AppCompatActivity {
         addSessionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ActivityPage.this, NewSession.class));
+                Intent intent = new Intent(ActivityPage.this, NewSession.class);
+                intent.putExtra("previousActivity", 1);
+                intent.putExtra("activity_id", activityId);
+                startActivity(intent);
+                finish();
             }
         });
 
@@ -255,6 +260,7 @@ public class ActivityPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(ActivityPage.this, MyActivities.class));
+                finish();
             }
         });
 
@@ -396,6 +402,7 @@ public class ActivityPage extends AppCompatActivity {
                 deleteActivityButton.setVisibility(View.GONE);
                 editGoalButton.setVisibility(View.GONE);
                 backButton.setVisibility(View.VISIBLE);
+                addSessionButton.setVisibility(View.VISIBLE);
 
 
                 DatabaseReference activitiesRef = FirebaseDatabase.getInstance().getReference("Activity");

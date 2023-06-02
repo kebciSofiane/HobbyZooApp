@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hobbyzooapp.Activities.ActivitiesCallBack;
 import com.example.hobbyzooapp.Activities.Activity;
+import com.example.hobbyzooapp.Activities.ActivityPage;
 import com.example.hobbyzooapp.Activities.ExpandableListAdapter;
 import com.example.hobbyzooapp.Activities.MyActivities;
 import com.example.hobbyzooapp.Calendar.CalendarActivity;
@@ -72,7 +73,10 @@ public class MyDailySessions extends AppCompatActivity {
         addSessionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MyDailySessions.this, NewSession.class));
+                Intent intent = new Intent(MyDailySessions.this, NewSession.class);
+                intent.putExtra("previousActivity", 0);
+                startActivity(intent);
+                finish();
             }
         });
 

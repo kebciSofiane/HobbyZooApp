@@ -10,7 +10,7 @@
 
 
 <h2 align="center">Operating systems :</h2>
-<a href="https://www.microsoft.com/fr-fr/windows?r=1" target="_blank" rel="noreferrer"> 
+<a href="https://www.android.com/intl/fr_fr/" target="_blank" rel="noreferrer"> 
   <img src="Android_robot.png" alt="linux" width="40" height="40"/>
 </a>
 <h2 align="center">My spent Time:</h2>

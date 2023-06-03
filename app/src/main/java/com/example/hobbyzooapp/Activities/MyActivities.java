@@ -70,7 +70,6 @@ public class MyActivities extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 startActivity(new Intent(MyActivities.this, ProfileActivity.class));
-
             }
         });
         ActivitiesCallBack callback = new ActivitiesCallBack() {
@@ -100,6 +99,7 @@ public class MyActivities extends AppCompatActivity {
 
                 intent.putExtra("activity_id", clickedActivityID);
                 startActivity(intent);
+                finish();
                 return true;
             }
 

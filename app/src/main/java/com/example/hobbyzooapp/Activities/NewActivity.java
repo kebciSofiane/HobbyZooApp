@@ -39,7 +39,7 @@ import java.util.regex.Pattern;
 
 public class NewActivity extends AppCompatActivity {
 
-    String activity_name, animalName, category_id, category_name;
+    String activity_name, animalName, category_id, category_name, activity_id;
     FirebaseAuth firebaseAuth;
     Spinner categorySelector;
     FirebaseUser user;
@@ -177,8 +177,11 @@ public class NewActivity extends AppCompatActivity {
                             if(activities.size() == 0){
                                 addBDActivity();
                                 Intent intent;
-                                if (origin == 1)
+                                if (origin == 1) {
                                     intent = new Intent(NewActivity.this, NewSession.class);
+                                    intent.putExtra("activity_id", activity_id);
+                                    intent.putExtra("activity_name", activity_name.replace(",", " "));
+                                }
                                 else
                                     intent = new Intent(NewActivity.this, MyActivities.class);
                                 startActivity(intent);
@@ -225,6 +228,7 @@ public class NewActivity extends AppCompatActivity {
         origin = previousActivity.getIntExtra("origin", 0);
         if(previousActivity.hasExtra("category_name")){
             categories = new ArrayList<>(List.of(previousActivity.getStringExtra("category_name")));
+            category_id = previousActivity.getStringExtra("categoty_id");
         }
         else{
             categories = setCategories();
@@ -238,7 +242,7 @@ public class NewActivity extends AppCompatActivity {
             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
 
             DatabaseReference newChildRef = databaseReference.push();
-            String activity_id = newChildRef.getKey();
+            activity_id = newChildRef.getKey();
             HashMap<Object, String> hashMap = new HashMap<>();
 
             hashMap.put("activity_id", activity_id);

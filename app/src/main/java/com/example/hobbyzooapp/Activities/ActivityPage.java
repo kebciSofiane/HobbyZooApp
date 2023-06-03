@@ -318,6 +318,7 @@ public class ActivityPage extends AppCompatActivity {
                                     referenceCategory.child(category_id).removeValue();
                                 }
                                 startActivity(new Intent(ActivityPage.this, HomeActivity.class));
+                                finish();
                                 dialog.dismiss();
                             }
 

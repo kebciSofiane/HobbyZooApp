@@ -65,6 +65,7 @@ public class NewSession extends AppCompatActivity {
         activitySelector.setAdapter(adapter);
         if(previousActivity.hasExtra("activity_name")){
             activitySelector.setSelection(0);
+            activity_id = previousActivity.getStringExtra("activity_id");
         }
         else{
             activitySelector.setOnItemSelectedListener(
@@ -196,10 +197,7 @@ public class NewSession extends AppCompatActivity {
         else{
             intent = new Intent(NewSession.this, ActivityPage.class);
             intent.putExtra("activity_id", previousIntent.getStringExtra("activity_id"));
-
         }
-
-
         startActivity(intent);
         finish();
     }

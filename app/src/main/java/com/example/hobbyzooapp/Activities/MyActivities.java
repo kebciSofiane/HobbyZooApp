@@ -98,6 +98,7 @@ public class MyActivities extends AppCompatActivity {
                 //Toast.makeText(getApplicationContext(), clickedActivityID, Toast.LENGTH_SHORT).show();
 
                 intent.putExtra("activity_id", clickedActivityID);
+                intent.putExtra("previousActivity", 1);
                 startActivity(intent);
                 finish();
                 return true;

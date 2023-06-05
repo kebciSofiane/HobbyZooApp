@@ -66,14 +66,16 @@ public class ActivityPage extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference referenceActivity;
     int countActivities = 0;
+    int previousActivity = 0;
 
     @SuppressLint("WrongViewCast")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_page);
-        Intent intent = getIntent();
-        String activity_id = intent.getStringExtra("activity_id");
+        Intent previousIntent = getIntent();
+        String activity_id = previousIntent.getStringExtra("activity_id");
+        previousActivity = previousIntent.getIntExtra("previousActivity", 0);
         initialisation();
         getActivityData(activity_id);
 
@@ -105,7 +107,6 @@ public class ActivityPage extends AppCompatActivity {
             }
         });
 
-        FirebaseUser user = firebaseAuth.getCurrentUser();
         database = FirebaseDatabase.getInstance();
         DatabaseReference databaseReferenceTask = database.getReference("Tasks");
         String thisActivityId = activity_id;
@@ -239,7 +240,14 @@ public class ActivityPage extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ActivityPage.this, MyActivities.class));
+                Intent backIntent;
+                if(previousActivity == 0){
+                    backIntent = new Intent(ActivityPage.this, HomeActivity.class);
+                }
+                else{
+                    backIntent = new Intent(ActivityPage.this, MyActivities.class);
+                }
+                startActivity(backIntent);
                 finish();
             }
         });
@@ -511,6 +519,9 @@ public class ActivityPage extends AppCompatActivity {
         validate = findViewById(R.id.activityPageValidateButton);
         backButton = findViewById(R.id.backButtonActivityPage);
         editTextPetName = findViewById(R.id.activityPagePetNameEdit);
+        if(previousActivity == 0){
+            homeButton.setVisibility(View.GONE);
+        }
     }
 
     private ArrayList<Session> getSessionList(String activity_id, OnSessionListRetrievedListener listener){

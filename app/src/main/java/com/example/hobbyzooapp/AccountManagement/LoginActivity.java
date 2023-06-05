@@ -80,7 +80,11 @@ public class LoginActivity extends AppCompatActivity {
                 if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                     emailET.setError("Invalid email address");
                     emailET.setFocusable(true);
-                } else {
+                } else if (passwordEt.getText().toString().trim().isEmpty()){
+                    passwordEt.setError("Password can't be empty");
+                    passwordEt.setFocusable(true);
+                }
+                else{
                     loginUser(email, pswrd);
                 }
             }
@@ -120,7 +124,6 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if (user != null && user.isEmailVerified()) {
-            // L'utilisateur est déjà connecté, rediriger vers l'écran principal de l'application
             startActivity(new Intent(LoginActivity.this, WeeklyEvent.class));
             finish();
         }

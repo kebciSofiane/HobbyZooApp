@@ -163,6 +163,7 @@ public class NewSession extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(),"The date can't be earlier!",Toast.LENGTH_LONG).show();
                     } else {
                         addDBSession();
+                        validationButton.setVisibility(View.GONE);
                         Toast.makeText(getApplicationContext(),"Session has been added!",Toast.LENGTH_LONG).show();
                     }
                 }

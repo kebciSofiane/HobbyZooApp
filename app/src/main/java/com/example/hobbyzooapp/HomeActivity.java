@@ -22,6 +22,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.hobbyzooapp.AccountManagement.ProfileActivity;
+import com.example.hobbyzooapp.AccountManagement.RegistrationOrConnexion;
 import com.example.hobbyzooapp.Activities.ActivityPage;
 import com.example.hobbyzooapp.Calendar.CalendarActivity;
 import com.example.hobbyzooapp.Calendar.CalendarUtils;
@@ -134,8 +135,9 @@ public class HomeActivity extends AppCompatActivity {
         linearLayout1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent=new Intent(HomeActivity.this, ActivityPage.class);
+                Intent intent = new Intent(HomeActivity.this, ActivityPage.class);
                 intent.putExtra("activity_id",(String) v.getTag());
+                intent.putExtra("previousActivity", 0);
                 startActivity(intent);
             }
         });
@@ -207,19 +209,6 @@ public class HomeActivity extends AppCompatActivity {
 
         count.setText(String.valueOf(countText));
     }
-
-
-    private void checkUserStatus(){
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        if(user != null){
-
-        }
-        else{
-            //startActivity(new Intent(HomeActivity.this, RegistrationOrConnexion.class));
-            //finish();
-        }
-    }
-
 
     @Override
     public void onBackPressed() {}

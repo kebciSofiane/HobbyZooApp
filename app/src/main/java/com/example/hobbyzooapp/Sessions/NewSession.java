@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -17,7 +16,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hobbyzooapp.Activities.ActivityPage;
-import com.example.hobbyzooapp.HomeActivity;
 import com.example.hobbyzooapp.R;
 import com.example.hobbyzooapp.Activities.NewActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -28,10 +26,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -148,18 +144,18 @@ public class NewSession extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 activityName = (String) activitySelector.getSelectedItem();
-                LocalDate dateCourante = null;
+                LocalDate currentDate = null;
                 int selectedYear = datePicker.getYear();
                 int selectedMonth = datePicker.getMonth() + 1;
                 int selectedDay = datePicker.getDayOfMonth();
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    dateCourante = LocalDate.now();
+                    currentDate = LocalDate.now();
                 }
                 if(activityName.trim().isEmpty() || (timePicker.getHour() == 0 && timePicker.getMinute() == 0) || activitySelector.getSelectedItem() == null){
                     Toast.makeText(getApplicationContext(),"Field can't be empty!",Toast.LENGTH_LONG).show();
                 }
                 else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    if (dateCourante.isAfter(LocalDate.of(selectedYear, selectedMonth, selectedDay))) {
+                    if (currentDate.isAfter(LocalDate.of(selectedYear, selectedMonth, selectedDay))) {
                         Toast.makeText(getApplicationContext(),"The date can't be earlier!",Toast.LENGTH_LONG).show();
                     } else {
                         addDBSession();

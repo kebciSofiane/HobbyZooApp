@@ -3,10 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.hobbyzooapp">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.SET_ALARM" />
+    <uses-permission android:name="android.permission.SET_ALARM"
+        tools:ignore="SystemPermissionTypo" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
@@ -24,76 +27,93 @@
         <activity
             android:name=".WeeklyEvent"
             android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".CalendarEvolution.DateMemory"
             android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".CalendarEvolution.MyEvolutionActivity"
             android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            tools:ignore="LockedOrientationActivity" />
 
         <activity
             android:name=".AccountManagement.SettingsActivity"
             android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            tools:ignore="LockedOrientationActivity" />
 
         <activity
             android:name=".AccountManagement.AccountActivity"
             android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            tools:ignore="LockedOrientationActivity" />
 
         <activity
             android:name=".AccountManagement.ProfileActivity"
             android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".Activities.ActivityPage"
             android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".Sessions.EndSession"
             android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".Sessions.RunSession"
             android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".AccountManagement.RegisterActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:parentActivityName=".AccountManagement.RegistrationOrConnexion" />
+            android:parentActivityName=".AccountManagement.RegistrationOrConnexion"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".AccountManagement.LoginActivity"
             android:exported="false"
             android:screenOrientation="portrait"
-            android:parentActivityName=".AccountManagement.RegistrationOrConnexion" />
+            android:parentActivityName=".AccountManagement.RegistrationOrConnexion"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".HomeActivity"
             android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".AccountManagement.RegistrationOrConnexion"
             android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".Activities.MyActivities"
             android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".Sessions.MyDailySessions"
             android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".Calendar.CalendarActivity"
             android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".SplashScreenActivity"
             android:screenOrientation="portrait"
-            android:exported="true">
+            android:exported="true"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -103,15 +123,18 @@
         <activity
             android:name=".Sessions.NewSession"
             android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".Category.NewCategory"
             android:screenOrientation="portrait"
-            android:exported="false" />
+            android:exported="false"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".Activities.NewActivity"
             android:screenOrientation="portrait"
-            android:exported="true" />
+            android:exported="true"
+            tools:ignore="LockedOrientationActivity" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

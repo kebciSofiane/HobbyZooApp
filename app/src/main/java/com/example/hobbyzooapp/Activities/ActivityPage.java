@@ -391,7 +391,10 @@ public class ActivityPage extends AppCompatActivity {
                 editGoalButton.setVisibility(View.GONE);
                 backButton.setVisibility(View.VISIBLE);
                 addSessionButton.setVisibility(View.VISIBLE);
-                homeButton.setVisibility(View.VISIBLE);
+                if(previousActivity != 0){
+                    homeButton.setVisibility(View.VISIBLE);
+                }
+
 
                 DatabaseReference activitiesRef = FirebaseDatabase.getInstance().getReference("Activity");
                 DatabaseReference activityRef = activitiesRef.child(activity_id);

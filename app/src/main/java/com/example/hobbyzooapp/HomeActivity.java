@@ -212,31 +212,9 @@ public class HomeActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {}
-/*
-   //TODO ca sert a rien ca ???
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
-
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        int id = item.getItemId();
-        if(id == R.id.action_logout){
-            firebaseAuth.signOut();
-            checkUserStatus();
-        }
-        return super.onOptionsItemSelected(item);
-    }
-    */
 
     public List<Integer> showNextActivities(int batchSize) {
         List<Integer> intElements ;
-
-
 
         if (!rightButtonClicked){
             currentIndex += previousNumberOfAnimals;
@@ -287,19 +265,16 @@ public class HomeActivity extends AppCompatActivity {
             currentIndex = 0;
         }
 
-
         if (countText <= 1)
-            countText=numberOfPages;
+            countText = numberOfPages;
         else countText--;
         count.setText(String.valueOf(countText));
-
 
         int endIndex;
         if (currentIndex== 0)
             endIndex = imageList.size();
         else
             endIndex = currentIndex;
-
 
         int startIndex;
         if (endIndex==imageList.size() )
@@ -314,8 +289,6 @@ public class HomeActivity extends AppCompatActivity {
 
         return intElements;
     }
-
-
 
     public List<String> showNextActivityNames(int batchSize) {
         List<String> intElements ;
@@ -342,7 +315,6 @@ public class HomeActivity extends AppCompatActivity {
             }
             currentIndex2 = endIndex;
 
-
         intElements = activities_name_List.subList(startIndex, endIndex);
         if (endIndex > activities_name_List.size()) {
             currentIndex2 = 0;
@@ -363,7 +335,6 @@ public class HomeActivity extends AppCompatActivity {
             currentIndex2 = 0;
         }
 
-
         if (currentIndex2== 0)
             endIndex = activities_name_List.size();
         else
@@ -372,9 +343,8 @@ public class HomeActivity extends AppCompatActivity {
         int startIndex;
         if (endIndex==activities_name_List.size())
             startIndex = endIndex - mod;
-        else startIndex =endIndex-batchSize;
-
-
+        else
+            startIndex =endIndex-batchSize;
 
         if (startIndex < 0) {
             startIndex = 0;
@@ -382,10 +352,6 @@ public class HomeActivity extends AppCompatActivity {
 
         intElements = activities_name_List.subList(startIndex, endIndex);
         currentIndex2 = startIndex;
-
-
-
-
         return intElements;
     }
 
@@ -430,7 +396,6 @@ public class HomeActivity extends AppCompatActivity {
     public List<String> showPreviousActivityId(int batchSize) {
         List<String> intElements = new ArrayList<>();
         int mod = activities_id_List.size() % batchSize;
-
         int endIndex;
         if (rightButtonClicked){
             currentIndex3 -= previousNumberOfAnimals;
@@ -440,14 +405,13 @@ public class HomeActivity extends AppCompatActivity {
             currentIndex3 = 0;
         }
 
-
         if (currentIndex3== 0)
             endIndex = activities_id_List.size();
         else
             endIndex = currentIndex3;
 
         int startIndex;
-        if (endIndex==imageList.size())
+        if (endIndex == imageList.size())
             startIndex = endIndex - mod;
         else startIndex =endIndex-batchSize;
 
@@ -457,18 +421,12 @@ public class HomeActivity extends AppCompatActivity {
 
         intElements = activities_id_List.subList(startIndex, endIndex);
         currentIndex3 = startIndex;
-
-
-        previousNumberOfAnimals=intElements.size();
-        rightButtonClicked=false;
+        previousNumberOfAnimals = intElements.size();
+        rightButtonClicked = false;
         System.out.println("Current index:"+currentIndex);
         System.out.println("animals index:"+previousNumberOfAnimals);
         return intElements;
     }
-
-///////////////////////
-
-
 
     public void getActivities(){
         FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -501,15 +459,18 @@ public class HomeActivity extends AppCompatActivity {
                 }
                 numberOfPages = imageList.size()/5;
 
-                if (imageList.size()<=5)
+                if (imageList.size()<=5) {
                     next.setVisibility(View.GONE);
                     previous.setVisibility(View.GONE);
+                }
 
                 if (imageList.size() % 5 !=0)
                     numberOfPages++;
                 toRight=true;
-                if (imageList.size()>=5) previousNumberOfAnimals =5 ;
-                else previousNumberOfAnimals=imageList.size();
+                if (imageList.size()>=5)
+                    previousNumberOfAnimals =5 ;
+                else
+                    previousNumberOfAnimals=imageList.size();
                 showAnimals();
 
             }
@@ -527,29 +488,9 @@ public class HomeActivity extends AppCompatActivity {
 
         Random random = new Random();
 
-        //FirebaseUser user = firebaseAuth.getCurrentUser();
-        //user.getUid()
-        ArrayList<TextView> textViewList = new ArrayList<>();
-        ArrayList<ImageView> imageViewList = new ArrayList<>();
-        ArrayList<LinearLayout> linearLayoutList = new ArrayList<>();
-
-        textViewList.add(textView1);
-        textViewList.add(textView2);
-        textViewList.add(textView3);
-        textViewList.add(textView4);
-        textViewList.add(textView5);
-
-        imageViewList.add(imageView1);
-        imageViewList.add(imageView2);
-        imageViewList.add(imageView3);
-        imageViewList.add(imageView4);
-        imageViewList.add(imageView5);
-
-        linearLayoutList.add(linearLayout1);
-        linearLayoutList.add(linearLayout2);
-        linearLayoutList.add(linearLayout3);
-        linearLayoutList.add(linearLayout4);
-        linearLayoutList.add(linearLayout5);
+        ArrayList<TextView> textViewList = new ArrayList<>(Arrays.asList(textView1, textView2, textView3, textView4, textView5));
+        ArrayList<ImageView> imageViewList = new ArrayList<>(Arrays.asList(imageView1, imageView2, imageView3, imageView4, imageView5));
+        ArrayList<LinearLayout> linearLayoutList = new ArrayList<>(Arrays.asList(linearLayout1, linearLayout2, linearLayout3, linearLayout4, linearLayout5));
 
         for (int i = startIndex; i < 5; i++) {
             linearLayoutList.get(i).setVisibility(View.GONE);
@@ -576,17 +517,12 @@ public class HomeActivity extends AppCompatActivity {
                 linearLayoutList.get(i).setTag(activities_id.get(i));
         }
 
-        // Obtenir le gestionnaire de fenêtres
             WindowManager windowManager = getWindowManager();
 
-            // Obtenir les métriques d'affichage
             DisplayMetrics displayMetrics = new DisplayMetrics();
             ((WindowManager) windowManager).getDefaultDisplay().getMetrics(displayMetrics);
 
-            // Obtenir la largeur de l'écran
             int surfaceWidth = displayMetrics.widthPixels;
-
-            // Obtenir la hauteur de l'écran
             int surfaceHeight = displayMetrics.heightPixels;
 
             int cellHeight = surfaceHeight / 6;
@@ -601,10 +537,6 @@ public class HomeActivity extends AppCompatActivity {
                     val[1] = j * cellHeight;
                     cellList.add(val);
                 }
-
-            System.out.println(cellList);
-
-            // Générez les coordonnées aléatoires pour chaque ImageView
 
             int image1X = 0;
             int image1Y = 0;

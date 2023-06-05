@@ -128,8 +128,9 @@
             android:resource="@array/preloaded_fonts" />
         <service
             android:name=".BackgroundService"
-            android:enabled="true"
+            android:foregroundServiceType="location|dataSync"
             android:exported="false" />
+
     </application>
 
 </manifest>

@@ -26,11 +26,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.hobbyzooapp.HomeActivity;
-import com.example.hobbyzooapp.OnSessionListRetrievedListener2;
+import com.example.hobbyzooapp.OnSessionListRetrievedListenerString;
 import com.example.hobbyzooapp.R;
 import com.example.hobbyzooapp.Sessions.NewSession;
-import com.example.hobbyzooapp.Sessions.OnSessionListRetrievedListener;
-import com.example.hobbyzooapp.Sessions.RunSession;
 import com.example.hobbyzooapp.Sessions.Session;
 import com.example.hobbyzooapp.TodoTask;
 import com.example.hobbyzooapp.Sessions.ListSessionsAdapter;
@@ -81,7 +79,7 @@ public class ActivityPage extends AppCompatActivity {
         initialisation();
         getActivityData(activity_id);
 
-        getSessionList(activity_id, new OnSessionListRetrievedListener() {
+        getSessionList(activity_id, new com.example.hobbyzooapp.Sessions.OnSessionListRetrievedListener() {
             @Override
             public void onSessionListRetrieved(ArrayList<Session> sessionList) {
                 mySessions = sessionList;
@@ -93,7 +91,7 @@ public class ActivityPage extends AppCompatActivity {
         });
 
 
-        getLastSessionPicCom(activity_id, new OnSessionListRetrievedListener2() {
+        getLastSessionPicCom(activity_id, new OnSessionListRetrievedListenerString() {
             @Override
             public void onSessionListRetrieved(ArrayList<String> sessionPicCom) {
                 lastSessionData = sessionPicCom;
@@ -531,7 +529,7 @@ public class ActivityPage extends AppCompatActivity {
         addSessionButton = findViewById(R.id.add_session_button);
     }
 
-    private ArrayList<Session> getSessionList(String activity_id, OnSessionListRetrievedListener listener){
+    private ArrayList<Session> getSessionList(String activity_id, com.example.hobbyzooapp.Sessions.OnSessionListRetrievedListener listener){
         DatabaseReference reference = database.getReference("Session");
         DatabaseReference activityReference = database.getReference("Activity");
 
@@ -592,7 +590,7 @@ public class ActivityPage extends AppCompatActivity {
         return  mySessions;
     }
 
-    private ArrayList<String> getLastSessionPicCom(String activity_id, OnSessionListRetrievedListener2 listener){
+    private ArrayList<String> getLastSessionPicCom(String activity_id, OnSessionListRetrievedListenerString listener){
         DatabaseReference reference = database.getReference("Session");
         ArrayList<String> lastSessionData = new ArrayList<>();
         lastSessionData.add("");

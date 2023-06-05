@@ -29,10 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
-
 public class BackgroundService extends Service {
-
-
 
     private static final int NOTIFICATION_ID = 1;
     private static final String CHANNEL_ID = "session_channel_id";
@@ -40,8 +37,7 @@ public class BackgroundService extends Service {
 
     private Handler handler;
     private Runnable runnable;
-    Calendar calendar;
-
+    private Calendar calendar;
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -49,41 +45,63 @@ public class BackgroundService extends Service {
     public void onCreate() {
         super.onCreate();
         Notification notification = createNotification();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            if (notificationManager != null) {
+                notificationManager.createNotificationChannel(channel);
+            }
+        }
+
         startForeground(NOTIFICATION_ID, notification);
-//        getSessions();
-//
-        handler = new Handler();
-        runnable = new Runnable() {
-            @RequiresApi(api = Build.VERSION_CODES.N)
+
+        // Utiliser un indicateur pour vérifier si une notification a déjà été envoyée
+        final boolean[] notificationSent = {false};
+
+        getSessions(new SessionsLoadedListener() {
             @Override
-            public void run() {
-                calendar = Calendar.getInstance();
-
-                if (calendar.get(Calendar.HOUR_OF_DAY) == 10 && calendar.get(Calendar.MINUTE) == 0) {
-                    // L'heure actuelle est 10h00, déclencher la notification
-                    showSessionNotification(0);
-                }
-
-                // Planifier la prochaine vérification pour le lendemain à 10 heures
-                calendar.add(Calendar.DAY_OF_MONTH, 1);
-                calendar.set(Calendar.HOUR_OF_DAY, 10);
-                calendar.set(Calendar.MINUTE, 0);
-                calendar.set(Calendar.SECOND, 0);
-
-                // Créer une intention pour le BroadcastReceiver
-                Intent notificationIntent = new Intent(BackgroundService.this, NotificationReceiver.class);
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(BackgroundService.this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-                // Planifier l'alarme avec l'AlarmManager
-                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-                if (alarmManager != null) {
-                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+            public void onSessionsLoaded(ArrayList<String> sessions) {
+                Log.d("BackgroundService", "Sessions loaded: " + sessions.size());
+                if (sessions.size() > 0 && !notificationSent[0]) {
+                    showSessionNotification(sessions.size());
+                    notificationSent[0] = true; // Mettre l'indicateur à true pour éviter l'envoi répété
                 }
             }
+        });
+
+        handler = new Handler();
+        runnable = () -> {
+            calendar = Calendar.getInstance();
+
+            if (calendar.get(Calendar.HOUR_OF_DAY) == 18 && calendar.get(Calendar.MINUTE) == 44 && !notificationSent[0]) {
+                getSessions(new SessionsLoadedListener() {
+                    @Override
+                    public void onSessionsLoaded(ArrayList<String> sessions) {
+                        Log.d("BackgroundService", "Sessions loaded: " + sessions.size());
+                        if (sessions.size() > 0) {
+                            showSessionNotification(sessions.size());
+                            notificationSent[0] = true; // Mettre l'indicateur à true pour éviter l'envoi répété
+                            // Arrêter la planification de la prochaine vérification
+                            handler.removeCallbacks(runnable);
+                        }
+                    }
+                });
+            }
+
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+            calendar.set(Calendar.HOUR_OF_DAY, 17);
+            calendar.set(Calendar.MINUTE, 26);
+            calendar.set(Calendar.SECOND, 0);
+
+            Intent notificationIntent = new Intent(BackgroundService.this, NotificationReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(BackgroundService.this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            if (alarmManager != null) {
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+            }
         };
-
     }
-
 
 
     @Nullable
@@ -93,7 +111,7 @@ public class BackgroundService extends Service {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private ArrayList<String> getSessions() {
+    private void getSessions(SessionsLoadedListener listener) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("Session");
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -110,34 +128,13 @@ public class BackgroundService extends Service {
                     String session_month = snapshot.child("session_month").getValue(String.class);
                     String session_year = snapshot.child("session_year").getValue(String.class);
 
-                    if(localDate.getDayOfMonth() == Integer.parseInt(session_day) && localDate.getYear() == Integer.parseInt(session_year) && localDate.getMonth().getValue() == Integer.parseInt(session_month)){
+                    if (localDate.getDayOfMonth() == Integer.parseInt(session_day) && localDate.getYear() == Integer.parseInt(session_year) && localDate.getMonth().getValue() == Integer.parseInt(session_month)) {
                         mySessions.add("cc");
-                        Log.d("", "booom    : "+ mySessions);
+                        Log.d("", "booom    : " + mySessions);
                     }
                 }
-                calendar = Calendar.getInstance();
-                int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
-                int currentMinute = calendar.get(Calendar.MINUTE);
-                if (currentHour == 18 ) {
-                    int sessionCount = 0;
-                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                        sessionCount = mySessions.size();
-                    }
-                    Log.d("", "baam    : "+ sessionCount);
 
-                    if (sessionCount > 0) {
-                        // Envoyer la notification
-                        showSessionNotification(sessionCount);
-                    }
-
-                }
-
-                // Planifier la prochaine vérification pour le lendemain à 10 heures
-
-
-
-                // Appeler la méthode de rappel pour notifier le chargement des sessions
-                //listener.onSessionsLoaded(mySessions);
+                listener.onSessionsLoaded(mySessions);
             }
 
             @Override
@@ -145,35 +142,18 @@ public class BackgroundService extends Service {
                 Log.w("TAG", "Erreur lors de la récupération des données", databaseError.toException());
             }
         });
-        return mySessions;
     }
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        handler.post(runnable);
-        return START_STICKY;
-    }
+
     @Override
     public void onDestroy() {
         super.onDestroy();
         handler.removeCallbacks(runnable);
     }
 
-    private void getS(){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference referenceActivity = database.getReference("Activity");
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        String uid = user.getUid();
-        ArrayList<Session> mySessions = new ArrayList<>();
-    }
-
-
     @RequiresApi(api = Build.VERSION_CODES.N)
     void showSessionNotification(int sessionCount) {
-        // Vérifier si les notifications sont activées
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         if (notificationManager != null && !notificationManager.areNotificationsEnabled()) {
-            // Les notifications sont désactivées, vous pouvez choisir de ne pas envoyer de notification ou de prendre une autre action appropriée.
             return;
         }
 
@@ -188,10 +168,9 @@ public class BackgroundService extends Service {
 
         if (notificationManager != null) {
             createNotificationChannel(notificationManager);
-            int uniqueNotificationId = (int) System.currentTimeMillis(); // Utilisez un ID unique pour chaque notification
+            int uniqueNotificationId = (int) System.currentTimeMillis();
             notificationManager.notify(uniqueNotificationId, builder.build());
         }
-
     }
 
     private void createNotificationChannel(NotificationManager notificationManager) {
@@ -213,5 +192,14 @@ public class BackgroundService extends Service {
         return builder.build();
     }
 
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        startService(intent);
+        handler.post(runnable);
+        return START_STICKY;
+    }
 
+    public interface SessionsLoadedListener {
+        void onSessionsLoaded(ArrayList<String> sessions);
+    }
 }

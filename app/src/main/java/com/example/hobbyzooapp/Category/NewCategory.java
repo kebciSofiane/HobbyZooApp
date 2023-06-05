@@ -87,8 +87,11 @@ public class NewCategory extends AppCompatActivity {
                         try {
                             int color = Color.parseColor(colorHex);
                         } catch (IllegalArgumentException e) {
-                            colorHex = "#FFFFFF";
+                            colorHex = "#8E7F6F";
                         }
+                    }
+                    if(colorHex.equals("#FFFFFF") || colorHex.equals("#000000")){
+                        colorHex = "#606060";
                     }
                 }
 

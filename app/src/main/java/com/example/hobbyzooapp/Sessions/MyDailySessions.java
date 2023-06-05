@@ -99,7 +99,7 @@ public class MyDailySessions extends AppCompatActivity {
                 editButton.setVisibility(View.GONE);
                 validateButton.setVisibility(View.VISIBLE);
                 homeButton.setVisibility(View.GONE);
-                addSessionButton.setVisibility(View.GONE);
+                addSessionButton.setVisibility(View.INVISIBLE);
                 calendarButton.setVisibility(View.GONE);
                 isDeleteMode = Boolean.TRUE;
                 adapter.setIsDeleteMode(isDeleteMode);

@@ -22,7 +22,7 @@ import java.util.List;
 
 public class MyActivities extends AppCompatActivity {
 
-    ImageButton homeButton, addActivityButton, profileButton, backButton;
+    ImageButton homeButton, addActivityButton, backButton;
     ExpandableListView expandableListView;
     ExpandableListAdapter expandableListAdapter;
     List<String> expandableListTitle;
@@ -39,8 +39,6 @@ public class MyActivities extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_activities);
         firebaseAuth = FirebaseAuth.getInstance();
-
-        //addActivities();
 
         editCategoryButton= findViewById(R.id.editCategory);
         homeButton = findViewById(R.id.homeButton);
@@ -64,14 +62,6 @@ public class MyActivities extends AppCompatActivity {
             }
         });
 
-
-        profileButton= findViewById(R.id.profile_btn);
-        profileButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                startActivity(new Intent(MyActivities.this, ProfileActivity.class));
-            }
-        });
         ActivitiesCallBack callback = new ActivitiesCallBack() {
             @Override
             public void onActivitiesLoaded(HashMap<String, Category> expandableListDetail) {
@@ -95,7 +85,6 @@ public class MyActivities extends AppCompatActivity {
 
 
                 Intent intent = new Intent(MyActivities.this, ActivityPage.class);
-                //Toast.makeText(getApplicationContext(), clickedActivityID, Toast.LENGTH_SHORT).show();
 
                 intent.putExtra("activity_id", clickedActivityID);
                 intent.putExtra("previousActivity", 1);
@@ -113,19 +102,10 @@ public class MyActivities extends AppCompatActivity {
                 startActivity(new Intent(MyActivities.this, ProfileActivity.class));
             }
         });
-
-        //GridView activityListView = findViewById(R.id.category_list_view);
-        //CategoryListAdapter adapter = new CategoryListAdapter(this,category);
-        //adapter.setOnItemClickListener(new OnItemClickListener() {
     }
 
     public void openMainActivity(){
         Intent intent = new Intent(this, HomeActivity.class);
-        startActivity(intent);
-    }
-
-    public void openActivityPage(){
-        Intent intent = new Intent(this, ActivityPage.class);
         startActivity(intent);
     }
 }

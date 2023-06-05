@@ -1,8 +1,10 @@
 package com.example.hobbyzooapp;
 
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -55,20 +57,31 @@ public class BackgroundService extends Service {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void run() {
-                // Vérifier si l'heure actuelle est 10 heures du matin
                 calendar = Calendar.getInstance();
-                getSessions();
-                Log.d("abcd" , "" );
 
+                if (calendar.get(Calendar.HOUR_OF_DAY) == 10 && calendar.get(Calendar.MINUTE) == 0) {
+                    // L'heure actuelle est 10h00, déclencher la notification
+                    showSessionNotification(0);
+                }
 
+                // Planifier la prochaine vérification pour le lendemain à 10 heures
+                calendar.add(Calendar.DAY_OF_MONTH, 1);
+                calendar.set(Calendar.HOUR_OF_DAY, 10);
+                calendar.set(Calendar.MINUTE, 0);
+                calendar.set(Calendar.SECOND, 0);
+
+                // Créer une intention pour le BroadcastReceiver
+                Intent notificationIntent = new Intent(BackgroundService.this, NotificationReceiver.class);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(BackgroundService.this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                // Planifier l'alarme avec l'AlarmManager
+                AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+                if (alarmManager != null) {
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                }
             }
         };
 
-        calendar = Calendar.getInstance();  // Initialiser la variable calendar ici
-        calendar.add(Calendar.DAY_OF_YEAR, 1);
-        calendar.set(Calendar.HOUR_OF_DAY, 10);
-        long delayMillis = calendar.getTimeInMillis() - System.currentTimeMillis();
-        handler.postDelayed(runnable, delayMillis);
     }
 
 
@@ -156,7 +169,7 @@ public class BackgroundService extends Service {
 
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    private void showSessionNotification(int sessionCount) {
+    void showSessionNotification(int sessionCount) {
         // Vérifier si les notifications sont activées
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         if (notificationManager != null && !notificationManager.areNotificationsEnabled()) {

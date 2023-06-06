@@ -84,8 +84,7 @@ public class AccountActivity extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(AccountActivity.this, ProfileActivity.class));
-
+                finish();
             }
         });
     }

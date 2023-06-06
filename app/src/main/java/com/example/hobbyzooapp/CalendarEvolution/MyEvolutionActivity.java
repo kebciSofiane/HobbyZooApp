@@ -84,7 +84,6 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MyEvolutionActivity.this, ProfileActivity.class));
                 finish();
             }
         });

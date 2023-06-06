@@ -608,9 +608,11 @@ public class ActivityPage extends AppCompatActivity {
                     String session_comment = snapshot.child("session_comment").getValue(String.class);
 
                     if (lastDate < date && session_done.equals("TRUE")) {
+                        if (!session_picture.isEmpty() && !session_comment.isEmpty()){
                         lastSessionData.set(0, session_picture);
                         lastSessionData.set(1, session_comment);
                         lastDate = date;
+                        }
                     }
                 }
                 listener.onSessionListRetrieved(lastSessionData);

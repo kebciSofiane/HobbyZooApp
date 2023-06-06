@@ -1,5 +1,5 @@
 <h1 align="center">HobbyZoo</h1>
-<div align = "center">
+
   <img align = "center" src="Screenshot_2023-06-03-00-26-37-56_3b0c8f431d9a70a3f61e0079d40c981f.jpg" width = "70%"  height ="auto"></img>
 
 

@@ -94,7 +94,7 @@ public class MyDailySessions extends AppCompatActivity {
             finish();
         });
 
-        calendarButton.setOnClickListener(v -> openCalendar());
+        calendarButton.setOnClickListener(v -> finish());
 
         editButton.setOnClickListener(v -> {
             editButton.setVisibility(View.GONE);
@@ -187,10 +187,6 @@ public class MyDailySessions extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public void openCalendar() {
-        Intent intent = new Intent(this, CalendarActivity.class);
-        startActivity(intent);
-    }
 
     public void refresh() {
         Intent intent = new Intent(MyDailySessions.this, MyDailySessions.class);

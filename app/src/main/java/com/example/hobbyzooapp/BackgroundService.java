@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
@@ -41,6 +42,7 @@ public class BackgroundService extends Service {
     private Calendar calendar;
     private boolean notificationSent = false;
 
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onCreate() {
@@ -63,26 +65,23 @@ public class BackgroundService extends Service {
             int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
             int currentMinute = calendar.get(Calendar.MINUTE);
 
-            if (currentHour == 12 && currentMinute == 15  && !notificationSent) {
-                // The current time is 17:41 and the notification has not been sent yet
-                getSessions(new SessionsLoadedListener() {
-                    @Override
-                    public void onSessionsLoaded(ArrayList<String> sessions) {
-                        int sessionCount = sessions.size();
-                        Log.d("BackgroundService", "Sessions loaded: " + sessionCount);
-                        if (sessionCount > 0) {
-                            showSessionNotification(sessionCount);
-                        }
-                        notificationSent = true; // Set the flag to true to avoid repeated sending
+            if ((currentHour > 13 || (currentHour == 13 && currentMinute >= 46)) && !notificationSent) {
+                // L'heure actuelle est supérieure ou égale à 13:40 et la notification n'a pas encore été envoyée
+                getSessions(sessions -> {
+                    int sessionCount = sessions.size();
+                    Log.d("BackgroundService", "Sessions loaded: " + sessionCount);
+                    if (sessionCount > 0) {
+                        showSessionNotification(sessionCount);
                     }
+                    notificationSent = true; // Définir le drapeau sur true pour éviter les envois répétés
                 });
             } else {
-                notificationSent = false; // Reset the flag
+                notificationSent = false; // Réinitialiser le drapeau
             }
 
             calendar.add(Calendar.DAY_OF_MONTH, 1);
-            calendar.set(Calendar.HOUR_OF_DAY, 17);
-            calendar.set(Calendar.MINUTE, 26);
+            calendar.set(Calendar.HOUR_OF_DAY, 13);
+            calendar.set(Calendar.MINUTE, 40);
             calendar.set(Calendar.SECOND, 0);
 
             // Get a reference to the AlarmManager
@@ -96,13 +95,14 @@ public class BackgroundService extends Service {
             alarmManager.cancel(pendingIntent);
 
             // Schedule the alarm with the new time
-            if (alarmManager != null) {
-                alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-            }
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+
+            handler.postDelayed(runnable, 60000); // Répéter la vérification chaque minute
         };
 
         handler.post(runnable);
     }
+
 
     @Nullable
     @Override
@@ -122,15 +122,19 @@ public class BackgroundService extends Service {
 
         reference.orderByChild("user_id").equalTo(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String session_day = snapshot.child("session_day").getValue(String.class);
                     String session_month = snapshot.child("session_month").getValue(String.class);
                     String session_year = snapshot.child("session_year").getValue(String.class);
 
-                    if (localDate.getDayOfMonth() == Integer.parseInt(session_day) && localDate.getYear() == Integer.parseInt(session_year) && localDate.getMonth().getValue() == Integer.parseInt(session_month)) {
-                        mySessions.add("cc");
-                        Log.d("", "booom    : " + mySessions);
+                    assert session_day != null;
+                    if (localDate.getDayOfMonth() == Integer.parseInt(session_day)) {
+                        assert session_year != null;
+                        if (localDate.getYear() == Integer.parseInt(session_year) && localDate.getMonth().getValue() == Integer.parseInt(session_month)) {
+                            mySessions.add("cc");
+                            Log.d("", "booom    : " + mySessions);
+                        }
                     }
                 }
 
@@ -138,7 +142,7 @@ public class BackgroundService extends Service {
             }
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.w("TAG", "Erreur lors de la récupération des données", databaseError.toException());
             }
         });
@@ -149,6 +153,7 @@ public class BackgroundService extends Service {
         super.onDestroy();
         handler.removeCallbacks(runnable);
     }
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     void showSessionNotification(int sessionCount) {

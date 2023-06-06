@@ -104,7 +104,6 @@ public class HomeActivity extends AppCompatActivity {
             showAnimals();
         });
 
-
         linearLayout1.setOnClickListener(v -> {
             Intent intent = new Intent(HomeActivity.this, ActivityPage.class);
             intent.putExtra("activity_id",(String) v.getTag());

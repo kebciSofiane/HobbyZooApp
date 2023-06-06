@@ -29,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
+
 public class BackgroundService extends Service {
 
     private static final int NOTIFICATION_ID = 1;
@@ -38,7 +39,7 @@ public class BackgroundService extends Service {
     private Handler handler;
     private Runnable runnable;
     private Calendar calendar;
-
+    private boolean notificationSent = false;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -55,37 +56,28 @@ public class BackgroundService extends Service {
 
         startForeground(NOTIFICATION_ID, notification);
 
-        // Utiliser un indicateur pour vérifier si une notification a déjà été envoyée
-        final boolean[] notificationSent = {false};
-
-        getSessions(new SessionsLoadedListener() {
-            @Override
-            public void onSessionsLoaded(ArrayList<String> sessions) {
-                Log.d("BackgroundService", "Sessions loaded: " + sessions.size());
-                if (sessions.size() > 0 && !notificationSent[0]) {
-                    showSessionNotification(sessions.size());
-                    notificationSent[0] = true; // Mettre l'indicateur à true pour éviter l'envoi répété
-                }
-            }
-        });
-
         handler = new Handler();
         runnable = () -> {
             calendar = Calendar.getInstance();
 
-            if (calendar.get(Calendar.HOUR_OF_DAY) == 18 && calendar.get(Calendar.MINUTE) == 44 && !notificationSent[0]) {
+            int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+            int currentMinute = calendar.get(Calendar.MINUTE);
+
+            if (currentHour == 12 && currentMinute == 15  && !notificationSent) {
+                // The current time is 17:41 and the notification has not been sent yet
                 getSessions(new SessionsLoadedListener() {
                     @Override
                     public void onSessionsLoaded(ArrayList<String> sessions) {
-                        Log.d("BackgroundService", "Sessions loaded: " + sessions.size());
-                        if (sessions.size() > 0) {
-                            showSessionNotification(sessions.size());
-                            notificationSent[0] = true; // Mettre l'indicateur à true pour éviter l'envoi répété
-                            // Arrêter la planification de la prochaine vérification
-                            handler.removeCallbacks(runnable);
+                        int sessionCount = sessions.size();
+                        Log.d("BackgroundService", "Sessions loaded: " + sessionCount);
+                        if (sessionCount > 0) {
+                            showSessionNotification(sessionCount);
                         }
+                        notificationSent = true; // Set the flag to true to avoid repeated sending
                     }
                 });
+            } else {
+                notificationSent = false; // Reset the flag
             }
 
             calendar.add(Calendar.DAY_OF_MONTH, 1);
@@ -93,16 +85,24 @@ public class BackgroundService extends Service {
             calendar.set(Calendar.MINUTE, 26);
             calendar.set(Calendar.SECOND, 0);
 
+            // Get a reference to the AlarmManager
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+            // Create an intent for the BroadcastReceiver
             Intent notificationIntent = new Intent(BackgroundService.this, NotificationReceiver.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(BackgroundService.this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
-            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            // Cancel the previous alarm if it exists
+            alarmManager.cancel(pendingIntent);
+
+            // Schedule the alarm with the new time
             if (alarmManager != null) {
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
             }
         };
-    }
 
+        handler.post(runnable);
+    }
 
     @Nullable
     @Override
@@ -194,8 +194,6 @@ public class BackgroundService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        startService(intent);
-        handler.post(runnable);
         return START_STICKY;
     }
 

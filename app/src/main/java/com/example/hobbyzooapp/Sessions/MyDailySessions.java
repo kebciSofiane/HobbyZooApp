@@ -87,7 +87,6 @@ public class MyDailySessions extends AppCompatActivity {
         calendarButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                openCalendar();
                 finish();
             }
         });

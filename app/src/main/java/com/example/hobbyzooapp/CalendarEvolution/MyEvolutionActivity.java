@@ -85,6 +85,7 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MyEvolutionActivity.this, ProfileActivity.class));
+                finish();
             }
         });
 

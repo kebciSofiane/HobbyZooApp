@@ -23,7 +23,7 @@ public class SettingsActivity extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
 
     private Button notificationsEnabledButton,notificationsDisabledButton, termsButton, helpButton, aboutButton, logoutButton;
-    private ImageButton backBtn;
+    private ImageButton backButton;
     private int activeIcon, inactiveIcon;
 
     @Override
@@ -39,7 +39,7 @@ public class SettingsActivity extends AppCompatActivity {
         helpButton = findViewById(R.id.helpBtn);
         aboutButton = findViewById(R.id.aboutBtn);
         logoutButton = findViewById(R.id.logoutBtn);
-        backBtn = findViewById(R.id.backButton);
+        backButton = findViewById(R.id.backButton);
         activeIcon = R.drawable.ic_notifications_active;
         inactiveIcon = R.drawable.ic_notifications_off;
 
@@ -76,10 +76,11 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View v) {}
         });
 
-        backBtn.setOnClickListener(new View.OnClickListener() {
+        backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(SettingsActivity.this, ProfileActivity.class));
+                finish();
 
             }
         });

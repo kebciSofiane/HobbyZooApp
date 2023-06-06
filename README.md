@@ -13,5 +13,3 @@
 <a href="https://www.android.com/intl/fr_fr/" target="_blank" rel="noreferrer"> 
   <img src="Android_robot.png" alt="linux" width="40" height="40"/>
 </a>
-<h2 align="center">My spent Time:</h2>
-<img align="center" align="right" src="https://wakatime.com/badge/github/kebciSofiane/HobbyZooApp.svg" alt="watching_count" />

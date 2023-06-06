@@ -32,7 +32,6 @@ import java.util.regex.Pattern;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-
 public class NewCategory extends AppCompatActivity {
 
     String name, user_id, category_id, colorHex;

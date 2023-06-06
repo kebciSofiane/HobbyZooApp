@@ -3,8 +3,10 @@ package com.example.hobbyzooapp.AccountManagement;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -14,6 +16,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.hobbyzooapp.Activities.ActivityPage;
 import com.example.hobbyzooapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -87,19 +90,37 @@ public class AccountActivity extends AppCompatActivity {
         });
     }
     private void showConfirmationDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Confirm");
-        builder.setMessage("Do you really want to unregister from HobbyZoo ?");
-        builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.custom_dialog_, null);
+        TextView dialogTitle = dialogView.findViewById(R.id.dialogTitle);
+        TextView dialogText = dialogView.findViewById(R.id.dialogText);
+        Button dialogButtonConfirm = dialogView.findViewById(R.id.dialogButtonLeft);
+        Button dialogButtonCancel = dialogView.findViewById(R.id.dialogButtonRight);
+        dialogTitle.setText("Do you really want to unregister from HobbyZoo ?");
+        dialogText.setText("All your data will be definitively deleted !");
+        dialogText.setTextColor(Color.RED);
+        dialogButtonConfirm.setText("Confirm");
+        dialogButtonCancel.setText("Cancel");
+
+        androidx.appcompat.app.AlertDialog.Builder dialogBuilder = new androidx.appcompat.app.AlertDialog.Builder(AccountActivity.this);
+        dialogBuilder.setView(dialogView);
+        androidx.appcompat.app.AlertDialog dialog = dialogBuilder.create();
+        dialog.show();
+
+        dialogButtonConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
                 unregisterUser();
+                dialog.dismiss();
             }
         });
-        builder.setNegativeButton("Cancel", null);
 
-        AlertDialog dialog = builder.create();
-        dialog.show();
+        dialogButtonCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
     }
 
     private void enterEditMode() {

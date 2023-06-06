@@ -159,7 +159,7 @@
 
 
     <ImageButton
-        android:id="@+id/today_month"
+        android:id="@+id/current_month"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_alignParentStart="true"
@@ -169,7 +169,8 @@
         android:background="@color/transparent"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_calendar_arrow"
-        android:tint="@color/green_btn" />
+        android:tint="@color/green_btn"
+        android:visibility="gone"/>
 
 
 </RelativeLayout>

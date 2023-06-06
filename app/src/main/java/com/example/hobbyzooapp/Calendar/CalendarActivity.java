@@ -14,7 +14,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -28,7 +27,7 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
 {
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
-    private ImageButton todayMonthButton, homeButton;
+    private ImageButton currentMonthButton, homeButton;
     FirebaseAuth firebaseAuth;
 
 
@@ -44,11 +43,12 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
         setMonthView();
 
 
-        todayMonthButton = findViewById(R.id.today_month);
-        todayMonthButton.setOnClickListener(new View.OnClickListener() {
+        currentMonthButton = findViewById(R.id.current_month);
+        currentMonthButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CalendarUtils.selectedDate = LocalDate.now();
+                currentMonthButton.setVisibility(View.GONE);
                 setMonthView();
             }
         });
@@ -79,26 +79,30 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 7);
         calendarRecyclerView.setLayoutManager(layoutManager);
         calendarRecyclerView.setAdapter(calendarAdapter);
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void previousMonthAction(View view)
-    {
+    public void previousMonthAction(View view) {
         CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusMonths(1);
+        if (CalendarUtils.selectedDate != LocalDate.now()){
+            currentMonthButton.setVisibility(View.VISIBLE);
+        }else {currentMonthButton.setVisibility(View.GONE);}
         setMonthView();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void nextMonthAction(View view)
-    {
+    public void nextMonthAction(View view) {
         CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusMonths(1);
+        if (CalendarUtils.selectedDate != LocalDate.now()){
+            currentMonthButton.setVisibility(View.VISIBLE);
+        }else {currentMonthButton.setVisibility(View.GONE);}
         setMonthView();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
-    public void onItemClick(int position, LocalDate date)
-    {
+    public void onItemClick(int position, LocalDate date) {
         if(date != null)
         {
             CalendarUtils.selectedDate = date;
@@ -106,16 +110,16 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
         }
     }
 
-
     public void openTodaySessions(){
         Intent intent = new Intent(this, MyDailySessions.class);
-        startActivity(intent);}
+        startActivity(intent);
+    }
 
     public void openMainActivity(){
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
-        finish();}
-
+        finish();
+    }
 
 }
 

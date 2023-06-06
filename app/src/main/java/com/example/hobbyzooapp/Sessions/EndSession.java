@@ -335,38 +335,8 @@ public class EndSession extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
-    }
-/*
-    private void savePhotoToGallery() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    REQUEST_WRITE_EXTERNAL_STORAGE);
-        } else {
-            if (takenImage.getDrawable() != null) {
-                Bitmap bitmap = ((BitmapDrawable) takenImage.getDrawable()).getBitmap();
+    public void onBackPressed() {}
 
-                ContentValues values = new ContentValues();
-                values.put(MediaStore.Images.Media.DISPLAY_NAME, "nom_de_la_photo.jpg");
-                values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
-
-                ContentResolver resolver = getContentResolver();
-                Uri uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
-
-                try {
-                    OutputStream outputStream = resolver.openOutputStream(uri);
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
-                    outputStream.close();
-                    Toast.makeText(this, "The photo has been saved in the gallery", Toast.LENGTH_SHORT).show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                Toast.makeText(this, "Select a photo before saving it", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }*/
 
     public  void updateSessionCount(){
         long hours = TimeUnit.MILLISECONDS.toHours(totalSessionTime);
@@ -375,19 +345,6 @@ public class EndSession extends AppCompatActivity {
         int minutesDuration = Integer.parseInt(session_duration)%60;
         sessionCount.setText(hours+"h"+minutes+"min / "+ hourDuration+"h"+minutesDuration+"min");
     }
-
-    /*
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == REQUEST_WRITE_EXTERNAL_STORAGE) {
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                savePhotoToGallery();
-            } else {
-                Toast.makeText(this, "Permission to register in the gallery has been refused", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }*/
 
     private void uploadImageToFirebase() {
         if (!photoPath.equals("")){

@@ -131,7 +131,10 @@
             android:name=".BackgroundService"
             android:foregroundServiceType="location|dataSync"
             android:exported="false" />
-
+        <receiver
+            android:name=".NotificationReceiver"
+            android:enabled="true"
+            android:exported="false" />
     </application>
 
 </manifest>

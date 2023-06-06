@@ -65,42 +65,38 @@ public class BackgroundService extends Service {
             int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
             int currentMinute = calendar.get(Calendar.MINUTE);
 
-            if ((currentHour > 13 || (currentHour == 13 && currentMinute >= 46)) && !notificationSent) {
-                // L'heure actuelle est supérieure ou égale à 13:40 et la notification n'a pas encore été envoyée
+            if (currentHour == 14 && currentMinute == 9 && !notificationSent) {
+
                 getSessions(sessions -> {
                     int sessionCount = sessions.size();
                     Log.d("BackgroundService", "Sessions loaded: " + sessionCount);
                     if (sessionCount > 0) {
                         showSessionNotification(sessionCount);
                     }
-                    notificationSent = true; // Définir le drapeau sur true pour éviter les envois répétés
+                    notificationSent = true;
                 });
             } else {
-                notificationSent = false; // Réinitialiser le drapeau
+                notificationSent = false;
             }
 
-            calendar.add(Calendar.DAY_OF_MONTH, 1);
-            calendar.set(Calendar.HOUR_OF_DAY, 13);
-            calendar.set(Calendar.MINUTE, 40);
-            calendar.set(Calendar.SECOND, 0);
-
-            // Get a reference to the AlarmManager
-            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-
-            // Create an intent for the BroadcastReceiver
-            Intent notificationIntent = new Intent(BackgroundService.this, NotificationReceiver.class);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(BackgroundService.this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-
-            // Cancel the previous alarm if it exists
-            alarmManager.cancel(pendingIntent);
-
-            // Schedule the alarm with the new time
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-
-            handler.postDelayed(runnable, 60000); // Répéter la vérification chaque minute
+            handler.postDelayed(runnable, 60000);
         };
 
         handler.post(runnable);
+
+        Intent notificationIntent = new Intent(this, NotificationReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+
+        calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 17);
+        calendar.set(Calendar.MINUTE, 26);
+        calendar.set(Calendar.SECOND, 0);
+
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+
     }
 
 

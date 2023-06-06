@@ -49,6 +49,7 @@ public class MyDailySessions extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     FirebaseUser user ;
     GridView sessionListView;
+    int previousIsHome = 0;
 
 
     @Override
@@ -94,7 +95,10 @@ public class MyDailySessions extends AppCompatActivity {
             finish();
         });
 
-        calendarButton.setOnClickListener(v -> finish());
+        calendarButton.setOnClickListener(v ->{
+            openCalendrarActivity();
+            finish();
+        });
 
         editButton.setOnClickListener(v -> {
             editButton.setVisibility(View.GONE);
@@ -184,6 +188,11 @@ public class MyDailySessions extends AppCompatActivity {
 
     public void openMainActivity() {
         Intent intent = new Intent(this, HomeActivity.class);
+        startActivity(intent);
+    }
+
+    private void openCalendrarActivity() {
+        Intent intent = new Intent(this, CalendarActivity.class);
         startActivity(intent);
     }
 

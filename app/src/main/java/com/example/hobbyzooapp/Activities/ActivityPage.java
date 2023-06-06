@@ -240,15 +240,13 @@ public class ActivityPage extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent backIntent;
                 if(previousActivity == 0){
-                    backIntent = new Intent(ActivityPage.this, HomeActivity.class);
+                    finish();
                 }
                 else{
-                    backIntent = new Intent(ActivityPage.this, MyActivities.class);
+                    startActivity(new Intent(ActivityPage.this, MyActivities.class));
+                    finish();
                 }
-                startActivity(backIntent);
-                finish();
             }
         });
 

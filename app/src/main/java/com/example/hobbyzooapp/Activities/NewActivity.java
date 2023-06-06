@@ -237,6 +237,9 @@ public class NewActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {}
+
     private void addBDActivity(){
 
             DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();

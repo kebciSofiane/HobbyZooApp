@@ -184,6 +184,8 @@ public class NewSession extends AppCompatActivity {
         returnButton = findViewById(R.id.returnButton);
         addButton =findViewById(R.id.addButton);
     }
+    @Override
+    public void onBackPressed() {}
 
     private void startIntent(){
         Intent previousIntent = getIntent();

@@ -172,6 +172,8 @@ public class NewCategory extends AppCompatActivity {
         pattern = Pattern.compile(regexPattern);
     }
 
+    @Override
+    public void onBackPressed() {}
     private void addDBCategory(){
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
         DatabaseReference newChildRef = databaseReference.push();

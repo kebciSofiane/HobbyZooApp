@@ -555,6 +555,8 @@ public class ActivityPage extends AppCompatActivity {
                                 int hourDuration = Integer.parseInt(session_duration)/60;
                                 int minutesDuration = Integer.parseInt(session_duration)%60;
 
+                                assert session_done != null;
+                                if (!session_done.equals("TRUE"))
                                 mySessions.add(new Session(session_id,activity_id,activity_name,
                                         new Time(hourDuration,minutesDuration,0),
                                         Integer.parseInt(session_day),

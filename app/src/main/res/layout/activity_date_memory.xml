@@ -78,7 +78,7 @@
                 android:id="@+id/memoryImage"
                 android:layout_width="wrap_content"
                 android:layout_height="600dp"
-                android:contentDescription="@string/memoryPhoto"
+                android:contentDescription="@string/memory_photo"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"/>
 

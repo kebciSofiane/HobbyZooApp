@@ -73,7 +73,7 @@
                     android:fontFamily="@font/alegreya_sans_sc"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="@color/white"
-                    tools:text="@string/myEmail" />
+                    tools:text="@string/my_email_" />
 
                 <TextView
                     android:id="@+id/emailTv"

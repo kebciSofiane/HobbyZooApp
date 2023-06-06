@@ -58,6 +58,7 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:background="@color/transparent"
+                android:contentDescription="@string/stop"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_stop"
                 app:tint="@color/brown_btn" />
@@ -68,10 +69,11 @@
                 android:layout_height="80dp"
                 android:layout_marginStart="20sp"
                 android:background="@color/transparent"
+                android:contentDescription="@string/resume"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_play_button"
-                app:tint="@color/brown_btn"
-                android:visibility="gone" />
+                android:visibility="gone"
+                app:tint="@color/brown_btn" />
 
             <ImageButton
                 android:id="@+id/pauseButton"
@@ -79,6 +81,7 @@
                 android:layout_height="80dp"
                 android:layout_marginStart="20sp"
                 android:background="@color/transparent"
+                android:contentDescription="@string/pause"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_pause_button"
                 app:tint="@color/brown_btn" />
@@ -88,10 +91,11 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:background="@color/transparent"
+                android:contentDescription="@string/add_time"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_add_time_button"
-                app:tint="@color/brown_btn"
-                android:visibility="gone" />
+                android:visibility="gone"
+                app:tint="@color/brown_btn" />
 
             <ImageButton
                 android:id="@+id/validateButton"
@@ -99,10 +103,11 @@
                 android:layout_height="80dp"
                 android:layout_marginStart="20sp"
                 android:background="@color/transparent"
+                android:contentDescription="@string/skip"
                 android:scaleType="fitCenter"
                 android:src="@drawable/ic_skip"
-                app:tint="@color/brown_btn"
-                android:visibility="gone" />
+                android:visibility="gone"
+                app:tint="@color/brown_btn" />
 
         </LinearLayout>
 

@@ -1,7 +1,5 @@
 package com.example.hobbyzooapp.AccountManagement;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -16,7 +14,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.hobbyzooapp.Activities.ActivityPage;
 import com.example.hobbyzooapp.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -59,7 +56,7 @@ public class AccountActivity extends AppCompatActivity {
         myEmail = findViewById(R.id.myEmail);
 
         if (user != null) {
-            myEmail.setText(getString(R.string.myEmail)); // Utilise la méthode getString() pour récupérer la valeur de la ressource de chaîne
+            myEmail.setText(getString(R.string.my_email_)); // Utilise la méthode getString() pour récupérer la valeur de la ressource de chaîne
             emailTv.setText(user.getEmail());
         }
 

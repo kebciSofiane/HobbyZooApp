@@ -11,7 +11,7 @@
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:background="@color/gray">
+        android:background="@color/brown_btn">
 
         <ImageButton
             android:id="@+id/backButton3"
@@ -44,7 +44,7 @@
         android:layout_below="@+id/toolbar"
         android:layout_marginStart="5dp"
         android:layout_marginLeft="16dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_marginEnd="5dp"
         android:layout_marginRight="16dp"
         android:layout_marginBottom="5dp">
@@ -60,6 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shape_rounded_background"
+                android:backgroundTint="@color/brown_btn"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -92,13 +93,16 @@
                 style="@style/Widget.Material3.Button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/email_"
                 android:layout_marginTop="30dp"
+                android:backgroundTint="@color/brown_btn"
                 android:fontFamily="@font/alegreya_sans_sc"
                 android:text="@string/change_password"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/white"
-                app:backgroundTint="@color/light_gray" />
+                android:shadowColor="@color/gray"
+                android:shadowDx="3"
+                android:shadowDy="5"
+                android:shadowRadius="10"/>
         </LinearLayout>
 
         <Button

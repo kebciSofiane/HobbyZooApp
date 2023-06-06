@@ -91,9 +91,7 @@ public class DateMemory extends AppCompatActivity {
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DateMemory.this, MyEvolutionActivity.class);
-                CalendarUtils.selectedDate = date;
-                startActivity(intent);
+                finish();
             }
         });
 

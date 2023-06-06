@@ -22,7 +22,6 @@ import android.widget.TextView;
 
 import com.example.hobbyzooapp.Calendar.CalendarUtils;
 import com.example.hobbyzooapp.HomeActivity;
-import com.example.hobbyzooapp.AccountManagement.ProfileActivity;
 import com.example.hobbyzooapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -41,7 +40,7 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
     ArrayList<String> myActivities = new ArrayList<>();
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
-    private ImageButton todayMonthButton, homeButton, backButton;
+    private ImageButton currentMonthButton, homeButton, backButton;
     FirebaseAuth firebaseAuth;
     FirebaseDatabase database;
     String selectedActivity;
@@ -71,11 +70,12 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
 
 
 
-        todayMonthButton = findViewById(R.id.current_month);
-        todayMonthButton.setOnClickListener(new View.OnClickListener() {
+        currentMonthButton = findViewById(R.id.current_month);
+        currentMonthButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 CalendarUtils.selectedDate = LocalDate.now();
+                currentMonthButton.setVisibility(View.GONE);
                 setMonthView();
             }
         });
@@ -298,6 +298,6 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
     public void openMainActivity(){
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
-        finish();}
+        }
 
 }

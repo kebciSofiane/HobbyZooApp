@@ -1,5 +1,6 @@
 package com.example.hobbyzooapp.Sessions;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -27,10 +28,10 @@ import java.util.List;
 
 public class MyDailySessionsAdapter extends BaseAdapter{
 
-    private Context context;
+    private final Context context;
     private List<Session> sessionList;
-    private List<Session> sessionListFiltered = new ArrayList<Session>();
-    private LayoutInflater inflater;
+    private final List<Session> sessionListFiltered = new ArrayList<>();
+    private final LayoutInflater inflater;
     private int day, month, year;
     private OnItemClickListener mListener;
     private Boolean isDeleteMode;
@@ -77,6 +78,7 @@ public class MyDailySessionsAdapter extends BaseAdapter{
         return 0;
     }
 
+    @SuppressLint("ViewHolder")
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
         view = inflater.inflate(R.layout.adapter_session_list,null);
@@ -101,6 +103,7 @@ public class MyDailySessionsAdapter extends BaseAdapter{
         LinearLayout sessionSquare = view.findViewById(R.id.itemSessionList);
         Drawable drawableDone = ContextCompat.getDrawable(context, R.drawable.shape_border_gray);
         Drawable drawableDelete = ContextCompat.getDrawable(context, R.drawable.shape_border_red);
+        System.out.println(isDeleteMode);
         if (sessionDone.equals("TRUE")) sessionSquare.setBackground(drawableDone);
         else if (isDeleteMode.equals(Boolean.TRUE)) sessionSquare.setBackground(drawableDelete);
 

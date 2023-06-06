@@ -128,11 +128,11 @@
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
         <service
-            android:name=".BackgroundService"
+            android:name=".AccountManagement.BackgroundService"
             android:foregroundServiceType="location|dataSync"
             android:exported="false" />
         <receiver
-            android:name=".NotificationReceiver"
+            android:name=".AccountManagement.NotificationReceiver"
             android:enabled="true"
             android:exported="false" />
     </application>

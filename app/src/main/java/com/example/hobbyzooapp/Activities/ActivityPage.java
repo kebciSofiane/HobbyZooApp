@@ -26,7 +26,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.hobbyzooapp.HomeActivity;
-import com.example.hobbyzooapp.OnSessionListRetrievedListenerString;
+import com.example.hobbyzooapp.AccountManagement.OnSessionListRetrievedListenerString;
 import com.example.hobbyzooapp.R;
 import com.example.hobbyzooapp.Sessions.NewSession;
 import com.example.hobbyzooapp.Sessions.Session;

@@ -1,4 +1,4 @@
-package com.example.hobbyzooapp;
+package com.example.hobbyzooapp.AccountManagement;
 
 import com.example.hobbyzooapp.Sessions.Session;
 

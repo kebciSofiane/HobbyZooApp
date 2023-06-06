@@ -1,4 +1,4 @@
-package com.example.hobbyzooapp;
+package com.example.hobbyzooapp.AccountManagement;
 
 import android.app.AlarmManager;
 import android.app.Notification;
@@ -18,7 +18,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 
-import com.example.hobbyzooapp.Sessions.Session;
+import com.example.hobbyzooapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -65,11 +65,10 @@ public class BackgroundService extends Service {
             int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
             int currentMinute = calendar.get(Calendar.MINUTE);
 
-            if (currentHour == 14 && currentMinute == 9 && !notificationSent) {
+            if (currentHour == 14 && currentMinute == 27 && !notificationSent) {
 
                 getSessions(sessions -> {
                     int sessionCount = sessions.size();
-                    Log.d("BackgroundService", "Sessions loaded: " + sessionCount);
                     if (sessionCount > 0) {
                         showSessionNotification(sessionCount);
                     }
@@ -129,7 +128,6 @@ public class BackgroundService extends Service {
                         assert session_year != null;
                         if (localDate.getYear() == Integer.parseInt(session_year) && localDate.getMonth().getValue() == Integer.parseInt(session_month)) {
                             mySessions.add("cc");
-                            Log.d("", "booom    : " + mySessions);
                         }
                     }
                 }

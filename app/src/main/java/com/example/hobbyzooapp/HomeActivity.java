@@ -1,6 +1,5 @@
 package com.example.hobbyzooapp;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,8 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -21,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.hobbyzooapp.AccountManagement.BackgroundService;
 import com.example.hobbyzooapp.AccountManagement.ProfileActivity;
 import com.example.hobbyzooapp.Activities.ActivityPage;
 import com.example.hobbyzooapp.Calendar.CalendarActivity;

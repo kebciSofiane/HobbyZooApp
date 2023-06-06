@@ -22,16 +22,13 @@ public class SplashScreenActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                // Vérifiez si l'utilisateur est déjà connecté
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                 if (user != null && user.isEmailVerified()) {
-                    // Utilisateur connecté, redirigez vers l'écran d'accueil
                     startActivity(new Intent(SplashScreenActivity.this, WeeklyEvent.class));
                 } else {
-                    // Utilisateur non connecté ou adresse e-mail non vérifiée, redirigez vers l'écran de connexion ou d'inscription
                     startActivity(new Intent(SplashScreenActivity.this, RegistrationOrConnexion.class));
                 }
-                finish(); // Terminer l'activité actuelle pour empêcher l'utilisateur de revenir en arrière
+                finish();
             }
         }, SPLASH_DURATION);
     }

@@ -22,6 +22,7 @@ import androidx.preference.PreferenceManager;
 
 public class SettingsActivity extends AppCompatActivity {
 
+    public static final String NOTIFICATION_ENABLED_KEY = "notification_enabled" ;
     FirebaseAuth firebaseAuth;
 
     private Button notificationsEnabledButton,notificationsDisabledButton, termsButton, helpButton, aboutButton, logoutButton;
@@ -30,8 +31,12 @@ public class SettingsActivity extends AppCompatActivity {
 
 
 //
-    private static final String NOTIFICATION_ENABLED_KEY = "notification_enabled";
-//
+
+
+
+
+    //
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -166,17 +171,35 @@ public class SettingsActivity extends AppCompatActivity {
         notificationsDisabledButton.setVisibility(View.VISIBLE);
     }
 
-    private void saveNotificationEnabledState(boolean enabled) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(NOTIFICATION_ENABLED_KEY, enabled);
-        editor.apply();
-    }
-    @Override
-    public void onBackPressed() {
-        saveNotificationEnabledState(notificationsDisabledButton.getVisibility() == View.VISIBLE);
-        super.onBackPressed();
-    }
+//    private void saveNotificationEnabledState(boolean enabled) {
+//        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+//        SharedPreferences.Editor editor = sharedPreferences.edit();
+//        editor.putBoolean(NOTIFICATION_ENABLED_KEY, enabled);
+//        editor.apply();
+//    }
+//    @Override
+//    public void onBackPressed() {
+//        saveNotificationEnabledState(notificationsDisabledButton.getVisibility() == View.VISIBLE);
+//        super.onBackPressed();
+//    }
+//    @Override
+//    protected void onPause() {
+//        saveNotificationEnabledState(notificationsDisabledButton.getVisibility() == View.VISIBLE);
+//        super.onPause();
+//    }
+private void saveNotificationEnabledState(boolean enabled) {
+    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+    SharedPreferences.Editor editor = sharedPreferences.edit();
+    editor.putBoolean(NOTIFICATION_ENABLED_KEY, enabled);
+    editor.apply();
+
+    // Envoyer une diffusion (broadcast) pour informer le service de mettre à jour l'état de la notification
+    Intent intent = new Intent(this, BackgroundService.class);
+    intent.setAction(BackgroundService.ACTION_NOTIFICATION_ENABLED);
+    intent.putExtra(BackgroundService.EXTRA_NOTIFICATION_ENABLED, enabled);
+    sendBroadcast(intent);
+}
+
     @Override
     protected void onPause() {
         saveNotificationEnabledState(notificationsDisabledButton.getVisibility() == View.VISIBLE);

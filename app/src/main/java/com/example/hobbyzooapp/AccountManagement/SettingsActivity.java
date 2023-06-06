@@ -18,13 +18,12 @@ import android.os.Build;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-
 public class SettingsActivity extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
 
     private Button notificationsEnabledButton,notificationsDisabledButton, termsButton, helpButton, aboutButton, logoutButton;
-    private ImageButton backBtn;
+    private ImageButton backButton;
     private int activeIcon, inactiveIcon;
 
 
@@ -37,11 +36,12 @@ public class SettingsActivity extends AppCompatActivity {
 
         notificationsEnabledButton = findViewById(R.id.notificationsEnabledBtn);
         notificationsDisabledButton = findViewById(R.id.notificationsDisabledBtn);
+
         termsButton = findViewById(R.id.termsBtn);
         helpButton = findViewById(R.id.helpBtn);
         aboutButton = findViewById(R.id.aboutBtn);
         logoutButton = findViewById(R.id.logoutBtn);
-        backBtn = findViewById(R.id.backButton);
+        backButton = findViewById(R.id.backButton);
         activeIcon = R.drawable.ic_notifications_active;
         inactiveIcon = R.drawable.ic_notifications_off;
 
@@ -64,32 +64,25 @@ public class SettingsActivity extends AppCompatActivity {
         });
 
 
-
         termsButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                // Logique pour gérer le clic sur le bouton "Terms of Service"
-            }
+            public void onClick(View v) {}
         });
 
         helpButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                // Logique pour gérer le clic sur le bouton "Help"
-            }
+            public void onClick(View v) {}
         });
 
         aboutButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                // Logique pour gérer le clic sur le bouton "About"
-            }
+            public void onClick(View v) {}
         });
 
-        backBtn.setOnClickListener(new View.OnClickListener() {
+        backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SettingsActivity.this, ProfileActivity.class));
+                finish();
 
             }
         });
@@ -103,7 +96,6 @@ public class SettingsActivity extends AppCompatActivity {
                 finish();
             }
         });
-
     }
 
     private void checkUserStatus() {

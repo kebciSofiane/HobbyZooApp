@@ -85,7 +85,7 @@
             android:layout_width="30sp"
             android:layout_height="30sp"
             android:layout_alignParentEnd="true"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="25dp"
             android:layout_marginEnd="10dp"
             android:background="@drawable/ic_edit"
@@ -145,7 +145,7 @@
                         android:layout_height="30sp"
                         android:layout_marginTop="20sp"
                         android:layout_marginBottom="10sp"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:background="@drawable/ic_minus_icon"
                         android:visibility="gone" />
 
@@ -155,7 +155,7 @@
                         android:layout_height="30sp"
                         android:layout_marginTop="20sp"
                         android:layout_marginBottom="10sp"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:background="@drawable/ic_plus_"
                         android:visibility="gone" />
 
@@ -190,7 +190,7 @@
                     android:layout_height="30sp"
                     android:layout_below="@+id/activityPageGoalsTextDisplay"
                     android:layout_alignParentEnd="true"
-                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
                     android:layout_marginTop="-2dp"
                     android:layout_marginEnd="26dp"
                     android:background="@drawable/ic_edit"
@@ -207,7 +207,6 @@
                         android:id="@+id/todoRecyclerView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_below="@id/activityPageGoalsText"
                         android:layout_marginLeft="30sp"
                         android:layout_marginRight="30sp"
                         android:background="@drawable/ic_border"
@@ -225,7 +224,7 @@
                     android:layout_marginRight="30sp"
                     android:background="@drawable/ic_border"
                     android:orientation="horizontal"
-                    android:paddingLeft="20sp">
+                    android:paddingStart="20sp">
 
                     <Button
                         android:id="@+id/validateToTodoListButton"
@@ -248,7 +247,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        android:hint="Add a element" />
+                        android:hint="@string/add_a_element" />
 
                 </LinearLayout>
 
@@ -260,7 +259,7 @@
                     android:layout_marginStart="25sp"
                     android:layout_marginTop="20sp"
                     android:layout_marginBottom="10sp"
-                    android:text="Last session :"
+                    android:text="@string/last_session_"
                     android:textColor="@color/sub_tilte"
                     android:textSize="25sp" />
 
@@ -276,7 +275,6 @@
                         android:id="@+id/activityPagePicture"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentEnd="true"
                         android:layout_marginStart="16dp"
                         android:layout_marginTop="16dp"
                         android:src="@drawable/ic_animal"
@@ -292,11 +290,12 @@
                         android:layout_gravity="center_horizontal"
                         android:background="@drawable/shape_radius_background"
                         android:backgroundTint="@color/white"
-                        android:text="comment zone"
+                        android:text="@string/comment_zone"
                         android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="20sp"
-                        android:visibility="gone"/>
+                        android:visibility="gone"
+                        tools:targetApi="lollipop" />
 
                 </LinearLayout>
 

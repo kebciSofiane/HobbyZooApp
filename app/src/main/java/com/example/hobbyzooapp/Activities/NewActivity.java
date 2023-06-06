@@ -19,7 +19,6 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hobbyzooapp.Category.NewCategory;
-import com.example.hobbyzooapp.HomeActivity;
 import com.example.hobbyzooapp.R;
 import com.example.hobbyzooapp.Sessions.NewSession;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,7 +38,7 @@ import java.util.regex.Pattern;
 
 public class NewActivity extends AppCompatActivity {
 
-    String activity_name, animalName, category_id, category_name, activity_id;
+    String activity_name, animalName, category_id, activity_id;
     FirebaseAuth firebaseAuth;
     Spinner categorySelector;
     FirebaseUser user;
@@ -61,30 +60,25 @@ public class NewActivity extends AppCompatActivity {
         initialisation();
         Button scrollAnimalsRight = findViewById(R.id.scrollAnimalsRight);
         @SuppressLint({"MissingInflatedId", "LocalSuppress"}) Button scrollAnimalsLeft = findViewById(R.id.scrollAnimalsLeft);
-        scrollAnimalsRight.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(posAnimals < animals.size()-1)
-                    posAnimals++;
-                else
-                    posAnimals = 0;
-                int animalId = getResources().getIdentifier(animals.get(posAnimals)+"_whole_neutral", "drawable", getPackageName());
-                animalImage.setImageResource(animalId);
-                animalImage.invalidate();
-            }
+
+        scrollAnimalsRight.setOnClickListener(view -> {
+            if(posAnimals < animals.size()-1)
+                posAnimals++;
+            else
+                posAnimals = 0;
+            int animalId = getResources().getIdentifier(animals.get(posAnimals)+"_whole_neutral", "drawable", getPackageName());
+            animalImage.setImageResource(animalId);
+            animalImage.invalidate();
         });
 
-        scrollAnimalsLeft.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(posAnimals > 0)
-                    posAnimals--;
-                else
-                    posAnimals = animals.size()-1;
-                int animalId = getResources().getIdentifier(animals.get(posAnimals)+"_whole_neutral", "drawable", getPackageName());
-                animalImage.setImageResource(animalId);
-                animalImage.invalidate();
-            }
+        scrollAnimalsLeft.setOnClickListener(view -> {
+            if(posAnimals > 0)
+                posAnimals--;
+            else
+                posAnimals = animals.size()-1;
+            int animalId = getResources().getIdentifier(animals.get(posAnimals)+"_whole_neutral", "drawable", getPackageName());
+            animalImage.setImageResource(animalId);
+            animalImage.invalidate();
         });
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(NewActivity.this, android.R.layout.simple_list_item_1, categories);
@@ -132,74 +126,68 @@ public class NewActivity extends AppCompatActivity {
                     });
         }
 
-        returnButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent;
-                if (origin == 1)
-                    intent = new Intent(NewActivity.this, NewSession.class);
-                else
-                    intent = new Intent(NewActivity.this, MyActivities.class);
-                startActivity(intent);
-                finish();
-            }
+        returnButton.setOnClickListener(view -> {
+            Intent intent;
+            if (origin == 1)
+                intent = new Intent(NewActivity.this, NewSession.class);
+            else
+                intent = new Intent(NewActivity.this, MyActivities.class);
+            startActivity(intent);
+            finish();
         });
 
-        validationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                activity_name = editActivityName.getText().toString();
-                animalName = editPetName.getText().toString();
-                Matcher matcherActivityName = pattern.matcher(activity_name);
-                Matcher matcherAnimalName = pattern.matcher(animalName);
+        validationButton.setOnClickListener(view -> {
+            activity_name = editActivityName.getText().toString();
+            animalName = editPetName.getText().toString();
+            Matcher matcherActivityName = pattern.matcher(activity_name);
+            Matcher matcherAnimalName = pattern.matcher(animalName);
 
-                if(activity_name.trim().isEmpty() || activity_name == null|| animalName.trim().isEmpty() || (weeklyGoal.getMinute() ==0 && weeklyGoal.getHour() == 0 ) || categorySelector.getSelectedItem() == null){
-                    Toast.makeText(getApplicationContext(),"Field can't be empty!",Toast.LENGTH_LONG).show();
-                }
-                else if(!matcherAnimalName.matches() || !matcherActivityName.matches()){
-                    Toast.makeText(getApplicationContext(),"Name fields can't have special characters!",Toast.LENGTH_LONG).show();
-                }
-                else if(activity_name.length() > 15 || animalName.length() > 15)
-                    Toast.makeText(getApplicationContext(),"Name fields can't have more then 15 characters!",Toast.LENGTH_LONG).show();
-                else {
-                    List<String> activities = new ArrayList<>();
+            if(activity_name.trim().isEmpty() || activity_name == null|| animalName.trim().isEmpty() || (weeklyGoal.getMinute() ==0 && weeklyGoal.getHour() == 0 ) || categorySelector.getSelectedItem() == null){
+                Toast.makeText(getApplicationContext(),"Field can't be empty!",Toast.LENGTH_LONG).show();
+            }
+            else if(!matcherAnimalName.matches() || !matcherActivityName.matches()){
+                Toast.makeText(getApplicationContext(),"Name fields can't have special characters!",Toast.LENGTH_LONG).show();
+            }
+            else if(activity_name.length() > 15 || animalName.length() > 15)
+                Toast.makeText(getApplicationContext(),"Name fields can't have more then 15 characters!",Toast.LENGTH_LONG).show();
+            else {
+                List<String> activities = new ArrayList<>();
 
-                    DatabaseReference databaseReferenceChild = FirebaseDatabase.getInstance().getReference().child("Activity");
-                    databaseReferenceChild.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                String userId = snapshot.child("user_id").getValue(String.class);
-                                String nameActivity = snapshot.child("activity_name").getValue(String.class).replace(",", " ");
-                                if(userId.equals(user.getUid()) && nameActivity.equals(activity_name))
-                                    activities.add(activity_name);
-                            }
-                            if(activities.size() == 0){
-                                addBDActivity();
-                                Intent intent;
-                                if (origin == 1) {
-                                    intent = new Intent(NewActivity.this, NewSession.class);
-                                    intent.putExtra("activity_id", activity_id);
-                                    intent.putExtra("activity_name", activity_name.replace(",", " "));
-                                }
-                                else
-                                    intent = new Intent(NewActivity.this, MyActivities.class);
-                                startActivity(intent);
-                                finish();
-                            }
-                            else{
-                                Toast.makeText(getApplicationContext(),"This Activity already exists!",Toast.LENGTH_LONG).show();
-                            }
+                DatabaseReference databaseReferenceChild = FirebaseDatabase.getInstance().getReference().child("Activity");
+                databaseReferenceChild.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            String userId = snapshot.child("user_id").getValue(String.class);
+                            String nameActivity = snapshot.child("activity_name").getValue(String.class).replace(",", " ");
+                            if(userId.equals(user.getUid()) && nameActivity.equals(activity_name))
+                                activities.add(activity_name);
                         }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                            // Gérez l'erreur en cas d'annulation de la requête
+                        if(activities.size() == 0){
+                            addBDActivity();
+                            Intent intent;
+                            if (origin == 1) {
+                                intent = new Intent(NewActivity.this, NewSession.class);
+                                intent.putExtra("activity_id", activity_id);
+                                intent.putExtra("activity_name", activity_name.replace(",", " "));
+                            }
+                            else
+                                intent = new Intent(NewActivity.this, MyActivities.class);
+                            startActivity(intent);
+                            finish();
                         }
-                    });
+                        else{
+                            Toast.makeText(getApplicationContext(),"This Activity already exists!",Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        // Gérez l'erreur en cas d'annulation de la requête
+                    }
+                });
 
 
-                }
             }
         });
     }
@@ -293,5 +281,6 @@ public class NewActivity extends AppCompatActivity {
         });
         return categories;
     }
+
 }
 

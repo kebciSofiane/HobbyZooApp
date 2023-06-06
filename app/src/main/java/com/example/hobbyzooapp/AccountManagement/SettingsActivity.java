@@ -24,7 +24,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private Button notificationsEnabledButton,notificationsDisabledButton, termsButton, helpButton, aboutButton, logoutButton;
     private ImageButton backButton;
-    private int activeIcon, inactiveIcon;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,58 +40,32 @@ public class SettingsActivity extends AppCompatActivity {
         aboutButton = findViewById(R.id.aboutBtn);
         logoutButton = findViewById(R.id.logoutBtn);
         backButton = findViewById(R.id.backButton);
-        activeIcon = R.drawable.ic_notifications_active;
-        inactiveIcon = R.drawable.ic_notifications_off;
 
-        notificationsEnabledButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                notificationsEnabledButton.setVisibility(View.GONE);
-                notificationsDisabledButton.setVisibility(View.VISIBLE);
-                cancelNotification();
-            }
+        notificationsEnabledButton.setOnClickListener(v -> {
+            notificationsEnabledButton.setVisibility(View.GONE);
+            notificationsDisabledButton.setVisibility(View.VISIBLE);
+            cancelNotification();
         });
 
-        notificationsDisabledButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                notificationsDisabledButton.setVisibility(View.GONE);
-                notificationsEnabledButton.setVisibility(View.VISIBLE);
-                showNotification("Notifications enabled", "You will now receive notifications.");
-            }
+        notificationsDisabledButton.setOnClickListener(v -> {
+            notificationsDisabledButton.setVisibility(View.GONE);
+            notificationsEnabledButton.setVisibility(View.VISIBLE);
+            showNotification("Notifications enabled", "You will now receive notifications.");
         });
 
-        termsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {}
-        });
+        termsButton.setOnClickListener(v -> {});
 
-        helpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {}
-        });
+        helpButton.setOnClickListener(v -> {});
 
-        aboutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {}
-        });
+        aboutButton.setOnClickListener(v -> startActivity(new Intent(SettingsActivity.this, AboutActivity.class)));
 
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
+        backButton.setOnClickListener(v -> finish());
 
-            }
-        });
-
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                firebaseAuth.signOut();
-                checkUserStatus();
-                finishAffinity();
-                finish();
-            }
+        logoutButton.setOnClickListener(v -> {
+            firebaseAuth.signOut();
+            checkUserStatus();
+            finishAffinity();
+            finish();
         });
     }
 
@@ -121,6 +95,7 @@ public class SettingsActivity extends AppCompatActivity {
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
         notificationManagerCompat.notify(1, builder.build());
     }
+
     private void cancelNotification() {
         NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
         notificationManagerCompat.cancel(1);
@@ -128,4 +103,5 @@ public class SettingsActivity extends AppCompatActivity {
         notificationsEnabledButton.setVisibility(View.GONE);
         notificationsDisabledButton.setVisibility(View.VISIBLE);
     }
+
 }

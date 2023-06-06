@@ -2,7 +2,6 @@ package com.example.hobbyzooapp.Sessions;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.LayoutInflater;
@@ -16,11 +15,8 @@ import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
-import com.example.hobbyzooapp.Calendar.CalendarActivity;
 import com.example.hobbyzooapp.OnItemClickListener;
 import com.example.hobbyzooapp.R;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -107,12 +103,9 @@ public class MyDailySessionsAdapter extends BaseAdapter{
         if (sessionDone.equals("TRUE")) sessionSquare.setBackground(drawableDone);
         else if (isDeleteMode.equals(Boolean.TRUE)) sessionSquare.setBackground(drawableDelete);
 
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mListener != null && sessionDone.equals("FALSE")) {
-                    mListener.onItemClick(i);
-                }
+        view.setOnClickListener(v -> {
+            if (mListener != null && sessionDone.equals("FALSE")) {
+                mListener.onItemClick(i);
             }
         });
 
@@ -123,4 +116,5 @@ public class MyDailySessionsAdapter extends BaseAdapter{
         isDeleteMode = deleteMode;
 
     }
+
 }

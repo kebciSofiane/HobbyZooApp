@@ -113,6 +113,10 @@
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
+    <string name="my_daily_sessions">My daily sessions</string>
+    <string name="add_a_element">Add a element</string>
+    <string name="last_session_">Last session :</string>
+    <string name="comment_zone">comment zone</string>
 
 
 </resources>

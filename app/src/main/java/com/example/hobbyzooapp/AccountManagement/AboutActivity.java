@@ -17,7 +17,6 @@ public class AboutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_about);
 
         backButton = findViewById(R.id.backButton);
-
         backButton.setOnClickListener(v -> finish());
 
     }

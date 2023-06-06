@@ -1,11 +1,10 @@
 package com.example.hobbyzooapp;
 
-import android.animation.LayoutTransition;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.SurfaceControl;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -68,12 +67,9 @@ public class WeeklyEvent extends AppCompatActivity {
                                 modificationActivity();
                             }
                         }
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                startActivity(new Intent(WeeklyEvent.this, HomeActivity.class));
-                                finish();
-                            }
+                        new Handler().postDelayed(() -> {
+                            startActivity(new Intent(WeeklyEvent.this, HomeActivity.class));
+                            finish();
                         },SCREEN_TIMEOUT);
 
                     }
@@ -83,6 +79,7 @@ public class WeeklyEvent extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                Log.w("TAG", "Error", error.toException());
 
             }
         });

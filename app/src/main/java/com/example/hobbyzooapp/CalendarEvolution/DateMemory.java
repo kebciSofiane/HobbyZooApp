@@ -26,8 +26,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.hobbyzooapp.AccountManagement.ProfileActivity;
-import com.example.hobbyzooapp.Calendar.CalendarUtils;
 import com.example.hobbyzooapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -55,7 +53,6 @@ public class DateMemory extends AppCompatActivity {
     ArrayList<String> myMemoriesPictures;
     ArrayList<String> myMemoriesComments;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -67,7 +64,6 @@ public class DateMemory extends AppCompatActivity {
         int month = intent.getIntExtra("month",0);
         int year = intent.getIntExtra("year",0);
         activity_name  = intent.getStringExtra("activity_name");
-
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
              date = LocalDate.of(year,
@@ -87,18 +83,9 @@ public class DateMemory extends AppCompatActivity {
 
         showMemories();
 
-
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-
+        backButton.setOnClickListener(v -> finish());
 
     }
-
 
     private void savePhotoToGallery() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -120,18 +107,17 @@ public class DateMemory extends AppCompatActivity {
                     OutputStream outputStream = resolver.openOutputStream(uri);
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
                     outputStream.close();
-                    Toast.makeText(this, "La photo a été enregistrée dans la galerie", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "The photo has been saved in the gallery", Toast.LENGTH_SHORT).show();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             } else {
-                Toast.makeText(this, "Sélectionnez une photo avant de l'enregistrer", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Select a photo before saving it", Toast.LENGTH_SHORT).show();
             }
         }
     }
 
     private void showMemories(){
-
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("Session");
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -140,9 +126,7 @@ public class DateMemory extends AppCompatActivity {
         myMemoriesPictures = new ArrayList<>();
         myMemoriesComments = new ArrayList<>();
 
-
         reference.orderByChild("user_id").equalTo(uid).addListenerForSingleValueEvent(new ValueEventListener() {
-
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -195,19 +179,16 @@ public class DateMemory extends AppCompatActivity {
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
-                            // Gérer les erreurs de lecture de la base de données ici
+                            Log.w("TAG", "Data reading error", databaseError.toException());
                         }
                     });
 
                 }
 
-
-
-
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.w("TAG", "Erreur lors de la récupération des données", databaseError.toException());
+                Log.w("TAG", "Data reading error", databaseError.toException());
             }
         });
 
@@ -215,7 +196,6 @@ public class DateMemory extends AppCompatActivity {
 
     public void buttons(){
         int cornerRadius = 40; // en pixels
-
         leftArrow.setVisibility(View.VISIBLE);
         rightArrow.setVisibility(View.VISIBLE);
 
@@ -234,45 +214,32 @@ public class DateMemory extends AppCompatActivity {
             rightArrow.setVisibility(View.GONE);
         }
 
-        rightArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (memoriesIndex== myMemoriesPictures.size()-1)
-                    memoriesIndex=0;
-                else memoriesIndex++;
+        rightArrow.setOnClickListener(view -> {
+            if (memoriesIndex== myMemoriesPictures.size()-1)
+                memoriesIndex=0;
+            else memoriesIndex++;
 
-                Glide.with(DateMemory.this)
-                        .load(myMemoriesPictures.get(memoriesIndex))
-                        .apply(requestOptions)
-                        .into(memoryImage);
-                memoryComment.setText(myMemoriesComments.get(memoriesIndex));
-
-
-            }
+            Glide.with(DateMemory.this)
+                    .load(myMemoriesPictures.get(memoriesIndex))
+                    .apply(requestOptions)
+                    .into(memoryImage);
+            memoryComment.setText(myMemoriesComments.get(memoriesIndex));
         });
 
-        leftArrow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (memoriesIndex==0)
-                    memoriesIndex= myMemoriesPictures.size()-1;
-                else memoriesIndex--;
+        leftArrow.setOnClickListener(view -> {
+            if (memoriesIndex==0)
+                memoriesIndex= myMemoriesPictures.size()-1;
+            else memoriesIndex--;
 
-                Glide.with(DateMemory.this)
-                        .load(myMemoriesPictures.get(memoriesIndex))
-                        .apply(requestOptions)
-                        .into(memoryImage);
-                memoryComment.setText(myMemoriesComments.get(memoriesIndex));
-
-            }
+            Glide.with(DateMemory.this)
+                    .load(myMemoriesPictures.get(memoriesIndex))
+                    .apply(requestOptions)
+                    .into(memoryImage);
+            memoryComment.setText(myMemoriesComments.get(memoriesIndex));
         });
 
-        download.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                savePhotoToGallery();
-            }
-        });
+        download.setOnClickListener(view -> savePhotoToGallery());
 
     }
+
 }

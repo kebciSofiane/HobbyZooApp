@@ -10,7 +10,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,8 +45,7 @@ public class CalendarEvolutionAdapter extends RecyclerView.Adapter<CalendarEvolu
 
     private final CalendarEvolutionAdapter.OnItemListener onItemListener;
 
-    public CalendarEvolutionAdapter(ArrayList<LocalDate> days, CalendarEvolutionAdapter.OnItemListener onItemListener, int evenDayColor, String activity)
-    {
+    public CalendarEvolutionAdapter(ArrayList<LocalDate> days, CalendarEvolutionAdapter.OnItemListener onItemListener, int evenDayColor, String activity) {
         this.evenDayColor =evenDayColor;
         this.days = days;
         this.onItemListener = onItemListener;
@@ -78,8 +76,7 @@ public class CalendarEvolutionAdapter extends RecyclerView.Adapter<CalendarEvolu
         if(date == null)
             holder.dayOfMonth.setText("");
 
-        else
-        {
+        else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 holder.dayOfMonth.setText(String.valueOf(date.getDayOfMonth()));
             }
@@ -94,15 +91,12 @@ public class CalendarEvolutionAdapter extends RecyclerView.Adapter<CalendarEvolu
         }
     }
 
-
     @Override
-        public int getItemCount()
-        {
+        public int getItemCount() {
             return days.size();
         }
 
-        public interface  OnItemListener
-        {
+        public interface  OnItemListener {
             void onItemClick(int position, LocalDate date);
         }
 
@@ -183,7 +177,7 @@ public class CalendarEvolutionAdapter extends RecyclerView.Adapter<CalendarEvolu
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
-                            // Une erreur s'est produite lors de la récupération des données
+                            Log.w("TAG", "Data recovery error", databaseError.toException());
                         }
                     });
                 }
@@ -192,7 +186,7 @@ public class CalendarEvolutionAdapter extends RecyclerView.Adapter<CalendarEvolu
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.w("TAG", "Erreur lors de la récupération des données", databaseError.toException());
+                Log.w("TAG", "Data recovery error", databaseError.toException());
             }
         });
     }

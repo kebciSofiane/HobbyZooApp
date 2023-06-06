@@ -1,7 +1,6 @@
 package com.example.hobbyzooapp.CalendarEvolution;
 
 import android.view.View;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,15 +11,12 @@ import com.example.hobbyzooapp.R;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-public class CalendarEvolutionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
-{
+public class CalendarEvolutionViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
     private final ArrayList<LocalDate> days;
     public final View parentView;
     public final TextView dayOfMonth;
-
     private final CalendarEvolutionAdapter.OnItemListener onItemListener;
-    public CalendarEvolutionViewHolder(@NonNull View itemView, CalendarEvolutionAdapter.OnItemListener onItemListener, ArrayList<LocalDate> days)
-    {
+    public CalendarEvolutionViewHolder(@NonNull View itemView, CalendarEvolutionAdapter.OnItemListener onItemListener, ArrayList<LocalDate> days) {
         super(itemView);
         parentView = itemView.findViewById(R.id.parentView);
         dayOfMonth = itemView.findViewById(R.id.cellDayText);
@@ -31,8 +27,7 @@ public class CalendarEvolutionViewHolder extends RecyclerView.ViewHolder impleme
     }
 
     @Override
-    public void onClick(View view)
-    {
+    public void onClick(View view) {
         onItemListener.onItemClick(getAdapterPosition(), days.get(getAdapterPosition()));
     }
 }

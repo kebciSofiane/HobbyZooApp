@@ -1,6 +1,5 @@
 package com.example.hobbyzooapp.Calendar;
 import com.example.hobbyzooapp.R;
-import com.example.hobbyzooapp.Sessions.MyDailySessions;
 import com.example.hobbyzooapp.Sessions.Session;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -26,15 +25,11 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import android.util.Log;
-import android.widget.ImageView;
 
 
-class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
-{
+class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
     private final ArrayList<LocalDate> days;
     private final OnItemListener onItemListener;
-
-
 
     DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Session");
 
@@ -46,8 +41,7 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
 
     @NonNull
     @Override
-    public CalendarViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
-    {
+    public CalendarViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         View view = inflater.inflate(R.layout.calendar_cell, parent, false);
         ViewGroup.LayoutParams layoutParams = view.getLayoutParams();
@@ -75,17 +69,10 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
                 borderDrawable.setCornerRadius(10);
                 borderDrawable.setStroke(4, Color.LTGRAY);
                 holder.parentView.setBackground(borderDrawable);
-
             }
-
-
             getSessions(holder,date);
-
-
         }
     }
-
-
 
     @Override
     public int getItemCount() {
@@ -95,8 +82,6 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
     public interface  OnItemListener {
         void onItemClick(int position, LocalDate date);
     }
-
-
 
     private void getSessions(CalendarViewHolder holder,LocalDate date) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -118,7 +103,6 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
                     String session_year = snapshot.child("session_year").getValue(String.class);
                     String session_done = snapshot.child("session_done").getValue(String.class);
 
-
                     DatabaseReference referenceActivity = database.getReference("Activity");
 
                     referenceActivity.child(activity_id).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -134,23 +118,13 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
                                 if (date.getMonth() == sessionDate.getMonth() &&
                                         date.getDayOfMonth() == sessionDate.getDayOfMonth() &&
                                         date.getYear() == sessionDate.getYear()) {
-
-                                    //session fait point gris
                                     if (session_done.equals("TRUE")) {
                                         holder.dayIndicatorDone.setVisibility(View.VISIBLE);
                                     }
-                                    // session pas fait case en rouge
                                     if (session_done.equals("FALSE")) {
-                                        /*GradientDrawable backgroundDrawable = new GradientDrawable();
-                                        backgroundDrawable.setShape(GradientDrawable.RECTANGLE);
-                                        backgroundDrawable.setCornerRadius(10); // Définissez ici le rayon de courbure des coins (en pixels)
-                                        backgroundDrawable.setColor(Color.RED);
-                                        holder.itemView.setBackground(backgroundDrawable)*/
                                         holder.dayIndicatorPlaned.setVisibility(View.VISIBLE);
                                     }
 
-
-                                    //}
                                 } else {
                                     // L'activité n'existe pas dans la base de données
                                 }
@@ -159,18 +133,18 @@ class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
                             }
                         }
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-                                // Une erreur s'est produite lors de la récupération des données
-                            }
-                        });
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            Log.w("TAG", "Data recovery error", databaseError.toException());
+                        }
+                    });
 
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.w("TAG", "Erreur lors de la récupération des données", databaseError.toException());
+                Log.w("TAG", "Data recovery error", databaseError.toException());
             }
         });
     }

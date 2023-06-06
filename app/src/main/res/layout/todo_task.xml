@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -15,7 +15,8 @@
             android:id="@+id/taskStatusCheckbox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="20sp" />
+            android:paddingStart="20sp"
+            tools:ignore="RtlSymmetry" />
 
         <TextView
             android:id="@+id/taskNameTextView"

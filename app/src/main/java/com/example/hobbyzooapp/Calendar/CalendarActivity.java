@@ -23,8 +23,7 @@ import java.util.ArrayList;
 import static com.example.hobbyzooapp.Calendar.CalendarUtils.daysInMonthArray;
 import static com.example.hobbyzooapp.Calendar.CalendarUtils.monthYearFromDate;
 
-public class CalendarActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener
-{
+public class CalendarActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener {
     private TextView monthYearText;
     private RecyclerView calendarRecyclerView;
     private ImageButton currentMonthButton, homeButton;
@@ -42,25 +41,18 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
         CalendarUtils.selectedDate = LocalDate.now();
         setMonthView();
 
-
         currentMonthButton = findViewById(R.id.current_month);
-        currentMonthButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CalendarUtils.selectedDate = LocalDate.now();
-                currentMonthButton.setVisibility(View.GONE);
-                setMonthView();
-            }
+        currentMonthButton.setOnClickListener(v -> {
+            CalendarUtils.selectedDate = LocalDate.now();
+            currentMonthButton.setVisibility(View.GONE);
+            setMonthView();
         });
 
         homeButton = findViewById(R.id.home_button);
-        homeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finishAffinity();
-                openMainActivity();
-                finish();
-            }
+        homeButton.setOnClickListener(v -> {
+            finishAffinity();
+            openMainActivity();
+            finish();
         });
 
     }

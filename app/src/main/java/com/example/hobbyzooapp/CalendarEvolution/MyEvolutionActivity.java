@@ -57,36 +57,22 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
         chooseActivity = findViewById(R.id.evolutionActivityChooseActivity);
         getActivities();
 
-
         homeButton = findViewById(R.id.home_button);
-        homeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finishAffinity();
-                openMainActivity();
-                finish();
-            }
+        homeButton.setOnClickListener(v -> {
+            finishAffinity();
+            openMainActivity();
+            finish();
         });
 
-
-
         currentMonthButton = findViewById(R.id.current_month);
-        currentMonthButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CalendarUtils.selectedDate = LocalDate.now();
-                currentMonthButton.setVisibility(View.GONE);
-                setMonthView();
-            }
+        currentMonthButton.setOnClickListener(v -> {
+            CalendarUtils.selectedDate = LocalDate.now();
+            currentMonthButton.setVisibility(View.GONE);
+            setMonthView();
         });
 
         backButton = findViewById(R.id.backButtonMyEvolution);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        backButton.setOnClickListener(v -> finish());
 
     }
 
@@ -95,59 +81,53 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
         ArrayAdapter<String> adapter = new ArrayAdapter<>(MyEvolutionActivity.this, R.layout.spinner_evolution_activity, myActivities);
         chooseActivity.setAdapter(adapter);
         chooseActivity.setOnItemSelectedListener(
-                new AdapterView.OnItemSelectedListener() {
+            new AdapterView.OnItemSelectedListener() {
 
-                    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-                        selectedActivity = (String) chooseActivity.getSelectedItem();
-                        DatabaseReference referenceActivity = database.getReference("Activity");
+                public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
+                    selectedActivity = (String) chooseActivity.getSelectedItem();
+                    DatabaseReference referenceActivity = database.getReference("Activity");
 
-                        referenceActivity.orderByChild("activity_name").equalTo(selectedActivity).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                    System.out.println(selectedActivity);
-                                    String category_id = snapshot.child("category_id").getValue(String.class);
-                                    DatabaseReference referenceCategory = database.getReference("Category");
-                                    System.out.println(category_id);
+                    referenceActivity.orderByChild("activity_name").equalTo(selectedActivity).addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                System.out.println(selectedActivity);
+                                String category_id = snapshot.child("category_id").getValue(String.class);
+                                DatabaseReference referenceCategory = database.getReference("Category");
+                                System.out.println(category_id);
 
-                                    referenceCategory.orderByChild("category_id").equalTo(category_id).addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(DataSnapshot dataSnapshot) {
-                                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                                String category_color = snapshot.child("category_color").getValue(String.class);
-                                                int color = Color.parseColor(category_color);
-                                                chooseActivity.setBackgroundColor(color);
-                                            }
+                                referenceCategory.orderByChild("category_id").equalTo(category_id).addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                            String category_color = snapshot.child("category_color").getValue(String.class);
+                                            int color = Color.parseColor(category_color);
+                                            chooseActivity.setBackgroundColor(color);
                                         }
+                                    }
 
-                                        @Override
-                                        public void onCancelled(DatabaseError databaseError) {
-                                            // Gérez les erreurs de la récupération des données
-                                        }
-                                    });
-
-
-
-                                }
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+                                        // Gérez les erreurs de la récupération des données
+                                    }
+                                });
                             }
+                        }
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            // Gérez les erreurs de la récupération des données
+                        }
+                    });
+                    initWidgets();
+                    CalendarUtils.selectedDate = LocalDate.now();
+                    setMonthView();
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-                                // Gérez les erreurs de la récupération des données
-                            }
-                        });
-                        initWidgets();
-                        CalendarUtils.selectedDate = LocalDate.now();
-                        setMonthView();
+                }
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
 
-                    }
-
-                    @Override
-                    public void onNothingSelected(AdapterView<?> parent) {
-
-                    }
-
-                });
+                }
+            });
     }
 
         ArrayList<String> getActivities () {
@@ -178,7 +158,7 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                    Log.w("TAG", "Erreur lors de la récupération des données", databaseError.toException());
+                    Log.w("TAG", "Data recovery error", databaseError.toException());
                 }
             });
 
@@ -203,22 +183,19 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void previousMonthAction(View view)
-    {
+    public void previousMonthAction(View view) {
         CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusMonths(1);
         setMonthView();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public void nextMonthAction(View view)
-    {
+    public void nextMonthAction(View view) {
         CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusMonths(1);
         setMonthView();
     }
 
     @Override
-    public void onItemClick(int position, LocalDate date)
-    {
+    public void onItemClick(int position, LocalDate date) {
         if(date != null) {
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference reference = database.getReference("Session");
@@ -276,7 +253,7 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
 
                                 @Override
                                 public void onCancelled(DatabaseError databaseError) {
-                                    // Une erreur s'est produite lors de la récupération des données
+                                    Log.w("TAG", "Data recovery error", databaseError.toException());
                                 }
                             });
                         }
@@ -284,20 +261,16 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
                 }
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                    Log.w("TAG", "Erreur lors de la récupération des données", databaseError.toException());
+                    Log.w("TAG", "Data recovery error", databaseError.toException());
                 }
             });
-
-
 
         }
     }
 
-
-
     public void openMainActivity(){
         Intent intent = new Intent(this, HomeActivity.class);
         startActivity(intent);
-        }
+    }
 
 }

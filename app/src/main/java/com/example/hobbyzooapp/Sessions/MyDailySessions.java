@@ -249,13 +249,15 @@ public class MyDailySessions extends AppCompatActivity {
                          }
                      }
                      @Override
-                     public void onCancelled(@NonNull DatabaseError databaseError) {}
+                     public void onCancelled(@NonNull DatabaseError databaseError) {
+                         Log.w("TAG", "Data recovery error", databaseError.toException());
+                     }
                  });
              }
          }
          @Override
          public void onCancelled(@NonNull DatabaseError databaseError) {
-             Log.w("TAG", "Erreur lors de la récupération des données", databaseError.toException());
+             Log.w("TAG", "Data recovery error", databaseError.toException());
          }
      });
      }

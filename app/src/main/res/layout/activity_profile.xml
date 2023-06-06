@@ -88,7 +88,8 @@
                     android:layout_marginTop="10dp"
                     android:background="@drawable/ic_add_a_photo"
                     android:backgroundTint="@color/purple_200"
-                    android:visibility="gone" />
+                    android:visibility="gone"
+                    tools:targetApi="lollipop" />
 
                 <Button
                     android:id="@+id/validateButton"
@@ -120,10 +121,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:backgroundTint="@color/purple_200"
-                android:text="My evolution"
+                android:text="@string/my_evolution"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                app:icon="@drawable/ic_trending" />
+                app:icon="@drawable/ic_trending"
+                tools:targetApi="lollipop" />
 
             <Button
                 android:id="@+id/my_activities"
@@ -132,10 +134,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:backgroundTint="@color/purple_200"
-                android:text="My activities"
+                android:text="@string/my_activities"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                app:icon="@drawable/ic_format_list" />
+                app:icon="@drawable/ic_format_list"
+                tools:targetApi="lollipop" />
 
             <Button
                 android:id="@+id/account"
@@ -144,10 +147,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:backgroundTint="@color/purple_200"
-                android:text="Account"
+                android:text="@string/account"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                app:icon="@drawable/ic_manage_account" />
+                app:icon="@drawable/ic_manage_account"
+                tools:targetApi="lollipop" />
 
             <Button
                 android:id="@+id/settings_button"
@@ -156,10 +160,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:backgroundTint="@color/purple_200"
-                android:text="Settings"
+                android:text="@string/settings"
                 android:textColor="@color/white"
                 android:textSize="16sp"
-                app:icon="@drawable/ic_settings" />
+                app:icon="@drawable/ic_settings"
+                tools:targetApi="lollipop" />
 
 
         </LinearLayout>

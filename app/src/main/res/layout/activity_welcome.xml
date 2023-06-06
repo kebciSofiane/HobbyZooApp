@@ -13,7 +13,7 @@
         android:fontFamily="@font/abril_fatface"
         android:text="@string/welcome_to"
         android:textColor="@color/dark_gray"
-        android:textSize="40dp" />
+        android:textSize="40sp" />
 
     <ImageView
         android:id="@+id/hobbyZoo"

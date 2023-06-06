@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:text="My daily sessions"
+            android:text="@string/my_daily_sessions"
             android:textColor="@color/title_page"
             android:textStyle="bold"
             android:textSize="@dimen/title_size" />
@@ -34,7 +34,6 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="55dp"
-            android:hint="Date"
             android:text="@string/default_session_date"
             android:textColor="@color/sub_tilte" />
 
@@ -115,10 +114,5 @@
         android:scaleType="center"
         app:srcCompat="@drawable/ic_home"
         app:tint="@color/green_btn" />
-
-
-
-
-
 
 </RelativeLayout>

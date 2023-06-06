@@ -1,13 +1,12 @@
 package com.example.hobbyzooapp.Activities;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -67,9 +66,9 @@ public class TodoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     @Override
     public int getItemCount() {
         if (todoList.isEmpty()) {
-            return 1; // Liste vide, afficher l'élément de mise en page vide
+            return 1;
         } else {
-            return todoList.size(); // Nombre d'éléments dans la liste
+            return todoList.size();
         }
     }
 
@@ -84,43 +83,36 @@ public class TodoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             taskStatusCheckbox = itemView.findViewById(R.id.taskStatusCheckbox);
             deleteTaskButton = itemView.findViewById(R.id.deleteTaskButton);
 
-            deleteTaskButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // Supprimer la tâche de la base de données
-                    DatabaseReference tasksRef = FirebaseDatabase.getInstance().getReference("Tasks");
-                    Query query = tasksRef.orderByChild("taskName").equalTo(taskNameTextView.getText().toString());
+            deleteTaskButton.setOnClickListener(v -> {
+                DatabaseReference tasksRef = FirebaseDatabase.getInstance().getReference("Tasks");
+                Query query = tasksRef.orderByChild("taskName").equalTo(taskNameTextView.getText().toString());
 
-                    query.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                String taskId = snapshot.getKey();
-                                tasksRef.child(taskId).removeValue();
-                            }
+                query.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            String taskId = snapshot.getKey();
+                            tasksRef.child(taskId).removeValue();
                         }
+                    }
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-                            // Gestion de l'erreur, si nécessaire
-                        }
-                    });
-                }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.w("TAG", "Data recovery error", databaseError.toException());
+                    }
+                });
             });
         }
 
         public void bind(TodoTask item) {
             taskNameTextView.setText(item.getTaskname());
             taskStatusCheckbox.setChecked(item.isCompleted());
-            taskStatusCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    item.setCompleted(isChecked);
-                    if (isChecked) {
-                        updateDBTasks("TRUE", taskNameTextView.getText().toString());
-                    } else {
-                        updateDBTasks("FALSE", taskNameTextView.getText().toString());
-                    }
+            taskStatusCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+                item.setCompleted(isChecked);
+                if (isChecked) {
+                    updateDBTasks("TRUE", taskNameTextView.getText().toString());
+                } else {
+                    updateDBTasks("FALSE", taskNameTextView.getText().toString());
                 }
             });
         }
@@ -135,14 +127,11 @@ public class TodoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         String taskId = snapshot.getKey();
                         DatabaseReference taskRef = tasksRef.child(taskId);
-                        taskRef.child("taskStatus").setValue(status, new DatabaseReference.CompletionListener() {
-                            @Override
-                            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                                if (databaseError == null) {
-                                    System.out.println("Tasks modified!");
-                                } else {
-                                    System.err.println("Error: " + databaseError.getMessage());
-                                }
+                        taskRef.child("taskStatus").setValue(status, (databaseError, databaseReference) -> {
+                            if (databaseError == null) {
+                                System.out.println("Tasks modified!");
+                            } else {
+                                System.err.println("Error: " + databaseError.getMessage());
                             }
                         });
                     }
@@ -150,7 +139,7 @@ public class TodoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
-                    // Handle the error if needed
+                    Log.w("TAG", "Data recovery error", databaseError.toException());
                 }
             });
         }
@@ -161,6 +150,7 @@ public class TodoAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             super(itemView);
         }
     }
+
 }
 
 

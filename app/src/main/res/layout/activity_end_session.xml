@@ -102,7 +102,8 @@
                 android:textColor="@color/light_gray"
                 android:textSize="20sp"
                 android:textColorHint="@color/light_gray"
-                android:visibility="visible" />
+                android:visibility="visible"
+                tools:targetApi="lollipop" />
 
 
             <ImageButton
@@ -167,7 +168,8 @@
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_edit"
                     app:tint="@color/green_btn"
-                    android:visibility="gone"/>
+                    android:visibility="gone"
+                    tools:targetApi="lollipop" />
 
             </RelativeLayout>
 

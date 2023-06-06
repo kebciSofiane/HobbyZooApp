@@ -42,8 +42,7 @@ public class CalendarUtils {
         LocalDate firstOfMonth = CalendarUtils.selectedDate.withDayOfMonth(1);
         int dayOfWeek = firstOfMonth.getDayOfWeek().getValue();
 
-        for(int i = 1; i <= 42; i++)
-        {
+        for(int i = 1; i <= 42; i++) {
             if(i <= dayOfWeek || i > daysInMonth + dayOfWeek)
                 daysInMonthArray.add(null);
             else
@@ -53,8 +52,7 @@ public class CalendarUtils {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    public static ArrayList<LocalDate> daysInWeekArray(LocalDate selectedDate)
-    {
+    public static ArrayList<LocalDate> daysInWeekArray(LocalDate selectedDate) {
         ArrayList<LocalDate> days = new ArrayList<>();
         LocalDate current = sundayForDate(selectedDate);
         LocalDate endDate = current.plusWeeks(1);
@@ -68,12 +66,10 @@ public class CalendarUtils {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private static LocalDate sundayForDate(LocalDate current)
-    {
+    private static LocalDate sundayForDate(LocalDate current) {
         LocalDate oneWeekAgo = current.minusWeeks(1);
 
-        while (current.isAfter(oneWeekAgo))
-        {
+        while (current.isAfter(oneWeekAgo)) {
             if(current.getDayOfWeek() == DayOfWeek.SUNDAY)
                 return current;
 

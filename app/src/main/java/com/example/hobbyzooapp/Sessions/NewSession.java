@@ -108,60 +108,49 @@ public class NewSession extends AppCompatActivity {
                     });
         }
 
-        returnButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startIntent();
-            }
-        });
+        returnButton.setOnClickListener(view -> startIntent());
 
-        validationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                activityName = (String) activitySelector.getSelectedItem();
-                LocalDate dateCourante = null;
-                int selectedYear = datePicker.getYear();
-                int selectedMonth = datePicker.getMonth() + 1;
-                int selectedDay = datePicker.getDayOfMonth();
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    dateCourante = LocalDate.now();
-                }
-                if(activityName.trim().isEmpty() || (timePicker.getHour() == 0 && timePicker.getMinute() == 0) || activitySelector.getSelectedItem() == null){
-                    Toast.makeText(getApplicationContext(),"Field can't be empty!",Toast.LENGTH_LONG).show();
-                }
-                else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    if (dateCourante.isAfter(LocalDate.of(selectedYear, selectedMonth, selectedDay))) {
-                        Toast.makeText(getApplicationContext(),"The date can't be earlier!",Toast.LENGTH_LONG).show();
-                    } else {
-                        addDBSession();
-                        startIntent();
-                    }
+        validationButton.setOnClickListener(view -> {
+            activityName = (String) activitySelector.getSelectedItem();
+            LocalDate dateCourante = null;
+            int selectedYear = datePicker.getYear();
+            int selectedMonth = datePicker.getMonth() + 1;
+            int selectedDay = datePicker.getDayOfMonth();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                dateCourante = LocalDate.now();
+            }
+            if(activityName.trim().isEmpty() || (timePicker.getHour() == 0 && timePicker.getMinute() == 0) || activitySelector.getSelectedItem() == null){
+                Toast.makeText(getApplicationContext(),"Field can't be empty!",Toast.LENGTH_LONG).show();
+            }
+            else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                if (dateCourante.isAfter(LocalDate.of(selectedYear, selectedMonth, selectedDay))) {
+                    Toast.makeText(getApplicationContext(),"The date can't be earlier!",Toast.LENGTH_LONG).show();
+                } else {
+                    addDBSession();
+                    startIntent();
                 }
             }
         });
 
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                activityName = (String) activitySelector.getSelectedItem();
-                LocalDate currentDate = null;
-                int selectedYear = datePicker.getYear();
-                int selectedMonth = datePicker.getMonth() + 1;
-                int selectedDay = datePicker.getDayOfMonth();
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    currentDate = LocalDate.now();
-                }
-                if(activityName.trim().isEmpty() || (timePicker.getHour() == 0 && timePicker.getMinute() == 0) || activitySelector.getSelectedItem() == null){
-                    Toast.makeText(getApplicationContext(),"Field can't be empty!",Toast.LENGTH_LONG).show();
-                }
-                else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    if (currentDate.isAfter(LocalDate.of(selectedYear, selectedMonth, selectedDay))) {
-                        Toast.makeText(getApplicationContext(),"The date can't be earlier!",Toast.LENGTH_LONG).show();
-                    } else {
-                        addDBSession();
-                        validationButton.setVisibility(View.GONE);
-                        Toast.makeText(getApplicationContext(),"Session has been added!",Toast.LENGTH_LONG).show();
-                    }
+        addButton.setOnClickListener(view -> {
+            activityName = (String) activitySelector.getSelectedItem();
+            LocalDate currentDate = null;
+            int selectedYear = datePicker.getYear();
+            int selectedMonth = datePicker.getMonth() + 1;
+            int selectedDay = datePicker.getDayOfMonth();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                currentDate = LocalDate.now();
+            }
+            if(activityName.trim().isEmpty() || (timePicker.getHour() == 0 && timePicker.getMinute() == 0) || activitySelector.getSelectedItem() == null){
+                Toast.makeText(getApplicationContext(),"Field can't be empty!",Toast.LENGTH_LONG).show();
+            }
+            else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                if (currentDate.isAfter(LocalDate.of(selectedYear, selectedMonth, selectedDay))) {
+                    Toast.makeText(getApplicationContext(),"The date can't be earlier!",Toast.LENGTH_LONG).show();
+                } else {
+                    addDBSession();
+                    validationButton.setVisibility(View.GONE);
+                    Toast.makeText(getApplicationContext(),"Session has been added!",Toast.LENGTH_LONG).show();
                 }
             }
         });

@@ -3,31 +3,23 @@ import com.example.hobbyzooapp.Calendar.CalendarUtils;
 import com.example.hobbyzooapp.HomeActivity;
 import com.example.hobbyzooapp.R;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.app.TaskStackBuilder;
-import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
-import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.ContentResolver;
-import android.content.ContentValues;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.InputFilter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -38,9 +30,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.hobbyzooapp.Activities.ActivityPage;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -50,11 +39,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
@@ -72,19 +59,17 @@ public class EndSession extends AppCompatActivity {
     private String photoPath = "";
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     FirebaseAuth firebaseAuth;
-    Intent intent = getIntent();
     String activity_id, session_id, activityPet, session_duration, spent_time;
     long totalSessionTime;
     Uri photoUri;
 
 
-    @SuppressLint("MissingInflatedId")
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @SuppressLint({"MissingInflatedId", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end_session);
-
-
 
         Intent intent = getIntent();
         activity_id = intent.getStringExtra("activity_id");
@@ -122,14 +107,11 @@ public class EndSession extends AppCompatActivity {
                     petPic.setImageResource(resId);
 
                     long newSPentTime = Integer.parseInt(spent_time)+(totalSessionTime/ (1000 * 60));
-                    activityRef.child("spent_time").setValue(String.valueOf(newSPentTime), new DatabaseReference.CompletionListener() {
-                        @Override
-                        public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                            if (databaseError == null) {
-                                System.out.println("Activity successfully modified !");
-                            } else {
-                                System.err.println("Error while modifying activity : " + databaseError.getMessage());
-                            }
+                    activityRef.child("spent_time").setValue(String.valueOf(newSPentTime), (databaseError, databaseReference) -> {
+                        if (databaseError == null) {
+                            System.out.println("Activity successfully modified !");
+                        } else {
+                            System.err.println("Error while modifying activity : " + databaseError.getMessage());
                         }
                     });
                 } else {
@@ -155,7 +137,7 @@ public class EndSession extends AppCompatActivity {
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Une erreur s'est produite lors de la récupération des données
+                Log.w("TAG", "Data recovery error", databaseError.toException());
             }
         });
 
@@ -163,84 +145,35 @@ public class EndSession extends AppCompatActivity {
         filters[0] = new InputFilter.LengthFilter(100);
         commentField.setFilters(filters);
 
-        takeApic.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                try {
-                    takePicture();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+        takeApic.setOnClickListener(v -> {
+            try {
+                takePicture();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
         });
 
-        modifyCommentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                commentField.setVisibility(View.VISIBLE);
-                validateButton.setVisibility(View.VISIBLE);
-                commentValidated.setVisibility(View.GONE);
-                validateButton2.setVisibility(View.GONE);
-                modifyCommentButton.setVisibility(View.GONE);
-                cancelButton.setVisibility(View.GONE);
-            }
+        modifyCommentButton.setOnClickListener(v -> {
+            commentField.setVisibility(View.VISIBLE);
+            validateButton.setVisibility(View.VISIBLE);
+            commentValidated.setVisibility(View.GONE);
+            validateButton2.setVisibility(View.GONE);
+            modifyCommentButton.setVisibility(View.GONE);
+            cancelButton.setVisibility(View.GONE);
         });
 
 
-        validateButton2.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onClick(View v) {
-                DatabaseReference sessionRef = FirebaseDatabase.getInstance().getReference().child("Session").child(session_id);
-                if (commentValidated.getText().equals("") && !photoPath.equals("")){
-                    sessionRef.child("session_comment").setValue("No comment for this photo");
-                    uploadImageToFirebase();
-                    endSession();
-                } else if (!commentValidated.getText().equals("")){
-                    sessionRef.child("session_comment").setValue(commentValidated.getText());
-                    uploadImageToFirebase();
-                    endSession();
-                } else if (commentValidated.getText().equals("") && photoPath.equals("")){
-                    LayoutInflater inflater = getLayoutInflater();
-                    View dialogView = inflater.inflate(R.layout.custom_dialog_, null);
-
-                    TextView dialogTitle = dialogView.findViewById(R.id.dialogTitle);
-                    TextView dialogText = dialogView.findViewById(R.id.dialogText);
-                    Button dialogButtonLeft = dialogView.findViewById(R.id.dialogButtonLeft);
-                    Button dialogButtonRight = dialogView.findViewById(R.id.dialogButtonRight);
-
-                    dialogTitle.setText("No comment and no picture");
-                    dialogText.setText("Do you want to continue ?");
-                    dialogButtonLeft.setText("Edit");
-                    dialogButtonLeft.setTextColor(Color.GREEN);
-                    dialogButtonRight.setText("Skip");
-                    dialogButtonRight.setTextColor(Color.RED);
-
-                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(EndSession.this);
-                    dialogBuilder.setView(dialogView);
-                    AlertDialog dialog = dialogBuilder.create();
-                    dialog.show();
-                    dialogButtonLeft.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dialog.dismiss();
-                        }
-                    });
-                    dialogButtonRight.setOnClickListener(new View.OnClickListener() {
-                      @Override
-                      public void onClick(View v) {
-                          endSession();
-                          dialog.dismiss();
-                      }
-                    });
-                }
-            }
-        });
-
-
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        validateButton2.setOnClickListener(v -> {
+            DatabaseReference sessionRef = FirebaseDatabase.getInstance().getReference().child("Session").child(session_id);
+            if (commentValidated.getText().equals("") && !photoPath.equals("")){
+                sessionRef.child("session_comment").setValue("No comment for this photo");
+                uploadImageToFirebase();
+                endSession();
+            } else if (!commentValidated.getText().equals("")){
+                sessionRef.child("session_comment").setValue(commentValidated.getText());
+                uploadImageToFirebase();
+                endSession();
+            } else if (commentValidated.getText().equals("") && photoPath.equals("")){
                 LayoutInflater inflater = getLayoutInflater();
                 View dialogView = inflater.inflate(R.layout.custom_dialog_, null);
 
@@ -249,65 +182,77 @@ public class EndSession extends AppCompatActivity {
                 Button dialogButtonLeft = dialogView.findViewById(R.id.dialogButtonLeft);
                 Button dialogButtonRight = dialogView.findViewById(R.id.dialogButtonRight);
 
-                dialogTitle.setText("You're about to cancel your feedback");
-                //dialogText.setText("Do you want to continue ?");
+                dialogTitle.setText("No comment and no picture");
+                dialogText.setText("Do you want to continue ?");
                 dialogButtonLeft.setText("Edit");
                 dialogButtonLeft.setTextColor(Color.GREEN);
-                dialogButtonRight.setText("Cancel");
+                dialogButtonRight.setText("Skip");
                 dialogButtonRight.setTextColor(Color.RED);
 
                 AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(EndSession.this);
                 dialogBuilder.setView(dialogView);
                 AlertDialog dialog = dialogBuilder.create();
                 dialog.show();
-                dialogButtonLeft.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
+                dialogButtonLeft.setOnClickListener(v1 -> dialog.dismiss());
+                dialogButtonRight.setOnClickListener(v12 -> {
+                    endSession();
+                    dialog.dismiss();
                 });
-                dialogButtonRight.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            endSession();
-                        }
-                        dialog.dismiss();
-                    }
-                });
-
             }
         });
 
-        skipButton.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onClick(View v) { endSession(); }
+
+        cancelButton.setOnClickListener(v -> {
+            LayoutInflater inflater = getLayoutInflater();
+            View dialogView = inflater.inflate(R.layout.custom_dialog_, null);
+
+            TextView dialogTitle = dialogView.findViewById(R.id.dialogTitle);
+            Button dialogButtonLeft = dialogView.findViewById(R.id.dialogButtonLeft);
+            Button dialogButtonRight = dialogView.findViewById(R.id.dialogButtonRight);
+
+            dialogTitle.setText("You're about to cancel your feedback");
+            dialogButtonLeft.setText("Edit");
+            dialogButtonLeft.setTextColor(Color.GREEN);
+            dialogButtonRight.setText("Cancel");
+            dialogButtonRight.setTextColor(Color.RED);
+
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(EndSession.this);
+            dialogBuilder.setView(dialogView);
+            AlertDialog dialog = dialogBuilder.create();
+            dialog.show();
+            dialogButtonLeft.setOnClickListener(v13 -> dialog.dismiss());
+            dialogButtonRight.setOnClickListener(v14 -> {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    endSession();
+                }
+                dialog.dismiss();
+            });
+
         });
 
-        validateButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String comment = String.valueOf(commentField.getText());
-                validateButton.setVisibility(View.GONE);
-                skipButton.setVisibility(View.GONE);
-                commentField.setVisibility(View.GONE);
-                commentValidated.setText(comment);
-                commentValidated.setVisibility(View.VISIBLE);
-                takeApic.setVisibility(View.VISIBLE);
-                validateButton2.setVisibility(View.VISIBLE);
-                modifyCommentButton.setVisibility(View.VISIBLE);
-                cancelButton.setVisibility(View.VISIBLE);
+        skipButton.setOnClickListener(v -> endSession());
 
-            }
+        validateButton.setOnClickListener(v -> {
+            String comment = String.valueOf(commentField.getText());
+            validateButton.setVisibility(View.GONE);
+            skipButton.setVisibility(View.GONE);
+            commentField.setVisibility(View.GONE);
+            commentValidated.setText(comment);
+            commentValidated.setVisibility(View.VISIBLE);
+            takeApic.setVisibility(View.VISIBLE);
+            validateButton2.setVisibility(View.VISIBLE);
+            modifyCommentButton.setVisibility(View.VISIBLE);
+            cancelButton.setVisibility(View.VISIBLE);
+
         });
 
     }
 
+    @SuppressLint("QueryPermissionsNeeded")
     private void takePicture() throws IOException {
         Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         if (intent.resolveActivity(getPackageManager())!=null){
-            String date = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+            @SuppressLint("SimpleDateFormat") String date = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             File photoDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
             File photoFile = File.createTempFile(date,".jpg", photoDir);
             photoPath = photoFile.getAbsolutePath();
@@ -338,6 +283,7 @@ public class EndSession extends AppCompatActivity {
     public void onBackPressed() {}
 
 
+    @SuppressLint("SetTextI18n")
     public  void updateSessionCount(){
         long hours = TimeUnit.MILLISECONDS.toHours(totalSessionTime);
         long minutes = TimeUnit.MILLISECONDS.toMinutes(totalSessionTime - TimeUnit.HOURS.toMillis(hours));
@@ -350,33 +296,18 @@ public class EndSession extends AppCompatActivity {
         if (!photoPath.equals("")){
             FirebaseUser user = firebaseAuth.getCurrentUser();
             if (user != null) {
-
                 FirebaseStorage storage = FirebaseStorage.getInstance();
                 StorageReference storageReference = storage.getReference();
                 StorageReference profileRef = storageReference.child("sessions/" + session_id + "/picture.jpg");
                 profileRef.putFile(photoUri)
-                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                    @Override
-                                    public void onSuccess(Uri uri) {
-                                        //progressDialog.dismiss();
-                                        String imageUrl = uri.toString();
-                                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-                                        databaseReference.child("Session").child(session_id).child("session_picture").setValue(imageUrl);
-                                        Toast.makeText(EndSession.this, "Image uploaded successfully", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                            }
-
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(EndSession.this, "Failed to upload image", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        .addOnSuccessListener(taskSnapshot -> profileRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                            //progressDialog.dismiss();
+                            String imageUrl = uri.toString();
+                            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                            databaseReference.child("Session").child(session_id).child("session_picture").setValue(imageUrl);
+                            Toast.makeText(EndSession.this, "Image uploaded successfully", Toast.LENGTH_SHORT).show();
+                        }))
+                        .addOnFailureListener(e -> Toast.makeText(EndSession.this, "Failed to upload image", Toast.LENGTH_SHORT).show());
             }
         }
     }
@@ -386,10 +317,10 @@ public class EndSession extends AppCompatActivity {
         DatabaseReference sessionRef = FirebaseDatabase.getInstance().getReference().child("Session").child(session_id);
         Date date = new Date();
         CalendarUtils.selectedDate= LocalDate.now();
-        String time = new SimpleDateFormat("HHmm").format(date);
-        String day = new SimpleDateFormat("dd").format(date);
-        String month = new SimpleDateFormat("MM").format(date);
-        String year = new SimpleDateFormat("yyyy").format(date);
+        @SuppressLint("SimpleDateFormat") String time = new SimpleDateFormat("HHmm").format(date);
+        @SuppressLint("SimpleDateFormat") String day = new SimpleDateFormat("dd").format(date);
+        @SuppressLint("SimpleDateFormat") String month = new SimpleDateFormat("MM").format(date);
+        @SuppressLint("SimpleDateFormat") String year = new SimpleDateFormat("yyyy").format(date);
         sessionRef.child("session_time").setValue(time);
         sessionRef.child("session_done").setValue("TRUE");
         sessionRef.child("session_day").setValue(day);
@@ -397,7 +328,6 @@ public class EndSession extends AppCompatActivity {
         sessionRef.child("session_year").setValue(year);
 
         finishAffinity();
-
         Intent intent = new Intent(EndSession.this, HomeActivity.class);
         intent.putExtra("activity_id", activity_id);
         startActivity(intent);

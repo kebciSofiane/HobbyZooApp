@@ -1,6 +1,5 @@
 package com.example.hobbyzooapp;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,8 +9,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -22,7 +19,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.hobbyzooapp.AccountManagement.ProfileActivity;
-import com.example.hobbyzooapp.AccountManagement.RegistrationOrConnexion;
 import com.example.hobbyzooapp.Activities.ActivityPage;
 import com.example.hobbyzooapp.Calendar.CalendarActivity;
 import com.example.hobbyzooapp.Calendar.CalendarUtils;
@@ -43,10 +39,10 @@ import java.util.Objects;
 import java.util.Random;
 
 public class HomeActivity extends AppCompatActivity {
-    //TODO 1 général : vérifier les boutons retour du tel de chaque activity + ajout finish() si besoin
-    //TODO 2 général : enlever tous system out + commentaires inutiles + verif indentation
 
-    //todo : panel button revien page 1 sans relancer la page ?(phone back button aussi)
+    //TODO général : enlever tous system out + commentaires inutiles + verif indentation
+    //TODO layout adapter_main??
+
     FirebaseAuth firebaseAuth;
     Button next, previous;
 
@@ -77,104 +73,66 @@ public class HomeActivity extends AppCompatActivity {
     Boolean toRight;
 
     @SuppressLint("MissingInflatedId")
-    @RequiresApi(api = Build.VERSION_CODES.N)
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         initialisation();
         getActivities();
-        panelHobbyZoo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                currentIndex=0;
-                currentIndex2=0;
-                currentIndex3=0;
-                showAnimals();
-            }
+        panelHobbyZoo.setOnClickListener(v -> {
+            currentIndex=0;
+            currentIndex2=0;
+            currentIndex3=0;
+            showAnimals();
         });
 
-        calendarBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this,CalendarActivity.class));
-            }
+        calendarBtn.setOnClickListener(v -> startActivity(new Intent(HomeActivity.this,CalendarActivity.class)));
+        runBtn.setOnClickListener(v -> {
+            CalendarUtils.selectedDate= LocalDate.now();
+            startActivity(new Intent(HomeActivity.this, MyDailySessions.class));
         });
-        runBtn.setOnClickListener(new View.OnClickListener() {
-            @RequiresApi(api = Build.VERSION_CODES.O)
-            @Override
-            public void onClick(View v) {
-                CalendarUtils.selectedDate= LocalDate.now();
-                startActivity(new Intent(HomeActivity.this, MyDailySessions.class));
-            }
-        });
-        profileBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(HomeActivity.this,ProfileActivity.class));
-            }
+        profileBtn.setOnClickListener(v -> startActivity(new Intent(HomeActivity.this,ProfileActivity.class)));
+
+        next.setOnClickListener(v -> {
+            toRight=true;
+            showAnimals();
         });
 
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toRight=true;
-                showAnimals();
-            }
-        });
-
-        previous.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                toRight=false;
-                showAnimals();
-            }
+        previous.setOnClickListener(v -> {
+            toRight=false;
+            showAnimals();
         });
 
 
-        linearLayout1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, ActivityPage.class);
-                intent.putExtra("activity_id",(String) v.getTag());
-                intent.putExtra("previousActivity", 0);
-                startActivity(intent);
-            }
+        linearLayout1.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, ActivityPage.class);
+            intent.putExtra("activity_id",(String) v.getTag());
+            intent.putExtra("previousActivity", 0);
+            startActivity(intent);
         });
 
-        linearLayout2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(HomeActivity.this, ActivityPage.class);
-                intent.putExtra("activity_id",(String) v.getTag());
-                startActivity(intent);
-            }
+        linearLayout2.setOnClickListener(v -> {
+            Intent intent=new Intent(HomeActivity.this, ActivityPage.class);
+            intent.putExtra("activity_id",(String) v.getTag());
+            startActivity(intent);
         });
 
-        linearLayout3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(HomeActivity.this, ActivityPage.class);
-                intent.putExtra("activity_id",(String) v.getTag());
-                startActivity(intent);            }
+        linearLayout3.setOnClickListener(v -> {
+            Intent intent=new Intent(HomeActivity.this, ActivityPage.class);
+            intent.putExtra("activity_id",(String) v.getTag());
+            startActivity(intent);            });
+
+        linearLayout4.setOnClickListener(v -> {
+            Intent intent=new Intent(HomeActivity.this, ActivityPage.class);
+            intent.putExtra("activity_id",(String) v.getTag());
+            startActivity(intent);
         });
 
-        linearLayout4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(HomeActivity.this, ActivityPage.class);
-                intent.putExtra("activity_id",(String) v.getTag());
-                startActivity(intent);
-            }
-        });
-
-        linearLayout5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent=new Intent(HomeActivity.this, ActivityPage.class);
-                intent.putExtra("activity_id",(String) v.getTag());
-                startActivity(intent);
-            }
+        linearLayout5.setOnClickListener(v -> {
+            Intent intent=new Intent(HomeActivity.this, ActivityPage.class);
+            intent.putExtra("activity_id",(String) v.getTag());
+            startActivity(intent);
         });
     }
 
@@ -205,7 +163,6 @@ public class HomeActivity extends AppCompatActivity {
         calendarBtn = findViewById(R.id.calendar_btn);
         runBtn = findViewById(R.id.run_btn);
         profileBtn = findViewById(R.id.profile_btn);
-
 
         count.setText(String.valueOf(countText));
     }
@@ -243,13 +200,11 @@ public class HomeActivity extends AppCompatActivity {
         }
 
         currentIndex = endIndex;
-
         intElements = imageList.subList(startIndex, endIndex);
 
         if (endIndex > imageList.size()) {
             currentIndex = 0;
         }
-
         return intElements;
     }
 
@@ -453,9 +408,6 @@ public class HomeActivity extends AppCompatActivity {
                     activities_name_List.add(activity_name);
                     activities_id_List.add(activity_id);
 
-
-
-
                 }
                 numberOfPages = imageList.size()/5;
 
@@ -477,7 +429,7 @@ public class HomeActivity extends AppCompatActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.w("TAG", "Erreur lors de la récupération des données", databaseError.toException());
+                Log.w("TAG", "Data recovery error", databaseError.toException());
             }
         });
 
@@ -485,7 +437,6 @@ public class HomeActivity extends AppCompatActivity {
 
 
     private void showAnimals() {
-
         Random random = new Random();
 
         ArrayList<TextView> textViewList = new ArrayList<>(Arrays.asList(textView1, textView2, textView3, textView4, textView5));
@@ -500,78 +451,79 @@ public class HomeActivity extends AppCompatActivity {
         List<Integer> batchElements;
         List<String> activities_names ;
         List<String> activities_id ;
+
         if (toRight){
              batchElements = showNextActivities(batchSize);
             activities_names = showNextActivityNames(batchSize);
             activities_id = showNextActivityId(batchSize);
-        }else {
+        } else {
             batchElements = showPreviousActivities(batchSize);
             activities_names = showPreviousActivityNames(batchSize);
             activities_id = showPreviousActivityId(batchSize);
         }
 
         for (int i = 0; i < batchElements.size(); i++) {
-                imageViewList.get(i).setImageResource(batchElements.get(i));
-                textViewList.get(i).setText(activities_names.get(i));
-                linearLayoutList.get(i).setVisibility(View.VISIBLE);
-                linearLayoutList.get(i).setTag(activities_id.get(i));
+            imageViewList.get(i).setImageResource(batchElements.get(i));
+            textViewList.get(i).setText(activities_names.get(i));
+            linearLayoutList.get(i).setVisibility(View.VISIBLE);
+            linearLayoutList.get(i).setTag(activities_id.get(i));
         }
 
-            WindowManager windowManager = getWindowManager();
+        WindowManager windowManager = getWindowManager();
 
-            DisplayMetrics displayMetrics = new DisplayMetrics();
-            ((WindowManager) windowManager).getDefaultDisplay().getMetrics(displayMetrics);
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((WindowManager) windowManager).getDefaultDisplay().getMetrics(displayMetrics);
 
-            int surfaceWidth = displayMetrics.widthPixels;
-            int surfaceHeight = displayMetrics.heightPixels;
+        int surfaceWidth = displayMetrics.widthPixels;
+        int surfaceHeight = displayMetrics.heightPixels;
 
-            int cellHeight = surfaceHeight / 6;
-            int cellWidth = surfaceWidth / 6;
+        int cellHeight = surfaceHeight / 6;
+        int cellWidth = surfaceWidth / 6;
 
-            ArrayList<int[]> cellList = new ArrayList<>();
+        ArrayList<int[]> cellList = new ArrayList<>();
 
-            for (int i = 0; i < 6; i++)
-                for (int j = 0; j < 4; j++) {
-                    int[] val = new int[2];
-                    val[0] = i * cellWidth;
-                    val[1] = j * cellHeight;
-                    cellList.add(val);
-                }
+        for (int i = 0; i < 6; i++)
+            for (int j = 0; j < 4; j++) {
+                int[] val = new int[2];
+                val[0] = i * cellWidth;
+                val[1] = j * cellHeight;
+                cellList.add(val);
+            }
 
-            int image1X = 0;
-            int image1Y = 0;
-            int val = random.nextInt(cellList.size() - 1);
-            image1X = cellList.get(val)[0];
-            image1Y = cellList.get(val)[1];
-            cellList.remove(val);
+        int image1X = 0;
+        int image1Y = 0;
+        int val = random.nextInt(cellList.size() - 1);
+        image1X = cellList.get(val)[0];
+        image1Y = cellList.get(val)[1];
+        cellList.remove(val);
 
-            int image2X = 0;
-            int image2Y = 0;
-            val = random.nextInt(cellList.size() - 1);
-            image2X = cellList.get(val)[0];
-            image2Y = cellList.get(val)[1];
-            cellList.remove(val);
+        int image2X = 0;
+        int image2Y = 0;
+        val = random.nextInt(cellList.size() - 1);
+        image2X = cellList.get(val)[0];
+        image2Y = cellList.get(val)[1];
+        cellList.remove(val);
 
-            int image3X = 0;
-            int image3Y = 0;
-            val = random.nextInt(cellList.size() - 1);
-            image3X = cellList.get(val)[0];
-            image3Y = cellList.get(val)[1];
-            cellList.remove(val);
+        int image3X = 0;
+        int image3Y = 0;
+        val = random.nextInt(cellList.size() - 1);
+        image3X = cellList.get(val)[0];
+        image3Y = cellList.get(val)[1];
+        cellList.remove(val);
 
-            int image4X = 0;
-            int image4Y = 0;
-            val = random.nextInt(cellList.size() - 1);
-            image4X = cellList.get(val)[0];
-            image4Y = cellList.get(val)[1];
-            cellList.remove(val);
+        int image4X = 0;
+        int image4Y = 0;
+        val = random.nextInt(cellList.size() - 1);
+        image4X = cellList.get(val)[0];
+        image4Y = cellList.get(val)[1];
+        cellList.remove(val);
 
-            int image5X = 0;
-            int image5Y = 0;
-            val = random.nextInt(cellList.size() - 1);
-            image5X = cellList.get(val)[0];
-            image5Y = cellList.get(val)[1];
-            cellList.remove(val);
+        int image5X = 0;
+        int image5Y = 0;
+        val = random.nextInt(cellList.size() - 1);
+        image5X = cellList.get(val)[0];
+        image5Y = cellList.get(val)[1];
+        cellList.remove(val);
 
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT,
@@ -580,20 +532,20 @@ public class HomeActivity extends AppCompatActivity {
 
         footer.setLayoutParams(params);
 
-            RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.WRAP_CONTENT,
-                    RelativeLayout.LayoutParams.WRAP_CONTENT);
-            params1.leftMargin = image1X;
-            params1.topMargin = image1Y;
+        RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        params1.leftMargin = image1X;
+        params1.topMargin = image1Y;
 
-            linearLayout1.setLayoutParams(params1);
+        linearLayout1.setLayoutParams(params1);
 
-            RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.WRAP_CONTENT,
-                    RelativeLayout.LayoutParams.WRAP_CONTENT);
-            params2.leftMargin = image2X;
-            params2.topMargin = image2Y;
-            linearLayout2.setLayoutParams(params2);
+        RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        params2.leftMargin = image2X;
+        params2.topMargin = image2Y;
+        linearLayout2.setLayoutParams(params2);
 
         RelativeLayout.LayoutParams params3 = new RelativeLayout.LayoutParams(
                 RelativeLayout.LayoutParams.WRAP_CONTENT,
@@ -602,18 +554,19 @@ public class HomeActivity extends AppCompatActivity {
         params3.topMargin = image3Y;
         linearLayout3.setLayoutParams(params3);
 
-            RelativeLayout.LayoutParams params4 = new RelativeLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.WRAP_CONTENT,
-                    RelativeLayout.LayoutParams.WRAP_CONTENT);
-            params4.leftMargin = image4X;
-            params4.topMargin = image4Y;
-            linearLayout4.setLayoutParams(params4);
+        RelativeLayout.LayoutParams params4 = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        params4.leftMargin = image4X;
+        params4.topMargin = image4Y;
+        linearLayout4.setLayoutParams(params4);
 
-            RelativeLayout.LayoutParams params5 = new RelativeLayout.LayoutParams(
-                    RelativeLayout.LayoutParams.WRAP_CONTENT,
-                    RelativeLayout.LayoutParams.WRAP_CONTENT);
-            params5.leftMargin = image5X;
-            params5.topMargin = image5Y;
-            linearLayout5.setLayoutParams(params5);
-        }
+        RelativeLayout.LayoutParams params5 = new RelativeLayout.LayoutParams(
+                RelativeLayout.LayoutParams.WRAP_CONTENT,
+                RelativeLayout.LayoutParams.WRAP_CONTENT);
+        params5.leftMargin = image5X;
+        params5.topMargin = image5Y;
+        linearLayout5.setLayoutParams(params5);
     }
+
+}

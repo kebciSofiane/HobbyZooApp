@@ -1,11 +1,8 @@
 package com.example.hobbyzooapp.Activities;
 
-import android.content.Context;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.hobbyzooapp.Category.Category;
-import com.example.hobbyzooapp.HomeActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -16,8 +13,6 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-
 
 
 public class ExpandableListData {
@@ -59,7 +54,7 @@ public class ExpandableListData {
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
-                            Log.w("TAG", "Erreur lors de la récupération des données", databaseError.toException());
+                            Log.w("TAG", "Data recovery error", databaseError.toException());
                         }
                     });
                 }
@@ -67,7 +62,7 @@ public class ExpandableListData {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.w("TAG", "Erreur lors de la récupération des données", databaseError.toException());
+                Log.w("TAG", "Data recovery error", databaseError.toException());
             }
         });
         return expandableListDetail;

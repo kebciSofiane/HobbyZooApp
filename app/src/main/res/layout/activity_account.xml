@@ -62,7 +62,8 @@
                 android:background="@drawable/shape_rounded_background"
                 android:backgroundTint="@color/brown_btn"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                tools:targetApi="lollipop">
 
                 <TextView
                     android:id="@+id/myEmail"
@@ -102,7 +103,9 @@
                 android:shadowColor="@color/gray"
                 android:shadowDx="3"
                 android:shadowDy="5"
-                android:shadowRadius="10"/>
+                android:shadowRadius="10"
+                tools:targetApi="lollipop" />
+
         </LinearLayout>
 
         <Button
@@ -117,10 +120,11 @@
             android:text="@string/unregister"
             android:textColor="@color/red"
             android:textColorHighlight="#FFFFFF"
-            android:textSize="20dp"
+            android:textSize="20sp"
             app:icon="@drawable/ic_error"
             app:iconTint="@color/red"
-            app:strokeColor="@color/red" />
+            app:strokeColor="@color/red"
+            tools:ignore="KeyboardInaccessibleWidget" />
 
 
     </RelativeLayout>

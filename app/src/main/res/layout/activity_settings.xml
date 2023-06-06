@@ -66,6 +66,7 @@
             app:backgroundTint="@color/lightbrown"
             app:icon="@drawable/ic_notifications_active"
             android:visibility="gone"/>
+
         <Button
             android:id="@+id/notificationsDisabledBtn"
             style="@style/Widget.Material3.Button"
@@ -145,8 +146,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        />
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

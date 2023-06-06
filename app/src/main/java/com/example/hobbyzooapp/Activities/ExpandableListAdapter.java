@@ -13,13 +13,8 @@ import com.example.hobbyzooapp.Category.Category;
 import com.example.hobbyzooapp.HomeActivity;
 import com.example.hobbyzooapp.R;
 
-
 import java.util.HashMap;
 import java.util.List;
-
-/**
- * Created by abc on 22-Mar-18.
- */
 
 public class ExpandableListAdapter extends BaseExpandableListAdapter {
     private Context context;

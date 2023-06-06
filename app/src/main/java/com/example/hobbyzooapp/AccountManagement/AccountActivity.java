@@ -11,12 +11,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.hobbyzooapp.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -60,30 +57,16 @@ public class AccountActivity extends AppCompatActivity {
             emailTv.setText(user.getEmail());
         }
 
-        changePasswordBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isEditMode) {
-                    changePassword();
-                } else {
-                    enterEditMode();
-                }
+        changePasswordBtn.setOnClickListener(v -> {
+            if (isEditMode) {
+                changePassword();
+            } else {
+                enterEditMode();
             }
         });
 
-        unregisterBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showConfirmationDialog();
-            }
-        });
-
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        unregisterBtn.setOnClickListener(v -> showConfirmationDialog());
+        backButton.setOnClickListener(v -> finish());
     }
     private void showConfirmationDialog() {
         LayoutInflater inflater = getLayoutInflater();
@@ -103,20 +86,12 @@ public class AccountActivity extends AppCompatActivity {
         androidx.appcompat.app.AlertDialog dialog = dialogBuilder.create();
         dialog.show();
 
-        dialogButtonConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                unregisterUser();
-                dialog.dismiss();
-            }
+        dialogButtonConfirm.setOnClickListener(v -> {
+            unregisterUser();
+            dialog.dismiss();
         });
 
-        dialogButtonCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
+        dialogButtonCancel.setOnClickListener(v -> dialog.dismiss());
     }
 
     private void enterEditMode() {
@@ -139,15 +114,12 @@ public class AccountActivity extends AppCompatActivity {
     private void sendPasswordResetEmail(FirebaseUser user) {
         String email = user.getEmail();
         firebaseAuth.sendPasswordResetEmail(email)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(AccountActivity.this, "Password reset email sent successfully", Toast.LENGTH_SHORT).show();
-                            exitEditMode();
-                        } else {
-                            Toast.makeText(AccountActivity.this, "Failed to send password reset email", Toast.LENGTH_SHORT).show();
-                        }
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(AccountActivity.this, "Password reset email sent successfully", Toast.LENGTH_SHORT).show();
+                        exitEditMode();
+                    } else {
+                        Toast.makeText(AccountActivity.this, "Failed to send password reset email", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -156,22 +128,19 @@ public class AccountActivity extends AppCompatActivity {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if (user != null) {
             user.delete()
-                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(AccountActivity.this, "User unregistered successfully", Toast.LENGTH_SHORT).show();
-                            } else {
-                                Toast.makeText(AccountActivity.this, "Failed to unregister user", Toast.LENGTH_SHORT).show();
-                            }
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(AccountActivity.this, "User unregistered successfully", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(AccountActivity.this, "Failed to unregister user", Toast.LENGTH_SHORT).show();
                         }
                     });
         }
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == PICK_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
             imageUri = data.getData();
         }

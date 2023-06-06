@@ -70,7 +70,9 @@
                     android:onClick="previousMonthAction"
                     android:scaleType="fitEnd"
                     android:src="@drawable/ic_arrow_left"
-                    android:tint="@color/green_btn" />
+                    tools:targetApi="lollipop"
+                    app:tint="@color/green_btn"
+                    tools:ignore="UsingOnClickInXml" />
 
                 <TextView
                     android:id="@+id/monthYearTV"
@@ -83,7 +85,8 @@
                     android:text="Feb 2021"
                     android:textAlignment="center"
                     android:textColor="@color/black"
-                    android:textSize="30sp" />
+                    android:textSize="30sp"
+                    tools:ignore="HardcodedText" />
 
                 <ImageButton
                     android:layout_width="0dp"
@@ -94,7 +97,9 @@
                     android:onClick="nextMonthAction"
                     android:scaleType="fitStart"
                     android:src="@drawable/ic_arrow_right"
-                    android:tint="@color/green_btn" />
+                    tools:targetApi="lollipop"
+                    tools:ignore="UsingOnClickInXml"
+                    app:tint="@color/green_btn" />
 
             </LinearLayout>
 
@@ -209,13 +214,7 @@
             android:background="@color/transparent"
             android:scaleType="centerCrop"
             android:src="@drawable/ic_calendar_arrow"
-            android:tint="@color/green_btn" />
-
-
-
-
-
-
+            app:tint="@color/green_btn" />
 
     </RelativeLayout>
 

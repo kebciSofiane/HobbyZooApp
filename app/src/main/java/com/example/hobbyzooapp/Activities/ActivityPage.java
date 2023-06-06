@@ -34,7 +34,6 @@ import com.example.hobbyzooapp.Sessions.Session;
 import com.example.hobbyzooapp.TodoTask;
 import com.example.hobbyzooapp.Sessions.ListSessionsAdapter;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -79,32 +78,26 @@ public class ActivityPage extends AppCompatActivity {
         initialisation();
         getActivityData(activity_id);
 
-        getSessionList(activity_id, new OnSessionListRetrievedListener() {
-            @Override
-            public void onSessionListRetrieved(ArrayList<Session> sessionList) {
-                mySessions = sessionList;
-                LayoutInflater inflater = getLayoutInflater();
-                adapter = new ListSessionsAdapter(sessionList,inflater);
-                recyclerView.setAdapter(adapter);
-                changeManager();
-            }
+        getSessionList(activity_id, sessionList -> {
+            mySessions = sessionList;
+            LayoutInflater inflater = getLayoutInflater();
+            adapter = new ListSessionsAdapter(sessionList,inflater);
+            recyclerView.setAdapter(adapter);
+            changeManager();
         });
 
-        getLastSessionPicCom(activity_id, new OnSessionListRetrievedListener2() {
-            @Override
-            public void onSessionListRetrieved(ArrayList<String> sessionPicCom) {
-                lastSessionData = sessionPicCom;
-                sessionCommentDisplay.setText(lastSessionData.get(1));
-                if (!lastSessionData.get(1).isEmpty()) {sessionCommentDisplay.setVisibility(View.VISIBLE);}
+        getLastSessionPicCom(activity_id, sessionPicCom -> {
+            lastSessionData = sessionPicCom;
+            sessionCommentDisplay.setText(lastSessionData.get(1));
+            if (!lastSessionData.get(1).isEmpty()) {sessionCommentDisplay.setVisibility(View.VISIBLE);}
 
-                String image = lastSessionData.get(0);
-                if (!image.equals("")) {
-                    Glide.with(ActivityPage.this)
-                            .load(image)
-                            .into(sessionLastPicture);
-                    sessionLastPicture.setVisibility(View.VISIBLE);
-                } else { sessionLastPicture.setVisibility(View.GONE); }
-            }
+            String image = lastSessionData.get(0);
+            if (!image.equals("")) {
+                Glide.with(ActivityPage.this)
+                        .load(image)
+                        .into(sessionLastPicture);
+                sessionLastPicture.setVisibility(View.VISIBLE);
+            } else { sessionLastPicture.setVisibility(View.GONE); }
         });
 
         database = FirebaseDatabase.getInstance();
@@ -139,285 +132,236 @@ public class ActivityPage extends AppCompatActivity {
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                Log.w("TAG", "Data recovery error", error.toException());
             }
         });
 
-        addToTodoListButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String newElement = String.valueOf(addToTodoListText.getText());
-                if(newElement.trim().isEmpty()){
-                    Toast.makeText(ActivityPage.this, "Nothing written!", Toast.LENGTH_LONG).show();
-                }else{
-                    todoList.add(new TodoTask(newElement, Boolean.FALSE));
-                    DatabaseReference newChildRef = databaseReferenceTask.push();
-                    String taskId = newChildRef.getKey();
-                    tasks.put("taskId", taskId);
-                    tasks.put("taskName", newElement);
-                    tasks.put("taskStatus", "FALSE");
-                    tasks.put("activityId", thisActivityId);
+        addToTodoListButton.setOnClickListener(v -> {
+            String newElement = String.valueOf(addToTodoListText.getText());
+            if(newElement.trim().isEmpty()){
+                Toast.makeText(ActivityPage.this, "Nothing written!", Toast.LENGTH_LONG).show();
+            }else{
+                todoList.add(new TodoTask(newElement, Boolean.FALSE));
+                DatabaseReference newChildRef = databaseReferenceTask.push();
+                String taskId = newChildRef.getKey();
+                tasks.put("taskId", taskId);
+                tasks.put("taskName", newElement);
+                tasks.put("taskStatus", "FALSE");
+                tasks.put("activityId", thisActivityId);
 
-                    FirebaseDatabase database = FirebaseDatabase.getInstance();
-                    DatabaseReference reference = database.getReference("Tasks");
-                    reference.child(taskId).setValue(tasks);
-                    adapterTodoList.notifyDataSetChanged();
-                }
-                addToTodoListButton.setVisibility(View.VISIBLE);
-                addToTodoListText.setText("");
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference reference = database.getReference("Tasks");
+                reference.child(taskId).setValue(tasks);
+                adapterTodoList.notifyDataSetChanged();
             }
+            addToTodoListButton.setVisibility(View.VISIBLE);
+            addToTodoListText.setText("");
         });
 
         InputFilter[] filters = new InputFilter[1];
         filters[0] = new InputFilter.LengthFilter(10);
         editTextPetName.setFilters(filters);
 
-        editActivityButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editTextPetName.setText(petName.getText());
-                editTextActivityName.setText(activityNameDisplay.getText());
-                editTextPetName.setVisibility(View.VISIBLE);
-                editTextActivityName.setVisibility(View.VISIBLE);
-                editActivityButton.setVisibility(View.GONE);
-                validate.setVisibility(View.VISIBLE);
-                petName.setVisibility(View.GONE);
-                activityNameDisplay.setVisibility(View.GONE);
-                deleteActivityButton.setVisibility(View.VISIBLE);
-                editGoalButton.setVisibility(View.VISIBLE);
-                backButton.setVisibility(View.GONE);
-                homeButton.setVisibility(View.GONE);
-                addSessionButton.setVisibility(View.GONE);
+        editActivityButton.setOnClickListener(v -> {
+            editTextPetName.setText(petName.getText());
+            editTextActivityName.setText(activityNameDisplay.getText());
+            editTextPetName.setVisibility(View.VISIBLE);
+            editTextActivityName.setVisibility(View.VISIBLE);
+            editActivityButton.setVisibility(View.GONE);
+            validate.setVisibility(View.VISIBLE);
+            petName.setVisibility(View.GONE);
+            activityNameDisplay.setVisibility(View.GONE);
+            deleteActivityButton.setVisibility(View.VISIBLE);
+            editGoalButton.setVisibility(View.VISIBLE);
+            backButton.setVisibility(View.GONE);
+            homeButton.setVisibility(View.GONE);
+            addSessionButton.setVisibility(View.GONE);
+        });
+
+        editGoalButton.setOnClickListener(v -> {
+            int currentHour = 0;
+            int currentMinute = 0;
+            TimePickerDialog timePickerDialog = new TimePickerDialog(ActivityPage.this, new TimePickerDialog.OnTimeSetListener() {
+                @SuppressLint("SetTextI18n")
+                @Override
+                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                    String goal = (minute + hourOfDay * 60) + "" ;
+                    database.getReference("Activity").child(activityId).child("weekly_goal").setValue(goal);
+                    weeklyGoal = goal;
+                    int weeklyHours = Integer.parseInt(weeklyGoal) / 60;
+                    int weeklyMinutes = Integer.parseInt(weeklyGoal) % 60;
+                    int weeklySpentHours = Integer.parseInt(spentTime) / 60;
+                    int weeklySpentMinutes = Integer.parseInt(spentTime) % 60;
+                    goalsText.setText(new Time(weeklySpentHours,weeklySpentMinutes,0)+
+                            "/"+
+                            new Time(weeklyHours,weeklyMinutes,0));
+                }
+            }, currentHour, currentMinute, true);
+            timePickerDialog.show();
+        });
+
+        addSessionButton.setOnClickListener(v -> {
+            Intent intent = new Intent(ActivityPage.this, NewSession.class);
+            intent.putExtra("previousActivity", 1);
+            intent.putExtra("activity_id", activityId);
+            intent.putExtra("activity_name", activityName);
+            startActivity(intent);
+            finish();
+        });
+
+        homeButton.setOnClickListener(v -> {
+            finishAffinity();
+            openMainActivity();
+            finish();
+        });
+
+        backButton.setOnClickListener(v -> {
+            if(previousActivity == 0){
+                finish();
+            }
+            else{
+                startActivity(new Intent(ActivityPage.this, MyActivities.class));
+                finish();
             }
         });
 
-        editGoalButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int currentHour = 0;
-                int currentMinute = 0;
+        deleteActivityButton.setOnClickListener(v -> {
+            LayoutInflater inflater = getLayoutInflater();
+            View dialogView = inflater.inflate(R.layout.custom_dialog_, null);
+            TextView dialogTitle = dialogView.findViewById(R.id.dialogTitle);
+            TextView dialogText = dialogView.findViewById(R.id.dialogText);
+            Button dialogButtonYes = dialogView.findViewById(R.id.dialogButtonLeft);
+            Button dialogButtonNo = dialogView.findViewById(R.id.dialogButtonRight);
+            dialogTitle.setText("You're about to delete this activity !\nAre you sure ?");
+            dialogText.setText("All your progression and memories\nwill be deleted !");
+            dialogText.setTextColor(Color.RED);
+            dialogButtonYes.setText("Yes");
+            dialogButtonNo.setText("No");
+            dialogButtonNo.setTextSize(25);
 
-                TimePickerDialog timePickerDialog = new TimePickerDialog(ActivityPage.this, new TimePickerDialog.OnTimeSetListener() {
-                    @SuppressLint("SetTextI18n")
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ActivityPage.this);
+            dialogBuilder.setView(dialogView);
+            AlertDialog dialog = dialogBuilder.create();
+            dialog.show();
+
+            dialogButtonYes.setOnClickListener(v1 -> {
+                DatabaseReference databaseReferenceTasks = database.getReference("Tasks");
+                databaseReferenceTasks.addListenerForSingleValueEvent(new ValueEventListener() {
+
                     @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        String goal = (minute + hourOfDay * 60) + "" ;
-                        database.getReference("Activity").child(activityId).child("weekly_goal").setValue(goal);
-                        weeklyGoal = goal;
-                        int weeklyHours = Integer.parseInt(weeklyGoal) / 60;
-                        int weeklyMinutes = Integer.parseInt(weeklyGoal) % 60;
-                        int weeklySpentHours = Integer.parseInt(spentTime) / 60;
-                        int weeklySpentMinutes = Integer.parseInt(spentTime) % 60;
-                        goalsText.setText(new Time(weeklySpentHours,weeklySpentMinutes,0)+
-                                "/"+
-                                new Time(weeklyHours,weeklyMinutes,0));
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            String activity_id_task = dataSnapshot.child("activityId").getValue(String.class);
+                            String task_id = dataSnapshot.getKey();
+                            if(activity_id_task.equals(activityId)){
+                                databaseReferenceTasks.child(task_id).removeValue();
+                            }
+                        }
                     }
-                }, currentHour, currentMinute, true);
-                timePickerDialog.show();
-            }
-        });
-
-        addSessionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(ActivityPage.this, NewSession.class);
-                intent.putExtra("previousActivity", 1);
-                intent.putExtra("activity_id", activityId);
-                intent.putExtra("activity_name", activityName);
-                startActivity(intent);
-                finish();
-            }
-        });
-
-        homeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finishAffinity();
-                openMainActivity();
-                finish();
-            }
-        });
-
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(previousActivity == 0){
-                    finish();
-                }
-                else{
-                    startActivity(new Intent(ActivityPage.this, MyActivities.class));
-                    finish();
-                }
-            }
-        });
-
-        deleteActivityButton.setOnClickListener(new View.OnClickListener() {
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onClick(View v) {
-                LayoutInflater inflater = getLayoutInflater();
-                View dialogView = inflater.inflate(R.layout.custom_dialog_, null);
-                TextView dialogTitle = dialogView.findViewById(R.id.dialogTitle);
-                TextView dialogText = dialogView.findViewById(R.id.dialogText);
-                Button dialogButtonYes = dialogView.findViewById(R.id.dialogButtonLeft);
-                Button dialogButtonNo = dialogView.findViewById(R.id.dialogButtonRight);
-                dialogTitle.setText("You're about to delete this activity !\nAre you sure ?");
-                dialogText.setText("All your progression and memories\nwill be deleted !");
-                dialogText.setTextColor(Color.RED);
-                dialogButtonYes.setText("Yes");
-                dialogButtonNo.setText("No");
-                dialogButtonNo.setTextSize(25);
-
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ActivityPage.this);
-                dialogBuilder.setView(dialogView);
-                AlertDialog dialog = dialogBuilder.create();
-                dialog.show();
-
-                dialogButtonYes.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View v) {
-                        DatabaseReference databaseReferenceTasks = database.getReference("Tasks");
-                        databaseReferenceTasks.addListenerForSingleValueEvent(new ValueEventListener() {
-
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                                    String activity_id_task = dataSnapshot.child("activityId").getValue(String.class);
-                                    String task_id = dataSnapshot.getKey();
-                                    if(activity_id_task.equals(activityId)){
-                                        databaseReferenceTasks.child(task_id).removeValue();
-                                    }
-                                }
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+                DatabaseReference databaseReferenceSession = database.getReference("Session");
+                databaseReferenceSession.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            String activity_id_session = dataSnapshot.child("activity_id").getValue(String.class);
+                            String session_id = dataSnapshot.getKey();
+                            if(activity_id_session.equals(activityId)){
+                                databaseReferenceSession.child(session_id).removeValue();
                             }
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-                            }
-                        });
-                        DatabaseReference databaseReferenceSession = database.getReference("Session");
-                        databaseReferenceSession.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot snapshot) {
-                                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                                    String activity_id_session = dataSnapshot.child("activity_id").getValue(String.class);
-                                    String session_id = dataSnapshot.getKey();
-                                    if(activity_id_session.equals(activityId)){
-                                        databaseReferenceSession.child(session_id).removeValue();
-                                    }
-                                }
-                            }
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                            }
-                        });
-
-                        DatabaseReference databaseReferenceActivity = database.getReference("Activity");
-                        databaseReferenceActivity.addListenerForSingleValueEvent(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                                    String categoryId = dataSnapshot.child("category_id").getValue(String.class);
-                                    if(categoryId.equals(category_id))
-                                        countActivities++;
-                                }
-                                referenceActivity.child(activityId).removeValue();
-                                if(countActivities <= 1){
-                                    DatabaseReference referenceCategory = FirebaseDatabase.getInstance().getReference("Category");
-                                    referenceCategory.child(category_id).removeValue();
-                                }
-                                startActivity(new Intent(ActivityPage.this, HomeActivity.class));
-                                finish();
-                                dialog.dismiss();
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError error) {
-                            }
-                        });
+                        }
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
                     }
                 });
 
-                dialogButtonNo.setOnClickListener(new View.OnClickListener() {
+                DatabaseReference databaseReferenceActivity = database.getReference("Activity");
+                databaseReferenceActivity.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onClick(View v) {
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            String categoryId = dataSnapshot.child("category_id").getValue(String.class);
+                            if(categoryId.equals(category_id))
+                                countActivities++;
+                        }
+                        referenceActivity.child(activityId).removeValue();
+                        if(countActivities <= 1){
+                            DatabaseReference referenceCategory = FirebaseDatabase.getInstance().getReference("Category");
+                            referenceCategory.child(category_id).removeValue();
+                        }
+                        startActivity(new Intent(ActivityPage.this, HomeActivity.class));
+                        finish();
                         dialog.dismiss();
                     }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                    }
                 });
-            }
+            });
+
+            dialogButtonNo.setOnClickListener(v12 -> dialog.dismiss());
         });
 
-        showMoreButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                allSessions =true;
-                changeManager();
-                adapter.setExpanded(!adapter.isExpanded());
-                adapter.notifyDataSetChanged();
-                showLessButton.setVisibility(View.VISIBLE);
-                showMoreButton.setVisibility(View.GONE);
-            }
+        showMoreButton.setOnClickListener(v -> {
+            allSessions =true;
+            changeManager();
+            adapter.setExpanded(!adapter.isExpanded());
+            adapter.notifyDataSetChanged();
+            showLessButton.setVisibility(View.VISIBLE);
+            showMoreButton.setVisibility(View.GONE);
         });
 
-        showLessButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                allSessions=false;
-                changeManager();
-                adapter.setExpanded(!adapter.isExpanded());
-                adapter.notifyDataSetChanged();
-                showMoreButton.setVisibility(View.VISIBLE);
-                showLessButton.setVisibility(View.GONE);
-            }
+        showLessButton.setOnClickListener(v -> {
+            allSessions=false;
+            changeManager();
+            adapter.setExpanded(!adapter.isExpanded());
+            adapter.notifyDataSetChanged();
+            showMoreButton.setVisibility(View.VISIBLE);
+            showLessButton.setVisibility(View.GONE);
         });
 
-        validate.setOnClickListener(new View.OnClickListener() {
+        validate.setOnClickListener(v -> {
+            editTextPetName.setVisibility(View.GONE);
+            editTextActivityName.setVisibility(View.GONE);
+            String newPetName = String.valueOf(editTextPetName.getText());;
+            String newActivityName = String.valueOf(editTextActivityName.getText());;
+            petName.setText(newPetName);
+            activityNameDisplay.setText(newActivityName);
+            editActivityButton.setVisibility(View.VISIBLE);
+            validate.setVisibility(View.GONE);
+            petName.setVisibility(View.VISIBLE);
+            activityNameDisplay.setVisibility(View.VISIBLE);
+            deleteActivityButton.setVisibility(View.GONE);
+            editGoalButton.setVisibility(View.GONE);
+            backButton.setVisibility(View.VISIBLE);
+            addSessionButton.setVisibility(View.VISIBLE);
+            if(previousActivity != 0){
+                homeButton.setVisibility(View.VISIBLE);
+            }
 
-            @SuppressLint("SetTextI18n")
-            @Override
-            public void onClick(View v) {
-                editTextPetName.setVisibility(View.GONE);
-                editTextActivityName.setVisibility(View.GONE);
-                String newPetName = String.valueOf(editTextPetName.getText());;
-                String newActivityName = String.valueOf(editTextActivityName.getText());;
-                petName.setText(newPetName);
-                activityNameDisplay.setText(newActivityName);
-                editActivityButton.setVisibility(View.VISIBLE);
-                validate.setVisibility(View.GONE);
-                petName.setVisibility(View.VISIBLE);
-                activityNameDisplay.setVisibility(View.VISIBLE);
-                deleteActivityButton.setVisibility(View.GONE);
-                editGoalButton.setVisibility(View.GONE);
-                backButton.setVisibility(View.VISIBLE);
-                addSessionButton.setVisibility(View.VISIBLE);
-                if(previousActivity != 0){
-                    homeButton.setVisibility(View.VISIBLE);
+
+            DatabaseReference activitiesRef = FirebaseDatabase.getInstance().getReference("Activity");
+            DatabaseReference activityRef = activitiesRef.child(activity_id);
+            activityRef.child("activity_pet_name").setValue(newPetName, (databaseError, databaseReference) -> {
+                if (databaseError == null) {
+                    System.out.println("Activity successfully modified !");
+                } else {
+                    System.err.println("Error when modifying activity : " + databaseError.getMessage());
                 }
+            });
 
-
-                DatabaseReference activitiesRef = FirebaseDatabase.getInstance().getReference("Activity");
-                DatabaseReference activityRef = activitiesRef.child(activity_id);
-                activityRef.child("activity_pet_name").setValue(newPetName, new DatabaseReference.CompletionListener() {
-                    @Override
-                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                        if (databaseError == null) {
-                            System.out.println("Activité modifiée avec succès !");
-                        } else {
-                            System.err.println("Erreur lors de la modification de l'activité : " + databaseError.getMessage());
-                        }
-                    }
-                });
-
-                activityRef.child("activity_name").setValue(newActivityName, new DatabaseReference.CompletionListener() {
-                    @Override
-                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                        if (databaseError == null) {
-                            System.out.println("Activité modifiée avec succès !");
-                        } else {
-                            System.err.println("Erreur lors de la modification de l'activité : " + databaseError.getMessage());
-                        }
-                    }
-                });
-            }
+            activityRef.child("activity_name").setValue(newActivityName, (databaseError, databaseReference) -> {
+                if (databaseError == null) {
+                    System.out.println("Activity successfully modified !");
+                } else {
+                    System.err.println("Error when modifying activity : " + databaseError.getMessage());
+                }
+            });
         });
     }
 
@@ -450,7 +394,6 @@ public class ActivityPage extends AppCompatActivity {
                     activityNameDisplay.setText(activityName);
                     int weeklyHours = Integer.parseInt(weeklyGoal) / 60;
                     int weeklyMinutes = Integer.parseInt(weeklyGoal) % 60;
-
                     int weeklySpentHours = Integer.parseInt(spentTime) / 60;
                     int weeklySpentMinutes = Integer.parseInt(spentTime) % 60;
                     goalsText.setText(new Time(weeklySpentHours,weeklySpentMinutes,0)+
@@ -572,7 +515,7 @@ public class ActivityPage extends AppCompatActivity {
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
-                            Log.w("TAG", "Erreur lors de la récupération des données", databaseError.toException());
+                            Log.w("TAG", "Data recovery error", databaseError.toException());
                         }
                     });
                 }
@@ -617,7 +560,7 @@ public class ActivityPage extends AppCompatActivity {
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                Log.w("TAG", "Erreur lors de la récupération des données", databaseError.toException());
+                Log.w("TAG", "Data recovery error", databaseError.toException());
             }
         });
         return  lastSessionData;

@@ -7,7 +7,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.app.TimePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
@@ -15,13 +14,13 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.PowerManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import com.example.hobbyzooapp.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -51,7 +50,7 @@ public class RunSession extends AppCompatActivity {
     private boolean isCountdownFinished = false;
 
 
-    @SuppressLint("MissingInflatedId")
+    @SuppressLint({"MissingInflatedId", "SetTextI18n"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -83,7 +82,7 @@ public class RunSession extends AppCompatActivity {
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Une erreur s'est produite lors de la récupération des données
+                Log.w("TAG", "Data recovery error", databaseError.toException());
             }
         });
 
@@ -103,7 +102,7 @@ public class RunSession extends AppCompatActivity {
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Une erreur s'est produite lors de la récupération des données
+                Log.w("TAG", "Data recovery error", databaseError.toException());
             }
         });
 
@@ -112,82 +111,43 @@ public class RunSession extends AppCompatActivity {
         pauseButton = findViewById(R.id.pauseButton);
         stopButton = findViewById(R.id.stopButton);
         resumeButton=findViewById(R.id.resumeButton);
-
         validateButton = findViewById(R.id.validateButton);
         addTimeButton = findViewById(R.id.addTimeButton);
 
 
+        pauseButton.setOnClickListener(view -> pauseCountDown());
+        resumeButton.setOnClickListener(view -> resumeCountDown());
+        stopButton.setOnClickListener(view -> {
+            LayoutInflater inflater = getLayoutInflater();
+            View dialogView = inflater.inflate(R.layout.custom_dialog_, null);
 
+            TextView dialogTitle = dialogView.findViewById(R.id.dialogTitle);
+            TextView dialogText = dialogView.findViewById(R.id.dialogText);
+            Button dialogButtonResume = dialogView.findViewById(R.id.dialogButtonLeft);
+            Button dialogButtonStop = dialogView.findViewById(R.id.dialogButtonRight);
 
-        pauseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                pauseCountDown();
-            }
-        });
-        resumeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                resumeCountDown();
-            }
-        });
+            dialogTitle.setText("You are about to close your session !");
+            dialogText.setText("Do you really want to stop ?");
+            dialogButtonResume.setText("Resume");
+            dialogButtonResume.setTextColor(Color.GREEN);
+            dialogButtonStop.setText("Stop");
+            dialogButtonStop.setTextColor(Color.RED);
 
-
-        stopButton.setOnClickListener(new  View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-
-                LayoutInflater inflater = getLayoutInflater();
-                View dialogView = inflater.inflate(R.layout.custom_dialog_, null);
-
-                TextView dialogTitle = dialogView.findViewById(R.id.dialogTitle);
-                TextView dialogText = dialogView.findViewById(R.id.dialogText);
-                Button dialogButtonResume = dialogView.findViewById(R.id.dialogButtonLeft);
-                Button dialogButtonStop = dialogView.findViewById(R.id.dialogButtonRight);
-
-                dialogTitle.setText("You are about to close your session !");
-                dialogText.setText("Do you really want to stop ?");
-                dialogButtonResume.setText("Resume");
-                dialogButtonResume.setTextColor(Color.GREEN);
-                dialogButtonStop.setText("Stop");
-                dialogButtonStop.setTextColor(Color.RED);
-
-                AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(RunSession.this);
-                dialogBuilder.setView(dialogView);
-                AlertDialog dialog = dialogBuilder.create();
-                dialog.show();
-                dialogButtonResume.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-                dialogButtonStop.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        totalSessionTime += countDownTime-timeLeftInMillis;
-                        countDownTimer.cancel();
-                        endSession();
-                    }
-                });
-
-            }
-        });
-
-        validateButton.setOnClickListener(new  View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(RunSession.this);
+            dialogBuilder.setView(dialogView);
+            AlertDialog dialog = dialogBuilder.create();
+            dialog.show();
+            dialogButtonResume.setOnClickListener(v -> dialog.dismiss());
+            dialogButtonStop.setOnClickListener(v -> {
+                totalSessionTime += countDownTime-timeLeftInMillis;
+                countDownTimer.cancel();
                 endSession();
-            }
+            });
+
         });
 
-        addTimeButton.setOnClickListener(new  View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                showDurationDialog();
-
-            }
-        });
+        validateButton.setOnClickListener(view -> endSession());
+        addTimeButton.setOnClickListener(view -> showDurationDialog());
 
     }
 
@@ -196,21 +156,16 @@ public class RunSession extends AppCompatActivity {
         int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
         int currentMinute = calendar.get(Calendar.MINUTE);
 
-        TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                long durationMillis  = (hourOfDay * 60 * 60 * 1000) + (minute * 60 * 1000);
-                countDownTime = durationMillis;
-                startCountdown();
-                stopButton.setVisibility(View.VISIBLE);
-                pauseButton.setVisibility(View.VISIBLE);
-                addTimeButton.setVisibility(View.GONE);
-                validateButton.setVisibility(View.GONE);
-            }
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this, (view, hourOfDay, minute) -> {
+            countDownTime = ((long) hourOfDay * 60 * 60 * 1000) + ((long) minute * 60 * 1000);
+            startCountdown();
+            stopButton.setVisibility(View.VISIBLE);
+            pauseButton.setVisibility(View.VISIBLE);
+            addTimeButton.setVisibility(View.GONE);
+            validateButton.setVisibility(View.GONE);
         }, currentHour, currentMinute, true);
         timePickerDialog.show();
     }
-
 
 
     private void pauseCountDown(){
@@ -218,6 +173,7 @@ public class RunSession extends AppCompatActivity {
         resumeButton.setVisibility(View.VISIBLE);
         pauseButton.setVisibility(View.GONE);
     }
+
     private void resumeCountDown(){
         countDownTime = timeLeftInMillis;
         startCountdown();
@@ -256,10 +212,9 @@ public class RunSession extends AppCompatActivity {
         if (isCounting) {
             resumeCountDown();
         }
-
     }
-    private void startCountdown(){
 
+    private void startCountdown(){
         countDownTimer=new CountDownTimer(countDownTime, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -291,26 +246,21 @@ public class RunSession extends AppCompatActivity {
                 AlertDialog dialog = dialogBuilder.create();
                 dialog.show();
 
-                dialogButtonAddTime.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        showDurationDialog();
-                        dialog.dismiss();
-                    }
+                dialogButtonAddTime.setOnClickListener(v -> {
+                    showDurationDialog();
+                    dialog.dismiss();
                 });
 
-                dialogButtonFinish.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        endSession();
-                        dialog.dismiss();
-                    }
+                dialogButtonFinish.setOnClickListener(v -> {
+                    endSession();
+                    dialog.dismiss();
                 });
             }
 
         }.start();
 
     }
+
     private void updateCountdownText() {
         long hours = TimeUnit.MILLISECONDS.toHours(timeLeftInMillis);
         long minutes = TimeUnit.MILLISECONDS.toMinutes(timeLeftInMillis - TimeUnit.HOURS.toMillis(hours));
@@ -318,6 +268,7 @@ public class RunSession extends AppCompatActivity {
         String timeRemainingFormatted = String.format(Locale.getDefault(), "%02d:%02d:%02d", hours, minutes, seconds);
         countdownTextView.setText(timeRemainingFormatted);
     }
+
     private void endSession(){
         Intent intent = new Intent(RunSession.this, EndSession.class);
         intent.putExtra("activity_id", activity_id);
@@ -328,9 +279,7 @@ public class RunSession extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
-
-    }
+    public void onBackPressed() {}
 
 
 }

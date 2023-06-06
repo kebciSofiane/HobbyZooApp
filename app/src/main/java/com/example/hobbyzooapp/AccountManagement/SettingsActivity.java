@@ -177,5 +177,10 @@ public class SettingsActivity extends AppCompatActivity {
         saveNotificationEnabledState(notificationsDisabledButton.getVisibility() == View.VISIBLE);
         super.onBackPressed();
     }
+    @Override
+    protected void onPause() {
+        saveNotificationEnabledState(notificationsDisabledButton.getVisibility() == View.VISIBLE);
+        super.onPause();
+    }
 
 }

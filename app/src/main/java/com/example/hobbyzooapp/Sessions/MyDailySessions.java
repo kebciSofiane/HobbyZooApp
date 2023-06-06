@@ -88,6 +88,7 @@ public class MyDailySessions extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 openCalendar();
+                finish();
             }
         });
 

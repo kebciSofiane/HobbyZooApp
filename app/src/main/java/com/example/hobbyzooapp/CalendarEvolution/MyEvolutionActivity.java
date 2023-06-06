@@ -3,7 +3,6 @@ package com.example.hobbyzooapp.CalendarEvolution;
 import static com.example.hobbyzooapp.Calendar.CalendarUtils.daysInMonthArray;
 import static com.example.hobbyzooapp.Calendar.CalendarUtils.monthYearFromDate;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -22,7 +21,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.hobbyzooapp.Calendar.CalendarUtils;
-import com.example.hobbyzooapp.Category.NewCategory;
 import com.example.hobbyzooapp.HomeActivity;
 import com.example.hobbyzooapp.AccountManagement.ProfileActivity;
 import com.example.hobbyzooapp.R;
@@ -73,7 +71,7 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
 
 
 
-        todayMonthButton = findViewById(R.id.today_month);
+        todayMonthButton = findViewById(R.id.current_month);
         todayMonthButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

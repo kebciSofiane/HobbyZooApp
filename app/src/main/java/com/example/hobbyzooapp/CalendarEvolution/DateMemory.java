@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.hobbyzooapp.HomeActivity;
 import com.example.hobbyzooapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -52,6 +53,9 @@ public class DateMemory extends AppCompatActivity {
     int memoriesIndex =0;
     ArrayList<String> myMemoriesPictures;
     ArrayList<String> myMemoriesComments;
+
+    ArrayList<String> myMemoriesPet;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +129,7 @@ public class DateMemory extends AppCompatActivity {
         String uid = user.getUid();
         myMemoriesPictures = new ArrayList<>();
         myMemoriesComments = new ArrayList<>();
+        myMemoriesPet =new ArrayList<>();
 
         reference.orderByChild("user_id").equalTo(uid).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -156,6 +161,9 @@ public class DateMemory extends AppCompatActivity {
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                                 String activityId = childSnapshot.getKey();
+                                String activity_pet = childSnapshot.child("activity_pet").getValue(String.class);
+                                System.out.println("dfdfdssfsd"+activity_pet);
+
                                 if (session_done.equals("TRUE")) {
                                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                         if (date.getMonth() == finalSessionDate.getMonth() &&
@@ -163,11 +171,17 @@ public class DateMemory extends AppCompatActivity {
                                                 date.getYear() == finalSessionDate.getYear()) {
                                             assert activityId != null;
                                             if (activityId.equals(activity_id)) {
-                                                assert activityId != null;
-                                                if (activityId.equals(activity_id)) {
+                                                assert session_image != null;
+                                                assert session_comment != null;
+                                                if (session_image.isEmpty() && session_comment.isEmpty()){}
+                                                    else{
                                                     myMemoriesPictures.add(session_image);
-                                                    myMemoriesComments.add(session_comment);
 
+                                                    if (session_comment.isEmpty())
+                                                        myMemoriesComments.add("No comment");
+                                                    else
+                                                        myMemoriesComments.add(session_comment);
+                                                    myMemoriesPet.add(activity_pet);
                                                     buttons();
                                                 }
                                             }
@@ -202,10 +216,22 @@ public class DateMemory extends AppCompatActivity {
         RequestOptions requestOptions = new RequestOptions()
                 .transform(new RoundedCorners(cornerRadius));
 
-        Glide.with(DateMemory.this)
-                .load(myMemoriesPictures.get(memoriesIndex))
-                .apply(requestOptions)
-                .into(memoryImage);
+
+        if (myMemoriesPictures.get(memoriesIndex).isEmpty()){
+           String resourceName = myMemoriesPet.get(memoriesIndex) + "_whole_neutral";
+            int resId = DateMemory.this.getResources().getIdentifier(resourceName,"drawable",DateMemory.this.getPackageName());
+            Glide.with(DateMemory.this)
+                    .load(resId)
+                    .apply(requestOptions)
+                    .into(memoryImage);
+        }
+        else
+            Glide.with(DateMemory.this)
+                    .load(myMemoriesPictures.get(memoriesIndex))
+                    .apply(requestOptions)
+                    .into(memoryImage);
+
+
 
         memoryComment.setText(myMemoriesComments.get(memoriesIndex));
 
@@ -219,10 +245,20 @@ public class DateMemory extends AppCompatActivity {
                 memoriesIndex=0;
             else memoriesIndex++;
 
-            Glide.with(DateMemory.this)
-                    .load(myMemoriesPictures.get(memoriesIndex))
-                    .apply(requestOptions)
-                    .into(memoryImage);
+            if (myMemoriesPictures.get(memoriesIndex).isEmpty()){
+                String resourceName = myMemoriesPet.get(memoriesIndex) + "_whole_neutral";
+                int resId = DateMemory.this.getResources().getIdentifier(resourceName,"drawable",DateMemory.this.getPackageName());
+                Glide.with(DateMemory.this)
+                        .load(resId)
+                        .apply(requestOptions)
+                        .into(memoryImage);
+            }
+            else
+                Glide.with(DateMemory.this)
+                        .load(myMemoriesPictures.get(memoriesIndex))
+                        .apply(requestOptions)
+                        .into(memoryImage);
+
             memoryComment.setText(myMemoriesComments.get(memoriesIndex));
         });
 
@@ -231,10 +267,20 @@ public class DateMemory extends AppCompatActivity {
                 memoriesIndex= myMemoriesPictures.size()-1;
             else memoriesIndex--;
 
-            Glide.with(DateMemory.this)
-                    .load(myMemoriesPictures.get(memoriesIndex))
-                    .apply(requestOptions)
-                    .into(memoryImage);
+            if (myMemoriesPictures.get(memoriesIndex).isEmpty()){
+                String resourceName = myMemoriesPet.get(memoriesIndex) + "_whole_neutral";
+                int resId = DateMemory.this.getResources().getIdentifier(resourceName,"drawable",DateMemory.this.getPackageName());
+                Glide.with(DateMemory.this)
+                        .load(resId)
+                        .apply(requestOptions)
+                        .into(memoryImage);
+            }
+            else
+                Glide.with(DateMemory.this)
+                        .load(myMemoriesPictures.get(memoriesIndex))
+                        .apply(requestOptions)
+                        .into(memoryImage);
+
             memoryComment.setText(myMemoriesComments.get(memoriesIndex));
         });
 

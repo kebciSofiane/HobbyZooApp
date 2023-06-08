@@ -103,11 +103,11 @@
     <!-- About -->
     <string name="developed">Developed by :</string>
     <string name="welcome_to">Welcome to</string>
-    <string name="fifth_member">Fifth Member</string>
-    <string name="fourth_member">Fourth Member</string>
-    <string name="third_member">Third Member</string>
-    <string name="second_member">Second Member</string>
-    <string name="first_member">First Member</string>
+    <string name="fifth_member">KEBCI Sofiane</string>
+    <string name="fourth_member">FRESNEL Clément</string>
+    <string name="third_member">DADOIT Juliette</string>
+    <string name="second_member">RAMDANI Meriem</string>
+    <string name="first_member">AIT-RAZZOUK Lina</string>
 
 
     <!-- Strings used for fragments for navigation -->

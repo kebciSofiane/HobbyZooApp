@@ -3,6 +3,8 @@ import com.example.hobbyzooapp.Calendar.CalendarUtils;
 import com.example.hobbyzooapp.HomeActivity;
 import com.example.hobbyzooapp.R;
 
+import androidx.activity.ComponentActivity;
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +15,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.ImageDecoder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -30,6 +33,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -38,14 +43,22 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+
+import javax.security.auth.callback.Callback;
+
 
 public class EndSession extends AppCompatActivity {
 
@@ -168,6 +181,7 @@ public class EndSession extends AppCompatActivity {
             if (commentValidated.getText().equals("") && !photoPath.equals("")){
                 sessionRef.child("session_comment").setValue("No comment for this photo");
                 uploadImageToFirebase();
+
                 endSession();
             } else if (!commentValidated.getText().equals("")){
                 sessionRef.child("session_comment").setValue(commentValidated.getText());
@@ -296,21 +310,78 @@ public class EndSession extends AppCompatActivity {
         if (!photoPath.equals("")){
             FirebaseUser user = firebaseAuth.getCurrentUser();
             if (user != null) {
+
                 FirebaseStorage storage = FirebaseStorage.getInstance();
                 StorageReference storageReference = storage.getReference();
                 StorageReference profileRef = storageReference.child("sessions/" + session_id + "/picture.jpg");
+                Uri compressedIMageUri =  compressImage(this, photoUri);
+
+                assert compressedIMageUri != null;
                 profileRef.putFile(photoUri)
-                        .addOnSuccessListener(taskSnapshot -> profileRef.getDownloadUrl().addOnSuccessListener(uri -> {
-                            //progressDialog.dismiss();
-                            String imageUrl = uri.toString();
-                            DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
-                            databaseReference.child("Session").child(session_id).child("session_picture").setValue(imageUrl);
-                            Toast.makeText(EndSession.this, "Image uploaded successfully", Toast.LENGTH_SHORT).show();
-                        }))
-                        .addOnFailureListener(e -> Toast.makeText(EndSession.this, "Failed to upload image", Toast.LENGTH_SHORT).show());
+                        .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                profileRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                    @Override
+                                    public void onSuccess(Uri uri) {
+                                        //progressDialog.dismiss();
+                                        String imageUrl = uri.toString();
+                                        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+                                        databaseReference.child("Session").child(session_id).child("session_picture").setValue(imageUrl);
+                                        Toast.makeText(EndSession.this, "Image uploaded successfully", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
+
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(EndSession.this, "Failed to upload image", Toast.LENGTH_SHORT).show();
+                            }
+                        });
             }
         }
     }
+
+
+
+    private Uri compressImage(ComponentActivity context, Uri uri) {
+        Bitmap bitmap;
+        if (Build.VERSION.SDK_INT < 28) {
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        } else {
+            ImageDecoder.Source source = ImageDecoder.createSource(context.getContentResolver(), uri);
+            try {
+                bitmap = ImageDecoder.decodeBitmap(source);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 0, bytes);
+
+        String path = MediaStore.Images.Media.insertImage(
+                context.getContentResolver(),
+                bitmap,
+                "Title",
+                null
+        );
+
+        return Uri.parse(path);
+    }
+
+
+
+
+
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void endSession(){

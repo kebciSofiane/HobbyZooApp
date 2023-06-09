@@ -109,14 +109,15 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
 
                                     @Override
                                     public void onCancelled(DatabaseError databaseError) {
-                                        // Gérez les erreurs de la récupération des données
+                                        Log.w("TAG", "Data recovery error", databaseError.toException());
+
                                     }
                                 });
                             }
                         }
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
-                            // Gérez les erreurs de la récupération des données
+                            Log.w("TAG", "Data recovery error", databaseError.toException());
                         }
                     });
                     initWidgets();
@@ -131,39 +132,40 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
             });
     }
 
-        ArrayList<String> getActivities () {
-            FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-            FirebaseUser user = firebaseAuth.getCurrentUser();
-            String user_id = user.getUid();
-            ArrayList<String> activities = new ArrayList<>();
-            DatabaseReference dataBaseActivityRef = FirebaseDatabase.getInstance().getReference().child("Activity");
+    ArrayList<String> getActivities () {
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        String user_id = user.getUid();
+        ArrayList<String> activities = new ArrayList<>();
+        DatabaseReference dataBaseActivityRef = FirebaseDatabase.getInstance().getReference().child("Activity");
 
-            dataBaseActivityRef.orderByChild("user_id").equalTo(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
-                @RequiresApi(api = Build.VERSION_CODES.O)
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        String activity_name = snapshot.child("activity_name").getValue(String.class);
-                        activities.add(activity_name);
-                    }
-                    myActivities =activities;
-                    if (activities.size()!=0)   {
-                        selectedActivity=activities.get(0) ;
-                        setAdapter();
-                    }
-                    else
-                        activities.add("No activity");
-                        selectedActivity="";
-                        setAdapter();
+        dataBaseActivityRef.orderByChild("user_id").equalTo(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String activity_name = snapshot.child("activity_name").getValue(String.class);
+                    activities.add(activity_name);
                 }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-                    Log.w("TAG", "Data recovery error", databaseError.toException());
+                myActivities =activities;
+                if (activities.size()!=0)   {
+                    selectedActivity=activities.get(0) ;
+                    setAdapter();
                 }
-            });
+                else{
+                    activities.add("No activity");
+                    selectedActivity="";
+                    setAdapter();
+                }
+            }
 
-            return activities;
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("TAG", "Data recovery error", databaseError.toException());
+            }
+        });
+
+        return activities;
     }
 
     private void initWidgets() {

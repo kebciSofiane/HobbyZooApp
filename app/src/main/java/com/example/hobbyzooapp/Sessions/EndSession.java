@@ -82,7 +82,7 @@ public class EndSession extends AppCompatActivity {
     private static final int REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     FirebaseAuth firebaseAuth;
     String activity_id, session_id, activityPet, session_duration, spent_time;
-    long totalSessionTime;
+    long totalSessionTime, hoursDone, minutesDone, durationDone;
     Uri photoUri;
 
 
@@ -142,7 +142,7 @@ public class EndSession extends AppCompatActivity {
             }
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // Une erreur s'est produite lors de la récupération des données
+                Log.w("TAG", "Data recovery error", databaseError.toException());
             }
         });
 
@@ -358,11 +358,13 @@ public class EndSession extends AppCompatActivity {
 
     @SuppressLint("SetTextI18n")
     public  void updateSessionCount(){
-        long hours = TimeUnit.MILLISECONDS.toHours(totalSessionTime);
-        long minutes = TimeUnit.MILLISECONDS.toMinutes(totalSessionTime - TimeUnit.HOURS.toMillis(hours));
+        hoursDone = TimeUnit.MILLISECONDS.toHours(totalSessionTime);
+        minutesDone = TimeUnit.MILLISECONDS.toMinutes(totalSessionTime - TimeUnit.HOURS.toMillis(hoursDone));
+        durationDone = (hoursDone*60)+minutesDone;
         int hourDuration = Integer.parseInt(session_duration)/60;
         int minutesDuration = Integer.parseInt(session_duration)%60;
-        sessionCount.setText(hours+"h"+minutes+"min / "+ hourDuration+"h"+minutesDuration+"min");
+        sessionCount.setText(hoursDone+"h"+minutesDone+"min / "+ hourDuration+"h"+minutesDuration+"min");
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
@@ -457,10 +459,6 @@ public class EndSession extends AppCompatActivity {
 //    }
 
 
-
-
-
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void endSession(){
         DatabaseReference sessionRef = FirebaseDatabase.getInstance().getReference().child("Session").child(session_id);
@@ -470,6 +468,8 @@ public class EndSession extends AppCompatActivity {
         @SuppressLint("SimpleDateFormat") String day = new SimpleDateFormat("dd").format(date);
         @SuppressLint("SimpleDateFormat") String month = new SimpleDateFormat("MM").format(date);
         @SuppressLint("SimpleDateFormat") String year = new SimpleDateFormat("yyyy").format(date);
+
+        sessionRef.child("session_duration").setValue(String.valueOf(durationDone));
         sessionRef.child("session_time").setValue(time);
         sessionRef.child("session_done").setValue("TRUE");
         sessionRef.child("session_day").setValue(day);

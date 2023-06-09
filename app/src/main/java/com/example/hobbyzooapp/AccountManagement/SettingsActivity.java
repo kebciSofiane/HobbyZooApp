@@ -24,6 +24,10 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.preference.PreferenceManager;
 
 public class SettingsActivity extends AppCompatActivity {
+    //
+
+    public static final String NOTIFICATION_ENABLED_KEY ="notification_enabled";
+    //
 
     FirebaseAuth firebaseAuth;
 
@@ -32,9 +36,6 @@ public class SettingsActivity extends AppCompatActivity {
     private int activeIcon, inactiveIcon;
 
 
-    //
-    private static final String NOTIFICATION_ENABLED_KEY = "notification_enabled";
-    //
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -8,6 +8,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
@@ -17,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
+import androidx.preference.PreferenceManager;
 
 import com.example.hobbyzooapp.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -65,7 +67,7 @@ public class BackgroundService extends Service {
             int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
             int currentMinute = calendar.get(Calendar.MINUTE);
 
-            if (currentHour == 12 && currentMinute == 26 && !notificationSent) {
+            if (currentHour == 14 && currentMinute == 53 && !notificationSent) {
 
                 getSessions(sessions -> {
                     int sessionCount = sessions.size();
@@ -151,6 +153,13 @@ public class BackgroundService extends Service {
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     void showSessionNotification(int sessionCount) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean isNotificationEnabled = sharedPreferences.getBoolean(SettingsActivity.NOTIFICATION_ENABLED_KEY, true);
+
+        if (!isNotificationEnabled) {
+            return; // Ne pas afficher la notification si les notifications sont désactivées
+        }
+
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         if (notificationManager != null && !notificationManager.areNotificationsEnabled()) {
             return;
@@ -171,6 +180,7 @@ public class BackgroundService extends Service {
             notificationManager.notify(uniqueNotificationId, builder.build());
         }
     }
+
 
     private void createNotificationChannel(NotificationManager notificationManager) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

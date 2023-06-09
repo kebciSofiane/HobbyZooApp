@@ -18,6 +18,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.example.hobbyzooapp.AccountManagement.BackgroundService;
 import com.example.hobbyzooapp.AccountManagement.ProfileActivity;
 import com.example.hobbyzooapp.Activities.ActivityPage;
 import com.example.hobbyzooapp.Calendar.CalendarActivity;
@@ -134,6 +135,9 @@ public class HomeActivity extends AppCompatActivity {
             intent.putExtra("activity_id",(String) v.getTag());
             startActivity(intent);
         });
+        Intent serviceIntent = new Intent(this, BackgroundService.class);
+        startService(serviceIntent);
+
     }
 
     private void initialisation() {

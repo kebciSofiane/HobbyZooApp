@@ -208,12 +208,18 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void previousMonthAction(View view) {
         CalendarUtils.selectedDate = CalendarUtils.selectedDate.minusMonths(1);
+        if (CalendarUtils.selectedDate != LocalDate.now()){
+            currentMonthButton.setVisibility(View.VISIBLE);
+        }else {currentMonthButton.setVisibility(View.GONE);}
         setMonthView();
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     public void nextMonthAction(View view) {
         CalendarUtils.selectedDate = CalendarUtils.selectedDate.plusMonths(1);
+        if (CalendarUtils.selectedDate != LocalDate.now()){
+            currentMonthButton.setVisibility(View.VISIBLE);
+        }else {currentMonthButton.setVisibility(View.GONE);}
         setMonthView();
     }
 

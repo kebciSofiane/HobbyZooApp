@@ -92,7 +92,7 @@ public class CalendarEvolutionAdapter extends RecyclerView.Adapter<CalendarEvolu
                 borderDrawable.setCornerRadius(10);
                 borderDrawable.setStroke(4, Color.LTGRAY);
                 holder.parentView.setBackground(borderDrawable);}
-                getSessions2(holder,date);
+                getSessions(holder,date);
 
         }
     }
@@ -106,103 +106,17 @@ public class CalendarEvolutionAdapter extends RecyclerView.Adapter<CalendarEvolu
             void onItemClick(int position, LocalDate date);
         }
 
-    private void getSessions(CalendarEvolutionViewHolder holder,LocalDate date ) {
-        final FirebaseDatabase[] database = {FirebaseDatabase.getInstance()};
-        DatabaseReference reference = database[0].getReference("Session");
-        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = firebaseAuth.getCurrentUser();
-        String uid = user.getUid();
-        reference.orderByChild("user_id").equalTo(uid).addListenerForSingleValueEvent(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String activity_id = snapshot.child("activity_id").getValue(String.class);
-                    String session_day = snapshot.child("session_day").getValue(String.class);
-                    String session_month = snapshot.child("session_month").getValue(String.class);
-                    String session_year = snapshot.child("session_year").getValue(String.class);
-                    String session_done = snapshot.child("session_done").getValue(String.class);
-                    String session_image = snapshot.child("session_picture").getValue(String.class);
-                    cmt++;
-                    if (session_done.equals("TRUE")) {
-
-                        DatabaseReference referenceActivity = database[0].getReference("Activity");
-
-                        referenceActivity.child(activity_id).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @RequiresApi(api = Build.VERSION_CODES.O)
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-
-                                if (dataSnapshot.exists()) {
-                                    String activityName = dataSnapshot.child("activity_name").getValue(String.class);
-                                    LocalDate sessionDate = LocalDate.of(Integer.parseInt(session_year), Integer.parseInt(session_month), Integer.parseInt(session_day));
-
-                                    if (date.getMonth() == sessionDate.getMonth() &&
-                                            date.getDayOfMonth() == sessionDate.getDayOfMonth() &&
-                                            date.getYear() == sessionDate.getYear()) {
-                                        assert activityName != null;
-                                        if (activityName.equals(activity)) {
-                                            assert session_image != null;
-                                            if (!session_image.isEmpty() && cmt ==0) {
-                                                cmt++;
-                                                Glide.with(holder.itemView.getContext())
-                                                        .load(session_image)
-                                                        .into(new CustomTarget<Drawable>() {
-                                                            @Override
-                                                            public void onResourceReady(@NonNull Drawable resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Drawable> transition) {
-                                                                BitmapDrawable bitmapDrawable = (BitmapDrawable) resource;
-                                                                Bitmap bitmap = bitmapDrawable.getBitmap();
-                                                                RoundedBitmapDrawable roundedDrawable = RoundedBitmapDrawableFactory.create(holder.itemView.getResources(), bitmap);
-                                                                roundedDrawable.setCornerRadius(20);
-
-                                                                holder.itemView.setBackground(roundedDrawable);
-                                                            }
-
-                                                            @Override
-                                                            public void onLoadCleared(@Nullable Drawable placeholder) {
-                                                                // Méthode facultative pour gérer le chargement annulé ou effacé
-                                                            }
-                                                        });
-
-                                            }
-                                        }
-                                    }
-                                } else {
-                                    // L'activité n'existe pas dans la base de données
-                                }
-
-
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
-                                Log.w("TAG", "Data recovery error", databaseError.toException());
-                            }
-                        });
-                    }
-
-
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.w("TAG", "Data recovery error", databaseError.toException());
-            }
-        });
-    }
 
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void getSessions2(CalendarEvolutionViewHolder holder, LocalDate date ) {
+    private void getSessions(CalendarEvolutionViewHolder holder, LocalDate date ) {
         final FirebaseDatabase[] database = {FirebaseDatabase.getInstance()};
         DatabaseReference sessionRef = database[0].getReference("Session");
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user = firebaseAuth.getCurrentUser();
         String uid = user.getUid();
-
-
+        final boolean[] isFirstPhotoDisplayed = {false}; // Variable pour suivre si la première photo a déjà été affichée
 
         sessionRef.orderByChild("user_id").equalTo(uid).addListenerForSingleValueEvent(new ValueEventListener() {
 
@@ -217,25 +131,26 @@ public class CalendarEvolutionAdapter extends RecyclerView.Adapter<CalendarEvolu
                     String session_image = snapshot.child("session_picture").getValue(String.class);
                     cmt++;
                     LocalDate sessionDate = LocalDate.of(Integer.parseInt(session_year), Integer.parseInt(session_month), Integer.parseInt(session_day));
+                    assert session_done != null;
+                    assert session_image != null;
 
                     if (date.getMonth() == sessionDate.getMonth() &&
                             date.getDayOfMonth() == sessionDate.getDayOfMonth() &&
-                            date.getYear() == sessionDate.getYear() && session_done.equals("TRUE") ) {
+                            date.getYear() == sessionDate.getYear() && session_done.equals("TRUE") && !session_image.isEmpty()) {
 
                         DatabaseReference referenceActivity = database[0].getReference("Activity");
 
+                        assert activity_id != null;
                         referenceActivity.child(activity_id).addListenerForSingleValueEvent(new ValueEventListener() {
-                            @RequiresApi(api = Build.VERSION_CODES.O)
                             @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
                                 if (dataSnapshot.exists()) {
                                     String activityName = dataSnapshot.child("activity_name").getValue(String.class);
 
                                         assert activityName != null;
-                                        if (activityName.equals(activity)) {
-                                            assert session_image != null;
-                                            if (!session_image.isEmpty() ) {
+                                        if (activityName.equals(activity) && !isFirstPhotoDisplayed[0]) {
+                                            isFirstPhotoDisplayed[0] =true;
                                                 Glide.with(holder.itemView.getContext())
                                                         .load(session_image)
                                                         .into(new CustomTarget<Drawable>() {
@@ -255,7 +170,6 @@ public class CalendarEvolutionAdapter extends RecyclerView.Adapter<CalendarEvolu
                                                             }
                                                         });
 
-                                            }
                                         }
 
                                 } else {

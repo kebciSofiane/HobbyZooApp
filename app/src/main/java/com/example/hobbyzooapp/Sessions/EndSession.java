@@ -8,14 +8,21 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.ImageDecoder;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -52,6 +59,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
@@ -180,12 +189,24 @@ public class EndSession extends AppCompatActivity {
             DatabaseReference sessionRef = FirebaseDatabase.getInstance().getReference().child("Session").child(session_id);
             if (commentValidated.getText().equals("") && !photoPath.equals("")){
                 sessionRef.child("session_comment").setValue("No comment for this photo");
-                uploadImageToFirebase();
+                try {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        uploadImageToFirebase();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
 
                 endSession();
             } else if (!commentValidated.getText().equals("")){
                 sessionRef.child("session_comment").setValue(commentValidated.getText());
-                uploadImageToFirebase();
+                try {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        uploadImageToFirebase();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
                 endSession();
             } else if (commentValidated.getText().equals("") && photoPath.equals("")){
                 LayoutInflater inflater = getLayoutInflater();
@@ -275,6 +296,7 @@ public class EndSession extends AppCompatActivity {
                 photoUri = FileProvider.getUriForFile(EndSession.this,
                         EndSession.this.getApplicationContext().getOpPackageName()+".provider",
                         photoFile);
+
             }
             intent.putExtra(MediaStore.EXTRA_OUTPUT,photoUri);
             startActivityForResult(intent, RETOUR_PRENDRE_PHOTO);
@@ -285,7 +307,8 @@ public class EndSession extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Bitmap image = BitmapFactory.decodeFile(photoPath);
-        takenImage.setImageBitmap(image);
+        Bitmap compressedBitmap = compressImage(image, 20); // Adjust the compression quality as needed
+        takenImage.setImageBitmap(compressedBitmap);
         takenImage.setVisibility(View.VISIBLE);
         String resourceName = activityPet+"_icon_neutral";
         int resId = EndSession.this.getResources().getIdentifier(resourceName,"drawable",EndSession.this.getPackageName());
@@ -293,6 +316,42 @@ public class EndSession extends AppCompatActivity {
         windowsPet.setVisibility(View.GONE);
     }
 
+    private Bitmap compressImage(Bitmap originalBitmap, int quality) {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        originalBitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
+        byte[] bitmapData = outputStream.toByteArray();
+        return BitmapFactory.decodeByteArray(bitmapData, 0, bitmapData.length);
+    }
+
+    private void savePhotoToGallery() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_WRITE_EXTERNAL_STORAGE);
+        } else {
+            if (takenImage.getDrawable() != null) {
+                Bitmap bitmap = ((BitmapDrawable) takenImage.getDrawable()).getBitmap();
+
+                ContentValues values = new ContentValues();
+                values.put(MediaStore.Images.Media.DISPLAY_NAME, ".jpg");
+                values.put(MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+
+                ContentResolver resolver = getContentResolver();
+                Uri uri = resolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
+
+                try {
+                    OutputStream outputStream = resolver.openOutputStream(uri);
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream);
+                    outputStream.close();
+                    Toast.makeText(this, "The photo has been saved in the gallery", Toast.LENGTH_SHORT).show();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                Toast.makeText(this, "Select a photo before saving it", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
     @Override
     public void onBackPressed() {}
 
@@ -308,18 +367,29 @@ public class EndSession extends AppCompatActivity {
 
     }
 
-    private void uploadImageToFirebase() {
-        if (!photoPath.equals("")){
+    @RequiresApi(api = Build.VERSION_CODES.Q)
+    private void uploadImageToFirebase() throws IOException {
+        if (!photoPath.equals("")) {
             FirebaseUser user = firebaseAuth.getCurrentUser();
             if (user != null) {
 
                 FirebaseStorage storage = FirebaseStorage.getInstance();
                 StorageReference storageReference = storage.getReference();
                 StorageReference profileRef = storageReference.child("sessions/" + session_id + "/picture.jpg");
-                Uri compressedIMageUri =  compressImage(this, photoUri);
 
-                assert compressedIMageUri != null;
-                profileRef.putFile(photoUri)
+                // Compress the image here
+                Bitmap bitmap = uriToBitmap(photoUri);
+                Bitmap compressedBitmap = compressImage(bitmap, 30); // Adjust the compression quality as needed
+
+                // Convert the compressed bitmap to a file
+                File compressedFile = new File(getCacheDir(), "compressed_image.jpg");
+                FileOutputStream outputStream = new FileOutputStream(compressedFile);
+                compressedBitmap.compress(Bitmap.CompressFormat.JPEG, 30, outputStream);
+                outputStream.close();
+
+                Uri compressedUri = Uri.fromFile(compressedFile);
+
+                profileRef.putFile(compressedUri)
                         .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
                             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -347,38 +417,46 @@ public class EndSession extends AppCompatActivity {
     }
 
 
-
-    private Uri compressImage(ComponentActivity context, Uri uri) {
-        Bitmap bitmap;
-        if (Build.VERSION.SDK_INT < 28) {
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
-        } else {
-            ImageDecoder.Source source = ImageDecoder.createSource(context.getContentResolver(), uri);
-            try {
-                bitmap = ImageDecoder.decodeBitmap(source);
-            } catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
-        }
-
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 0, bytes);
-
-        String path = MediaStore.Images.Media.insertImage(
-                context.getContentResolver(),
-                bitmap,
-                "Title",
-                null
-        );
-
-        return Uri.parse(path);
+    private Bitmap uriToBitmap(Uri uri) throws IOException {
+        InputStream inputStream = getContentResolver().openInputStream(uri);
+        Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+        inputStream.close();
+        return bitmap;
     }
+
+
+
+//    private Uri compressImage(ComponentActivity context, Uri uri) {
+//        Bitmap bitmap;
+//        if (Build.VERSION.SDK_INT < 28) {
+//            try {
+//                bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), uri);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//                return null;
+//            }
+//        } else {
+//            ImageDecoder.Source source = ImageDecoder.createSource(context.getContentResolver(), uri);
+//            try {
+//                bitmap = ImageDecoder.decodeBitmap(source);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//                return null;
+//            }
+//        }
+//
+//        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+//        bitmap.compress(Bitmap.CompressFormat.JPEG, 0, bytes);
+//
+//        String path = MediaStore.Images.Media.insertImage(
+//                context.getContentResolver(),
+//                bitmap,
+//                "Title",
+//                null
+//        );
+//
+//        return Uri.parse(path);
+//    }
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)

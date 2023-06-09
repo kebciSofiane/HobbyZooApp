@@ -400,7 +400,7 @@ public class HomeActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String activity_id = snapshot.child("activity_id").getValue(String.class);
                     String activity_pet = snapshot.child("activity_pet").getValue(String.class);
-                    String activity_name = snapshot.child("activity_name").getValue(String.class);
+                    String activity_name = snapshot.child("activity_name").getValue(String.class).replace(",", " ");
                     int feelingPointer = Integer.parseInt(Objects.requireNonNull(snapshot.child("feeling").getValue(String.class)));
                     String resourceName;
                     if(feelingPointer == 0)

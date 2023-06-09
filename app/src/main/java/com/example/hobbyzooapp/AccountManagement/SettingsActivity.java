@@ -3,6 +3,7 @@ package com.example.hobbyzooapp.AccountManagement;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -17,11 +18,8 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Build;
 import android.widget.Toast;
-
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-
-import androidx.preference.PreferenceManager;
 
 public class SettingsActivity extends AppCompatActivity {
     //
@@ -90,7 +88,7 @@ public class SettingsActivity extends AppCompatActivity {
                 Toast.makeText(getBaseContext(), "Notifications Disabled", Toast.LENGTH_SHORT).show();
                 cancelNotification();
                 saveNotificationEnabledState(false);
-          }
+            }
         });
 
         notificationsDisabledButton.setOnClickListener(new View.OnClickListener() {

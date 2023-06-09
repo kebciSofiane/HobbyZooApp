@@ -44,6 +44,7 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
     FirebaseAuth firebaseAuth;
     FirebaseDatabase database;
     String selectedActivity;
+    int cmt=0;
 
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -198,6 +199,7 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
 
     @Override
     public void onItemClick(int position, LocalDate date) {
+        cmt=0;
         if(date != null) {
             FirebaseDatabase database = FirebaseDatabase.getInstance();
             DatabaseReference reference = database.getReference("Session");
@@ -209,14 +211,14 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        String session_id = snapshot.child("session_id").getValue(String.class);
-                        String session_duration = snapshot.child("session_duration").getValue(String.class);
                         String activity_id = snapshot.child("activity_id").getValue(String.class);
                         String session_day = snapshot.child("session_day").getValue(String.class);
                         String session_month = snapshot.child("session_month").getValue(String.class);
                         String session_year = snapshot.child("session_year").getValue(String.class);
                         String session_done = snapshot.child("session_done").getValue(String.class);
                         String session_image = snapshot.child("session_picture").getValue(String.class);
+                        String session_comment = snapshot.child("session_comment").getValue(String.class);
+
 
                         if (session_done.equals("TRUE")) {
 
@@ -236,8 +238,8 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
                                             assert activityName != null;
                                             if (activityName.equals(selectedActivity)) {
 
-                                                if (!session_image.isEmpty()) {
-
+                                                if ((!session_image.isEmpty() || !session_comment.isEmpty()) && cmt==0  ) {
+                                                    cmt++;
                                                     Intent intent = new Intent(MyEvolutionActivity.this, DateMemory.class);
                                                     intent.putExtra("day", sessionDate.getDayOfMonth());
                                                     intent.putExtra("month", sessionDate.getMonth().getValue());

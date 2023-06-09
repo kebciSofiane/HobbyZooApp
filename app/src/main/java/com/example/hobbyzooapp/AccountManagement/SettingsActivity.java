@@ -1,6 +1,7 @@
 package com.example.hobbyzooapp.AccountManagement;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -85,17 +86,9 @@ public class SettingsActivity extends AppCompatActivity {
                 notificationsDisabledButton.setVisibility(View.VISIBLE);
                 cancelNotification();
                 saveNotificationEnabledState(false);
-            }
-        notificationsEnabledButton.setOnClickListener(v -> {
-            notificationsEnabledButton.setVisibility(View.GONE);
-            notificationsDisabledButton.setVisibility(View.VISIBLE);
-            cancelNotification();
+          }
         });
 
-        notificationsDisabledButton.setOnClickListener(v -> {
-            notificationsDisabledButton.setVisibility(View.GONE);
-            notificationsEnabledButton.setVisibility(View.VISIBLE);
-            showNotification("Notifications enabled", "You will now receive notifications.");
         notificationsDisabledButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,45 +102,18 @@ public class SettingsActivity extends AppCompatActivity {
         termsButton.setOnClickListener(v -> {});
 
         helpButton.setOnClickListener(v -> {});
-        termsButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {}
-        });
 
         aboutButton.setOnClickListener(v -> startActivity(new Intent(SettingsActivity.this, AboutActivity.class)));
-        helpButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {}
-        });
+
 
         backButton.setOnClickListener(v -> finish());
-        aboutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {}
-        });
+
 
         logoutButton.setOnClickListener(v -> {
             firebaseAuth.signOut();
             checkUserStatus();
             finishAffinity();
-            finish();
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-
-            }
-        });
-
-        logoutButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                firebaseAuth.signOut();
-                checkUserStatus();
-                finishAffinity();
-                finish();
-            }
-        });
+            finish();});
     }
 
     private void checkUserStatus() {

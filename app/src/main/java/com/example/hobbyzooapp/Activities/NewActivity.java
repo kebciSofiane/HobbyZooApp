@@ -118,7 +118,7 @@ public class NewActivity extends AppCompatActivity {
                             categorySelector.setSelection(pos);
                             if(categorySelector.getSelectedItem().equals("New Category")){
                                 Intent intentNewCategory = new Intent(NewActivity.this, NewCategory.class);
-                                intentNewCategory.putExtra("previousActivity", previousActivity);
+                                intentNewCategory.putExtra("previousActivity", origin);
                                 startActivity(intentNewCategory);
                                 finish();
                             }

@@ -156,10 +156,12 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
         <service
             android:name=".AccountManagement.BackgroundService"
-            android:foregroundServiceType="location|dataSync"
-            android:exported="false" />
+            android:exported="false"
+            android:foregroundServiceType="location|dataSync" />
+
         <receiver
             android:name=".AccountManagement.NotificationReceiver"
             android:enabled="true"

@@ -38,7 +38,7 @@
     <string name="weekly_goal_">Weekly Goal :</string>
 
     <!-- login register profile -->
-    <string name="logo_hobby_zoo"/>
+    <string name="logo_hobby_zoo" />
     <string name="login">Login</string>
     <string name="register">Register</string>
     <string name="username">Username</string>
@@ -117,6 +117,7 @@
     <string name="add_a_element">Add a element</string>
     <string name="last_session_">Last session :</string>
     <string name="comment_zone">comment zone</string>
+    <string name="setNotificationTime">Set Notification Time</string>
 
 
 </resources>

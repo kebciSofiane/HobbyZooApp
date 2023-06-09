@@ -3,6 +3,7 @@ package com.example.hobbyzooapp.AccountManagement;
 import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,6 +14,7 @@ import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +26,8 @@ import com.example.hobbyzooapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.Calendar;
+
 public class SettingsActivity extends AppCompatActivity {
 
     public static final String NOTIFICATION_ENABLED_KEY = "notification_enabled";
@@ -31,7 +35,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth;
 
-    private Button notificationsEnabledButton, notificationsDisabledButton, termsButton, helpButton, aboutButton, logoutButton;
+    private Button notificationsEnabledButton, notificationsDisabledButton, termsButton, helpButton, aboutButton, logoutButton, setNotificationTimeBtn;
     private ImageButton backButton;
     private int activeIcon, inactiveIcon;
 
@@ -49,8 +53,8 @@ public class SettingsActivity extends AppCompatActivity {
         aboutButton = findViewById(R.id.aboutBtn);
         logoutButton = findViewById(R.id.logoutBtn);
         backButton = findViewById(R.id.backButton);
-        activeIcon = R.drawable.ic_notifications_active;
-        inactiveIcon = R.drawable.ic_notifications_off;
+        setNotificationTimeBtn =findViewById(R.id.setNotificationTimeBtn);
+
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         boolean isNotificationEnabled = sharedPreferences.getBoolean(NOTIFICATION_ENABLED_KEY, true);
@@ -84,13 +88,13 @@ public class SettingsActivity extends AppCompatActivity {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     // Vérifier si la permission de notification est accordée
                     if (NotificationManagerCompat.from(SettingsActivity.this).areNotificationsEnabled()) {
-                        showNotification("Notifications enabled", "You will now receive notifications.");
+                        Toast.makeText(getBaseContext(), "You will now receive notifications.", Toast.LENGTH_SHORT).show();
                     } else {
                         // Demander la permission de notification à l'utilisateur
                         requestNotificationPermission();
                     }
                 } else {
-                    showNotification("Notifications enabled", "You will now receive notifications.");
+                    Toast.makeText(getBaseContext(), "You will now receive notifications.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -114,7 +118,38 @@ public class SettingsActivity extends AppCompatActivity {
             finishAffinity();
             finish();
         });
+        setNotificationTimeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTimePickerDialog();
+            }
+        });
+
     }
+    private void showTimePickerDialog() {
+        Calendar currentTime = Calendar.getInstance();
+        int hour = currentTime.get(Calendar.HOUR_OF_DAY);
+        int minute = currentTime.get(Calendar.MINUTE);
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this, new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+                // Enregistrer l'heure sélectionnée ici
+                saveNotificationTime(hourOfDay, minute);
+                Toast.makeText(getBaseContext(), "Notification time set to " + hourOfDay + ":" + minute, Toast.LENGTH_SHORT).show();
+            }
+        }, hour, minute, false);
+
+        timePickerDialog.show();
+    }
+    private void saveNotificationTime(int hour, int minute) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt("notification_hour", hour);
+        editor.putInt("notification_minute", minute);
+        editor.apply();
+    }
+
 
     private void checkUserStatus() {
         FirebaseUser user = firebaseAuth.getCurrentUser();

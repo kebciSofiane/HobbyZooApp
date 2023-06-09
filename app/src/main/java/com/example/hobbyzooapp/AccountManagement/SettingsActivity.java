@@ -16,6 +16,8 @@ import com.google.firebase.auth.FirebaseUser;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Build;
+import android.widget.Toast;
+
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
@@ -84,6 +86,7 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 notificationsEnabledButton.setVisibility(View.GONE);
                 notificationsDisabledButton.setVisibility(View.VISIBLE);
+                Toast.makeText(getBaseContext(), "Notifications Disabled", Toast.LENGTH_SHORT).show();
                 cancelNotification();
                 saveNotificationEnabledState(false);
           }
@@ -94,7 +97,8 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 notificationsDisabledButton.setVisibility(View.GONE);
                 notificationsEnabledButton.setVisibility(View.VISIBLE);
-                showNotification("Notifications enabled", "You will now receive notifications.");
+                Toast.makeText(getBaseContext(),"You will now receive notifications.", Toast.LENGTH_SHORT).show();
+                //showNotification("Notifications enabled", "You will now receive notifications.");
                 saveNotificationEnabledState(true);
             }
         });

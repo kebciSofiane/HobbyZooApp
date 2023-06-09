@@ -498,15 +498,15 @@ public class ActivityPage extends AppCompatActivity {
 
                                 assert session_done != null;
                                 if (!session_done.equals("TRUE"))
-                                mySessions.add(new Session(session_id,activity_id,activity_name,
-                                        new Time(hourDuration,minutesDuration,0),
-                                        Integer.parseInt(session_day),
-                                        Integer.parseInt(session_month),
-                                        Integer.parseInt(session_year),
-                                        session_image,
-                                        mnemonicPet,
-                                        session_done
-                                ));
+                                    mySessions.add(new Session(session_id,activity_id,activity_name,
+                                            new Time(hourDuration,minutesDuration,0),
+                                            Integer.parseInt(session_day),
+                                            Integer.parseInt(session_month),
+                                            Integer.parseInt(session_year),
+                                            session_image,
+                                            mnemonicPet,
+                                            session_done
+                                    ));
                             }
                             listener.onSessionListRetrieved(mySessions);
                             if (mySessions.size()>=3) showMoreButton.setVisibility(View.VISIBLE);
@@ -577,18 +577,18 @@ public class ActivityPage extends AppCompatActivity {
 
     private void changeManager() {
         GridLayoutManager layoutManager;
-         if (allSessions)
-             if (mySessions.size()<=5)
-                 layoutManager = new GridLayoutManager(this, mySessions.size() , GridLayoutManager.HORIZONTAL, false);
-             else
+        if (allSessions)
+            if (mySessions.size()<=5)
+                layoutManager = new GridLayoutManager(this, mySessions.size() , GridLayoutManager.HORIZONTAL, false);
+            else
                 layoutManager = new GridLayoutManager(this, 5, GridLayoutManager.HORIZONTAL, false);
         else
-         if (mySessions.size()<=3 && mySessions.size()>0)
-             layoutManager = new GridLayoutManager(this, mySessions.size(), GridLayoutManager.HORIZONTAL, false);
+        if (mySessions.size()<=3 && mySessions.size()>0)
+            layoutManager = new GridLayoutManager(this, mySessions.size(), GridLayoutManager.HORIZONTAL, false);
         else if (mySessions.size()==0)
-             layoutManager = new GridLayoutManager(this, 1, GridLayoutManager.HORIZONTAL, false);
-         else
-             layoutManager = new GridLayoutManager(this, 3, GridLayoutManager.HORIZONTAL, false);
+            layoutManager = new GridLayoutManager(this, 1, GridLayoutManager.HORIZONTAL, false);
+        else
+            layoutManager = new GridLayoutManager(this, 3, GridLayoutManager.HORIZONTAL, false);
 
         recyclerView.setLayoutManager(layoutManager);
     }

@@ -9,11 +9,16 @@
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         tools:ignore="ScopedStorage" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission
         android:name="android.permission.SET_ALARM"
         tools:ignore="SystemPermissionTypo" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
     <application
@@ -151,6 +156,14 @@
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+        <service
+            android:name=".AccountManagement.BackgroundService"
+            android:foregroundServiceType="location|dataSync"
+            android:exported="false" />
+        <receiver
+            android:name=".AccountManagement.NotificationReceiver"
+            android:enabled="true"
+            android:exported="false" />
     </application>
 
 </manifest>

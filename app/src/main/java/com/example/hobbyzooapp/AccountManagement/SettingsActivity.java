@@ -1,6 +1,7 @@
 package com.example.hobbyzooapp.AccountManagement;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -15,15 +16,24 @@ import com.google.firebase.auth.FirebaseUser;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Build;
+import android.widget.Toast;
+
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import androidx.preference.PreferenceManager;
+
 public class SettingsActivity extends AppCompatActivity {
+    //
+
+    public static final String NOTIFICATION_ENABLED_KEY ="notification_enabled";
+    //
 
     FirebaseAuth firebaseAuth;
 
     private Button notificationsEnabledButton,notificationsDisabledButton, termsButton, helpButton, aboutButton, logoutButton;
     private ImageButton backButton;
+    private int activeIcon, inactiveIcon;
 
 
     @Override
@@ -40,17 +50,58 @@ public class SettingsActivity extends AppCompatActivity {
         aboutButton = findViewById(R.id.aboutBtn);
         logoutButton = findViewById(R.id.logoutBtn);
         backButton = findViewById(R.id.backButton);
+        backButton = findViewById(R.id.backButton);
+        activeIcon = R.drawable.ic_notifications_active;
+        inactiveIcon = R.drawable.ic_notifications_off;
 
-        notificationsEnabledButton.setOnClickListener(v -> {
+//        notificationsEnabledButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                notificationsEnabledButton.setVisibility(View.GONE);
+//                notificationsDisabledButton.setVisibility(View.VISIBLE);
+//                cancelNotification();
+//            }
+//        });
+//
+//        notificationsDisabledButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                notificationsDisabledButton.setVisibility(View.GONE);
+//                notificationsEnabledButton.setVisibility(View.VISIBLE);
+//                showNotification("Notifications enabled", "You will now receive notifications.");
+//            }
+//        });
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        boolean isNotificationEnabled = sharedPreferences.getBoolean(NOTIFICATION_ENABLED_KEY, true);
+
+        if (isNotificationEnabled) {
             notificationsEnabledButton.setVisibility(View.GONE);
             notificationsDisabledButton.setVisibility(View.VISIBLE);
-            cancelNotification();
-        });
-
-        notificationsDisabledButton.setOnClickListener(v -> {
+        } else {
             notificationsDisabledButton.setVisibility(View.GONE);
             notificationsEnabledButton.setVisibility(View.VISIBLE);
-            showNotification("Notifications enabled", "You will now receive notifications.");
+        }
+
+        notificationsEnabledButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                notificationsEnabledButton.setVisibility(View.GONE);
+                notificationsDisabledButton.setVisibility(View.VISIBLE);
+                Toast.makeText(getBaseContext(), "Notifications Disabled", Toast.LENGTH_SHORT).show();
+                cancelNotification();
+                saveNotificationEnabledState(false);
+          }
+        });
+
+        notificationsDisabledButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                notificationsDisabledButton.setVisibility(View.GONE);
+                notificationsEnabledButton.setVisibility(View.VISIBLE);
+                Toast.makeText(getBaseContext(),"You will now receive notifications.", Toast.LENGTH_SHORT).show();
+                //showNotification("Notifications enabled", "You will now receive notifications.");
+                saveNotificationEnabledState(true);
+            }
         });
 
         termsButton.setOnClickListener(v -> {});
@@ -59,14 +110,15 @@ public class SettingsActivity extends AppCompatActivity {
 
         aboutButton.setOnClickListener(v -> startActivity(new Intent(SettingsActivity.this, AboutActivity.class)));
 
+
         backButton.setOnClickListener(v -> finish());
+
 
         logoutButton.setOnClickListener(v -> {
             firebaseAuth.signOut();
             checkUserStatus();
             finishAffinity();
-            finish();
-        });
+            finish();});
     }
 
     private void checkUserStatus() {
@@ -103,5 +155,23 @@ public class SettingsActivity extends AppCompatActivity {
         notificationsEnabledButton.setVisibility(View.GONE);
         notificationsDisabledButton.setVisibility(View.VISIBLE);
     }
+
+    private void saveNotificationEnabledState(boolean enabled) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(NOTIFICATION_ENABLED_KEY, enabled);
+        editor.apply();
+    }
+    @Override
+    public void onBackPressed() {
+        saveNotificationEnabledState(notificationsDisabledButton.getVisibility() == View.VISIBLE);
+        super.onBackPressed();
+    }
+    @Override
+    protected void onPause() {
+        saveNotificationEnabledState(notificationsDisabledButton.getVisibility() == View.VISIBLE);
+        super.onPause();
+    }
+
 
 }

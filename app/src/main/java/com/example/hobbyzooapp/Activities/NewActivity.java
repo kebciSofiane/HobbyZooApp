@@ -117,7 +117,9 @@ public class NewActivity extends AppCompatActivity {
                             });
                             categorySelector.setSelection(pos);
                             if(categorySelector.getSelectedItem().equals("New Category")){
-                                startActivity(new Intent(NewActivity.this, NewCategory.class));
+                                Intent intentNewCategory = new Intent(NewActivity.this, NewCategory.class);
+                                intentNewCategory.putExtra("previousActivity", origin);
+                                startActivity(intentNewCategory);
                                 finish();
                             }
                         }
@@ -213,7 +215,7 @@ public class NewActivity extends AppCompatActivity {
         editPetName = findViewById(R.id.animalName);
 
         previousActivity = getIntent();
-        origin = previousActivity.getIntExtra("origin", 0);
+        origin = previousActivity.getIntExtra("previousActivity", 0);
         if(previousActivity.hasExtra("category_name")){
             categories = new ArrayList<>(List.of(previousActivity.getStringExtra("category_name")));
             category_id = previousActivity.getStringExtra("categoty_id");

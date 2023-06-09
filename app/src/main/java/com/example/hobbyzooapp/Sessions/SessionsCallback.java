@@ -8,4 +8,5 @@ import java.util.HashMap;
 public interface SessionsCallback {
     void onSessionsLoaded(ArrayList<Session> mySessions);
 
+
 }

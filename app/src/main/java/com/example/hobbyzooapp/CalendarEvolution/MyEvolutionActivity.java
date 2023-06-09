@@ -103,7 +103,24 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
                                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                                             String category_color = snapshot.child("category_color").getValue(String.class);
                                             int color = Color.parseColor(category_color);
+                                            int red = Color.red(color);
+                                            int green = Color.green(color);
+                                            int blue = Color.blue(color);
+
+                                            int threshold = 30;
+
+                                            boolean isCloseToWhite = (red >= 255 - threshold) && (green >= 255 - threshold) && (blue >= 255 - threshold);
+                                            TextView selectedTextView = (TextView) chooseActivity.getSelectedView();
+
+                                            if (isCloseToWhite){
+                                                selectedTextView.setTextColor(Color.BLACK);
+                                            }
+                                            else{
+                                                selectedTextView.setTextColor(Color.WHITE);
+                                            }
                                             chooseActivity.setBackgroundColor(color);
+
+
                                         }
                                     }
 
@@ -113,6 +130,9 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
 
                                     }
                                 });
+
+
+
                             }
                         }
                         @Override

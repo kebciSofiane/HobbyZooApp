@@ -72,7 +72,7 @@
 
             </RelativeLayout>
 
-            <FrameLayout
+            <RelativeLayout
                 android:id="@+id/profile_image_layout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
                     android:id="@+id/add_photo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="170dp"
+                    android:layout_toEndOf="@id/profile_image"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/ic_add_a_photo"
                     android:backgroundTint="@color/purple_200"
@@ -100,14 +100,14 @@
                     android:id="@+id/validateButton"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:layout_marginStart="170dp"
+                    android:layout_toEndOf="@id/profile_image"
                     android:layout_marginTop="100dp"
                     android:background="@drawable/ic_check"
                     android:visibility="gone"
                     app:backgroundTint="@color/green" />
 
 
-            </FrameLayout>
+            </RelativeLayout>
 
         </RelativeLayout>
 

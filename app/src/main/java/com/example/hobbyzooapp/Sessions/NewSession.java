@@ -71,7 +71,7 @@ public class NewSession extends AppCompatActivity {
                             Object item = parent.getItemAtPosition(pos);
                             if(parent.getItemAtPosition(pos) == "New Activity"){
                                 Intent intent = new Intent().setClass(getApplicationContext(), NewActivity.class);
-                                intent.putExtra("origin", 1);
+                                intent.putExtra("previousActivity", 1);
                                 startActivity(intent);
                                 finish();
                             }

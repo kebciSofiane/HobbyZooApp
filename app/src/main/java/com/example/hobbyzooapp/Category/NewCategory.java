@@ -37,7 +37,7 @@ public class NewCategory extends AppCompatActivity {
 
     String name, user_id, category_id, colorHex;
     int colorRGB = 0;
-    int red, blue, green;
+    int red, blue, green, previousActivity;
     CircleImageView colorPicker;
     View displayColors;
     Bitmap bitmap;
@@ -125,6 +125,7 @@ public class NewCategory extends AppCompatActivity {
                             Intent intent = new Intent(NewCategory.this, NewActivity.class);
                             intent.putExtra("category_name", name.replace(",", " "));
                             intent.putExtra("category_id", category_id);
+                            intent.putExtra("previousActivity", previousActivity);
                             startActivity(intent);
                             finish();
                         }
@@ -153,6 +154,8 @@ public class NewCategory extends AppCompatActivity {
         colorPicker.setDrawingCacheEnabled(true);
         colorPicker.buildDrawingCache(true);
         pattern = Pattern.compile(regexPattern);
+        Intent intent = getIntent();
+        previousActivity = intent.getIntExtra("previousActivity", 0);
     }
 
     @Override

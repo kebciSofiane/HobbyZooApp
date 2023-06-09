@@ -108,6 +108,7 @@ public class ProfileActivity extends AppCompatActivity {
             validate.setVisibility(View.VISIBLE);
             usernameTextView.setVisibility(View.GONE);
             editProfileButton.setVisibility(View.GONE);
+            backButton.setVisibility(View.GONE);
 
             String currentUsername = usernameTextView.getText().toString().trim();
             usernameEdit.setText(currentUsername);
@@ -143,6 +144,7 @@ public class ProfileActivity extends AppCompatActivity {
                 validate.setVisibility(View.GONE);
                 usernameTextView.setVisibility(View.VISIBLE);
                 editProfileButton.setVisibility(View.VISIBLE);
+                backButton.setVisibility(View.VISIBLE);
             }
         });
     }

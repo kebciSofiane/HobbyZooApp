@@ -52,14 +52,15 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="0.49">
+        app:layout_constraintVertical_bias="0.49"
+        android:gravity="center_vertical">
 
         <Button
             android:id="@+id/notificationsEnabledBtn"
             style="@style/Widget.Material3.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/shape_rounded_button"
             android:text="@string/enable_notifications"
             android:textSize="20sp"
@@ -70,7 +71,7 @@
             style="@style/Widget.Material3.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/shape_rounded_button"
             android:textColor="@android:color/black"
             android:text="@string/enable_notifications"
@@ -84,26 +85,28 @@
             style="@style/Widget.Material3.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/shape_rounded_button"
             android:text="@string/terms_of_service"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             app:backgroundTint="@color/lightbrown"
-            app:icon="@drawable/ic_description" />
+            app:icon="@drawable/ic_description"
+            android:visibility="gone"/>
 
         <Button
             android:id="@+id/helpBtn"
             style="@style/Widget.Material3.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/shape_rounded_button"
             android:text="@string/help"
             android:textColor="@android:color/black"
             android:textSize="20sp"
             app:backgroundTint="@color/lightbrown"
-            app:icon="@drawable/ic_help" />
+            app:icon="@drawable/ic_help"
+            android:visibility="gone"/>
 
 
         <Button
@@ -111,7 +114,7 @@
             style="@style/Widget.Material3.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/shape_rounded_button"
             android:text="@string/about"
             android:textColor="@android:color/black"
@@ -126,7 +129,8 @@
             android:layout_marginTop="50dp"
             android:text="@string/version"
             android:textAlignment="center"
-            android:textColor="@color/black" />
+            android:textColor="@color/black"
+            android:visibility="gone"/>
 
 
     </LinearLayout>

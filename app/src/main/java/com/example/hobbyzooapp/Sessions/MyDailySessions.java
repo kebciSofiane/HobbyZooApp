@@ -237,10 +237,7 @@ public class MyDailySessions extends AppCompatActivity {
                              mySessions.add(new Session(session_id,
                                                  activity_id,
                                                  activityName,
-                                                 new Time(hourDuration,minutesDuration,0),
-                                                 Integer.parseInt(session_day),
-                                                 Integer.parseInt(session_month),
-                                                 Integer.parseInt(session_year),
+                                                 new Time(hourDuration,minutesDuration,0), Integer.parseInt(session_day), Integer.parseInt(session_month), Integer.parseInt(session_year),
                                                  session_image,
                                                  mnemonicPet,
                                                  session_done)

@@ -8,7 +8,6 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
@@ -18,7 +17,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
-import androidx.preference.PreferenceManager;
 
 import com.example.hobbyzooapp.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,19 +42,11 @@ public class BackgroundService extends Service {
     private Calendar calendar;
     private boolean notificationSent = false;
 
-    private boolean isNotificationEnabled = true;
-
-    public static final String ACTION_NOTIFICATION_ENABLED = "com.example.hobbyzooapp.ACTION_NOTIFICATION_ENABLED";
-    public static final String EXTRA_NOTIFICATION_ENABLED = "com.example.hobbyzooapp.EXTRA_NOTIFICATION_ENABLED";
-    public static final String EXTRA_SESSION_COUNT = "com.example.hobbyzooapp.EXTRA_SESSION_COUNT";
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onCreate() {
         super.onCreate();
-        handler = new Handler();
-        isNotificationEnabled = getNotificationEnabledState();
-
         Notification notification = createNotification();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
@@ -68,8 +58,25 @@ public class BackgroundService extends Service {
 
         startForeground(NOTIFICATION_ID, notification);
 
+        handler = new Handler();
         runnable = () -> {
-            handleNotificationLogic();
+            calendar = Calendar.getInstance();
+
+            int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
+            int currentMinute = calendar.get(Calendar.MINUTE);
+
+            if (currentHour == 12 && currentMinute == 26 && !notificationSent) {
+
+                getSessions(sessions -> {
+                    int sessionCount = sessions.size();
+                    if (sessionCount > 0) {
+                        showSessionNotification(sessionCount);
+                    }
+                    notificationSent = true;
+                });
+            } else {
+                notificationSent = false;
+            }
 
             handler.postDelayed(runnable, 60000);
         };
@@ -81,37 +88,16 @@ public class BackgroundService extends Service {
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
+
         calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 17);
-        calendar.set(Calendar.MINUTE, 2);
+        calendar.set(Calendar.MINUTE, 26);
         calendar.set(Calendar.SECOND, 0);
 
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private boolean getNotificationEnabledState() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        return sharedPreferences.getBoolean(SettingsActivity.NOTIFICATION_ENABLED_KEY, true);
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void updateNotificationEnabledState(boolean enabled) {
-        isNotificationEnabled = enabled;
-        // Vous pouvez également mettre à jour l'état de la notification ici si nécessaire
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        if (intent != null && intent.getAction() != null) {
-            if (intent.getAction().equals(ACTION_NOTIFICATION_ENABLED)) {
-                boolean enabled = intent.getBooleanExtra(EXTRA_NOTIFICATION_ENABLED, true);
-                updateNotificationEnabledState(enabled);
-            }
-        }
-        return START_STICKY;
-    }
 
     @Nullable
     @Override
@@ -162,28 +148,10 @@ public class BackgroundService extends Service {
         handler.removeCallbacks(runnable);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void handleNotificationLogic() {
-        calendar = Calendar.getInstance();
-        int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
-        int currentMinute = calendar.get(Calendar.MINUTE);
-
-        if (currentHour == 17 && currentMinute == 51 && !notificationSent && isNotificationEnabled) {
-            getSessions(sessions -> {
-                int sessionCount = sessions.size();
-                if (sessionCount > 0) {
-                    showSessionNotification(getApplicationContext(), sessionCount);
-                }
-                notificationSent = true;
-            });
-        } else {
-            notificationSent = false;
-        }
-    }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    void showSessionNotification(Context context,int sessionCount) {
-        NotificationManager notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+    void showSessionNotification(int sessionCount) {
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         if (notificationManager != null && !notificationManager.areNotificationsEnabled()) {
             return;
         }
@@ -221,6 +189,11 @@ public class BackgroundService extends Service {
                 .setContentText("Running in background");
 
         return builder.build();
+    }
+
+    @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        return START_STICKY;
     }
 
     public interface SessionsLoadedListener {

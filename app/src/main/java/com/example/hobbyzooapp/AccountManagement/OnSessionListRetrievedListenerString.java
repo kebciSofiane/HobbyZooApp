@@ -8,4 +8,3 @@ public interface OnSessionListRetrievedListenerString {
     void onSessionListRetrieved(ArrayList<String> sessionList);
 
 }
-

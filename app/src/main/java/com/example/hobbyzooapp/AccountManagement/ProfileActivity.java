@@ -32,16 +32,10 @@ import com.google.firebase.storage.StorageReference;
 
 public class ProfileActivity extends AppCompatActivity {
     private TextView usernameTextView;
-    private ImageView profileImageView;
-    private TextView editProfileTextView;
-    private Button personalInfoButton;
-    private Button myActivitiesButton;
-    private Button followMyProgressButton;
+    private ImageView profileImageView, addPhoto;
+    private Button editProfileButton, personalInfoButton, myActivitiesButton, followMyProgressButton, settingsButton, validate;
     private ImageButton backButton;
-    private Button settingsButton;
     private EditText usernameEdit;
-    private ImageView addPhoto;
-    private Button validate;
 
     private FirebaseAuth firebaseAuth;
     private FirebaseStorage storage;
@@ -62,7 +56,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         usernameTextView = findViewById(R.id.profile_username);
         profileImageView = findViewById(R.id.profile_image);
-        editProfileTextView = findViewById(R.id.edit_profile);
+        editProfileButton = findViewById(R.id.edit_profile);
         personalInfoButton = findViewById(R.id.account);
         myActivitiesButton = findViewById(R.id.my_activities);
         followMyProgressButton = findViewById(R.id.follow_my_progress);
@@ -108,12 +102,13 @@ public class ProfileActivity extends AppCompatActivity {
         settingsButton.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, SettingsActivity.class)));
         personalInfoButton.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, AccountActivity.class)));
         followMyProgressButton.setOnClickListener(v -> startActivity(new Intent(ProfileActivity.this, MyEvolutionActivity.class)));
-        editProfileTextView.setOnClickListener(v -> {
+        editProfileButton.setOnClickListener(v -> {
             usernameEdit.setVisibility(View.VISIBLE);
             addPhoto.setVisibility(View.VISIBLE);
             validate.setVisibility(View.VISIBLE);
             usernameTextView.setVisibility(View.GONE);
-            editProfileTextView.setVisibility(View.GONE);
+            editProfileButton.setVisibility(View.GONE);
+            backButton.setVisibility(View.GONE);
 
             String currentUsername = usernameTextView.getText().toString().trim();
             usernameEdit.setText(currentUsername);
@@ -148,7 +143,8 @@ public class ProfileActivity extends AppCompatActivity {
                 addPhoto.setVisibility(View.GONE);
                 validate.setVisibility(View.GONE);
                 usernameTextView.setVisibility(View.VISIBLE);
-                editProfileTextView.setVisibility(View.VISIBLE);
+                editProfileButton.setVisibility(View.VISIBLE);
+                backButton.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -193,7 +189,7 @@ public class ProfileActivity extends AppCompatActivity {
                             addPhoto.setVisibility(View.GONE);
                             validate.setVisibility(View.GONE);
                             usernameTextView.setVisibility(View.VISIBLE);
-                            editProfileTextView.setVisibility(View.VISIBLE);
+                            editProfileButton.setVisibility(View.VISIBLE);
                         });
                     })
                     .addOnFailureListener(e -> {
@@ -205,7 +201,7 @@ public class ProfileActivity extends AppCompatActivity {
             addPhoto.setVisibility(View.GONE);
             validate.setVisibility(View.GONE);
             usernameTextView.setVisibility(View.VISIBLE);
-            editProfileTextView.setVisibility(View.VISIBLE);
+            editProfileButton.setVisibility(View.VISIBLE);
         }
     }
 

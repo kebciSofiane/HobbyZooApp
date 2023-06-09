@@ -49,7 +49,7 @@ public class MyActivities extends AppCompatActivity {
         addActivityButton = findViewById(R.id.add_activity_button);
         addActivityButton.setOnClickListener(v -> {
             Intent intent = new Intent(MyActivities.this, NewActivity.class);
-            intent.putExtra("origin", 0);
+            intent.putExtra("previousActivity", 0);
             startActivity(intent);
 
         });

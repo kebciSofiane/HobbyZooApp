@@ -29,6 +29,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -73,6 +74,7 @@ public class CalendarEvolutionAdapter extends RecyclerView.Adapter<CalendarEvolu
         return new CalendarEvolutionViewHolder(view, onItemListener, days);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onBindViewHolder(@NonNull CalendarEvolutionViewHolder holder, int position) {
         final LocalDate date = days.get(position);
@@ -90,33 +92,8 @@ public class CalendarEvolutionAdapter extends RecyclerView.Adapter<CalendarEvolu
                 borderDrawable.setCornerRadius(10);
                 borderDrawable.setStroke(4, Color.LTGRAY);
                 holder.parentView.setBackground(borderDrawable);}
+                getSessions2(holder,date);
 
-            getSessions(holder, date, lastSessionImage -> {
-                System.out.println(lastSessionImage);
-                if (lastSessionImage != null) {
-                    Glide.with(holder.itemView.getContext())
-                            .load(dateCover)
-                            .into(new CustomTarget<Drawable>() {
-                                @Override
-                                public void onResourceReady(@NonNull Drawable resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Drawable> transition) {
-                                    BitmapDrawable bitmapDrawable = (BitmapDrawable) resource;
-                                    Bitmap bitmap = bitmapDrawable.getBitmap();
-                                    RoundedBitmapDrawable roundedDrawable = RoundedBitmapDrawableFactory.create(holder.itemView.getResources(), bitmap);
-                                    roundedDrawable.setCornerRadius(20);
-
-                                    holder.itemView.setBackground(roundedDrawable);
-                                }
-
-                                @Override
-                                public void onLoadCleared(@Nullable Drawable placeholder) {
-                                    // Méthode facultative pour gérer le chargement annulé ou effacé
-                                }
-                            });
-
-                }
-
-
-            });
         }
     }
 
@@ -129,9 +106,8 @@ public class CalendarEvolutionAdapter extends RecyclerView.Adapter<CalendarEvolu
             void onItemClick(int position, LocalDate date);
         }
 
-    private void getSessions(CalendarEvolutionViewHolder holder,LocalDate date, OnSessionsLoadedCallback callback) {
+    private void getSessions(CalendarEvolutionViewHolder holder,LocalDate date ) {
         final FirebaseDatabase[] database = {FirebaseDatabase.getInstance()};
-        cmt=0;
         DatabaseReference reference = database[0].getReference("Session");
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -140,7 +116,6 @@ public class CalendarEvolutionAdapter extends RecyclerView.Adapter<CalendarEvolu
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                final String[] lastSessionImage = {null}; // Variable pour stocker la dernière image de session trouvée
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     String activity_id = snapshot.child("activity_id").getValue(String.class);
                     String session_day = snapshot.child("session_day").getValue(String.class);
@@ -148,7 +123,6 @@ public class CalendarEvolutionAdapter extends RecyclerView.Adapter<CalendarEvolu
                     String session_year = snapshot.child("session_year").getValue(String.class);
                     String session_done = snapshot.child("session_done").getValue(String.class);
                     String session_image = snapshot.child("session_picture").getValue(String.class);
-                    long numberOfChildren = dataSnapshot.getChildrenCount();
                     cmt++;
                     if (session_done.equals("TRUE")) {
 
@@ -169,10 +143,26 @@ public class CalendarEvolutionAdapter extends RecyclerView.Adapter<CalendarEvolu
                                         assert activityName != null;
                                         if (activityName.equals(activity)) {
                                             assert session_image != null;
-                                            if (!session_image.isEmpty()) {
-                                                lastSessionImage[0] = session_image; // Mettre à jour la dernière image de session trouvée
-                                                dateCover = session_image;
-                                                callback.onSessionsLoaded(lastSessionImage[0]);
+                                            if (!session_image.isEmpty() && cmt ==0) {
+                                                cmt++;
+                                                Glide.with(holder.itemView.getContext())
+                                                        .load(session_image)
+                                                        .into(new CustomTarget<Drawable>() {
+                                                            @Override
+                                                            public void onResourceReady(@NonNull Drawable resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Drawable> transition) {
+                                                                BitmapDrawable bitmapDrawable = (BitmapDrawable) resource;
+                                                                Bitmap bitmap = bitmapDrawable.getBitmap();
+                                                                RoundedBitmapDrawable roundedDrawable = RoundedBitmapDrawableFactory.create(holder.itemView.getResources(), bitmap);
+                                                                roundedDrawable.setCornerRadius(20);
+
+                                                                holder.itemView.setBackground(roundedDrawable);
+                                                            }
+
+                                                            @Override
+                                                            public void onLoadCleared(@Nullable Drawable placeholder) {
+                                                                // Méthode facultative pour gérer le chargement annulé ou effacé
+                                                            }
+                                                        });
 
                                             }
                                         }
@@ -190,6 +180,97 @@ public class CalendarEvolutionAdapter extends RecyclerView.Adapter<CalendarEvolu
                             }
                         });
                     }
+
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w("TAG", "Data recovery error", databaseError.toException());
+            }
+        });
+    }
+
+
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private void getSessions2(CalendarEvolutionViewHolder holder, LocalDate date ) {
+        final FirebaseDatabase[] database = {FirebaseDatabase.getInstance()};
+        DatabaseReference sessionRef = database[0].getReference("Session");
+        FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        String uid = user.getUid();
+
+
+
+        sessionRef.orderByChild("user_id").equalTo(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String activity_id = snapshot.child("activity_id").getValue(String.class);
+                    String session_day = snapshot.child("session_day").getValue(String.class);
+                    String session_month = snapshot.child("session_month").getValue(String.class);
+                    String session_year = snapshot.child("session_year").getValue(String.class);
+                    String session_done = snapshot.child("session_done").getValue(String.class);
+                    String session_image = snapshot.child("session_picture").getValue(String.class);
+                    cmt++;
+                    LocalDate sessionDate = LocalDate.of(Integer.parseInt(session_year), Integer.parseInt(session_month), Integer.parseInt(session_day));
+
+                    if (date.getMonth() == sessionDate.getMonth() &&
+                            date.getDayOfMonth() == sessionDate.getDayOfMonth() &&
+                            date.getYear() == sessionDate.getYear() && session_done.equals("TRUE") ) {
+
+                        DatabaseReference referenceActivity = database[0].getReference("Activity");
+
+                        referenceActivity.child(activity_id).addListenerForSingleValueEvent(new ValueEventListener() {
+                            @RequiresApi(api = Build.VERSION_CODES.O)
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                                if (dataSnapshot.exists()) {
+                                    String activityName = dataSnapshot.child("activity_name").getValue(String.class);
+
+                                        assert activityName != null;
+                                        if (activityName.equals(activity)) {
+                                            assert session_image != null;
+                                            if (!session_image.isEmpty() ) {
+                                                Glide.with(holder.itemView.getContext())
+                                                        .load(session_image)
+                                                        .into(new CustomTarget<Drawable>() {
+                                                            @Override
+                                                            public void onResourceReady(@NonNull Drawable resource, @Nullable com.bumptech.glide.request.transition.Transition<? super Drawable> transition) {
+                                                                BitmapDrawable bitmapDrawable = (BitmapDrawable) resource;
+                                                                Bitmap bitmap = bitmapDrawable.getBitmap();
+                                                                RoundedBitmapDrawable roundedDrawable = RoundedBitmapDrawableFactory.create(holder.itemView.getResources(), bitmap);
+                                                                roundedDrawable.setCornerRadius(20);
+
+                                                                holder.itemView.setBackground(roundedDrawable);
+                                                            }
+
+                                                            @Override
+                                                            public void onLoadCleared(@Nullable Drawable placeholder) {
+                                                                // Méthode facultative pour gérer le chargement annulé ou effacé
+                                                            }
+                                                        });
+
+                                            }
+                                        }
+
+                                } else {
+                                    // L'activité n'existe pas dans la base de données
+                                }
+
+
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                Log.w("TAG", "Data recovery error", databaseError.toException());
+                            }
+                        });
+                }
 
 
                 }

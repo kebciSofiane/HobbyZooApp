@@ -209,8 +209,6 @@ public class MyEvolutionActivity extends AppCompatActivity implements CalendarEv
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                        String session_id = snapshot.child("session_id").getValue(String.class);
-                        String session_duration = snapshot.child("session_duration").getValue(String.class);
                         String activity_id = snapshot.child("activity_id").getValue(String.class);
                         String session_day = snapshot.child("session_day").getValue(String.class);
                         String session_month = snapshot.child("session_month").getValue(String.class);

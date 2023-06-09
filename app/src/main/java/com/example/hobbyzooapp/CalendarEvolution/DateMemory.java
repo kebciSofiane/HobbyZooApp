@@ -26,7 +26,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.hobbyzooapp.HomeActivity;
 import com.example.hobbyzooapp.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -70,9 +69,7 @@ public class DateMemory extends AppCompatActivity {
         activity_name  = intent.getStringExtra("activity_name");
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-             date = LocalDate.of(year,
-                    month,
-                    day);
+             date = LocalDate.of(year, month, day);
         }
 
         dateView = findViewById(R.id.memoryDate);
@@ -231,8 +228,6 @@ public class DateMemory extends AppCompatActivity {
                     .apply(requestOptions)
                     .into(memoryImage);
 
-
-
         memoryComment.setText(myMemoriesComments.get(memoriesIndex));
 
         if (myMemoriesPictures.size()==1){
@@ -266,6 +261,7 @@ public class DateMemory extends AppCompatActivity {
             if (memoriesIndex==0)
                 memoriesIndex= myMemoriesPictures.size()-1;
             else memoriesIndex--;
+
 
             if (myMemoriesPictures.get(memoriesIndex).isEmpty()){
                 String resourceName = myMemoriesPet.get(memoriesIndex) + "_whole_neutral";

@@ -1,4 +1,4 @@
-package com.example.hobbyzooapp.CalendarEvolution;
+package com.example.hobbyzooapp.Sessions;
 
 interface ActivityCallback {
     void onActivityIdReceived( );

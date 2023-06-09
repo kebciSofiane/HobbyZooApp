@@ -8,17 +8,18 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
+import android.provider.Settings;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
-import androidx.preference.PreferenceManager;
+import androidx.core.app.NotificationManagerCompat;
 
 import com.example.hobbyzooapp.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -44,21 +45,11 @@ public class BackgroundService extends Service {
     private Calendar calendar;
     private boolean notificationSent = false;
 
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onCreate() {
         super.onCreate();
-        Notification notification = createNotification();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            if (notificationManager != null) {
-                notificationManager.createNotificationChannel(channel);
-            }
-        }
-
-        startForeground(NOTIFICATION_ID, notification);
+        createNotificationChannel();
 
         handler = new Handler();
         runnable = () -> {
@@ -67,7 +58,7 @@ public class BackgroundService extends Service {
             int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
             int currentMinute = calendar.get(Calendar.MINUTE);
 
-            if (currentHour == 14 && currentMinute == 53 && !notificationSent) {
+            if (currentHour == 15 && currentMinute == 28 && !notificationSent) {
 
                 getSessions(sessions -> {
                     int sessionCount = sessions.size();
@@ -90,16 +81,13 @@ public class BackgroundService extends Service {
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-
         calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, 17);
         calendar.set(Calendar.MINUTE, 26);
         calendar.set(Calendar.SECOND, 0);
 
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-
     }
-
 
     @Nullable
     @Override
@@ -118,6 +106,7 @@ public class BackgroundService extends Service {
         LocalDate localDate = LocalDate.now();
 
         reference.orderByChild("user_id").equalTo(uid).addListenerForSingleValueEvent(new ValueEventListener() {
+            @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
@@ -127,9 +116,12 @@ public class BackgroundService extends Service {
 
                     assert session_day != null;
                     if (localDate.getDayOfMonth() == Integer.parseInt(session_day)) {
-                        assert session_year != null;
-                        if (localDate.getYear() == Integer.parseInt(session_year) && localDate.getMonth().getValue() == Integer.parseInt(session_month)) {
-                            mySessions.add("cc");
+                        assert session_month != null;
+                        if (localDate.getMonthValue() == Integer.parseInt(session_month)) {
+                            assert session_year != null;
+                            if (localDate.getYear() == Integer.parseInt(session_year)) {
+                                mySessions.add(snapshot.getKey());
+                            }
                         }
                     }
                 }
@@ -139,74 +131,35 @@ public class BackgroundService extends Service {
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.w("TAG", "Erreur lors de la récupération des données", databaseError.toException());
+                Log.e("BackgroundService", "Failed to load sessions from Firebase", databaseError.toException());
             }
         });
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        handler.removeCallbacks(runnable);
-    }
-
-
-    @RequiresApi(api = Build.VERSION_CODES.N)
     void showSessionNotification(int sessionCount) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        boolean isNotificationEnabled = sharedPreferences.getBoolean(SettingsActivity.NOTIFICATION_ENABLED_KEY, true);
-
-        if (!isNotificationEnabled) {
-            return; // Ne pas afficher la notification si les notifications sont désactivées
-        }
-
-        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        if (notificationManager != null && !notificationManager.areNotificationsEnabled()) {
-            return;
-        }
-
-        String title = "Sessions Today";
-        String message = "You have " + sessionCount + " sessions scheduled today.";
+        String notificationTitle = "Reminder";
+        String notificationText = "You have " + sessionCount + " sessions today.";
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notifications_active)
-                .setContentTitle(title)
-                .setContentText(message)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+                .setContentTitle(notificationTitle)
+                .setContentText(notificationText)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setAutoCancel(true);
 
-        if (notificationManager != null) {
-            createNotificationChannel(notificationManager);
-            int uniqueNotificationId = (int) System.currentTimeMillis();
-            notificationManager.notify(uniqueNotificationId, builder.build());
-        }
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        notificationManager.notify(NOTIFICATION_ID, builder.build());
     }
 
-
-    private void createNotificationChannel(NotificationManager notificationManager) {
+    private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            NotificationChannel channel = new NotificationChannel(
-                    CHANNEL_ID,
-                    CHANNEL_NAME,
-                    NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
     }
 
-    private Notification createNotification() {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_notifications_active)
-                .setContentTitle("Session Notifications")
-                .setContentText("Running in background");
-
-        return builder.build();
-    }
-
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId) {
-        return START_STICKY;
-    }
-
-    public interface SessionsLoadedListener {
+    private interface SessionsLoadedListener {
         void onSessionsLoaded(ArrayList<String> sessions);
     }
 }

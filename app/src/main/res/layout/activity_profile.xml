@@ -6,11 +6,24 @@
     android:layout_height="match_parent"
     android:background="@color/app_background">
 
+    <Button
+        android:id="@+id/edit_profile"
+        android:layout_width="39dp"
+        android:layout_height="37dp"
+        android:layout_below="@id/profile_username"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="30dp"
+        android:background="@drawable/ic_edit"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:gravity="center"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:ignore="UselessParent">
+
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -28,6 +41,7 @@
                 android:src="@drawable/ic_arrowback"
                 app:tint="@color/white" />
 
+
             <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -37,10 +51,11 @@
 
                 <TextView
                     android:id="@+id/profile_username"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="serif"
                     android:layout_centerHorizontal="true"
+                    android:fontFamily="serif"
+                    android:gravity="center"
                     android:text="@string/username"
                     android:textColor="@color/black"
                     android:textSize="30sp" />
@@ -55,16 +70,6 @@
                     android:visibility="gone" />
 
 
-                <TextView
-                    android:id="@+id/edit_profile"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_below="@id/profile_username"
-                    android:gravity="center"
-                    android:text="@string/edit_profile"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
             </RelativeLayout>
 
             <FrameLayout
@@ -84,7 +89,7 @@
                     android:id="@+id/add_photo"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="150dp"
+                    android:layout_marginStart="170dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/ic_add_a_photo"
                     android:backgroundTint="@color/purple_200"
@@ -95,7 +100,7 @@
                     android:id="@+id/validateButton"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:layout_marginStart="150dp"
+                    android:layout_marginStart="170dp"
                     android:layout_marginTop="100dp"
                     android:background="@drawable/ic_check"
                     android:visibility="gone"
@@ -105,7 +110,6 @@
             </FrameLayout>
 
         </RelativeLayout>
-
 
         <LinearLayout
             android:layout_width="match_parent"

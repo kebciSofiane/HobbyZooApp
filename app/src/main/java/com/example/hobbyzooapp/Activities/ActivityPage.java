@@ -253,8 +253,10 @@ public class ActivityPage extends AppCompatActivity {
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             String activity_id_task = dataSnapshot.child("activityId").getValue(String.class);
                             String task_id = dataSnapshot.getKey();
-                            if(activity_id_task.equals(activityId)){
-                                databaseReferenceTasks.child(task_id).removeValue();
+                            if(activity_id_task != null) {
+                                if (activity_id_task.equals(activityId)) {
+                                    databaseReferenceTasks.child(task_id).removeValue();
+                                }
                             }
                         }
                     }
@@ -269,8 +271,11 @@ public class ActivityPage extends AppCompatActivity {
                         for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                             String activity_id_session = dataSnapshot.child("activity_id").getValue(String.class);
                             String session_id = dataSnapshot.getKey();
-                            if(activity_id_session.equals(activityId)){
-                                databaseReferenceSession.child(session_id).removeValue();
+                            System.out.println(activity_id_session + "    :    " + activityId + " boom");
+                            if(activity_id_session != null){
+                                if(activity_id_session.equals(activityId)){
+                                    databaseReferenceSession.child(session_id).removeValue();
+                                }
                             }
                         }
                     }

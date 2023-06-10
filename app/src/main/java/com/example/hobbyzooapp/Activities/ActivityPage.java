@@ -343,6 +343,12 @@ public class ActivityPage extends AppCompatActivity {
             if(previousActivity != 0){
                 homeButton.setVisibility(View.VISIBLE);
             }
+            if (newActivityName.charAt(newActivityName.length() - 1) == ' ') {
+                newActivityName = newActivityName.substring(0, newActivityName.length() - 1);
+            }
+            if (newPetName.charAt(newPetName.length() - 1) == ' ') {
+                newPetName = newPetName.substring(0, newPetName.length() - 1);
+            }
 
 
             DatabaseReference activitiesRef = FirebaseDatabase.getInstance().getReference("Activity");

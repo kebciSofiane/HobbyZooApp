@@ -153,6 +153,12 @@ public class NewActivity extends AppCompatActivity {
             else if(activity_name.length() > 15 || animalName.length() > 15)
                 Toast.makeText(getApplicationContext(),"Name fields can't have more then 15 characters!",Toast.LENGTH_LONG).show();
             else {
+                if (activity_name.charAt(activity_name.length() - 1) == ' ') {
+                    activity_name = activity_name.substring(0, activity_name.length() - 1);
+                }
+                if (animalName.charAt(animalName.length() - 1) == ' ') {
+                    animalName = animalName.substring(0, animalName.length() - 1);
+                }
                 List<String> activities = new ArrayList<>();
 
                 DatabaseReference databaseReferenceChild = FirebaseDatabase.getInstance().getReference().child("Activity");

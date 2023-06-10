@@ -52,8 +52,8 @@ public class NewCategory extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_category);
-        initialisation();
-
+        initialisation();Intent intent = getIntent();
+        previousActivity = intent.getIntExtra("previousActivity", 0);
         colorPicker.setOnTouchListener((v, event) -> {
             if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_MOVE){
                 float x = event.getX();
@@ -92,7 +92,9 @@ public class NewCategory extends AppCompatActivity {
         });
 
         returnButton.setOnClickListener(view -> {
-            startActivity(new Intent(NewCategory.this, NewActivity.class));
+            Intent intentActivity = new Intent(NewCategory.this, NewActivity.class);
+            intentActivity.putExtra("previousActivity", previousActivity);
+            startActivity(intentActivity);
             finish();
         });
 
@@ -109,6 +111,9 @@ public class NewCategory extends AppCompatActivity {
             else if(name.length() > 15)
                 Toast.makeText(getApplicationContext(),"Name fields can't have more then 15 characters!",Toast.LENGTH_LONG).show();
             else {
+                if (name.charAt(name.length() - 1) == ' ') {
+                    name = name.substring(0, name.length() - 1);
+                }
                 List<String> categories = new ArrayList<>();
                 DatabaseReference databaseReferenceChild = FirebaseDatabase.getInstance().getReference().child("Category");
                 databaseReferenceChild.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -154,8 +159,6 @@ public class NewCategory extends AppCompatActivity {
         colorPicker.setDrawingCacheEnabled(true);
         colorPicker.buildDrawingCache(true);
         pattern = Pattern.compile(regexPattern);
-        Intent intent = getIntent();
-        previousActivity = intent.getIntExtra("previousActivity", 0);
     }
 
     @Override

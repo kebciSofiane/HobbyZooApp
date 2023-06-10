@@ -67,8 +67,6 @@ public class NewSession extends AppCompatActivity {
             activitySelector.setOnItemSelectedListener(
                     new AdapterView.OnItemSelectedListener() {
                         public void onItemSelected(AdapterView<?> parent, View view, int pos, long id) {
-
-                            Object item = parent.getItemAtPosition(pos);
                             if(parent.getItemAtPosition(pos) == "New Activity"){
                                 Intent intent = new Intent().setClass(getApplicationContext(), NewActivity.class);
                                 intent.putExtra("previousActivity", 1);

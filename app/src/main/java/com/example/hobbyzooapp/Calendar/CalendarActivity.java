@@ -95,10 +95,10 @@ public class CalendarActivity extends AppCompatActivity implements CalendarAdapt
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onItemClick(int position, LocalDate date) {
-        if(date != null)
-        {
+        if(date != null) {
             CalendarUtils.selectedDate = date;
             openTodaySessions();
+            finish();
         }
     }
 

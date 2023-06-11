@@ -37,6 +37,7 @@ import java.util.ArrayList;
 
 public class MyDailySessions extends AppCompatActivity {
 
+
     private ImageButton homeButton, addSessionButton, calendarButton;
     private Button editButton, validateButton;
     LocalDate localDate = CalendarUtils.selectedDate;
@@ -126,6 +127,7 @@ public class MyDailySessions extends AppCompatActivity {
 
     }
 
+
     private void sessionCallBack(){
         @SuppressLint("SetTextI18n") SessionsCallback callback = mySessions -> {
             adapter = new MyDailySessionsAdapter(MyDailySessions.this, mySessions, localDate, Boolean.FALSE);
@@ -191,9 +193,17 @@ public class MyDailySessions extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     private void openCalendrarActivity() {
         Intent intent = new Intent(this, CalendarActivity.class);
         startActivity(intent);
+        finish();
+    }
+
+    public void onBackPressed() {
+        Intent intent = new Intent(this, CalendarActivity.class);
+        startActivity(intent);
+        finish();
     }
 
 

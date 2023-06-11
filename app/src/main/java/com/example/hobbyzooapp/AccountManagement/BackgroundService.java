@@ -147,8 +147,8 @@ public class BackgroundService extends Service {
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setAutoCancel(true);
 
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        notificationManager.notify(NOTIFICATION_ID, builder.build());
+        //NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        //notificationManager.notify(NOTIFICATION_ID, builder.build());
     }
 
     private void createNotificationChannel() {

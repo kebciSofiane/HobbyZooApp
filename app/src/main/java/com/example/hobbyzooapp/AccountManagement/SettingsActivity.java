@@ -84,7 +84,7 @@ public class SettingsActivity extends AppCompatActivity {
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                     // Vérifier si la permission de notification est accordée
                     if (NotificationManagerCompat.from(SettingsActivity.this).areNotificationsEnabled()) {
-                        showNotification("Notifications enabled", "You will now receive notifications.");
+                        Toast.makeText(getBaseContext(), " Notifications enabled : \n You will now receive notifications.", Toast.LENGTH_SHORT).show();
                     } else {
                         // Demander la permission de notification à l'utilisateur
                         requestNotificationPermission();

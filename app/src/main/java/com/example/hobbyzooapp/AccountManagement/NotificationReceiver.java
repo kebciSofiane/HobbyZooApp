@@ -13,12 +13,12 @@ public class NotificationReceiver extends BroadcastReceiver {
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onReceive(Context context, Intent intent) {
-        //showSessionNotification(context);
+        showSessionNotification(context);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void showSessionNotification(Context context) {
-        //BackgroundService backgroundService = new BackgroundService();
-        //backgroundService.showSessionNotification(0);
+        BackgroundService backgroundService = new BackgroundService();
+        backgroundService.showSessionNotification(0);
     }
 }

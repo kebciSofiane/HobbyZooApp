@@ -58,7 +58,7 @@ public class BackgroundService extends Service {
             int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
             int currentMinute = calendar.get(Calendar.MINUTE);
 
-            if (currentHour == 13 && currentMinute == 57 && !notificationSent) {
+            if (currentHour == 8 && currentMinute == 0 && !notificationSent) {
 
                 getSessions(sessions -> {
                     int sessionCount = sessions.size();

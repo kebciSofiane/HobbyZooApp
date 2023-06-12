@@ -162,10 +162,19 @@
             android:exported="false"
             android:foregroundServiceType="location|dataSync" />
 
+<!--        <receiver-->
+<!--            android:name=".AccountManagement.NotificationReceiver"-->
+<!--            android:enabled="true"-->
+<!--            android:exported="false" />-->
         <receiver
             android:name=".AccountManagement.NotificationReceiver"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="false">
+            <intent-filter>
+                <action android:name="SHOW_SESSION_NOTIFICATION"/>
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>

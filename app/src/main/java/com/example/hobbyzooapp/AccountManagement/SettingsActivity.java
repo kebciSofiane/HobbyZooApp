@@ -37,7 +37,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     private Button notificationsEnabledButton, notificationsDisabledButton, termsButton, helpButton, aboutButton, logoutButton, setNotificationTimeBtn;
     private ImageButton backButton;
-    private int activeIcon, inactiveIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,7 +122,16 @@ public class SettingsActivity extends AppCompatActivity {
             public void onClick(View v) {
                 showTimePickerDialog();
             }
-        });
+        });/*
+        // Récupérer l'heure de notification enregistrée par l'utilisateur
+       // SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        int notificationHour = sharedPreferences.getInt("notification_hour", -1);
+        int notificationMinute = sharedPreferences.getInt("notification_minute", -1);
+
+        // Vérifier si l'heure de notification a été enregistrée
+//        if (notificationHour != -1 && notificationMinute != -1) {
+//            setNotificationTimeBtn.setText(getString(R.string.notification_time, notificationHour, notificationMinute));
+//        }*/
 
     }
     private void showTimePickerDialog() {
@@ -142,6 +150,7 @@ public class SettingsActivity extends AppCompatActivity {
 
         timePickerDialog.show();
     }
+    //
     private void saveNotificationTime(int hour, int minute) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -149,6 +158,7 @@ public class SettingsActivity extends AppCompatActivity {
         editor.putInt("notification_minute", minute);
         editor.apply();
     }
+
 
 
     private void checkUserStatus() {

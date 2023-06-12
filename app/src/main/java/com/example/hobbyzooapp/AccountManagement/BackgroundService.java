@@ -8,6 +8,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
@@ -20,6 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.preference.PreferenceManager;
 
 import com.example.hobbyzooapp.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -51,6 +53,12 @@ public class BackgroundService extends Service {
         super.onCreate();
         createNotificationChannel();
 
+
+        //
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        int notificationHour = sharedPreferences.getInt("notification_hour", -1);
+        int notificationMinute = sharedPreferences.getInt("notification_minute", -1);
+//
         handler = new Handler();
         runnable = () -> {
             calendar = Calendar.getInstance();
@@ -58,8 +66,16 @@ public class BackgroundService extends Service {
             int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
             int currentMinute = calendar.get(Calendar.MINUTE);
 
-            if (currentHour == 15 && currentMinute == 28 && !notificationSent) {
+            int notificationHourSet;
+            int notificationMinuteSet;
 
+            if (notificationHour != -1 && notificationMinute != -1) {
+                notificationHourSet = notificationHour;
+                notificationMinuteSet = notificationMinute;}
+            else{notificationHourSet = 8;
+                notificationMinuteSet = 0;}
+
+            if (currentHour == notificationHourSet && currentMinute == notificationMinuteSet && !notificationSent) {
                 getSessions(sessions -> {
                     int sessionCount = sessions.size();
                     if (sessionCount > 0) {
@@ -80,13 +96,19 @@ public class BackgroundService extends Service {
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+// Récupérer l'heure de notification enregistrée par l'utilisateur
 
-        calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY, 17);
-        calendar.set(Calendar.MINUTE, 26);
-        calendar.set(Calendar.SECOND, 0);
 
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+// Vérifier si l'heure de notification a été enregistrée
+        /*
+        if (notificationHour != -1 && notificationMinute != -1) {
+            calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, notificationHour);
+            calendar.set(Calendar.MINUTE, notificationMinute);
+            calendar.set(Calendar.SECOND, 0);
+
+        }*/
+
     }
 
     @Nullable
@@ -138,7 +160,7 @@ public class BackgroundService extends Service {
 
     void showSessionNotification(int sessionCount) {
         String notificationTitle = "Reminder";
-        String notificationText = "You have " + sessionCount + " sessions today.";
+        String notificationText = "You have " + sessionCount + " sessions scheduled for today.";
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notifications_active)

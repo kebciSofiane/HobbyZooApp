@@ -58,7 +58,7 @@ public class BackgroundService extends Service {
             int currentHour = calendar.get(Calendar.HOUR_OF_DAY);
             int currentMinute = calendar.get(Calendar.MINUTE);
 
-            if (currentHour == 10 && currentMinute == 0 && !notificationSent) {
+            if (currentHour == 13 && currentMinute == 57 && !notificationSent) {
 
                 getSessions(sessions -> {
                     int sessionCount = sessions.size();
@@ -148,7 +148,7 @@ public class BackgroundService extends Service {
                 .setAutoCancel(true);
 
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        //notificationManager.notify(NOTIFICATION_ID, builder.build());
+        notificationManager.notify(NOTIFICATION_ID, builder.build());
     }
 
     private void createNotificationChannel() {

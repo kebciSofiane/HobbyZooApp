@@ -33,7 +33,7 @@ Une fois installé, vous le sélectionnez le panneau déroulant des Devices qui 
 <h2 align="center">Comment installer l’application sans Android Studio :</h2>
 <h3 align="center">Installer avec le fichier .APK :</h3>
 <p> 
-Téléchargez le fichier compresser contenant le fichier HobbyZoo.apk et le décompresser sur votre ordinateur.
+Aller dans le dossier app → release et telecharger le fichier HobbyZoo_app.apk sur votre ordinateur.
 Branchez votre téléphone à votre ordinateur, acceptez le transfert de fichier et copiez le fichier HobbyZoo.apk dans le dossier DCIM de votre téléphone.
 
 Pour pouvoir installer l’application il faut que les paramètres du téléphone permettent l’installation d’application depuis les fichiers du téléphones, pour cela : 

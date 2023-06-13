@@ -263,7 +263,7 @@ public class NewActivity extends AppCompatActivity {
 
     private void setAnimals() {
         posAnimals = 0;
-        animals = new ArrayList<>(Arrays.asList("sheep", "koala", "cat", "dog", "chick", "chicken", "giraffe", "lion", "rabbit", "tiger", "deer", "bear", "beaver", "cow", "monkey", "panda", "pig", "raccoon", "squirrel"));
+        animals = new ArrayList<>(Arrays.asList("sheep", "koala", "cat", "dog", "fox", "chick", "chicken", "giraffe", "lion", "rabbit", "tiger", "deer", "bear", "beaver", "cow", "monkey", "panda", "pig", "raccoon", "squirrel"));
     }
 
     List<String> setCategories(){

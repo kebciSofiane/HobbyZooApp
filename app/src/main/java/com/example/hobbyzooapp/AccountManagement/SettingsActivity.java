@@ -152,13 +152,15 @@ public class SettingsActivity extends AppCompatActivity {
     }
     //
     private void saveNotificationTime(int hour, int minute) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putInt("notification_hour", hour);
-        editor.putInt("notification_minute", minute);
-        editor.apply();
-    }
+        // Enregistrer l'heure sélectionnée ici
 
+        // Redémarrer le service BackgroundService pour utiliser la nouvelle heure de notification
+        Intent serviceIntent = new Intent(this, BackgroundService.class);
+        stopService(serviceIntent);
+        startService(serviceIntent);
+
+        Toast.makeText(getBaseContext(), "Notification time set to " + hour + ":" + minute, Toast.LENGTH_SHORT).show();
+    }
 
 
     private void checkUserStatus() {

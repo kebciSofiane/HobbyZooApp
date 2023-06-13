@@ -53,12 +53,10 @@ public class BackgroundService extends Service {
         super.onCreate();
         createNotificationChannel();
 
-
-        //
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         int notificationHour = sharedPreferences.getInt("notification_hour", -1);
         int notificationMinute = sharedPreferences.getInt("notification_minute", -1);
-//
+
         handler = new Handler();
         runnable = () -> {
             calendar = Calendar.getInstance();
@@ -71,18 +69,21 @@ public class BackgroundService extends Service {
 
             if (notificationHour != -1 && notificationMinute != -1) {
                 notificationHourSet = notificationHour;
-                notificationMinuteSet = notificationMinute;}
-            else{notificationHourSet = 8;
-                notificationMinuteSet = 0;}
+                notificationMinuteSet = notificationMinute;
+            } else {
+                notificationHourSet = 8;
+                notificationMinuteSet = 0;
+            }
 
             if (currentHour == notificationHourSet && currentMinute == notificationMinuteSet && !notificationSent) {
                 getSessions(sessions -> {
                     int sessionCount = sessions.size();
                     if (sessionCount > 0) {
-                        showSessionNotification(sessionCount);
+                        Log.d("aaa","aa" + sessionCount);
+                        showSessionNotification(sessionCount, notificationHourSet, notificationMinuteSet);
                     }
                     notificationSent = true;
-                });
+                }, notificationHourSet, notificationMinuteSet);
             } else {
                 notificationSent = false;
             }
@@ -92,24 +93,22 @@ public class BackgroundService extends Service {
 
         handler.post(runnable);
 
-        Intent notificationIntent = new Intent(this, NotificationReceiver.class);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
-
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-// Récupérer l'heure de notification enregistrée par l'utilisateur
-
-
-// Vérifier si l'heure de notification a été enregistrée
-        /*
+        // Récupérer l'heure de notification enregistrée par l'utilisateur
         if (notificationHour != -1 && notificationMinute != -1) {
             calendar = Calendar.getInstance();
             calendar.set(Calendar.HOUR_OF_DAY, notificationHour);
             calendar.set(Calendar.MINUTE, notificationMinute);
             calendar.set(Calendar.SECOND, 0);
 
-        }*/
+            Intent notificationIntent = new Intent(this, NotificationReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
+            AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+        }
     }
+
+
 
     @Nullable
     @Override
@@ -118,7 +117,7 @@ public class BackgroundService extends Service {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
-    private void getSessions(SessionsLoadedListener listener) {
+    private void getSessions(SessionsLoadedListener listener, int notificationHour, int notificationMinute) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference reference = database.getReference("Session");
         FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -158,7 +157,7 @@ public class BackgroundService extends Service {
         });
     }
 
-    void showSessionNotification(int sessionCount) {
+    void showSessionNotification(int sessionCount, int notificationHour, int notificationMinute) {
         String notificationTitle = "Reminder";
         String notificationText = "You have " + sessionCount + " sessions scheduled for today.";
 
@@ -172,6 +171,7 @@ public class BackgroundService extends Service {
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         notificationManager.notify(NOTIFICATION_ID, builder.build());
     }
+
 
     private void createNotificationChannel() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

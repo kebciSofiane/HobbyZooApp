@@ -53,7 +53,7 @@ public class AccountActivity extends AppCompatActivity {
         myEmail = findViewById(R.id.myEmail);
 
         if (user != null) {
-            myEmail.setText(getString(R.string.my_email_)); // Utilise la méthode getString() pour récupérer la valeur de la ressource de chaîne
+            myEmail.setText(getString(R.string.my_email_));
             emailTv.setText(user.getEmail());
         }
 

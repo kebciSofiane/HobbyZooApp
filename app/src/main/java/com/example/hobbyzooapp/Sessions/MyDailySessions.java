@@ -75,7 +75,7 @@ public class MyDailySessions extends AppCompatActivity {
 
         sessionCallBack();
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             date = CalendarUtils.selectedDate.getDayOfMonth() + "/" + CalendarUtils.selectedDate.getMonth().getValue() + "/" + CalendarUtils.selectedDate.getYear();
         }
         dateSession.setText(date);
@@ -96,7 +96,9 @@ public class MyDailySessions extends AppCompatActivity {
         });
 
         calendarButton.setOnClickListener(v ->{
-            openCalendrarActivity();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                openCalendrarActivity();
+            }
             finish();
         });
 

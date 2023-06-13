@@ -119,7 +119,7 @@
             android:textColor="@android:color/black"
             android:textSize="20sp"
             app:backgroundTint="@color/lightbrown"
-            app:icon="@drawable/ic_info" />
+            app:icon="@drawable/ic_schedule" />
         <Button
             android:id="@+id/aboutBtn"
             style="@style/Widget.Material3.Button"

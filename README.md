@@ -51,21 +51,25 @@ Un fois l’autorisation d’installer depuis les fichiers activée, allez dans 
 
 
 <h2 align="center">Programming language :</h2>
-<a href="https://www.java.com" target="_blank" rel="noreferrer"> 
+<p  align="center" ><a href="https://www.java.com" target="_blank" rel="noreferrer" align="center"> 
   <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg" alt="java" width="40" height="40"/> 
 </a>
+</p>
 
 
 
 <h2 align="center">Operating systems :</h2>
-<a href="https://www.android.com/intl/fr_fr/" target="_blank" rel="noreferrer"> 
+<p align="center"><a href="https://www.android.com/intl/fr_fr/" target="_blank" rel="noreferrer"> 
   <img src="Android_robot.png" alt="linux" width="40" height="40"/>
 </a>
+</p>
 
 <h3 align="center"> Developed by : </h3>
+<div align="center">
 <p>Sofiane Kebci</p>
 <p>Lina Ait-Razzouk</p>
 <p>Meriem Ramdani</p>
 <p>Clément Fresnel</p>
 <p>Juliette Dadoit</p>
+</div>
 
